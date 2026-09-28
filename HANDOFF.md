@@ -29,3 +29,10 @@ Bu dosya, önceki oturumda konuşulanları yeni oturuma aktarmak için yazıldı
 2. Tasarım sistemini (renk, font, boşluk, bileşenler) çıkarıp `DESIGN.md`'ye işle (`/impeccable init` akışı).
 3. Plan çıkar (Superpowers), onaydan sonra `Pro App - Tasarım Sistemi.dc.html`'i uygula.
 4. Bitince `web-design-guidelines` ve `/impeccable audit` ile denetle.
+
+## Güncelleme (2026-09-28): Pro tasarım sistemi uygulandı
+Kullanıcı kararları: **React Native + Expo**, form dili **1b · Yumuşak**, bu tur kapsam **yalnız tasarım sistemi**.
+- Kod: `apps/pro/` (Expo SDK 57, TypeScript). Token'lar `src/theme/tokens.ts`, bileşenler `src/components/`, katalog ekranı `src/DesignSystemScreen.tsx`.
+- Tasarım dili: `apps/pro/DESIGN.md` (sondaki "Henüz karara bağlanmayanlar" listesi açık konuları tutar).
+- `PRODUCT.md` henüz yazılmadı (`/impeccable init` görüşmesi gerekiyor).
+- Sıradaki: ekranlar (Takvim → Kişiler → Hesabım) bu bileşenlerle kurulacak; sonra `/impeccable audit`.
