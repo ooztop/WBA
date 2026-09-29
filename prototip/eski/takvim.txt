@@ -1,0 +1,110 @@
+## showCalendar
+hint-placeholder-val="{{ true }}"> | 9:41 | Eylül 2026 | ▾ | Bugün 2 ders · bu ay 14 ders | 8 – 14 Eylül | Gün | Hafta | ‹ | › | PZT | 8 | SAL | 9 | ÇAR | 10 | PER | 11 | CUM | 12 | CMT | 13 | PAZ | 14 | Bugün · 10 Eylül | Yukarı-aşağı sürükle: saati değiştir · sağa kaydır: sil | Günü düzenle › | {{ h.label }} | SİL | {{ e.title }} | {{ e.time }} · {{ e.who }} | {{ e.badge }} | › | Bugün için planlanmış ders kalmadı | + | Ders ekle | Takvim | Kişiler | Hesabım
+
+## showCalendarEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | Eylül 2026 | Henüz ders yok | PZT | 8 | SAL | 9 | ÇAR | 10 | PER | 11 | CUM | 12 | CMT | 13 | PAZ | 14 | + | Takvimin henüz boş | Müsait saatlerini işaretle, öğrenciler profilinden rezervasyon yapmaya başlasın. Dersleri elle de ekleyebilirsin. | Müsait saatleri işaretle | Elle ders ekle | ↺ | Haftalık müsaitlik şablonu | Bir kere kur, her hafta tekrarlasın | › | Takvim | Kişiler | Hesabım
+
+## showMonth
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Eylül 2026 | 14 ders · 9 müsait gün | ‹ | › | PZT | SAL | ÇAR | PER | CUM | CMT | PAZ | {{ d.label }} | Dolu | Onay bekliyor | Müsait | Bugün | AY ÖZETİ | 14 | PLANLANAN DERS | 21 s | DERS SAATİ | × | İzin / kapalı gün ekle | Seçtiğin günlerde rezervasyon alınmaz | ›
+
+## showMonthEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Eylül 2026 | Bu ay kayıt yok | PZT | SAL | ÇAR | PER | CUM | CMT | PAZ | {{ d.label }} | Bu ay hiç ders yok | Bir güne dokunup müsaitliğini işaretle ya da doğrudan ders ekle. | Ders ekle
+
+## showDay
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Molalar · {{ dTitle }} | {{ dSub }} | ‹ | › | {{ d.day }} | {{ d.num }} | Bu güne özel molalar | Yalnız {{ dTitle }} için geçerli. Birden fazla aralık girebilirsin. | {{ b.time }} | {{ b.note }} | Kaldır | Bu gün için girilmiş mola yok. Aşağıdan ekleyebilirsin. | + | Aralık ekle · şu iki saat arası yokum | Düzenli öğle molası 12:30 – 13:30 bu günde de geçerli. | Çalışma saatlerin 10:00 – 18:00. Mola girmediğin saatler rezervasyona açık kalır; son rezervasyon ders başlangıcından | 2 saat | önce alınır. | Mola ekle
+
+## showDayEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Günü düzenle · 10 Eylül | Hiç saat işaretlenmemiş | Bu gün boş | Ders yok. Çalışma saatlerin 10:00 – 18:00 boyunca rezervasyona açık. | Bu güne özel molalar | Henüz aralık girmedin | + | Aralık ekle · şu iki saat arası yokum | Bu güne ders ekle
+
+## showNewLesson
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yeni ders | 10 Eylül · Çarşamba · paket ücreti | Kişi | {{ p.initials }} | {{ p.name }} | {{ p.meta }} | + Yeni kişi ekle | Başlangıç | 16:00 | Süre | 90 dk | Konum | Kadıköy stüdyo | Değiştir | Ücret | Paket seç | Manuel fiyat | 8 derslik paket | TEMEL | Kalan 5 ders · bu ders 1 düşer | ₺675 | Ömer Bey · özel anlaşma | Saatlik ₺3.000 · kişiye özel | ₺4.500 | Aylık üyelik · 12 ders | Bu ay 7 ders kullanıldı | ₺600 | Seçilen paketten bu ders düşer. Manuel fiyat sekmesinde ücreti derse özel yazarsın. | Tekrar | {{ repeatLabel }} | › | Kişiye bildirim gönder | Ders saati onayına gider | Dersi oluştur · ₺675 | Vazgeç
+
+## showNewLessonEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yeni ders | Önce bir kişi gerekiyor | + | Kişi ekle | Ders açmak için en az bir kişi olmalı | › | Kişi | Kayıtlı kişi yok | Başlangıç | --:-- | Süre | 60 dk | Konum | Konum ekle | Ücret | ₺ — | Paket yok · manuel gir | Dersi oluştur | Vazgeç
+
+## showRepeat
+hint-placeholder-val="{{ false }}"> | Tekrar | Çarşamba 16:00 dersi için | {{ r.title }} | {{ r.sub }} | {{ repeatNote }} | Uygula
+
+## showQuickAdd
+hint-placeholder-val="{{ false }}"> | Takvime ekle | 10 Eylül, Çarşamba · saat tek tek seçmeden | + | Ders / rezervasyon | Kişi, paket ve saat seç | › | Mola | 15 / 30 / 60 dk · bir kerelik | › | Meşgul blok | Saat aralığı kapanır, sebebi görünmez | › | Günlük izin | Bir gün ya da tarih aralığı kapalı | › | Yarını iptal et | 11 Eylül · 3 ders · kişilere bildirilir | › | Her hafta tekrarlayan çalışma saatleri ve öğle molası için | Takvim ayarlarım | ›
+
+## showNewBreak
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Müsaitliği kapat | Ekle | Tek gün | Birden çok gün | Gün seç | {{ bDaysText }} | {{ d.day }} | {{ d.num }} | {{ bHint }} | Saat aralığı | Gün içinde mola | Tüm gün izin | Gün boyu kapalı | Başlangıç | Süre · dk | Sebep | Sebebi kişiler görsün | {{ bVisText }} | Her hafta tekrarla | Çarşamba günleri 12:30 molası | 12:30'da Kaan Yıldız'ın dersi var. Mola eklerken bu ders yerinde kalır; ertelemek istersen ders kartından yap. | {{ bCta }}
+
+## showLesson
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ders detayı | Matematik · 90 dk | 10 Eylül Çarşamba · 16:00 – 17:30 | HER HAFTA TEKRARLANIR | EK | Elif Kaya | Aylık paket · 12. ders | › | Konum | Kadıköy stüdyo ↗ | Ücret | ₺1.125 | Ödeme | ÖDENDİ | Ders notu | Türev konusunu bitirdik, önümüzdeki hafta integral testi yapılacak. | Seriyi görüntüle | Her çarşamba · 8 ders kaldı | › | Dersi ertele | Dersi iptal et
+
+## showLessonEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ders detayı | Fizik · 60 dk | 10 Eylül Çarşamba · 15:00 – 16:00 | ÖDEME BEKLİYOR | MD | Mert Doğan | Tek ders · ₺1.500 borç | › | Konum | Girilmedi | Ücret | ₺750 | Ödeme | ALINMADI | Ödeme al | ₺750 · nakit, havale veya kart | › | Ders notu | Not eklenmedi · dokunup yaz | Dersi ertele | Dersi iptal et
+
+## showReschedule
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Dersi ertele | Matematik · Elif Kaya | ŞU ANKİ SAAT | 10 Eyl · 16:00 | → | YENİ SAAT | 12 Eyl · 18:00 | Müsait saatlerim | 11 Eyl | 14:00 – 15:30 | 12 Eyl | 18:00 – 19:30 | 14 Eyl | 11:00 – 12:30 | Takvimden başka bir saat seç | Elif'e bildir | Yeni saati onaylaması istenir | Erteleme yalnız bu dersi taşır, seriyi bozmaz. Ücret ve ödeme durumu aynı kalır. | Ertelemeyi onayla | Vazgeç
+
+## showCancel
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Dersi iptal et | 10 Eyl · 16:00 · Elif Kaya | İptal kayda geçer | Ders 6 saat içinde başlıyor. İptal, kişinin ders geçmişinde "eğitmen iptali" olarak görünür ve Elif'e bildirim gider. | İptal sebebi | Ben iptal ediyorum | Kişi gelemiyor | Hava / mekân sorunu | Kişiye mesaj (isteğe bağlı) | Örn. bu haftayı cumaya alalım mı? | Alınan ödeme | ₺1.125 | Paket hakkı | Kişiye geri verilir | İptali onaylıyorum | Bu işlem geri alınamaz | Dersi iptal et | Vazgeç
+
+## showCancelled
+hint-placeholder-val="{{ false }}"> | 9:41 | × | Ders iptal edildi | 10 Eylül 16:00 dersi takvimden kaldırıldı. Elif'e bildirim gitti ve paket hakkı geri verildi. | Saat yeniden müsait olarak işaretlendi | Kişi geçmişine "eğitmen iptali" yazıldı | Serinin diğer 8 dersi duruyor | Yeni saat öner | Takvime dön
+
+## showNotifications
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Bildirimler | 3 yeni · 2 rezervasyon talebi | Tümünü oku | BUGÜN | Yeni rezervasyon talebi | Kaan Yıldız · 12 Eylül Cuma 18:00 · 60 dk | 24 dakika önce | › | Rezervasyon talebi · çakışma var | Selin Arı · 10 Eylül 16:00 · Matematik dersiyle çakışıyor | 1 saat önce | › | Elif yeni saati onayladı | Matematik dersi 12 Eylül 18:00'e taşındı | 3 saat önce | › | BU HAFTA | Ödeme bekliyor | Mert Doğan · ₺1.500 · 2 ders | Pazartesi | › | Kaan dersi iptal etti | 8 Eylül 11:00 · kural gereği ücretsiz | Pazar
+
+## showNotificationsEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Bildirimler | Yeni bildirim yok | Her şey sakin | Rezervasyon talepleri, ödeme hatırlatmaları ve iptaller burada görünür. | Takvime dön
+
+## showRequest
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Rezervasyon talebi | Yanıt için 22 saat kaldı | KY | Kaan Yıldız | Tek ders · 3 ders geçmişi | TEK DERS | İstenen saat | 12 Eylül Cuma · 18:00 | 60 dk · 19:00'da biter | Konum | Kadıköy stüdyo | Ücret | ₺750 | Ön ödeme | ALINDI | Kişinin notu | Sınavım var, mümkünse optik konusuna ağırlık verebilir miyiz? | O saat müsait olarak işaretli, çakışma yok. | Talebi onayla | Başka saat öner | Reddet
+
+## showRequestEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Rezervasyon talebi | Çakışma var | SA | Selin Arı | Tam zamanlı üyelik | ÜYE | Bu saatte başka ders var | 10 Eylül 16:00 – 17:30 arası Elif Kaya ile matematik dersi planlı. Onaylarsan iki ders üst üste gelir. | İstenen saat | 10 Eylül Çarşamba · 16:00 | Matematik dersiyle çakışıyor | Ücret | Üyelikten düşer | En yakın müsait saat: 11 Eylül 14:00 | Karşı teklif olarak gönder | › | Başka saat öner | Yine de onayla | Reddet
+
+## showRequestAccepted
+hint-placeholder-val="{{ false }}"> | 9:41 | ✓ | Rezervasyon onaylandı | Kaan Yıldız · 12 Eylül Cuma 18:00. Ders takvimine eklendi ve Kaan'a onay bildirimi gitti. | ₺750 ön ödeme tahsil edildi | 18:00 – 19:00 artık dolu olarak işaretli | Ders detayını aç | Takvime dön
+
+## showTimeOff
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | İzin / kapalı gün | Bu aralıkta rezervasyon alınmaz | Başlangıç | 15 Eyl | Bitiş | 18 Eyl | Tüm gün | Kapatmak yerine saat aralığı seç | Sebep (kişilere gösterilir) | Tatil | Bu aralıkta 3 planlı ders var | 15 Eyl | Elif Kaya · 16:00 | 17 Eyl | Kaan Yıldız · 11:00 | 18 Eyl | Selin Arı · 19:00 | Kaydedince bu dersler iptal edilmez; tek tek erteleme veya iptal etmen gerekir. | İzni kaydet | Vazgeç
+
+## showVenueCalendar
+hint-placeholder-val="{{ false }}"> | 9:41 | Eylül 2026 | {{ venueName }} · bugün 3 ders | 8 – 14 Eylül | ‹ | › | {{ d.dow }} | {{ d.num }} | {{ r.name }} | {{ r.capLabel }} | {{ c.label }} | {{ c.count }} | {{ c.sub }} | ! | 18:00 — kapalı salonlarda yer yok | 9/9 kişi. Sadece Online açık. | Benim dersim | Boş | Yer var · katıl | Dolu | Meşguliyetim | + | Ders ekle | Meşguliyet | ekle | Takvim | Kişiler | Mekân | Hesabım
+
+## showVenueCalendarEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | {{ venueName }} | Bugün · 10 Eylül | – | Bugün dersin yok | Bu mekândaki salonların hepsi boş. Bir saate ders koymak için aşağıdaki düğmeyi kullan. | Kendime ders ekle | Salon planını gör
+
+## showJoinSlot
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Boş yeri al | 10 Eylül · 19:00–20:00 · {{ venueName }} | Salon A | 2/3 | 1 yer boş · kapasite 3 | – | 2 yer başka bir ders için tutulmuş | Kimin dersi olduğu ve içeriği sana görünmez | Kimi ekliyorsun | {{ p.initials }} | {{ p.name }} | {{ p.meta }} | Sonrasında 3/3 · salon dolu | Salonu aynı saatte başka bir dersle paylaşacaksın. Ders senin adına açılır, yoklama ve ücret sende kalır. | Yeri al · 19:00 | Tamamen boş salon ara
+
+## showMyBlocks
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Meşguliyetlerim | 10 Eylül · mekândan bağımsız | Bu bloklar salonu tutmaz. Mekân takviminde sadece senin şeridinde çizgili görünür; mekân yöneticisi ders olarak görmez, içeriği kimseye açılmaz. | iCal | Apple Takvimi | Bağlı · özel etkinlikler meşgul olarak gelir | Bugün | {{ m.time }} | {{ m.title }} | {{ m.sub }} | {{ m.tag }} | Ekle | Bugün meşgulüm | Tek seferlik saat bloğu | › | Mola | 15 / 30 / 60 dk | › | İzin / kapalı gün | Tüm gün · rezervasyon alınmaz | › | Takvime dön
+
+## showVenueDay
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Salon planı | {{ venueName }} · 3 salon | ‹ | Çar · 10 Eylül | bugün | › | {{ d.dow }} | {{ d.num }} | SALON A | 3 kişi | SALON B | 6 kişi | ONLINE | sınırsız | {{ c.label }} | {{ c.sub }} | Benim dersim | Yer var | Dolu | Boş salon | Boş salona kendime ders ekle
+
+## showNewSoloLesson
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yeni birebir ders | 10 Eylül · {{ venueName }} | Birebir | Grup dersi | Salon | Salon A · 3 kişilik · 16:00'da boş | › | DA | Deniz Arslan | Ders senin adına açılır | Başlangıç | 16:00 | Süre | {{ durText }} | {{ d.label }} | Kişi | {{ p.initials }} | {{ p.name }} | {{ p.meta }} | + Yeni kişi ekle | Tekrar | {{ repeatLabel }} | › | Ücret | ₺850 | birebir tarifesi | Birebir derste salon o saat boyunca tek kişiye ayrılır. Dolu bir salon seçilemez. | Dersi oluştur | Vazgeç
+
+## showNewGroupLesson
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yeni grup dersi | 10 Eylül · {{ venueName }} | Birebir | Grup dersi | Salon | Salon B · 6 kişilik · 2 yer dolu, 4 boş | › | DA | Deniz Arslan | Ders senin adına açılır | Başlangıç | 18:00 | Süre | {{ durText }} | {{ d.label }} | Kontenjan | {{ capText }} | − | + | {{ capNote }} | Katılımcılar | {{ p.initials }} | {{ p.name }} | {{ p.meta }} | Kişi başı ücret | ₺450 | grup tarifesi | Boş kontenjanı yayınla | Profilinden başkaları da katılabilir | Dersi oluştur | Vazgeç
+
+## showGroupLesson
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Grup dersi | Pilates · 60 dk | 10 Eylül Çarşamba · 18:00 – 19:00 | {{ venueBadge }} | SALON B | 4 / 6 KİŞİ | Kontenjan | 2 yer boş | Salon kapasitesi 6 · profilinden katılıma açık | Eğitmen | Deniz Arslan | Kişi başı | ₺450 | Toplam tahsilat | ₺1.350 / ₺1.800 | Katılımcılar ve yoklama | 4 kişi · 1 ödeme bekliyor | › | EK | SA | KY | +1 | Salonu değiştir | Aynı saatte Salon A 3/3 dolu | › | Yoklama al | Dersi iptal et · 4 kişiye bildirilir
+
+## showGroupLessonEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Grup dersi | Pilates · 60 dk | 12 Eylül Cuma · 18:00 – 19:00 | 0 / 6 KİŞİ · KAYIT YOK | Kontenjan | 6 yer boş | En az 2 kişi olmazsa ders otomatik iptal edilir | Henüz katılımcı yok | Kişileri davet et | Uygun 9 kişiye bildirim gönder | › | Katılım bağlantısını paylaş | pro.app/pilates-12eyl | › | Katılımcı ekle | Dersi kaldır
+
+## showRoster
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yoklama | Pilates · 10 Eylül 18:00 · {{ presentText }} | {{ r.initials }} | {{ r.name }} | {{ r.meta }} | {{ r.pay }} | {{ r.mark }} | + | Katılımcı ekle | 2 yer boş | 1 kişinin ödemesi eksik | Kaan Yıldız · ₺450 | › | Yoklamayı kaydet
+
+## showVenueConflict
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Salon çakışması | 18:00 · {{ venueName }} | Salon A 18:00'de 3/3 dolu | Bu saatte Salon A'nın üç yeri de tutulmuş. Kapasite kalmadığı için bu saate ders açamıyorsun. | 18:00'de yer olan salonlar | Salon B | 0/6 · tamamen boş | Online | Kapasite sınırsız | Salon A | 3/3 · yer yok | DOLU | Salon planını aç | Günün tamamını salon salon gör | › | 19:00'da Salon A'da 1 yer boş | 2/3 dolu · salonu paylaşarak girebilirsin | › | Salon B ile devam et | Vazgeç
+
+## showWeek
+hint-placeholder-val="{{ false }}"> | 9:41 | 8 – 14 Eylül | 9 ders · 2 onay bekliyor · 31 saat müsait | ‹ | › | Gün | Hafta | Ay | {{ d.dow }} | {{ d.num }} | {{ r.time }} | {{ c.label }} | dolu | onay bekliyor | müsait | mola | + | Rezervasyon ekle | Takvim | Kişiler | Hesabım
+
+## showWeekTypes
+hint-placeholder-val="{{ false }}"> | 9:41 | 8 – 14 Eylül | 9 ders · 4 ders tipi · pazar tamamen boş | ‹ | › | Gün | Hafta | Ay | {{ d.dow }} | {{ d.num }} | {{ h.label }} | {{ t.name }} | + | Rezervasyon ekle | Takvim | Kişiler | Hesabım
+
+## showNewLessonManual
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yeni ders | 10 Eylül · Çarşamba · manuel fiyat | Kişi | {{ p.initials }} | {{ p.name }} | {{ p.meta }} | + Yeni kişi ekle | Başlangıç | 16:00 | Süre | 90 dk | Konum | Kadıköy stüdyo | Değiştir | Ücret | Paket seç | Manuel fiyat | ₺ 1.125 | 90 dk | ₺1.125 · liste | ₺900 | Ücretsiz | Ödeme yöntemi | Nakit | Havale / IBAN | Kredi kartı | Kişiye bildirim gönder | Ders saati ve ücret onayına gider | Dersi oluştur · ₺1.125 | Vazgeç
+
+## showCalendarOffline
+hint-placeholder-val="{{ false }}"> | 9:41 | İnternet bağlantısı yok | Wi-Fi veya mobil verini kontrol et. Bağlantı kurulduğunda kaldığın yerden devam edeceksin. | Yeniden dene | Takvim son olarak 09:12'de yenilendi

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>body{margin:0;background:#ecebe7;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#3a5ccc;text-decoration:none}a:hover{color:#26409a}</style></helmet>
+
+<sc-if value="{{ showChrome }}" hint-placeholder-val="{{ true }}"><div style="padding:48px 56px 0">
+  <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:8px">
+    <h1 style="margin:0;font:800 26px/1.1 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Pro — Kurum Hesabı</h1>
+    <span style="font:600 11px ui-monospace,Menlo,monospace;padding:4px 8px;background:#15161a;color:#fff;border-radius:5px">v1</span>
+  </div>
+  <p style="margin:0;max-width:780px;font:400 13.5px/1.6 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);text-wrap:pretty">Kurum girişi, ekip yönetimi, mekan kapasitesi ve doluluk. Bireysel ekranlar için <a href="./Pro App - Screens.dc.html">1. bölüm</a> ve <a href="./Pro App - Screens 2.dc.html">2. bölüm</a>.</p>
+</div></sc-if>
+
+<div style="display:flex;flex-direction:column;align-items:center;gap:40px;padding:0 39px 60px">
+
+  <div style="display:flex;flex-wrap:nowrap;align-items:flex-start;justify-content:center;gap:40px;width:max-content">
+
+    <sc-if value="{{ showAccountType }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K1</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Hesap tipi</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:26px 26px 0">
+          <div style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);letter-spacing:.06em;text-transform:uppercase">Adım 1 / 3</div>
+          <div style="font:800 25px/1.25 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em;margin-top:8px;text-wrap:pretty">Uygulamayı nasıl kullanacaksın?</div>
+          <div style="font:500 13px/1.55 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:8px">Sonradan Hesabım'dan değiştirebilirsin.</div>
+        </div>
+        <div style="padding:22px 26px 0;display:flex;flex-direction:column;gap:12px">
+          <div style="padding:18px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;gap:14px;align-items:flex-start;cursor:pointer" onClick="{{ go.register }}">
+            <div style="width:22px;height:22px;border-radius:50%;border:2px solid rgba(21,22,26,.22);flex:none;margin-top:2px"></div>
+            <div>
+              <div style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bireysel</div>
+              <div style="font:500 12.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:4px;text-wrap:pretty">Kendi takvimini yönetirsin. Ödemeler ve kişiler sana ait.</div>
+            </div>
+          </div>
+          <div style="padding:18px;border-radius:18px;background:#fff;border:2px solid #2f4bd1;box-shadow:0 6px 18px rgba(47,75,209,.12);display:flex;gap:14px;align-items:flex-start">
+            <div style="width:22px;height:22px;border-radius:50%;background:#2f4bd1;flex:none;margin-top:2px;display:flex;align-items:center;justify-content:center;color:#fff;font:800 12px 'Plus Jakarta Sans',sans-serif">✓</div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px"><span style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kurum</span><span style="padding:4px 8px;border-radius:7px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 10.5px 'Plus Jakarta Sans',sans-serif">EKİP</span></div>
+              <div style="font:500 12.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:4px;text-wrap:pretty">Çalışan ekler, ekip müsaitliğini görür, mekan kapasitesi tanımlarsın.</div>
+              <div style="display:flex;gap:7px;margin-top:12px;flex-wrap:wrap">
+                <span style="padding:6px 10px;border-radius:9px;background:rgba(0,0,0,.05);font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.65)">Ekip takvimi</span>
+                <span style="padding:6px 10px;border-radius:9px;background:rgba(0,0,0,.05);font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.65)">Mekan doluluğu</span>
+                <span style="padding:6px 10px;border-radius:9px;background:rgba(0,0,0,.05);font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.65)">Yetkiler</span>
+              </div>
+            </div>
+          </div>
+          <div style="padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.04);display:flex;gap:13px;align-items:flex-start;cursor:pointer" onClick="{{ go.orgLogin }}">
+            <div style="width:22px;height:22px;border-radius:7px;border:2px solid rgba(21,22,26,.25);flex:none"></div>
+            <div>
+              <div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Var olan bir kuruma katıl</div>
+              <div style="font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:3px">Yöneticinden aldığın kurum kodu ve şifre ile.</div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1"></div>
+        <div style="padding:0 26px 8px;display:flex;flex-direction:column;gap:10px">
+          <div style="height:54px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif;cursor:pointer" onClick="{{ go.orgLogin }}">Devam et</div>
+          <div style="text-align:center;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);padding-bottom:4px;cursor:pointer" onClick="{{ go.login }}">Hesabın var mı? Giriş yap</div>
+        </div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showOrgLogin }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K2</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Kurum girişi — kod + şifre</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:10px 22px 0"><div style="width:38px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 18px 'Plus Jakarta Sans',sans-serif;color:#15161a;cursor:pointer" onClick="{{ back }}">‹</div></div>
+        <div style="padding:24px 26px 0">
+          <div style="width:60px;height:60px;border-radius:18px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:800 22px 'Plus Jakarta Sans',sans-serif;color:#fff">MS</div>
+          <div style="font:800 24px/1.25 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em;margin-top:18px">Kuruma giriş yap</div>
+          <div style="font:500 13px/1.55 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:8px;text-wrap:pretty">Kurum kodunu ve yöneticinin paylaştığı şifreyi gir. Girişten sonra hesabın kuruma bağlanır.</div>
+        </div>
+        <div style="padding:24px 26px 0;display:flex;flex-direction:column;gap:14px">
+          <div>
+            <div style="font:700 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">KURUM KODU</div>
+            <div style="height:52px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 16px;font:700 16px ui-monospace,Menlo,monospace;color:#15161a;letter-spacing:.22em">MVMNT-4193</div>
+          </div>
+          <div>
+            <div style="font:700 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">KURUM ŞİFRESİ</div>
+            <div style="height:52px;border-radius:14px;background:#fff;border:1.5px solid #2f4bd1;display:flex;align-items:center;justify-content:space-between;padding:0 16px">
+              <span style="font:700 17px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:.3em">••••••••</span>
+              <span style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Göster</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.08)">
+            <span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bu cihazda oturumu koru</span>
+            <div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:0 3px"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div>
+          </div>
+        </div>
+        <div style="flex:1"></div>
+        <div style="padding:0 26px 8px;display:flex;flex-direction:column;gap:12px">
+          <div style="height:54px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif;cursor:pointer" onClick="{{ go.teamDay }}">Kuruma giriş yap</div>
+          <div style="text-align:center;font:600 12.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);padding-bottom:4px">Kodun yok mu? Yöneticinden davet bağlantısı iste.</div>
+        </div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showTeam }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K3</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Ekip listesi</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:12px 22px 10px;display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font:800 24px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Ekip</div><div style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Movement Studio · 3 çalışan</div></div>
+          <div style="width:38px;height:38px;border-radius:12px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 20px 'Plus Jakarta Sans',sans-serif">+</div>
+        </div>
+        <div style="padding:0 22px 12px;display:flex;gap:9px">
+          <div style="flex:1;padding:13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a">2</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Şu an derste</div></div>
+          <div style="flex:1;padding:13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">7</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Bugün boş saat</div></div>
+          <div style="flex:1;padding:13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a">14</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Bugünkü ders</div></div>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:0 22px;display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);cursor:pointer" onClick="{{ go.staff }}">
+            <div style="width:46px;height:46px;border-radius:14px;background:#e6e3f5;display:flex;align-items:center;justify-content:center;font:800 15px 'Plus Jakarta Sans',sans-serif;color:#4a3f96">AY</div>
+            <div style="flex:1"><div style="display:flex;align-items:center;gap:7px"><span style="font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ayşe Yalçın</span><span style="padding:3px 7px;border-radius:6px;background:#15161a;color:#fff;font:700 9.5px 'Plus Jakarta Sans',sans-serif">YÖNETİCİ</span></div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:3px">Bugün 5 ders · Salon 1</div></div>
+            <span style="padding:6px 9px;border-radius:8px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 10.5px 'Plus Jakarta Sans',sans-serif">DERSTE</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);cursor:pointer" onClick="{{ go.staff }}">
+            <div style="width:46px;height:46px;border-radius:14px;background:#dfeae4;display:flex;align-items:center;justify-content:center;font:800 15px 'Plus Jakarta Sans',sans-serif;color:#2f6b4c">BT</div>
+            <div style="flex:1"><div style="font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Burak Tuna</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:3px">Bugün 4 ders · sonraki 14:00</div></div>
+            <span style="padding:6px 9px;border-radius:8px;background:#d8ece0;color:#2f8f5b;font:700 10.5px 'Plus Jakarta Sans',sans-serif">MÜSAİT</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);cursor:pointer" onClick="{{ go.staff }}">
+            <div style="width:46px;height:46px;border-radius:14px;background:#f6e2df;display:flex;align-items:center;justify-content:center;font:800 15px 'Plus Jakarta Sans',sans-serif;color:#93382e">CÖ</div>
+            <div style="flex:1"><div style="font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ceren Öz</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:3px">Bugün 5 ders · Stüdyo</div></div>
+            <span style="padding:6px 9px;border-radius:8px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 10.5px 'Plus Jakarta Sans',sans-serif">DERSTE</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 13px;border-radius:16px;background:rgba(255,255,255,.6);border:1.5px dashed rgba(0,0,0,.14)">
+            <div style="width:46px;height:46px;border-radius:14px;background:rgba(0,0,0,.05);display:flex;align-items:center;justify-content:center;font:800 15px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4)">DK</div>
+            <div style="flex:1"><div style="font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Deniz Kurt</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:3px">Davet gönderildi · 2 gün önce</div></div>
+            <span style="padding:6px 9px;border-radius:8px;background:rgba(0,0,0,.06);color:rgba(21,22,26,.55);font:700 10.5px 'Plus Jakarta Sans',sans-serif">BEKLEMEDE</span>
+          </div>
+        </div>
+        <div style="padding:12px 22px 6px"><div style="height:52px;border-radius:15px;background:#15161a;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer" onClick="{{ go.invite }}">Çalışan davet et</div></div>
+        <div style="display:flex;padding:10px 20px 4px;border-top:1px solid rgba(0,0,0,.07);background:rgba(255,255,255,.7)">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.teamDay }}"><div style="width:20px;height:20px;border-radius:6px;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Takvim</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.contacts }}"><div style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Kişiler</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.team }}"><div style="width:20px;height:20px;border-radius:9px;background:#2f4bd1"></div><span style="font:700 10px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Ekip</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.account }}"><div style="width:20px;height:20px;border-radius:6px;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Hesabım</span></div>
+        </div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showInvite }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K4</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Çalışan davet et</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:10px 22px 14px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 18px 'Plus Jakarta Sans',sans-serif;color:#15161a;cursor:pointer" onClick="{{ back }}">‹</div><div style="font:800 18px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çalışan davet et</div></div>
+        <div style="flex:1;overflow:hidden;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:6px">AD SOYAD</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 15px;font:600 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Deniz Kurt</div></div>
+            <div><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">E-POSTA</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 15px;font:600 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">deniz@movementstudio.co</div></div>
+            <div><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">ROL</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:space-between;padding:0 15px;font:600 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Eğitmen<span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4)">⌄</span></div></div>
+          </div>
+          <div>
+            <div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">YETKİLER</div>
+            <div style="border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);overflow:hidden">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;border-bottom:1px solid rgba(0,0,0,.06)">
+                <div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kendi takvimi ve dersleri</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">Her zaman açık</div></div>
+                <div style="width:46px;height:28px;border-radius:14px;background:rgba(47,75,209,.35);display:flex;align-items:center;justify-content:flex-end;padding:0 3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;border-bottom:1px solid rgba(0,0,0,.06)">
+                <div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Tüm ekip takvimi</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">Salt okunur</div></div>
+                <div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:0 3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px;border-bottom:1px solid rgba(0,0,0,.06)">
+                <div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kendi ders ücretini belirleme</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">Kurum alt limiti geçerli</div></div>
+                <div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:0 3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 15px">
+                <div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Ödemeler ve ciro</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">Kapalı</div></div>
+                <div style="width:46px;height:28px;border-radius:14px;background:rgba(0,0,0,.12);display:flex;align-items:center;padding:0 3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:11px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.16)">
+            <div style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Davette gidecek şifre</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:9px">
+              <span style="font:700 16px ui-monospace,Menlo,monospace;color:#15161a;letter-spacing:.18em">MVMNT-4193</span>
+              <span style="padding:7px 11px;border-radius:9px;background:#fff;border:1px solid rgba(0,0,0,.1);font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kopyala</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding:12px 22px 6px;display:flex;flex-direction:column;gap:9px">
+          <div style="height:54px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif;cursor:pointer" onClick="{{ go.team }}">Davet gönder</div>
+          <div style="height:50px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Davet bağlantısını paylaş</div>
+        </div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:8px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showTeamDay }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K5</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Ekip müsaitliği — çalışan kolonları</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:10px 20px 8px;display:flex;justify-content:space-between;align-items:flex-end">
+          <div><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Perşembe 17 Eyl</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">3 çalışan · 14 ders</div></div>
+          <div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center"><div style="width:14px;height:14px;border-radius:4px;border:2px solid rgba(21,22,26,.4)"></div></div>
+        </div>
+        <div style="display:flex;gap:6px;padding:0 20px 10px">
+          <div style="flex:1;height:52px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">PZT</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">15</span></div>
+          <div style="flex:1;height:52px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">SAL</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">16</span></div>
+          <div style="flex:1;height:52px;border-radius:12px;background:#15161a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.6)">PER</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#fff">17</span></div>
+          <div style="flex:1;height:52px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">CUM</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">18</span></div>
+          <div style="flex:1;height:52px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">CMT</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">19</span></div>
+          <div style="flex:1;height:52px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">PAZ</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">20</span></div>
+        </div>
+        <div style="margin:0 20px 12px;padding:4px;border-radius:13px;background:rgba(0,0,0,.06);display:flex;gap:4px">
+          <div style="flex:1;height:34px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çalışana göre</div>
+          <div style="flex:1;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);cursor:pointer" onClick="{{ go.venueDay }}">Mekana göre</div>
+        </div>
+        <div style="display:flex;padding:0 20px 6px;gap:6px">
+          <div style="width:34px;flex:none"></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:30px;height:30px;border-radius:10px;background:#e6e3f5;display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#4a3f96">AY</div><span style="font:700 10px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ayşe</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:30px;height:30px;border-radius:10px;background:#dfeae4;display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#2f6b4c">BT</div><span style="font:700 10px 'Plus Jakarta Sans',sans-serif;color:#15161a">Burak</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:30px;height:30px;border-radius:10px;background:#f6e2df;display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#93382e">CÖ</div><span style="font:700 10px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ceren</span></div>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:0 20px;display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;gap:6px;align-items:stretch;height:64px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding-top:2px">10:00</div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:9px 8px"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif">Elif K.</div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.75;margin-top:2px">Salon 1</div></div>
+            <div style="flex:1;border-radius:11px;background:#d8ece0;padding:9px 8px;cursor:pointer" onClick="{{ go.orgNewLesson }}"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Müsait</div></div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:9px 8px"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif">Grup · 4</div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.75;margin-top:2px">Stüdyo</div></div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:stretch;height:64px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding-top:2px">11:00</div>
+            <div style="flex:1;border-radius:11px;background:#d8ece0;padding:9px 8px;cursor:pointer" onClick="{{ go.orgNewLesson }}"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Müsait</div></div>
+            <div style="flex:1;border-radius:11px;background:#fff;border:1.5px solid #2f4bd1;padding:9px 8px"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mert D.</div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1;margin-top:2px">Onay bekliyor</div></div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:9px 8px"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif">Grup · 4</div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.75;margin-top:2px">Stüdyo</div></div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:stretch;height:64px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding-top:2px">12:00</div>
+            <div style="flex:1;border-radius:11px;background:rgba(0,0,0,.05);padding:9px 8px"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4)">Mola</div></div>
+            <div style="flex:1;border-radius:11px;background:#d8ece0;padding:9px 8px;cursor:pointer" onClick="{{ go.orgNewLesson }}"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Müsait</div></div>
+            <div style="flex:1;border-radius:11px;background:rgba(0,0,0,.05);padding:9px 8px"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4)">Mola</div></div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:stretch;height:64px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding-top:2px">13:00</div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:9px 8px"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif">Kaan Y.</div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.75;margin-top:2px">Salon 1</div></div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:9px 8px"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif">Selin A.</div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.75;margin-top:2px">Salon 2</div></div>
+            <div style="flex:1;border-radius:11px;background:#d8ece0;padding:9px 8px;cursor:pointer" onClick="{{ go.orgNewLesson }}"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Müsait</div></div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:stretch;height:64px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding-top:2px">14:00</div>
+            <div style="flex:1;border-radius:11px;background:#d8ece0;padding:9px 8px;cursor:pointer" onClick="{{ go.orgNewLesson }}"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Müsait</div></div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:9px 8px"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif">Grup · 6</div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.75;margin-top:2px">Stüdyo</div></div>
+            <div style="flex:1;border-radius:11px;background:rgba(196,72,60,.1);border:1px solid rgba(196,72,60,.25);padding:9px 8px"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#c4483c">İzinli</div></div>
+          </div>
+        </div>
+        <div style="display:flex;padding:10px 20px 4px;border-top:1px solid rgba(0,0,0,.07);background:rgba(255,255,255,.7);margin-top:10px">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.teamDay }}"><div style="width:20px;height:20px;border-radius:6px;background:#2f4bd1"></div><span style="font:700 10px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Takvim</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.contacts }}"><div style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Kişiler</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.team }}"><div style="width:20px;height:20px;border-radius:9px;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Ekip</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.account }}"><div style="width:20px;height:20px;border-radius:6px;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Hesabım</span></div>
+        </div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showVenueDay }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K6</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Mekana göre görünüm</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:10px 20px 10px"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Perşembe 17 Eyl</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Kapasite 12 kişi · en yoğun 14:00</div></div>
+        <div style="margin:0 20px 12px;padding:4px;border-radius:13px;background:rgba(0,0,0,.06);display:flex;gap:4px">
+          <div style="flex:1;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);cursor:pointer" onClick="{{ go.teamDay }}">Çalışana göre</div>
+          <div style="flex:1;height:34px;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mekana göre</div>
+        </div>
+        <div style="display:flex;padding:0 20px 8px;gap:6px">
+          <div style="width:34px;flex:none"></div>
+          <div style="flex:1;text-align:center"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#15161a">Salon 1</div><div style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">4 kişi</div></div>
+          <div style="flex:1;text-align:center"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#15161a">Salon 2</div><div style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">2 kişi</div></div>
+          <div style="flex:1;text-align:center"><div style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#15161a">Stüdyo</div><div style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">6 kişi</div></div>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:0 20px;display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;gap:6px;height:66px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding-top:2px">10:00</div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif">Ayşe</span><span style="font:800 10px 'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.22);padding:2px 5px;border-radius:5px">1/4</span></div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.78;margin-top:3px">Özel ders</div><div style="display:flex;gap:2px;margin-top:6px"><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3)"></div><div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3)"></div><div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3)"></div></div></div>
+            <div style="flex:1;border-radius:11px;background:#d8ece0;padding:8px"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Boş</div><div style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(47,143,91,.8);margin-top:3px">0/2</div></div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif">Ceren</span><span style="font:800 10px 'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.22);padding:2px 5px;border-radius:5px">4/6</span></div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.78;margin-top:3px">Grup dersi</div><div style="display:flex;gap:2px;margin-top:6px"><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3)"></div><div style="flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3)"></div></div></div>
+          </div>
+          <div style="display:flex;gap:6px;height:66px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding-top:2px">11:00</div>
+            <div style="flex:1;border-radius:11px;background:#d8ece0;padding:8px"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Boş</div><div style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(47,143,91,.8);margin-top:3px">0/4</div></div>
+            <div style="flex:1;border-radius:11px;background:#fff;border:1.5px solid #2f4bd1;padding:8px"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Burak</div><div style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1;margin-top:3px">Onay bekliyor · 1/2</div></div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif">Ceren</span><span style="font:800 10px 'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.22);padding:2px 5px;border-radius:5px">4/6</span></div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.78;margin-top:3px">Grup dersi</div></div>
+          </div>
+          <div style="display:flex;gap:6px;height:66px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding-top:2px">13:00</div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif">Ayşe</span><span style="font:800 10px 'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.22);padding:2px 5px;border-radius:5px">2/4</span></div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.78;margin-top:3px">Düet</div></div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif">Burak</span><span style="font:800 10px 'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.22);padding:2px 5px;border-radius:5px">2/2</span></div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.78;margin-top:3px">Dolu</div></div>
+            <div style="flex:1;border-radius:11px;background:#d8ece0;padding:8px"><div style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Boş</div><div style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(47,143,91,.8);margin-top:3px">0/6</div></div>
+          </div>
+          <div style="display:flex;gap:6px;height:66px">
+            <div style="width:34px;flex:none;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:#c4483c;padding-top:2px">14:00</div>
+            <div style="flex:1;border-radius:11px;background:#c4483c;color:#fff;padding:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif">Ayşe</span><span style="font:800 10px 'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.25);padding:2px 5px;border-radius:5px">4/4</span></div><div style="font:700 9.5px 'Plus Jakarta Sans',sans-serif;margin-top:3px;letter-spacing:.04em">DOLU</div><div style="display:flex;gap:2px;margin-top:6px"><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div></div></div>
+            <div style="flex:1;border-radius:11px;background:#c4483c;color:#fff;padding:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif">Burak</span><span style="font:800 10px 'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.25);padding:2px 5px;border-radius:5px">2/2</span></div><div style="font:700 9.5px 'Plus Jakarta Sans',sans-serif;margin-top:3px;letter-spacing:.04em">DOLU</div><div style="display:flex;gap:2px;margin-top:6px"><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div><div style="flex:1;height:3px;border-radius:2px;background:#fff"></div></div></div>
+            <div style="flex:1;border-radius:11px;background:#2f4bd1;color:#fff;padding:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif">Ceren</span><span style="font:800 10px 'Plus Jakarta Sans',sans-serif;background:rgba(255,255,255,.22);padding:2px 5px;border-radius:5px">6/6</span></div><div style="font:500 9.5px 'Plus Jakarta Sans',sans-serif;opacity:.78;margin-top:3px">Grup dersi</div></div>
+          </div>
+          <div style="margin-top:4px;padding:12px 13px;border-radius:14px;background:rgba(196,72,60,.08);border:1px solid rgba(196,72,60,.22);display:flex;gap:11px;align-items:center">
+            <div style="width:30px;height:30px;border-radius:10px;background:#c4483c;color:#fff;display:flex;align-items:center;justify-content:center;font:800 14px 'Plus Jakarta Sans',sans-serif;flex:none">!</div>
+            <div><div style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">14:00 — tüm mekanlar dolu</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">12/12 kişi. Yeni rezervasyon alınamaz.</div></div>
+          </div>
+        </div>
+        <div style="display:flex;padding:10px 20px 4px;border-top:1px solid rgba(0,0,0,.07);background:rgba(255,255,255,.7);margin-top:10px">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.teamDay }}"><div style="width:20px;height:20px;border-radius:6px;background:#2f4bd1"></div><span style="font:700 10px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Takvim</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.contacts }}"><div style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Kişiler</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.team }}"><div style="width:20px;height:20px;border-radius:9px;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Ekip</span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer" onClick="{{ go.account }}"><div style="width:20px;height:20px;border-radius:6px;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Hesabım</span></div>
+        </div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+  </div>
+
+  <div style="display:flex;flex-wrap:nowrap;align-items:flex-start;justify-content:center;gap:40px;width:max-content">
+
+    <sc-if value="{{ showVenues }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K7</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Mekanlar</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:12px 22px 14px;display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:12px"><div onClick="{{ back }}" style="cursor:pointer;width:38px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 18px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div><div style="font:800 24px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Mekanlar</div><div style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">3 mekan · toplam 12 kişi kapasite</div></div></div>
+          <div style="width:38px;height:38px;border-radius:12px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 20px 'Plus Jakarta Sans',sans-serif">+</div>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:0 22px;display:flex;flex-direction:column;gap:11px">
+          <div style="padding:16px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div><div style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Salon 1</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:3px">Reformer · 09:00–21:00</div></div>
+              <span style="padding:6px 9px;border-radius:8px;background:#d8ece0;color:#2f8f5b;font:700 10.5px 'Plus Jakarta Sans',sans-serif">MÜSAİT</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:7px;margin-top:14px"><span style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#15161a">2</span><span style="font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">/ 4 kişi · şu an</span></div>
+            <sc-if value="{{ barCapacity }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:4px;margin-top:10px"><div style="flex:1;height:8px;border-radius:4px;background:#2f4bd1"></div><div style="flex:1;height:8px;border-radius:4px;background:#2f4bd1"></div><div style="flex:1;height:8px;border-radius:4px;background:rgba(0,0,0,.09)"></div><div style="flex:1;height:8px;border-radius:4px;background:rgba(0,0,0,.09)"></div></div></sc-if>
+            <sc-if value="{{ dotCapacity }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:7px;margin-top:10px"><div style="width:13px;height:13px;border-radius:50%;background:#2f4bd1"></div><div style="width:13px;height:13px;border-radius:50%;background:#2f4bd1"></div><div style="width:13px;height:13px;border-radius:50%;background:rgba(0,0,0,.1)"></div><div style="width:13px;height:13px;border-radius:50%;background:rgba(0,0,0,.1)"></div></div></sc-if>
+          </div>
+          <div style="padding:16px;border-radius:18px;background:#fff;border:1.5px solid rgba(196,72,60,.35)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div><div style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Salon 2</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:3px">Özel ders · 10:00–20:00</div></div>
+              <span style="padding:6px 9px;border-radius:8px;background:#c4483c;color:#fff;font:700 10.5px 'Plus Jakarta Sans',sans-serif">DOLU</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:7px;margin-top:14px"><span style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#c4483c">2</span><span style="font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">/ 2 kişi · şu an</span></div>
+            <sc-if value="{{ barCapacity }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:4px;margin-top:10px"><div style="flex:1;height:8px;border-radius:4px;background:#c4483c"></div><div style="flex:1;height:8px;border-radius:4px;background:#c4483c"></div></div></sc-if>
+            <sc-if value="{{ dotCapacity }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:7px;margin-top:10px"><div style="width:13px;height:13px;border-radius:50%;background:#c4483c"></div><div style="width:13px;height:13px;border-radius:50%;background:#c4483c"></div></div></sc-if>
+            <div style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:#c4483c;margin-top:10px">İlk boş saat 15:00</div>
+          </div>
+          <div style="padding:16px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div><div style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Stüdyo</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:3px">Grup dersi · 08:00–22:00</div></div>
+              <span style="padding:6px 9px;border-radius:8px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 10.5px 'Plus Jakarta Sans',sans-serif">1 YER KALDI</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:7px;margin-top:14px"><span style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#15161a">5</span><span style="font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">/ 6 kişi · şu an</span></div>
+            <sc-if value="{{ barCapacity }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:4px;margin-top:10px"><div style="flex:1;height:8px;border-radius:4px;background:#2f4bd1"></div><div style="flex:1;height:8px;border-radius:4px;background:#2f4bd1"></div><div style="flex:1;height:8px;border-radius:4px;background:#2f4bd1"></div><div style="flex:1;height:8px;border-radius:4px;background:#2f4bd1"></div><div style="flex:1;height:8px;border-radius:4px;background:#2f4bd1"></div><div style="flex:1;height:8px;border-radius:4px;background:rgba(0,0,0,.09)"></div></div></sc-if>
+            <sc-if value="{{ dotCapacity }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:7px;margin-top:10px"><div style="width:13px;height:13px;border-radius:50%;background:#2f4bd1"></div><div style="width:13px;height:13px;border-radius:50%;background:#2f4bd1"></div><div style="width:13px;height:13px;border-radius:50%;background:#2f4bd1"></div><div style="width:13px;height:13px;border-radius:50%;background:#2f4bd1"></div><div style="width:13px;height:13px;border-radius:50%;background:#2f4bd1"></div><div style="width:13px;height:13px;border-radius:50%;background:rgba(0,0,0,.1)"></div></div></sc-if>
+          </div>
+          <div style="padding:15px 16px;border-radius:18px;background:rgba(255,255,255,.6);border:1.5px dashed rgba(0,0,0,.14);display:flex;align-items:center;gap:12px;cursor:pointer" onClick="{{ go.addVenue }}">
+            <div style="width:34px;height:34px;border-radius:11px;background:rgba(47,75,209,.1);color:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 18px 'Plus Jakarta Sans',sans-serif">+</div>
+            <div><div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mekan ekle</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">İsim ve kişi kapasitesi belirle</div></div>
+          </div>
+        </div>
+        
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showAddVenue }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K8</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Mekan ekle · kapasite</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:10px 22px 14px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 18px 'Plus Jakarta Sans',sans-serif;color:#15161a;cursor:pointer" onClick="{{ back }}">‹</div><div style="font:800 18px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mekan ekle</div></div>
+        <div style="flex:1;overflow:hidden;padding:0 22px;display:flex;flex-direction:column;gap:16px">
+          <div><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">MEKAN ADI</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 15px;font:600 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Salon 3</div></div>
+          <div>
+            <div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">AYNI ANDA KAÇ KİŞİ?</div>
+            <div style="padding:18px 16px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08)">
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <div style="width:44px;height:44px;border-radius:14px;background:rgba(0,0,0,.05);display:flex;align-items:center;justify-content:center;font:700 20px 'Plus Jakarta Sans',sans-serif;color:#15161a">−</div>
+                <div style="text-align:center"><div style="font:800 34px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.03em">4</div><div style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">kişi kapasite</div></div>
+                <div style="width:44px;height:44px;border-radius:14px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 20px 'Plus Jakarta Sans',sans-serif">+</div>
+              </div>
+              <div style="display:flex;gap:5px;margin-top:16px">
+                <div style="flex:1;height:9px;border-radius:5px;background:#2f4bd1"></div>
+                <div style="flex:1;height:9px;border-radius:5px;background:#2f4bd1"></div>
+                <div style="flex:1;height:9px;border-radius:5px;background:#2f4bd1"></div>
+                <div style="flex:1;height:9px;border-radius:5px;background:#2f4bd1"></div>
+              </div>
+              <div style="font:500 11.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:12px;text-wrap:pretty">4 kişi dolduğunda bu mekan o saat için kapanır ve yeni rezervasyon alınmaz.</div>
+            </div>
+          </div>
+          <div>
+            <div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">ÇALIŞMA SAATLERİ</div>
+            <div style="border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);overflow:hidden">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 15px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Açılış</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">09:00</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 15px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kapanış</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">21:00</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 15px"><span style="font:600 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders aralığı</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">50 dk</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">KULLANABİLECEK ÇALIŞANLAR</div>
+            <div style="display:flex;gap:8px">
+              <div style="flex:1;padding:12px 8px;border-radius:14px;background:#fff;border:1.5px solid #2f4bd1;display:flex;flex-direction:column;align-items:center;gap:7px"><div style="width:32px;height:32px;border-radius:11px;background:#e6e3f5;display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#4a3f96">AY</div><span style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ayşe</span></div>
+              <div style="flex:1;padding:12px 8px;border-radius:14px;background:#fff;border:1.5px solid #2f4bd1;display:flex;flex-direction:column;align-items:center;gap:7px"><div style="width:32px;height:32px;border-radius:11px;background:#dfeae4;display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#2f6b4c">BT</div><span style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#15161a">Burak</span></div>
+              <div style="flex:1;padding:12px 8px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;gap:7px;opacity:.55"><div style="width:32px;height:32px;border-radius:11px;background:#f6e2df;display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#93382e">CÖ</div><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Ceren</span></div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:12px 22px 6px"><div style="height:54px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif;cursor:pointer" onClick="{{ go.venues }}">Mekanı kaydet</div></div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:8px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showCapacityAlert }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K9</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Doluluk uyarısı</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:10px 20px;opacity:.5"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Yeni ders</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">17 Eyl · 14:00 · Salon 1</div></div>
+        <div style="flex:1;padding:0 20px;display:flex;flex-direction:column;gap:9px;opacity:.35">
+          <div style="height:56px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.08)"></div>
+          <div style="height:56px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.08)"></div>
+          <div style="height:56px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.08)"></div>
+          <div style="height:56px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.08)"></div>
+        </div>
+        <div style="position:absolute;inset:0;background:rgba(10,10,14,.42);cursor:pointer" onClick="{{ back }}"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;background:#fbfaf8;border-radius:28px 28px 46px 46px;padding:10px 24px 0;box-shadow:0 -18px 50px rgba(0,0,0,.2)">
+          <div style="width:42px;height:5px;border-radius:3px;background:rgba(0,0,0,.18);margin:0 auto 20px"></div>
+          <div style="width:52px;height:52px;border-radius:17px;background:#c4483c;color:#fff;display:flex;align-items:center;justify-content:center;font:800 24px 'Plus Jakarta Sans',sans-serif">!</div>
+          <div style="font:800 21px/1.3 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em;margin-top:16px;text-wrap:pretty">Salon 1 bu saatte dolu</div>
+          <div style="font:500 13px/1.55 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-top:8px;text-wrap:pretty">17 Eylül 14:00'te kapasite 4/4 kişi. Ayşe'nin grup dersi sürüyor.</div>
+          <div style="display:flex;gap:4px;margin-top:14px">
+            <div style="flex:1;height:9px;border-radius:5px;background:#c4483c"></div>
+            <div style="flex:1;height:9px;border-radius:5px;background:#c4483c"></div>
+            <div style="flex:1;height:9px;border-radius:5px;background:#c4483c"></div>
+            <div style="flex:1;height:9px;border-radius:5px;background:#c4483c"></div>
+          </div>
+          <div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:22px;letter-spacing:.04em">ALTERNATİFLER</div>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-top:10px">
+            <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.09);display:flex;align-items:center;gap:12px">
+              <div style="width:40px;height:40px;border-radius:13px;background:#d8ece0;display:flex;align-items:center;justify-content:center;font:800 12px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">0/6</div>
+              <div style="flex:1"><div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Stüdyo · 14:00</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Aynı saat, Burak müsait</div></div>
+              <span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Seç</span>
+            </div>
+            <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.09);display:flex;align-items:center;gap:12px">
+              <div style="width:40px;height:40px;border-radius:13px;background:#d8ece0;display:flex;align-items:center;justify-content:center;font:800 12px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">1/4</div>
+              <div style="flex:1"><div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Salon 1 · 15:00</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Bir saat sonrası, 3 yer boş</div></div>
+              <span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Seç</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;margin-top:18px">
+            <div style="height:54px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif;cursor:pointer" onClick="{{ go.orgNewLesson }}">Alternatifi kullan</div>
+            <div style="height:50px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a;cursor:pointer" onClick="{{ go.teamDay }}">Bekleme listesine ekle</div>
+          </div>
+          <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:14px auto 9px;opacity:.85"></div>
+        </div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showOrgNewLesson }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K10</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Yeni ders — çalışan + mekan</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+        <div style="padding:10px 22px 14px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 18px 'Plus Jakarta Sans',sans-serif;color:#15161a;cursor:pointer" onClick="{{ back }}">‹</div><div style="font:800 18px 'Plus Jakarta Sans',sans-serif;color:#15161a">Yeni ders</div></div>
+        <div style="flex:1;overflow:hidden;padding:0 22px;display:flex;flex-direction:column;gap:15px">
+          <div style="display:flex;gap:9px">
+            <div style="flex:1"><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">TARİH</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 14px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">17 Eyl</div></div>
+            <div style="flex:1"><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">SAAT</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 14px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">15:00</div></div>
+          </div>
+          <div><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">KİŞİ</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;gap:10px;padding:0 14px"><div style="width:28px;height:28px;border-radius:9px;background:#e6e3f5;display:flex;align-items:center;justify-content:center;font:800 10.5px 'Plus Jakarta Sans',sans-serif;color:#4a3f96">EK</div><span style="font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Elif Kaya</span></div></div>
+          <div>
+            <div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:8px">ÇALIŞAN</div>
+            <div style="display:flex;gap:8px">
+              <div style="flex:1;padding:11px 8px;border-radius:14px;background:#2f4bd1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:32px;height:32px;border-radius:11px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#fff">AY</div><span style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#fff">Ayşe</span><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.7)">Müsait</span></div>
+              <div style="flex:1;padding:11px 8px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:32px;height:32px;border-radius:11px;background:#dfeae4;display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#2f6b4c">BT</div><span style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#15161a">Burak</span><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">Müsait</span></div>
+              <div style="flex:1;padding:11px 8px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.5"><div style="width:32px;height:32px;border-radius:11px;background:#f6e2df;display:flex;align-items:center;justify-content:center;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#93382e">CÖ</div><span style="font:700 11px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ceren</span><span style="font:600 9.5px 'Plus Jakarta Sans',sans-serif;color:#c4483c">Derste</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px"><span style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">MEKAN</span><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">15:00 doluluğu</span></div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="padding:13px 14px;border-radius:15px;background:#fff;border:1.5px solid #2f4bd1;display:flex;align-items:center;gap:12px">
+                <div style="width:20px;height:20px;border-radius:50%;background:#2f4bd1;display:flex;align-items:center;justify-content:center;color:#fff;font:800 11px 'Plus Jakarta Sans',sans-serif;flex:none">✓</div>
+                <div style="flex:1"><div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Salon 1</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">3 yer boş</div></div>
+                <div style="display:flex;gap:3px;width:58px">
+                  <div style="flex:1;height:7px;border-radius:4px;background:#2f4bd1"></div>
+                  <div style="flex:1;height:7px;border-radius:4px;background:rgba(0,0,0,.1)"></div>
+                  <div style="flex:1;height:7px;border-radius:4px;background:rgba(0,0,0,.1)"></div>
+                  <div style="flex:1;height:7px;border-radius:4px;background:rgba(0,0,0,.1)"></div>
+                </div>
+                <span style="font:800 12px 'Plus Jakarta Sans',sans-serif;color:#15161a">1/4</span>
+              </div>
+              <div style="padding:13px 14px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;gap:12px">
+                <div style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(21,22,26,.2);flex:none"></div>
+                <div style="flex:1"><div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Stüdyo</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">1 yer boş</div></div>
+                <div style="display:flex;gap:3px;width:58px">
+                  <div style="flex:1;height:7px;border-radius:4px;background:#2f4bd1"></div>
+                  <div style="flex:1;height:7px;border-radius:4px;background:#2f4bd1"></div>
+                  <div style="flex:1;height:7px;border-radius:4px;background:#2f4bd1"></div>
+                  <div style="flex:1;height:7px;border-radius:4px;background:#2f4bd1"></div>
+                  <div style="flex:1;height:7px;border-radius:4px;background:#2f4bd1"></div>
+                  <div style="flex:1;height:7px;border-radius:4px;background:rgba(0,0,0,.1)"></div>
+                </div>
+                <span style="font:800 12px 'Plus Jakarta Sans',sans-serif;color:#15161a">5/6</span>
+              </div>
+              <div style="padding:13px 14px;border-radius:15px;background:rgba(196,72,60,.06);border:1px solid rgba(196,72,60,.25);display:flex;align-items:center;gap:12px;cursor:pointer" onClick="{{ go.capacityAlert }}">
+                <div style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(196,72,60,.3);flex:none"></div>
+                <div style="flex:1"><div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Salon 2</div><div style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:#c4483c;margin-top:2px">Dolu · seçilemez</div></div>
+                <span style="font:800 12px 'Plus Jakarta Sans',sans-serif;color:#c4483c">2/2</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:9px">
+            <div style="flex:1"><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">SÜRE</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 14px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">50 dk</div></div>
+            <div style="flex:1"><div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:7px">ÜCRET</div><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 14px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">900 ₺</div></div>
+          </div>
+        </div>
+        <div style="padding:12px 22px 6px"><div style="height:54px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif;cursor:pointer" onClick="{{ go.teamDay }}">Dersi oluştur</div></div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:8px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+    <sc-if value="{{ showStaff }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:11px;margin:20px 0">
+      <sc-if value="{{ showLabels }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">K11</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Çalışan profili · çalışma saatleri</span></div></sc-if>
+      <div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column">
+        <div style="background:#2f4bd1;padding:0 0 20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#fff"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #fff;border-radius:3px"></div><div style="width:4px;height:9px;background:#fff;border-radius:1px"></div><div style="width:4px;height:12px;background:#fff;border-radius:1px"></div></div></div>
+          <div style="padding:10px 22px 0"><div style="width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font:700 18px 'Plus Jakarta Sans',sans-serif;color:#fff;cursor:pointer" onClick="{{ back }}">‹</div></div>
+          <div style="padding:18px 22px 0;display:flex;align-items:center;gap:14px">
+            <div style="width:58px;height:58px;border-radius:18px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font:800 19px 'Plus Jakarta Sans',sans-serif;color:#fff">BT</div>
+            <div>
+              <div style="font:800 21px 'Plus Jakarta Sans',sans-serif;color:#fff;letter-spacing:-0.02em">Burak Tuna</div>
+              <div style="font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.72);margin-top:4px">Eğitmen · Salon 2, Stüdyo</div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:16px 22px 0;display:flex;gap:9px">
+          <div style="flex:1;padding:13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="font:800 19px 'Plus Jakarta Sans',sans-serif;color:#15161a">4</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Bugün ders</div></div>
+          <div style="flex:1;padding:13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="font:800 19px 'Plus Jakarta Sans',sans-serif;color:#15161a">31</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Bu ay</div></div>
+          <div style="flex:1;padding:13px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="font:800 19px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">%78</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Doluluk</div></div>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:16px 22px 0;display:flex;flex-direction:column;gap:15px">
+          <div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px"><span style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">ÇALIŞMA SAATLERİ</span><span style="font:700 12px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Düzenle</span></div>
+            <div style="border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);overflow:hidden">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Pazartesi — Çarşamba</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">09:00 – 17:00</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Perşembe — Cuma</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">11:00 – 20:00</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Cumartesi</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">10:00 – 14:00</span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 15px"><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Pazar</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#c4483c">Kapalı</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:8px">YETKİLER</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <span style="padding:8px 12px;border-radius:11px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 11.5px 'Plus Jakarta Sans',sans-serif">Kendi takvimi</span>
+              <span style="padding:8px 12px;border-radius:11px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 11.5px 'Plus Jakarta Sans',sans-serif">Ekip takvimi · salt okunur</span>
+              <span style="padding:8px 12px;border-radius:11px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 11.5px 'Plus Jakarta Sans',sans-serif">Kendi ücreti</span>
+              <span style="padding:8px 12px;border-radius:11px;background:rgba(0,0,0,.05);color:rgba(21,22,26,.5);font:600 11.5px 'Plus Jakarta Sans',sans-serif">Ödemeler — kapalı</span>
+            </div>
+          </div>
+          <div style="padding:14px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between">
+            <div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Rezervasyon alabilir</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">Kapatırsan yeni ders atanmaz</div></div>
+            <div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:0 3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div>
+          </div>
+        </div>
+        <div style="padding:12px 22px 6px;display:flex;flex-direction:column;gap:9px">
+          <div style="height:52px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">İzin günü ekle</div>
+          <div style="height:50px;border-radius:15px;background:rgba(196,72,60,.08);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#c4483c;cursor:pointer" onClick="{{ go.team }}">Ekipten çıkar</div>
+        </div>
+        <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:6px auto 9px;opacity:.85"></div>
+      </div>
+    </div></sc-if>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showLabels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Galeri&quot;},&quot;capacityStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Çubuk&quot;,&quot;Nokta&quot;],&quot;default&quot;:&quot;Çubuk&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Kapasite&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const only = this.props.only || "";
+    const g = !only;
+    const ids = ["accountType","orgLogin","team","invite","teamDay","venueDay","venues","addVenue","capacityAlert","orgNewLesson","staff"];
+    const noop = function () {};
+    const given = this.props.go || {};
+    const go = {};
+    ids.concat(["login","register","calendar","contacts","account","payments"]).forEach(function (id) {
+      go[id] = given[id] || noop;
+    });
+    const cap = this.props.capacityStyle ?? "Çubuk";
+    const out = {
+      isGallery: g,
+      showChrome: g,
+      showLabels: g && (this.props.showLabels ?? true),
+      barCapacity: cap === "Çubuk",
+      dotCapacity: cap === "Nokta",
+      go: go,
+      back: this.props.back || noop
+    };
+    ids.forEach(function (id) {
+      out["show" + id.charAt(0).toUpperCase() + id.slice(1)] = g || only === id;
+    });
+    return out;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics=""><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><style>body{margin:0;background:#ecebe7;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#3a5ccc;text-decoration:none}a:hover{color:#26409a}</style></helmet>
+
+<sc-if value="{{ showAccount }}" hint-placeholder-val="{{ true }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="padding:12px 22px 6px;display:flex;justify-content:space-between;align-items:center"><div style="font:800 24px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Hesabım</div><div onClick="{{ go.accountMenu }}" style="cursor:pointer;width:36px;height:36px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;gap:2px"><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:6px 22px 0;display:flex;flex-direction:column;gap:9px">
+    <div onClick="{{ go.accountEdit }}" style="cursor:pointer;display:flex;align-items:center;gap:13px;padding:14px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08)">
+      <div style="width:52px;height:52px;border-radius:16px;background:#e3e8f2;display:flex;align-items:center;justify-content:center;font:800 18px 'Plus Jakarta Sans',sans-serif;color:#3a4a6b">DA</div>
+      <div style="flex:1"><div style="font:700 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Deniz Arslan</div><div style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Özel ders · İstanbul</div></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px"><span style="padding:6px 10px;border-radius:9px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 10.5px 'Plus Jakarta Sans',sans-serif">PRO</span><span style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Düzenle ›</span></div>
+    </div>
+    <div onClick="{{ go.payments }}" style="cursor:pointer;padding:15px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme takibi</span><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Eylül ›</span></div>
+      <div style="display:flex;align-items:stretch;gap:14px">
+        <div style="flex:1"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">₺12.400</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">bu ay tahsil edilen</div></div>
+        <div style="width:1px;background:rgba(0,0,0,.08)"></div>
+        <div style="flex:1"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#c4483c;letter-spacing:-0.02em">₺1.500</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">bekleyen · 1 kişi</div></div>
+      </div>
+    </div>
+    <div onClick="{{ go.share }}" style="cursor:pointer;padding:15px;border-radius:20px;background:#15161a;display:flex;flex-direction:column;align-items:center;gap:11px">
+      <div style="width:104px;height:104px;border-radius:14px;background:#fff;padding:8px;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(7,1fr);gap:3px">
+        <i style="grid-column:1/3;grid-row:1/3;background:#15161a;border-radius:4px;display:block"></i><i style="grid-column:6/8;grid-row:1/3;background:#15161a;border-radius:4px;display:block"></i><i style="grid-column:1/3;grid-row:6/8;background:#15161a;border-radius:4px;display:block"></i>
+        <i style="grid-column:4;grid-row:1;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:2;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:4;grid-row:3;background:#15161a;border-radius:2px;display:block"></i>
+        <i style="grid-column:3;grid-row:4;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:4;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:7;grid-row:4;background:#15161a;border-radius:2px;display:block"></i>
+        <i style="grid-column:4;grid-row:5;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:6;grid-row:5;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:6;background:#15161a;border-radius:2px;display:block"></i>
+        <i style="grid-column:7;grid-row:6;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:4;grid-row:7;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:6;grid-row:7;background:#15161a;border-radius:2px;display:block"></i>
+      </div>
+      <div style="font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.75)">pro.app/deniz-arslan</div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <div onClick="{{ go.share }}" style="cursor:pointer;flex:1;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:7px"><div style="width:30px;height:30px;border-radius:10px;background:rgba(47,75,209,.1);display:flex;align-items:center;justify-content:center"><i style="width:12px;height:12px;border:2px solid #2f4bd1;border-radius:50%;display:block"></i></div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">NFC ile paylaş</div><div style="font:500 11px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Telefonu yaklaştırman yeterli</div></div>
+      <div style="flex:1;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:7px"><div style="width:30px;height:30px;border-radius:10px;background:rgba(47,143,91,.1);display:flex;align-items:center;justify-content:center"><i style="width:12px;height:12px;background:#2f8f5b;border-radius:3px;display:block"></i></div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Web sitesi</div><div style="font:500 11px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">denizarslan.com</div></div>
+    </div>
+    <div style="padding:6px 0;display:flex;flex-direction:column">
+      <div onClick="{{ go.calendarPrefs }}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:14px 2px;border-bottom:1px solid rgba(0,0,0,.07)"><span style="font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Takvim ayarlarım</span><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">10:00 – 18:00 ›</span></div>
+      <div onClick="{{ go.notifPrefs }}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:14px 2px;border-bottom:1px solid rgba(0,0,0,.07)"><span style="font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bildirim ayarları</span><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Açık ›</span></div>
+      <div onClick="{{ go.pricing }}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:14px 2px"><span style="font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Paket tercihleri</span><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">4 paket ›</span></div>
+    </div>
+  </div>
+  <div style="display:flex;padding:10px 26px 4px;border-top:1px solid rgba(0,0,0,.07);background:rgba(255,255,255,.7)">
+    <div onClick="{{ go.calendar }}" style="cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:6px;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Takvim</span></div>
+    <div onClick="{{ go.contacts }}" style="cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Kişiler</span></div>
+    <div onClick="{{ go.account }}" style="cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:6px;background:#2f4bd1"></div><span style="font:700 10px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Hesabım</span></div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showAccountEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="padding:12px 22px 6px;display:flex;justify-content:space-between;align-items:center"><div style="font:800 24px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Hesabım</div><div onClick="{{ go.accountMenu }}" style="cursor:pointer;width:36px;height:36px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;gap:2px"><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:6px 22px 0;display:flex;flex-direction:column;gap:9px">
+    <div style="padding:14px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.2);display:flex;flex-direction:column;gap:9px">
+      <div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#2c3d8f">Fiyatlandırmanı seçmedin</div><div style="margin-top:4px;font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Tekil ders ücretini girebilir ya da paket oluşturabilirsin. İkisi de olur; profilin zaten yayında.</div></div>
+      <div onClick="{{ go.pricing }}" style="cursor:pointer;align-self:flex-start;padding:9px 14px;border-radius:11px;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">Fiyatlandırmayı seç</div>
+    </div>
+    <div onClick="{{ go.accountEdit }}" style="cursor:pointer;display:flex;align-items:center;gap:13px;padding:14px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08)">
+      <div style="width:52px;height:52px;border-radius:16px;background:repeating-linear-gradient(135deg,rgba(0,0,0,.05) 0 6px,transparent 6px 12px);border:1px dashed rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;font:600 9px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.4)">foto</div>
+      <div style="flex:1"><div style="font:700 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Deniz Arslan</div><div style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Matematik öğretmeni · İstanbul</div></div>
+      <span style="font:600 14px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">›</span>
+    </div>
+    <div style="padding:15px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme takibi</span><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.35)">Eylül</span></div>
+      <div style="display:flex;align-items:stretch;gap:14px">
+        <div style="flex:1"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.25);letter-spacing:-0.02em">₺0</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4);margin-top:2px">bu ay tahsil edilen</div></div>
+        <div style="width:1px;background:rgba(0,0,0,.08)"></div>
+        <div style="flex:1"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.25);letter-spacing:-0.02em">₺0</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4);margin-top:2px">bekleyen</div></div>
+      </div>
+      <div style="font:500 11.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">İlk dersini kaydettiğinde burada tahsilat özetin görünür.</div>
+    </div>
+    <div style="padding:16px;border-radius:20px;background:#fff;border:1px dashed rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center;gap:11px">
+      <div style="width:104px;height:104px;border-radius:14px;background:repeating-linear-gradient(135deg,rgba(0,0,0,.05) 0 7px,transparent 7px 14px);display:flex;align-items:center;justify-content:center;font:600 9.5px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.42);text-align:center">QR kod</div>
+      <div style="font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);text-align:center">Bağlantın ve QR kodun çalışıyor. Fiyatı sabitlemek istersen buradan belirleyebilirsin.</div>
+      <div onClick="{{ go.pricing }}" style="cursor:pointer;align-self:stretch;height:50px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif">Fiyatlandırmayı aç</div>
+    </div>
+    <div style="padding:6px 0;display:flex;flex-direction:column">
+      <div onClick="{{ go.notifPrefs }}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:14px 2px;border-bottom:1px solid rgba(0,0,0,.07)"><span style="font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bildirim ayarları</span><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Açık ›</span></div>
+      <div onClick="{{ go.pricing }}" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:14px 2px"><span style="font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Paket tercihleri</span><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:#c4483c">Paket yok ›</span></div>
+    </div>
+  </div>
+  <div style="display:flex;padding:10px 26px 4px;border-top:1px solid rgba(0,0,0,.07);background:rgba(255,255,255,.7)">
+    <div onClick="{{ go.calendar }}" style="cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:6px;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Takvim</span></div>
+    <div onClick="{{ go.contacts }}" style="cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(21,22,26,.3)"></div><span style="font:600 10px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Kişiler</span></div>
+    <div onClick="{{ go.account }}" style="cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:6px;background:#2f4bd1"></div><span style="font:700 10px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Hesabım</span></div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showAccountMenu }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative;justify-content:flex-end">
+  <div style="position:absolute;inset:0;background:#fbfaf8;overflow:hidden;display:flex;flex-direction:column;pointer-events:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+    <div style="padding:12px 22px 6px;display:flex;justify-content:space-between;align-items:center"><div style="font:800 24px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Hesabım</div><div style="width:36px;height:36px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;gap:2px"><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i></div></div>
+    <div style="flex:1;overflow:hidden;padding:6px 22px 0;display:flex;flex-direction:column;gap:9px">
+      <div style="display:flex;align-items:center;gap:13px;padding:14px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08)">
+        <div style="width:52px;height:52px;border-radius:16px;background:#e3e8f2;display:flex;align-items:center;justify-content:center;font:800 18px 'Plus Jakarta Sans',sans-serif;color:#3a4a6b">DA</div>
+        <div style="flex:1"><div style="font:700 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Deniz Arslan</div><div style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Özel ders · İstanbul</div></div>
+        <span style="padding:6px 10px;border-radius:9px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 10.5px 'Plus Jakarta Sans',sans-serif">PRO</span>
+      </div>
+      <div style="padding:15px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme takibi</span><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Eylül ›</span></div>
+        <div style="display:flex;align-items:stretch;gap:14px">
+          <div style="flex:1"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">₺12.400</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">bu ay tahsil edilen</div></div>
+          <div style="width:1px;background:rgba(0,0,0,.08)"></div>
+          <div style="flex:1"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#c4483c;letter-spacing:-0.02em">₺1.500</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">bekleyen · 1 kişi</div></div>
+        </div>
+      </div>
+      <div style="padding:15px;border-radius:20px;background:#15161a;display:flex;flex-direction:column;align-items:center;gap:11px">
+        <div style="width:104px;height:104px;border-radius:14px;background:#fff;padding:8px;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(7,1fr);gap:3px">
+          <i style="grid-column:1/3;grid-row:1/3;background:#15161a;border-radius:4px;display:block"></i><i style="grid-column:6/8;grid-row:1/3;background:#15161a;border-radius:4px;display:block"></i><i style="grid-column:1/3;grid-row:6/8;background:#15161a;border-radius:4px;display:block"></i>
+          <i style="grid-column:4;grid-row:1;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:2;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:4;grid-row:3;background:#15161a;border-radius:2px;display:block"></i>
+          <i style="grid-column:3;grid-row:4;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:4;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:7;grid-row:4;background:#15161a;border-radius:2px;display:block"></i>
+          <i style="grid-column:4;grid-row:5;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:6;grid-row:5;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:6;background:#15161a;border-radius:2px;display:block"></i>
+        </div>
+        <div style="font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.75)">pro.app/deniz-arslan</div>
+      </div>
+    </div>
+  </div>
+  <div onClick="{{ back }}" style="cursor:pointer;position:absolute;inset:0;background:rgba(21,22,26,.45)"></div>
+  <div style="position:relative;background:#fbfaf8;border-radius:26px 26px 0 0;padding:10px 22px 0;box-shadow:0 -14px 40px rgba(0,0,0,.16);display:flex;flex-direction:column;gap:11px">
+    <div style="height:5px;width:44px;background:rgba(21,22,26,.18);border-radius:3px;margin:4px auto 6px"></div>
+    <div style="display:flex;flex-direction:column;gap:2px"><div style="font:800 18px 'Plus Jakarta Sans',sans-serif;color:#15161a">Hesap ayarları</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Deniz Arslan · pro.app/deniz-arslan</div></div>
+    
+    <div style="display:flex;flex-direction:column;background:#fff;border-radius:18px;border:1px solid rgba(0,0,0,.08);overflow:hidden">
+      <div onClick="{{ go.help }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:15px 16px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Yardım ve destek</span><span style="color:rgba(21,22,26,.3);font-size:16px">›</span></div>
+      <div onClick="{{ go.logoutConfirm }}" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:15px 16px"><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#c4483c">Çıkış yap</span><span style="color:rgba(196,72,60,.4);font-size:16px">›</span></div>
+    </div>
+    <div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a;margin-top:2px">Kapat</div>
+    <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:6px auto 9px;opacity:.85"></div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showAccountEdit }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 22px 8px"><span onClick="{{ back }}" style="cursor:pointer;font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Vazgeç</span><span style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Hesabı düzenle</span><span onClick="{{ back }}" style="cursor:pointer;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Kaydet</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:8px 0 12px"><div style="width:70px;height:70px;border-radius:22px;background:#e3e8f2;display:flex;align-items:center;justify-content:center;font:800 28px 'Plus Jakarta Sans',sans-serif;color:#3a4a6b;position:relative">DA<div style="position:absolute;bottom:-6px;right:-6px;width:30px;height:30px;border-radius:11px;background:#2f4bd1;border:3px solid #fbfaf8;display:flex;align-items:center;justify-content:center;color:#fff;font:700 14px 'Plus Jakarta Sans',sans-serif">+</div></div><span style="font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Fotoğrafı değiştir</span></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:9px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ad</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">Deniz</div></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Soyad</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">Arslan</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ünvan / iş kolu</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">Matematik öğretmeni<span style="color:rgba(21,22,26,.35)">›</span></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Telefon</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>+90 532 440 16 28</span><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">DOĞRULANDI</span></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Web sitesi</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">denizarslan.com</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Hakkımda</span><div style="height:64px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);padding:11px 14px;font:400 13px/1.45 'Plus Jakarta Sans',sans-serif;color:#15161a;text-wrap:pretty">10 yıldır lise ve üniversite hazırlık matematik dersleri veriyorum.</div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Profil herkese açık</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">QR ile gelenler randevu alabilir</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    <div style="display:flex;flex-direction:column;gap:9px;padding:6px 0 14px">
+      <div onClick="{{ go.logoutConfirm }}" style="cursor:pointer;height:52px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çıkış yap</div>
+      <div onClick="{{ go.deleteAccount }}" style="cursor:pointer;height:52px;border-radius:15px;background:#fff;border:1px solid rgba(196,72,60,.35);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#c4483c">Hesabı sil</div>
+      <div style="font:500 11.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);text-align:center">Hesabı silmek tüm ders geçmişini ve ödeme kayıtlarını kaldırır.</div>
+    </div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showAccountEditEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 22px 8px"><span onClick="{{ back }}" style="cursor:pointer;font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Vazgeç</span><span style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Hesabı düzenle</span><span onClick="{{ back }}" style="cursor:pointer;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Kaydet</span></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:8px 0 12px"><div style="width:70px;height:70px;border-radius:22px;background:repeating-linear-gradient(135deg,rgba(0,0,0,.05) 0 6px,transparent 6px 12px);border:1px dashed rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;font:600 9px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.4);position:relative">foto<div style="position:absolute;bottom:-6px;right:-6px;width:30px;height:30px;border-radius:11px;background:#2f4bd1;border:3px solid #fbfaf8;display:flex;align-items:center;justify-content:center;color:#fff;font:700 14px 'Plus Jakarta Sans',sans-serif">+</div></div><span style="font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Fotoğraf ekle</span></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:9px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ad</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">Deniz</div></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Soyad</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">Arslan</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ünvan / iş kolu</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">Matematik öğretmeni<span style="color:rgba(21,22,26,.35)">›</span></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Telefon</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>+90 532 440 16 28</span><span style="font:700 10.5px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">DOĞRULANDI</span></div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Web sitesi</span><div style="height:50px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">İsteğe bağlı</div></div>
+    <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Hakkımda</span><div style="height:64px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);padding:11px 14px;font:400 13px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3);text-wrap:pretty">Öğrencilerin profilinde göreceği kısa tanıtım</div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Profil herkese açık</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">QR ile gelenler randevu alabilir</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    <div style="display:flex;flex-direction:column;gap:9px;padding:6px 0 14px">
+      <div onClick="{{ go.logoutConfirm }}" style="cursor:pointer;height:52px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çıkış yap</div>
+      <div onClick="{{ go.deleteAccount }}" style="cursor:pointer;height:52px;border-radius:15px;background:#fff;border:1px solid rgba(196,72,60,.35);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#c4483c">Hesabı sil</div>
+    </div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showLogoutConfirm }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative;justify-content:flex-end">
+  <div style="position:absolute;inset:0;background:#fbfaf8;overflow:hidden;display:flex;flex-direction:column;pointer-events:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+    <div style="padding:12px 22px 6px;display:flex;justify-content:space-between;align-items:center"><div style="font:800 24px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Hesabım</div><div style="width:36px;height:36px;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;gap:2px"><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i><i style="width:3px;height:3px;border-radius:50%;background:#15161a;display:block"></i></div></div>
+    <div style="flex:1;overflow:hidden;padding:6px 22px 0;display:flex;flex-direction:column;gap:9px">
+      <div style="display:flex;align-items:center;gap:13px;padding:14px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08)">
+        <div style="width:52px;height:52px;border-radius:16px;background:#e3e8f2;display:flex;align-items:center;justify-content:center;font:800 18px 'Plus Jakarta Sans',sans-serif;color:#3a4a6b">DA</div>
+        <div style="flex:1"><div style="font:700 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Deniz Arslan</div><div style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Özel ders · İstanbul</div></div>
+        <span style="padding:6px 10px;border-radius:9px;background:rgba(47,75,209,.1);color:#2f4bd1;font:700 10.5px 'Plus Jakarta Sans',sans-serif">PRO</span>
+      </div>
+      <div style="padding:15px;border-radius:18px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme takibi</span><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Eylül ›</span></div>
+        <div style="display:flex;align-items:stretch;gap:14px">
+          <div style="flex:1"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">₺12.400</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">bu ay tahsil edilen</div></div>
+          <div style="width:1px;background:rgba(0,0,0,.08)"></div>
+          <div style="flex:1"><div style="font:800 22px 'Plus Jakarta Sans',sans-serif;color:#c4483c;letter-spacing:-0.02em">₺1.500</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">bekleyen · 1 kişi</div></div>
+        </div>
+      </div>
+      <div style="padding:15px;border-radius:20px;background:#15161a;display:flex;flex-direction:column;align-items:center;gap:11px">
+        <div style="width:104px;height:104px;border-radius:14px;background:#fff;padding:8px;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(7,1fr);gap:3px">
+          <i style="grid-column:1/3;grid-row:1/3;background:#15161a;border-radius:4px;display:block"></i><i style="grid-column:6/8;grid-row:1/3;background:#15161a;border-radius:4px;display:block"></i><i style="grid-column:1/3;grid-row:6/8;background:#15161a;border-radius:4px;display:block"></i>
+          <i style="grid-column:4;grid-row:1;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:2;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:4;grid-row:3;background:#15161a;border-radius:2px;display:block"></i>
+          <i style="grid-column:3;grid-row:4;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:4;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:7;grid-row:4;background:#15161a;border-radius:2px;display:block"></i>
+          <i style="grid-column:4;grid-row:5;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:6;grid-row:5;background:#15161a;border-radius:2px;display:block"></i><i style="grid-column:5;grid-row:6;background:#15161a;border-radius:2px;display:block"></i>
+        </div>
+        <div style="font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.75)">pro.app/deniz-arslan</div>
+      </div>
+    </div>
+  </div>
+  <div onClick="{{ back }}" style="cursor:pointer;position:absolute;inset:0;background:rgba(21,22,26,.45)"></div>
+  <div style="position:relative;background:#fbfaf8;border-radius:26px 26px 0 0;padding:10px 22px 0;box-shadow:0 -14px 40px rgba(0,0,0,.16);display:flex;flex-direction:column;gap:12px">
+    <div style="height:5px;width:44px;background:rgba(21,22,26,.18);border-radius:3px;margin:4px auto 6px"></div>
+    <div style="display:flex;flex-direction:column;gap:5px"><div style="font:800 19px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çıkış yapılsın mı?</div><div style="font:500 12.5px/1.55 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);text-wrap:pretty">Takvimin ve kişileri sunucuda kalır. Tekrar giriş yaptığında her şey yerinde olur.</div></div>
+    <div style="padding:13px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:11px"><div style="width:38px;height:38px;border-radius:12px;background:#e3e8f2;display:flex;align-items:center;justify-content:center;font:800 13px 'Plus Jakarta Sans',sans-serif;color:#3a4a6b">DA</div><div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">deniz@ornek.com</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Bu cihazda oturum açık</div></div></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çevrimdışı verileri sil</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Bu telefondaki önbelleği temizler</div></div><div style="width:46px;height:28px;border-radius:14px;background:rgba(0,0,0,.14);display:flex;align-items:center;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)"></div></div></div>
+    <div style="display:flex;flex-direction:column;gap:10px;padding-top:2px">
+      <div onClick="{{ go.loggedOut }}" style="cursor:pointer;height:54px;border-radius:15px;background:#c4483c;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif">Çıkış yap</div>
+      <div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Vazgeç</div>
+    </div>
+    <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:6px auto 9px;opacity:.85"></div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showLoggedOut }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="padding:14px 22px 0"><div style="padding:13px 15px;border-radius:16px;background:#15161a;display:flex;align-items:center;gap:11px"><div style="width:26px;height:26px;border-radius:50%;background:#2f8f5b;display:flex;align-items:center;justify-content:center;color:#fff;font:700 13px 'Plus Jakarta Sans',sans-serif">✓</div><div style="flex:1;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#fff">Çıkış yapıldı</div><span onClick="{{ go.account }}" style="cursor:pointer;font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#a8b8ff">Geri dön</span></div></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:0 26px">
+    <div style="display:flex;flex-direction:column;gap:6px"><div style="font:800 27px/1.2 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Tekrar hoş geldin</div><div style="font:500 13px/1.55 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Takvimin ve kişileri olduğu gibi duruyor.</div></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">E-posta</span><div style="height:52px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">deniz@ornek.com</div></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Şifre</span><div style="height:52px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font:500 15px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)"><span>••••••••</span><span style="font:600 12px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Göster</span></div></div>
+    </div>
+    <div onClick="{{ go.account }}" style="cursor:pointer;height:54px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif">Giriş yap</div>
+    <div style="height:50px;border-radius:15px;background:#15161a;color:#fff;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif"> Apple ile devam et</div>
+    <div style="text-align:center;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Şifremi unuttum</div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showDeleteAccount }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 12px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Hesabı sil</div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:15px;border-radius:18px;background:rgba(196,72,60,.07);border:1px solid rgba(196,72,60,.25)"><div style="font:800 15px 'Plus Jakarta Sans',sans-serif;color:#a03a30">Bu işlem geri alınamaz</div><div style="margin-top:5px;font:500 12.5px/1.55 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.65);text-wrap:pretty">Silme talebinden 30 gün sonra tüm veriler kalıcı olarak kaldırılır. Bu süre içinde giriş yaparak iptal edebilirsin.</div></div>
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:10px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Silinecekler</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.7)">Kişiler</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">18</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 0 11px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.7)">Geçmiş ders kaydı</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">246</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.7)">Ödeme kaydı</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">₺148.200</span></div>
+    </div>
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(196,72,60,.3);display:flex;flex-direction:column;gap:9px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#a03a30">Önce çözülmesi gerekenler</div>
+      <div style="display:flex;align-items:center;gap:10px"><div style="width:7px;height:7px;border-radius:50%;background:#c4483c;flex:none"></div><span style="font:500 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.7)">₺1.500 bekleyen tahsilat · Mert Doğan</span></div>
+      <div style="display:flex;align-items:center;gap:10px"><div style="width:7px;height:7px;border-radius:50%;background:#c4483c;flex:none"></div><span style="font:500 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.7)">4 planlı ders iptal edilecek ve öğrencilere bildirilecek</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Onaylamak için SİL yaz</span><div style="height:52px;border-radius:14px;background:#fff;border:1.5px solid #c4483c;display:flex;align-items:center;padding:0 14px;font:700 16px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:.08em">SİL</div></div>
+    <div style="display:flex;align-items:center;gap:11px;padding:13px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="width:22px;height:22px;border-radius:7px;background:#c4483c;display:flex;align-items:center;justify-content:center;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif;flex:none">✓</div><span style="font:500 12.5px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.7)">Kayıtlarımın kalıcı olarak silineceğini anlıyorum.</span></div>
+  </div>
+  <div style="padding:12px 22px 14px;display:flex;flex-direction:column;gap:10px">
+    <div onClick="{{ go.accountDeleted }}" style="cursor:pointer;height:54px;border-radius:15px;background:#c4483c;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif">Hesabı kalıcı olarak sil</div>
+    <div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Vazgeç</div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showAccountDeleted }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;padding:0 30px">
+    <div style="width:58px;height:58px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 20px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">↺</div>
+    <div style="text-align:center;display:flex;flex-direction:column;gap:6px">
+      <div style="font:800 19px 'Plus Jakarta Sans',sans-serif;color:#15161a">Hesabın silinmek üzere</div>
+      <div style="font:500 12.5px/1.55 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);text-wrap:pretty">14 Ekim 2026'ya kadar giriş yaparsan silme iptal edilir ve her şey geri gelir.</div>
+    </div>
+    <div style="align-self:stretch;padding:14px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kalan süre</span><span style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">30 gün</span></div>
+      <div style="height:4px;border-radius:2px;background:rgba(0,0,0,.08)"><div style="width:100%;height:100%;background:#c4483c;border-radius:2px"></div></div>
+      <div style="font:500 11.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Öğrencilerine profilinin kapandığı bildirildi. Bekleyen ₺1.500 tahsilat kaydı arşive alındı.</div>
+    </div>
+    <div onClick="{{ go.account }}" style="cursor:pointer;align-self:stretch;height:54px;border-radius:15px;background:#2f4bd1;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif">Silmeyi iptal et</div>
+    <div onClick="{{ go.loggedOut }}" style="cursor:pointer;font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Giriş ekranına dön</div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPricing }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 14px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Paket tercihleri</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Fiyat, süre, ödeme ve kurallar her pakette</div></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Paketler</div><span style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Yıldıza dokun → temel paket</span></div>
+      <span style="font:700 10px 'Plus Jakarta Sans',sans-serif;letter-spacing:.07em;color:rgba(21,22,26,.4)">TEKİL DERS</span>
+      <div onClick="{{ go.packageSingle }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:rgba(47,75,209,.05);border:1.5px solid #2f4bd1">
+        <div style="width:32px;height:32px;border-radius:50%;background:#2f4bd1;display:flex;align-items:center;justify-content:center;flex:none"><span style="font-size:16px;line-height:1;color:#fff">★</span></div>
+        <div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:6px"><span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Tek ders · 60 dk</span><span style="padding:3px 6px;border-radius:6px;background:rgba(47,75,209,.12);color:#2f4bd1;font:700 9.5px 'Plus Jakarta Sans',sans-serif;letter-spacing:.05em">TEMEL</span></div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">+15 / +15 dk mola · takvimde 90 dk</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">Nakit, Havale · 2 sa pencere</div></div>
+        <span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">₺750</span>
+      </div>
+      <div onClick="{{ go.packageSingle }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09)">
+        <div style="width:32px;height:32px;box-sizing:border-box;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex:none"><span style="font-size:16px;line-height:1;color:rgba(21,22,26,.28)">☆</span></div>
+        <div style="flex:1;min-width:0"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Tek ders · 90 dk</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">Mola yok · takvimde 90 dk</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">Nakit · 6 sa pencere</div></div>
+        <span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">₺1.125</span>
+      </div>
+      <span style="font:700 10px 'Plus Jakarta Sans',sans-serif;letter-spacing:.07em;color:rgba(21,22,26,.4);margin-top:2px">ÇOKLU PAKET</span>
+      <div onClick="{{ go.packageMulti }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09)">
+        <div style="width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;flex:none"><span style="font-size:15px;line-height:1;color:rgba(21,22,26,.25)">☆</span></div>
+        <div style="flex:1;min-width:0"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">8 derslik paket</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">8 seans × 60 dk · ders başı ₺675</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">Havale, Nakit · peşin · 2 sa pencere</div></div>
+        <span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">₺5.400</span>
+      </div>
+      <div onClick="{{ go.packageMulti }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09)">
+        <div style="width:30px;height:30px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;flex:none"><span style="font-size:15px;line-height:1;color:rgba(21,22,26,.25)">☆</span></div>
+        <div style="flex:1;min-width:0"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">12 derslik paket</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">12 seans × 90 dk · ders başı ₺950</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">Kredi kartı · 2 taksit · 6 sa pencere</div></div>
+        <span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">₺11.400</span>
+      </div>
+      <div onClick="{{ go.packageMulti }}" style="cursor:pointer;padding:11px 0;text-align:center;border-radius:12px;border:1px dashed rgba(47,75,209,.4);font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1;margin-top:2px">+ Paket ekle</div>
+      <div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);text-wrap:pretty">Bir paketin solundaki yıldıza dokun: o paket temel olur, profilinde ilk sırada çıkar ve yeni derslerde varsayılan seçilir. Yalnız biri yıldızlı olabilir.</div>
+    </div>
+    <div style="padding:13px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.2);font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);text-wrap:pretty">Paketi değiştirmen devam eden dersleri etkilemez; yeni rezervasyonlarda geçerli olur. Fiyat güncellenince ilgili kişilere bildirim gider.</div>
+  </div>
+  <div style="padding:14px 22px"><div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Tercihleri kaydet</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPricingEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 14px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Paket tercihleri</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Henüz paket oluşturmadın</div></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:13px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.2)"><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2c3d8f">Her şey pakette</div><div style="margin-top:4px;font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Bir pakette kaç seans, her seans kaç dakika ve molası var mı, hangi ödeme yöntemleri geçerli olacak: hepsini sen belirlersin. Tek seanslık paket = tekil ders.</div></div>
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Paketler</div>
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;padding:12px 10px;border-radius:14px;background:#fbfaf8;border:1px dashed rgba(47,75,209,.4);display:flex;flex-direction:column;gap:3px"><span style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Tekil ders</span><span style="font:500 11px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">1 seans</span></div>
+        <div style="flex:1;padding:12px 10px;border-radius:14px;background:#fbfaf8;border:1px dashed rgba(47,75,209,.4);display:flex;flex-direction:column;gap:3px"><span style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Çoklu paket</span><span style="font:500 11px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">4, 8, 12 seans</span></div>
+      </div>
+      <div style="font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">İlk paketini oluştur; yıldız verdiğin paket varsayılan olur.</div>
+      <div onClick="{{ go.packageMulti }}" style="cursor:pointer;padding:11px 0;text-align:center;border-radius:12px;border:1px dashed rgba(47,75,209,.4);font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">+ İlk paketi ekle</div>
+    </div>
+  </div>
+  <div style="padding:14px 22px"><div style="height:52px;border-radius:15px;background:rgba(47,75,209,.35);display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Fiyatları kaydet</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showRules }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 14px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Ders kuralları</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Paketi olmayan dersler için varsayılan</div></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:13px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Rezervasyon penceresi</div>
+      <div style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Ders başlangıcından en geç kaç saat önce rezervasyon yapılabilir?</div>
+      <div style="display:flex;gap:7px">
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">1 sa</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#2f4bd1;color:#fff;font:700 13px 'Plus Jakarta Sans',sans-serif">2 sa</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">6 sa</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fff;border:1px solid rgba(0,0,0,.1);font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">24 sa</span>
+      </div>
+    </div>
+    <div style="padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:13px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ücretsiz iptal süresi</div>
+      <div style="display:flex;align-items:center;gap:12px"><div style="flex:1;height:4px;border-radius:2px;background:rgba(0,0,0,.08);position:relative"><div style="width:40%;height:100%;background:#2f4bd1;border-radius:2px"></div><div style="position:absolute;left:40%;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.06)"></div></div><span style="font:800 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">4 sa</span></div>
+      <div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Sonrasındaki iptallerde ders ücreti tahsil edilir.</div>
+    </div>
+    <div onClick="{{ go.pricing }}" style="cursor:pointer;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:11px">
+      <div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Pakete özel kurallar</div><div style="font:500 11.5px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px;text-wrap:pretty">Paketi olan derslerde paketin kendi rezervasyon penceresi ve iptal süresi geçerli. Fiyatlandırma › paket içinden düzenlenir.</div></div>
+      <span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3);flex:none">›</span>
+    </div>
+    <div onClick="{{ go.calendarPrefs }}" style="cursor:pointer;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:11px">
+      <div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çalışma saatleri ve molalar</div><div style="font:500 11.5px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px;text-wrap:pretty">10:00 – 18:00 · 2 düzenli mola · başlama kademesi tam saat. Takvim ayarlarım'dan düzenlenir.</div></div>
+      <span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3);flex:none">›</span>
+    </div>
+    <div style="padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kontrol</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Takvimine ne otomatik girsin, neyi sen onaylayasın</div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Talepleri elle onayla</div><div style="font:500 11.5px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Kapalıysa müsait saatler doğrudan rezerve edilir</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+      <div style="height:1px;background:rgba(0,0,0,.07)"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çakışma ve mola ihlalini uyar</div><div style="font:500 11.5px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Ders eklerken üst üste binen saatlerde uyarı çıkar</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Apple Takvim senkronu</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Son senkron: 2 dk önce</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+  </div>
+  <div style="padding:14px 22px"><div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Kuralları kaydet</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showRulesEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 14px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Ders kuralları</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Varsayılan kurallar geçerli</div></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:13px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.2)"><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2c3d8f">Şimdilik varsayılanları kullanıyorsun</div><div style="margin-top:4px;font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">2 saat rezervasyon penceresi ve 4 saat ücretsiz iptal. İlk derslerinden sonra kendine göre ayarlarsın.</div></div>
+    <div style="padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:13px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Rezervasyon penceresi</div>
+      <div style="display:flex;gap:7px">
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fff;border:1px dashed rgba(0,0,0,.14);font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.35)">1 sa</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fff;border:1.5px solid rgba(47,75,209,.45);font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">2 sa</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fff;border:1px dashed rgba(0,0,0,.14);font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.35)">6 sa</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fff;border:1px dashed rgba(0,0,0,.14);font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.35)">24 sa</span>
+      </div>
+      <div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">varsayılan</div>
+    </div>
+    <div style="padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:13px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ücretsiz iptal süresi</div>
+      <div style="display:flex;align-items:center;gap:12px"><div style="flex:1;height:4px;border-radius:2px;background:rgba(0,0,0,.08);position:relative"><div style="width:40%;height:100%;background:rgba(47,75,209,.35);border-radius:2px"></div><div style="position:absolute;left:40%;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15);border:1px dashed rgba(0,0,0,.18)"></div></div><span style="font:800 15px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4)">4 sa</span></div>
+    </div>
+    <div style="padding:12px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Paket kuralları</div>
+      <div style="font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Paket oluşturduğunda rezervasyon penceresi ve iptal süresini pakete özel ayarlarsın.</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:14px;background:#fff;border:1px dashed rgba(0,0,0,.16)"><div style="width:18px;height:18px;border-radius:50%;border:2px dashed rgba(21,22,26,.25)"></div><div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Tam zamanlı</div></div></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:14px;background:#fff;border:1px dashed rgba(0,0,0,.16)"><div style="width:18px;height:18px;border-radius:50%;border:2px dashed rgba(21,22,26,.25)"></div><div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Aylık paket</div></div></div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Apple Takvim senkronu</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Bağlı değil</div></div><div style="width:46px;height:28px;border-radius:14px;background:rgba(0,0,0,.14);display:flex;align-items:center;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)"></div></div></div>
+  </div>
+  <div style="padding:14px 22px"><div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Varsayılanlarla devam et</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showCalendarPrefs }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 14px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Takvim ayarlarım</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Haftalık çalışma saatleri ve molalar</div></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px"><div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Her gün için varsayılan</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Tek tek değiştirmeden tüm haftaya uygulanır</div></div></div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Başlangıç</span><div style="height:50px;border-radius:14px;background:#fbfaf8;border:1.5px solid #2f4bd1;display:flex;align-items:center;padding:0 14px;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">10:00</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Bitiş</span><div style="height:50px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:600 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">18:00</div></div>
+      </div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Düzenli molalar</div><div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Her hafta tekrar eden molalar. Bir günde istemediğinde o günün ayarından inaktif edersin.</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09)"><div style="flex:1;min-width:0"><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Öğle molası</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">12:30 – 13:30 · Pzt, Sal, Çar, Per, Cum, Cmt</div></div><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3);flex:none">›</span></div>
+        <div style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09)"><div style="flex:1;min-width:0"><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Akşam arası</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">17:00 – 17:30 · Sal, Per, Cmt</div></div><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3);flex:none">›</span></div>
+        <div onClick="{{ go.breakNew }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px dashed rgba(0,0,0,.16)"><div style="width:30px;height:30px;border-radius:10px;background:rgba(47,75,209,.1);display:flex;align-items:center;justify-content:center;font:700 16px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1;flex:none">+</div><div style="flex:1;font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Düzenli mola ekle</div></div>
+      </div>
+    </div>
+
+    <div style="padding:6px 14px 8px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0 4px"><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Günler</span><span style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">özel ayar için dokun</span></div>
+      <div onClick="{{ go.dayRule }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid rgba(0,0,0,.06)"><span style="width:74px;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">Pazartesi</span><span style="flex:1;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">10:00 – 18:00</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">›</span></div>
+      <div onClick="{{ go.dayRule }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid rgba(0,0,0,.06)"><span style="width:74px;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">Salı</span><span style="flex:1;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">10:00 – 18:00</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">›</span></div>
+      <div onClick="{{ go.dayRule }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid rgba(0,0,0,.06)"><span style="width:74px;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">Çarşamba</span><span style="flex:1;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">10:00 – 18:00</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">›</span></div>
+      <div onClick="{{ go.dayRule }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid rgba(0,0,0,.06)"><span style="width:74px;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">Perşembe</span><span style="flex:1;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">10:00 – 18:00</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">›</span></div>
+      <div onClick="{{ go.dayRule }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid rgba(0,0,0,.06)"><span style="width:74px;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">Cuma</span><span style="flex:1;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">10:00 – 18:00</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">›</span></div>
+      <div onClick="{{ go.dayRule }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid rgba(0,0,0,.06);background:rgba(47,75,209,.04);margin:0 -14px;padding-left:14px;padding-right:14px"><span style="width:74px;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a;flex:none">Cumartesi</span><div style="flex:1;min-width:0"><div style="font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">10:00 – 18:00</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:5px"><span style="padding:3px 7px;border-radius:7px;background:rgba(47,75,209,.12);color:#2f4bd1;font:700 10px 'Plus Jakarta Sans',sans-serif">10 geçe başlar</span><span style="padding:3px 7px;border-radius:7px;background:rgba(47,75,209,.12);color:#2f4bd1;font:700 10px 'Plus Jakarta Sans',sans-serif">10 dk ders arası</span><span style="padding:3px 7px;border-radius:7px;background:rgba(21,22,26,.07);color:rgba(21,22,26,.6);font:700 10px 'Plus Jakarta Sans',sans-serif">akşam arası inaktif</span></div></div><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">›</span></div>
+      <div onClick="{{ go.dayRule }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px 0;border-top:1px solid rgba(0,0,0,.06)"><span style="width:74px;font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4);flex:none">Pazar</span><span style="flex:1;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.4)">Kapalı</span><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">›</span></div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders başlama kademesi</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Kişiler dersi hangi dakikalarda başlatabilir</div></div>
+      <div style="display:flex;gap:7px">
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#2f4bd1;color:#fff;font:700 12.5px 'Plus Jakarta Sans',sans-serif">Tam saat</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">10 geçe</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">30 dk</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">15 dk</span>
+      </div>
+      <div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Cumartesi bu ayarı ezip 10 geçe başlıyor.</div>
+      <div style="height:1px;background:rgba(0,0,0,.07)"></div>
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders arası mola</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Bir dersin bitişiyle sonraki ders arasında zorunlu boşluk</div></div>
+      <div style="display:flex;gap:7px">
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Yok</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">10 dk</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#2f4bd1;color:#fff;font:700 12.5px 'Plus Jakarta Sans',sans-serif">15 dk</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">30 dk</span>
+      </div>
+    </div>
+
+    
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Apple Takvim senkronu</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Son senkron: 2 dk önce</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    <div style="height:4px"></div>
+  </div>
+  <div style="padding:12px 22px 6px"><div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Takvimi kaydet</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:6px auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showBreakNew }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 22px 12px"><span onClick="{{ back }}" style="cursor:pointer;font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Vazgeç</span><span style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Düzenli mola</span><span onClick="{{ back }}" style="cursor:pointer;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Kaydet</span></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:12px 14px;border-radius:14px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.18);font:500 11.5px/1.5 'Plus Jakarta Sans',sans-serif;color:#2c3d8f;text-wrap:pretty">Buradaki mola her hafta tekrar eder. Tek bir tarih için mola koyacaksan takvimdeki + butonunu kullan.</div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Mola adı</span><div style="padding:12px;border-radius:13px;background:#fbfaf8;border:1.5px solid #2f4bd1;font:600 14px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.35)">Kahve arası</div></div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Başlangıç</span><div style="height:50px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">15:00</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Bitiş</span><div style="height:50px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">15:30</div></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        
+        
+        
+        
+      </div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Hangi günler</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Seçtiğin günlerde her hafta tekrar eder</div></div>
+      <div style="display:flex;gap:5px">
+        <span style="flex:1;text-align:center;padding:12px 0;border-radius:12px;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">Pzt</span>
+        <span style="flex:1;text-align:center;padding:12px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Sal</span>
+        <span style="flex:1;text-align:center;padding:12px 0;border-radius:12px;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">Çar</span>
+        <span style="flex:1;text-align:center;padding:12px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Per</span>
+        <span style="flex:1;text-align:center;padding:12px 0;border-radius:12px;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">Cum</span>
+        <span style="flex:1;text-align:center;padding:12px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Cmt</span>
+        <span style="flex:1;text-align:center;padding:12px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.35)">Paz</span>
+      </div>
+      <div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Pazar kapalı olduğu için seçilemez. Bir günde istemediğinde o günün ayarından inaktif edebilirsin.</div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mola saatinde rezervasyon alma</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Kişiler bu aralığı takvimde görmez</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+      <div style="height:1px;background:rgba(0,0,0,.07)"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mevcut dersleri koru</div><div style="font:500 11.5px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Bu aralıkta zaten 1 ders var; kapatırsan iptal talebi gönderilir</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    </div>
+
+    
+    <div style="height:4px"></div>
+  </div>
+  <div style="padding:10px 22px 6px"><div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Molayı ekle</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showDayRule }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 22px 10px"><span onClick="{{ back }}" style="cursor:pointer;font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">‹ Günler</span><div style="text-align:center"><div style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Cumartesi</div><div style="font:500 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">her cumartesi geçerli</div></div><span onClick="{{ back }}" style="cursor:pointer;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Kaydet</span></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bu gün çalışıyorum</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Kapatırsan cumartesileri rezervasyon alınmaz</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çalışma saatleri</div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Başlangıç</span><div style="height:50px;border-radius:14px;background:#fbfaf8;border:1.5px solid #2f4bd1;display:flex;align-items:center;padding:0 14px;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">10:00</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Bitiş</span><div style="height:50px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;padding:0 14px;font:600 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">18:00</div></div>
+      </div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders başlama dakikası</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Cumartesi dersleri hangi dakikada başlar</div></div>
+      <div style="display:flex;gap:7px">
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Tam saat</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#2f4bd1;color:#fff;font:700 12.5px 'Plus Jakarta Sans',sans-serif">10 geçe</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Çeyrek</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Buçuk</span>
+      </div>
+      <div style="height:1px;background:rgba(0,0,0,.07)"></div>
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders arası mola</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Cumartesi dersleri arasında bırakılan boşluk</div></div>
+      <div style="display:flex;gap:7px">
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Yok</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#2f4bd1;color:#fff;font:700 12.5px 'Plus Jakarta Sans',sans-serif">10 dk</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">15 dk</span>
+        <span style="flex:1;text-align:center;padding:11px 0;border-radius:12px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">30 dk</span>
+      </div>
+      <div style="padding:12px;border-radius:14px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.18);display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2c3d8f">Cumartesi ders saatleri</span><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">60 dk ders + 10 dk ara</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="padding:7px 10px;border-radius:10px;background:#fff;border:1px solid rgba(47,75,209,.25);font:700 11.5px ui-monospace,Menlo,monospace;color:#15161a">10:10 – 11:10</span>
+          <span style="padding:7px 10px;border-radius:10px;background:#fff;border:1px solid rgba(47,75,209,.25);font:700 11.5px ui-monospace,Menlo,monospace;color:#15161a">11:20 – 12:20</span>
+          <span style="padding:7px 10px;border-radius:10px;background:repeating-linear-gradient(135deg,rgba(21,22,26,.12) 0 4px,rgba(21,22,26,.04) 4px 8px);border:1px solid rgba(0,0,0,.12);font:700 11.5px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.55)">12:30 mola</span>
+          <span style="padding:7px 10px;border-radius:10px;background:#fff;border:1px solid rgba(47,75,209,.25);font:700 11.5px ui-monospace,Menlo,monospace;color:#15161a">13:40 – 14:40</span>
+          <span style="padding:7px 10px;border-radius:10px;background:#fff;border:1px solid rgba(47,75,209,.25);font:700 11.5px ui-monospace,Menlo,monospace;color:#15161a">14:50 – 15:50</span>
+        </div>
+        <div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);text-wrap:pretty">İlk ders 10 geçe başlar, aralara 10 dakika girer, öğle molası atlanır.</div>
+      </div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bu günün molaları</div><div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Düzenli molalar burada görünür; cumartesi için inaktif edebilirsin</div></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09)"><div style="width:30px;height:30px;border-radius:10px;background:repeating-linear-gradient(135deg,rgba(21,22,26,.14) 0 4px,rgba(21,22,26,.05) 4px 8px);flex:none"></div><div style="flex:1;min-width:0"><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Öğle molası</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">12:30 – 13:30 · düzenli</div></div><span style="cursor:pointer;padding:7px 11px;border-radius:10px;background:#fff;border:1px solid rgba(0,0,0,.12);font:700 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);flex:none">İnaktif et</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);opacity:.55"><div style="width:30px;height:30px;border-radius:10px;background:rgba(21,22,26,.07);flex:none"></div><div style="flex:1;min-width:0"><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a;text-decoration:line-through">Akşam arası</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">17:00 – 17:30 · cumartesi inaktif</div></div><span style="cursor:pointer;padding:7px 11px;border-radius:10px;background:#fff;border:1px solid rgba(47,75,209,.35);font:700 11px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1;flex:none">Geri al</span></div>
+      <div onClick="{{ go.breakNew }}" style="cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px;border-radius:14px;background:#fbfaf8;border:1px dashed rgba(0,0,0,.16)"><div style="width:30px;height:30px;border-radius:10px;background:rgba(47,75,209,.1);display:flex;align-items:center;justify-content:center;font:700 16px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1;flex:none">+</div><div style="flex:1;font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Cumartesiye özel mola ekle</div></div>
+    </div>
+
+    <div style="padding:13px 15px;border-radius:16px;background:#fff;border:1px dashed rgba(0,0,0,.16);font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);text-wrap:pretty">Tek bir tarihi kapatmak istiyorsan takvimden günlük izin ekle. Buradaki ayar her cumartesi için geçerli.</div>
+    <div style="display:flex;align-items:center;justify-content:center;padding:12px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);cursor:pointer">Bu günü varsayılana döndür</div>
+    <div style="height:4px"></div>
+  </div>
+  <div style="padding:10px 22px 6px"><div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Cumartesiyi kaydet</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showNotifPrefs }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 14px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Bildirim ayarları</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Hangi durumda haber verilsin?</div></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:6px 14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Rezervasyon talebi</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Yeni talep geldiğinde anında</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders hatırlatması</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Ders başlamadan 1 saat önce</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme hareketi</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Tahsilat ve gecikme uyarıları</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">İptal ve erteleme</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Öğrenci saat değiştirdiğinde</div></div><div style="width:46px;height:28px;border-radius:14px;background:rgba(0,0,0,.14);display:flex;align-items:center;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)"></div></div></div>
+    </div>
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Sessiz saatler</div>
+      <div style="display:flex;gap:9px">
+        <div style="flex:1;height:50px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:space-between;padding:0 13px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Başlangıç</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">22:00</span></div>
+        <div style="flex:1;height:50px;border-radius:14px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:space-between;padding:0 13px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Bitiş</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">08:00</span></div>
+      </div>
+      <div style="font:500 11.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Bu aralıkta yalnızca iptal bildirimleri gelir.</div>
+    </div>
+    <div style="padding:6px 14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">E-posta özeti</span><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Haftalık ›</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0"><span style="font:600 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">SMS ile hatırlatma</span><span style="font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Kapalı ›</span></div>
+    </div>
+  </div>
+  <div style="padding:14px 22px"><div onClick="{{ back }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Kaydet</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPayments }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 10px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div style="flex:1"><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Ödemeler</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Tahsilat ve bekleyen tutarlar</div></div></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 22px 10px">
+    <div style="cursor:pointer;width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div>
+    <span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Eylül 2026</span>
+    <div style="cursor:pointer;width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">›</div>
+  </div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="padding:18px;border-radius:20px;background:#15161a;color:#fff">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.6)">Bu ay tahsil edilen</span>
+        <div style="font:800 34px 'Plus Jakarta Sans',sans-serif;letter-spacing:-0.03em">₺12.400</div>
+        <div style="display:flex;gap:16px;margin-top:10px">
+          <div><div style="font:700 15px 'Plus Jakarta Sans',sans-serif;color:#ffb9b1">₺1.500</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.55);margin-top:2px">bekleyen</div></div>
+          <div><div style="font:700 15px 'Plus Jakarta Sans',sans-serif;color:#fff">21</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.55);margin-top:2px">ders</div></div>
+          <div><div style="font:700 15px 'Plus Jakarta Sans',sans-serif;color:#fff">₺590</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.55);margin-top:2px">ders ortalaması</div></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;padding:4px;border-radius:13px;background:rgba(0,0,0,.05)">
+      <div style="flex:1;text-align:center;padding:9px;border-radius:10px;background:#fff;font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#15161a;box-shadow:0 1px 3px rgba(0,0,0,.07)">Bekleyen</div>
+      <div style="flex:1;text-align:center;padding:9px;border-radius:10px;font:600 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Tahsil edilen</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;padding:13px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="width:38px;height:38px;border-radius:12px;background:#f6e2df;display:flex;align-items:center;justify-content:center;font:800 13px 'Plus Jakarta Sans',sans-serif;color:#93382e">MD</div><div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mert Doğan</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">3 ders · 6 gün gecikmiş</div></div><span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#c4483c">-₺1.500</span></div>
+    <div style="font:700 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);padding:6px 2px 0">EYLÜL TAHSİLATI</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:12px;padding:13px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="width:38px;height:38px;border-radius:12px;background:#dfeae4;display:flex;align-items:center;justify-content:center;font:800 13px 'Plus Jakarta Sans',sans-serif;color:#2f6b4c">SA</div><div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Selin Arı</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">10 Eyl · Aylık paket</div></div><span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">₺5.400</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:13px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="width:38px;height:38px;border-radius:12px;background:#e6e3f5;display:flex;align-items:center;justify-content:center;font:800 13px 'Plus Jakarta Sans',sans-serif;color:#4a3f96">EK</div><div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Elif Kaya</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">8 Eyl · 4 ders</div></div><span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">₺4.500</span></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:13px;border-radius:15px;background:#fff;border:1px solid rgba(0,0,0,.08)"><div style="width:38px;height:38px;border-radius:12px;background:#ece5da;display:flex;align-items:center;justify-content:center;font:800 13px 'Plus Jakarta Sans',sans-serif;color:#6b5330">KY</div><div style="flex:1"><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kaan Yıldız</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">3 Eyl · 2 ders</div></div><span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">₺2.500</span></div>
+    </div>
+    <div style="padding:13px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.2);font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);margin-bottom:4px">Bekleyen ödemeler kişi kartından değil buradan takip edilir. Hatırlatma göndermek için kişiye dokun.</div>
+  </div>
+  <div style="padding:10px 22px 12px"><div style="cursor:pointer;height:54px;border-radius:16px;background:#2f8f5b;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif">Ödeme al</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPaymentsEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 10px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div style="flex:1"><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Ödemeler</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Henüz kayıt yok</div></div></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0 22px 10px">
+    <div style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">‹</div>
+    <span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Eylül 2026</span>
+    <div style="width:30px;height:30px;border-radius:10px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.3)">›</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:0 30px">
+    <div style="width:58px;height:58px;border-radius:18px;background:#fff;border:1.5px dashed rgba(47,143,91,.45);display:flex;align-items:center;justify-content:center;font:800 17px 'Plus Jakarta Sans',sans-serif;color:#2f8f5b">₺</div>
+    <div style="text-align:center;display:flex;flex-direction:column;gap:5px">
+      <div style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bu ay tahsilat yok</div>
+      <div style="font:500 12.5px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);text-wrap:pretty">Ders verdikçe ödemeler burada toplanır. Nakit aldıklarını da elle kaydedebilirsin.</div>
+    </div>
+    <div style="align-self:stretch;padding:14px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;justify-content:space-between">
+      <div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.25)">₺0</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">tahsil edilen</div></div>
+      <div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.25)">₺0</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">bekleyen</div></div>
+      <div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.25)">0</div><div style="font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);margin-top:2px">ders</div></div>
+    </div>
+    <div style="align-self:stretch;height:54px;border-radius:16px;background:#2f8f5b;color:#fff;display:flex;align-items:center;justify-content:center;font:700 15.5px 'Plus Jakarta Sans',sans-serif">Elle ödeme kaydet</div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showShare }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#2f4bd1;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative;color:#fff">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#fff"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #fff;border-radius:3px"></div><div style="width:4px;height:9px;background:#fff;border-radius:1px"></div><div style="width:4px;height:12px;background:#fff;border-radius:1px"></div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 24px 0"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif">‹</div><span onClick="{{ go.accountMenu }}" style="cursor:pointer;font:600 12.5px 'Plus Jakarta Sans',sans-serif;opacity:.85">Ayarlar</span></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:0 32px">
+    <div style="background:#fff;border-radius:26px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;box-sizing:border-box">
+      <div style="width:100%;aspect-ratio:1;border-radius:16px;background:repeating-linear-gradient(45deg,rgba(21,22,26,.9) 0 8px,#fff 8px 16px);display:flex;align-items:center;justify-content:center"><span style="background:#fff;padding:7px 10px;border-radius:8px;font:600 10px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.6)">QR kod</span></div>
+      <div style="text-align:center"><div style="font:800 17px 'Plus Jakarta Sans',sans-serif;color:#15161a">Deniz Arslan</div><div style="font:500 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Matematik &amp; Fizik · İstanbul</div></div>
+      <div style="width:100%;padding:11px;border-radius:13px;background:rgba(0,0,0,.04);text-align:center;font:600 12px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.65)">pro.app/deniz-arslan</div>
+    </div>
+    <div style="font:500 12.5px/1.5 'Plus Jakarta Sans',sans-serif;opacity:.85;text-align:center">Öğrenciler bu kodu okutarak müsait saatlerini görür ve doğrudan rezervasyon yapar.</div>
+  </div>
+  <div style="padding:14px 24px 16px;display:flex;flex-direction:column;gap:10px">
+    <div style="cursor:pointer;height:52px;border-radius:15px;background:#fff;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Bağlantıyı kopyala</div>
+    <div style="display:flex;gap:9px">
+      <div style="cursor:pointer;flex:1;height:50px;border-radius:15px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#fff">NFC ile paylaş</div>
+      <div onClick="{{ back }}" style="cursor:pointer;flex:1;height:50px;border-radius:15px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#fff">Kapat</div>
+    </div>
+  </div>
+  <div style="height:5px;width:134px;background:#fff;border-radius:3px;margin:0 auto 9px;opacity:.7"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showShareEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#15161a;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative;color:#fff">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#fff"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #fff;border-radius:3px"></div><div style="width:4px;height:9px;background:#fff;border-radius:1px"></div><div style="width:4px;height:12px;background:#fff;border-radius:1px"></div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 24px 0"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif">‹</div><span onClick="{{ go.accountMenu }}" style="cursor:pointer;font:600 12.5px 'Plus Jakarta Sans',sans-serif;opacity:.75">Ayarlar</span></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:0 32px">
+    <div style="width:100%;border-radius:26px;padding:22px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.28);display:flex;flex-direction:column;align-items:center;gap:14px;box-sizing:border-box">
+      <div style="width:100%;aspect-ratio:1;border-radius:16px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.1) 0 8px,transparent 8px 16px);display:flex;align-items:center;justify-content:center;font:600 10px ui-monospace,Menlo,monospace;color:rgba(255,255,255,.55);text-align:center">QR kod<br>profil açılınca</div>
+      <div style="text-align:center"><div style="font:800 17px 'Plus Jakarta Sans',sans-serif;color:#fff">Profil kapalı</div><div style="font:500 12.5px 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.6);margin-top:3px">Bağlantı şimdilik kimseye açılmıyor</div></div>
+    </div>
+    <div style="align-self:stretch;padding:13px 15px;border-radius:16px;background:rgba(255,255,255,.08);font:500 12px/1.55 'Plus Jakarta Sans',sans-serif;color:rgba(255,255,255,.8);text-wrap:pretty">Profili herkese açtığında QR kodun ve pro.app bağlantın anında çalışır. Kapalıyken yalnızca senin eklediğin kişiler rezervasyon yapabilir.</div>
+  </div>
+  <div style="padding:14px 24px 16px;display:flex;flex-direction:column;gap:10px">
+    <div onClick="{{ go.accountEdit }}" style="cursor:pointer;height:54px;border-radius:15px;background:#fff;display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">Profili herkese aç</div>
+    <div onClick="{{ back }}" style="cursor:pointer;height:50px;border-radius:15px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#fff">Kapat</div>
+  </div>
+  <div style="height:5px;width:134px;background:#fff;border-radius:3px;margin:0 auto 9px;opacity:.7"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showHelp }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:12px 22px 14px"><div onClick="{{ back }}" style="cursor:pointer;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹</div><div><div style="font:800 20px 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Yardım ve destek</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ortalama yanıt süresi 4 saat</div></div></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;flex-direction:column;background:#fff;border-radius:18px;border:1px solid rgba(0,0,0,.08);overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 16px;border-bottom:1px solid rgba(0,0,0,.06)"><div><div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Destek ekibine yaz</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Uygulama içi mesaj</div></div><span style="color:rgba(21,22,26,.3);font-size:16px">›</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 16px"><div><div style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">WhatsApp’tan sor</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Hafta içi 09:00 – 19:00</div></div><span style="color:rgba(21,22,26,.3);font-size:16px">›</span></div>
+    </div>
+    <div style="padding:6px 2px 2px;font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Sık sorulanlar</div>
+    <div style="display:flex;flex-direction:column;background:#fff;border-radius:18px;border:1px solid rgba(0,0,0,.08);overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13.5px/1.4 'Plus Jakarta Sans',sans-serif;color:#15161a">Her öğrenciye farklı fiyat nasıl veririm?</span><span style="color:rgba(21,22,26,.3);font-size:16px">›</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13.5px/1.4 'Plus Jakarta Sans',sans-serif;color:#15161a">Fiyatı güncellersem öğrencilere bildirim gider mi?</span><span style="color:rgba(21,22,26,.3);font-size:16px">›</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid rgba(0,0,0,.06)"><span style="font:600 13.5px/1.4 'Plus Jakarta Sans',sans-serif;color:#15161a">İptal ve geç kalma kurallarını nasıl değiştiririm?</span><span style="color:rgba(21,22,26,.3);font-size:16px">›</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px"><span style="font:600 13.5px/1.4 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödemeyi elle kaydetmek nasıl çalışır?</span><span style="color:rgba(21,22,26,.3);font-size:16px">›</span></div>
+    </div>
+    <div style="padding:13px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Uygulama sürümü</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">2.4.1 · güncel</div></div><span style="font:600 11.5px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.4)">iOS</span></div>
+    <div style="padding:2px 2px 16px;display:flex;gap:14px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Kullanım koşulları</span><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">Gizlilik</span></div>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:0 auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPackageSingle }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 22px 10px"><span onClick="{{ go.pricing }}" style="cursor:pointer;font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Vazgeç</span><div style="display:flex;align-items:center;gap:7px"><span style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Tekil ders</span><span style="font-size:16px;line-height:1;color:#2f4bd1">★</span></div><span onClick="{{ go.pricing }}" style="cursor:pointer;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Kaydet</span></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;gap:8px">
+      <div style="flex:1;padding:12px 10px;border-radius:14px;background:rgba(47,75,209,.06);border:1.5px solid #2f4bd1;display:flex;flex-direction:column;gap:3px"><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Tekil ders</span><span style="font:500 11px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">1 seans</span></div>
+      <div onClick="{{ go.packageMulti }}" style="cursor:pointer;flex:1;padding:12px 10px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;gap:3px"><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çoklu paket</span><span style="font:500 11px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Birden fazla seans</span></div>
+    </div>
+
+    
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ders adı</span><div style="padding:12px;border-radius:13px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Tek ders</div></div>
+      <div style="display:flex;flex-direction:column;gap:7px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ders süresi</span>
+        <div style="display:flex;gap:7px"><span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">30 dk</span><span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">45 dk</span><span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">60 dk</span><span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">90 dk</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ders ücreti</span><div style="height:52px;border-radius:14px;background:#fbfaf8;border:1.5px solid #2f4bd1;display:flex;align-items:center;justify-content:space-between;padding:0 14px"><span style="font:800 19px 'Plus Jakarta Sans',sans-serif;color:#15161a">₺750</span><span style="font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)">ders başına</span></div></div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:13px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mola</div><div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Dersin önüne ve arkasına eklenen boşluk. Takvimde senin için tutulur, ücrete girmez.</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ders öncesi</span>
+        <div style="display:flex;gap:6px"><span onClick="{{ sPre0 }}" style="{{ sPreS0 }}">Yok</span><span onClick="{{ sPre15 }}" style="{{ sPreS15 }}">15 dk</span><span onClick="{{ sPre30 }}" style="{{ sPreS30 }}">30 dk</span><input value="{{ sPreText }}" onChange="{{ sPreType }}" placeholder="Özel" style="{{ sPreI }}" /></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ders sonrası</span>
+        <div style="display:flex;gap:6px"><span onClick="{{ sPost0 }}" style="{{ sPostS0 }}">Yok</span><span onClick="{{ sPost15 }}" style="{{ sPostS15 }}">15 dk</span><span onClick="{{ sPost30 }}" style="{{ sPostS30 }}">30 dk</span><input value="{{ sPostText }}" onChange="{{ sPostType }}" placeholder="Özel" style="{{ sPostI }}" /></div>
+      </div>
+      <div style="padding:12px;border-radius:14px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.18);display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2c3d8f">Takvimde {{ sTotal }} dk yer tutar</span><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">{{ sSum }}</span></div>
+        <div style="display:flex;gap:3px;height:30px;align-items:stretch">
+          <div style="flex:1;border-radius:8px 3px 3px 8px;background:repeating-linear-gradient(135deg,rgba(47,75,209,.18) 0 4px,rgba(47,75,209,.07) 4px 8px)"></div>
+          <div style="flex:4;border-radius:3px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 11px 'Plus Jakarta Sans',sans-serif;color:#fff">Ders 60 dk</div>
+          <div style="flex:1;border-radius:3px 8px 8px 3px;background:repeating-linear-gradient(135deg,rgba(47,75,209,.18) 0 4px,rgba(47,75,209,.07) 4px 8px)"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)"><span>{{ sT0 }}</span><span>09:00</span><span>10:00</span><span>{{ sT3 }}</span></div>
+        <div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);text-wrap:pretty">Öğrenci 09:00 dersini görür. Peş peşe rezervasyonda her 1,5 saate bir ders düşer.</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:11px;border-top:1px solid rgba(0,0,0,.07)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Molayı öğrenciden gizle</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Paylaştığın takvimde yalnız 09:00–10:00 görünür</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme yöntemi</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Bu derste kabul ettiklerin</div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+        <span style="padding:9px 13px;border-radius:11px;background:#15161a;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">Nakit</span>
+        <span style="padding:9px 13px;border-radius:11px;background:#15161a;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">Havale / IBAN</span>
+        <span style="padding:9px 13px;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Kredi kartı</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.07)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders öncesi ödeme iste</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Kapalıysa ders sonrası tahsil edilir</div></div><div style="width:46px;height:28px;border-radius:14px;background:rgba(0,0,0,.14);display:flex;align-items:center;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)"></div></div></div>
+    </div>
+
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders kuralları</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Bu derse özel · genel varsayılanı ezer</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Rezervasyon penceresi</span>
+        <div style="display:flex;gap:6px">
+          <span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:700 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">1 sa</span>
+          <span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">2 sa</span>
+          <span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:700 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">6 sa</span>
+          <span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:700 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">24 sa</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ücretsiz iptal süresi</span>
+        <div style="display:flex;align-items:center;gap:12px"><div style="flex:1;height:4px;border-radius:2px;background:rgba(0,0,0,.08);position:relative"><div style="width:30%;height:100%;background:#2f4bd1;border-radius:2px"></div><div style="position:absolute;left:30%;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.06)"></div></div><span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">3 sa</span></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.07)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Profilde göster</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Tekil ders, paylaştığın sayfada görünür</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    </div>
+
+    <div style="padding:13px 15px;border-radius:16px;background:#fff;border:1px dashed rgba(0,0,0,.16);font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);text-wrap:pretty">Mola süresini tek bir derste sonradan değiştirebilirsin; buradaki ayar yeni rezervasyonlara uygulanır.</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:7px;padding:12px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#c4483c;cursor:pointer">Bu dersi sil</div>
+    <div style="height:6px"></div>
+  </div>
+  <div style="padding:10px 22px 6px"><div onClick="{{ go.pricing }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Dersi kaydet</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPackageMulti }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="width:17px;height:10px;border:1.4px solid #15161a;border-radius:3px"></div><div style="width:4px;height:9px;background:#15161a;border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 22px 10px"><span onClick="{{ go.pricing }}" style="cursor:pointer;font:600 13px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Vazgeç</span><div style="display:flex;align-items:center;gap:8px"><span style="font:800 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çoklu paket</span><span style="font-size:17px;line-height:1;color:#2f4bd1">★</span></div><span onClick="{{ go.pricing }}" style="cursor:pointer;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#2f4bd1">Kaydet</span></div>
+  <div style="flex:1;overflow:auto;scrollbar-width:none;padding:0 22px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;gap:8px">
+      <div onClick="{{ go.packageSingle }}" style="flex:1;padding:12px 10px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;gap:3px;cursor:pointer"><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Tekil ders</span><span style="font:500 11px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">1 seans</span></div>
+      <div style="flex:1;padding:12px 10px;border-radius:14px;background:rgba(47,75,209,.06);border:1.5px solid #2f4bd1;display:flex;flex-direction:column;gap:3px"><span style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Çoklu paket</span><span style="font:500 11px/1.4 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Birden fazla seans</span></div>
+    </div>
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Paket adı</span><div style="padding:12px;border-radius:13px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">8 derslik paket</div></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Seans sayısı</span>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:13px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09)"><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">−</div><span style="font:800 17px 'Plus Jakarta Sans',sans-serif;color:#15161a">8 seans</span><div style="width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font:700 16px 'Plus Jakarta Sans',sans-serif;color:#15161a">+</div></div>
+        
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Seans süresi</span>
+        <div style="display:flex;gap:7px"><span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">30 dk</span><span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">60 dk</span><span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">90 dk</span><span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">120 dk</span></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Paket ücreti</span><div style="padding:12px;border-radius:13px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">₺5.400</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Geçerlilik</span><div style="padding:12px;border-radius:13px;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">2 ay</div></div>
+      </div>
+      
+    </div>
+    
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:13px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Mola</div><div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Her seansın önüne ve arkasına eklenen boşluk. Takvimde senin için tutulur, pakete girmez.</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Seans öncesi</span>
+        <div style="display:flex;gap:6px"><span onClick="{{ pPre0 }}" style="{{ pPreS0 }}">Yok</span><span onClick="{{ pPre15 }}" style="{{ pPreS15 }}">15 dk</span><span onClick="{{ pPre30 }}" style="{{ pPreS30 }}">30 dk</span><input value="{{ pPreText }}" onChange="{{ pPreType }}" placeholder="Özel" style="{{ pPreI }}" /></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Seans sonrası</span>
+        <div style="display:flex;gap:6px"><span onClick="{{ pPost0 }}" style="{{ pPostS0 }}">Yok</span><span onClick="{{ pPost15 }}" style="{{ pPostS15 }}">15 dk</span><span onClick="{{ pPost30 }}" style="{{ pPostS30 }}">30 dk</span><input value="{{ pPostText }}" onChange="{{ pPostType }}" placeholder="Özel" style="{{ pPostI }}" /></div>
+      </div>
+      <div style="padding:12px;border-radius:14px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.18);display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#2c3d8f">Her seans {{ pTotal }} dk yer tutar</span><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">{{ pSum }}</span></div>
+        <div style="display:flex;gap:3px;height:30px;align-items:stretch">
+          <div style="flex:1;border-radius:8px 3px 3px 8px;background:repeating-linear-gradient(135deg,rgba(47,75,209,.18) 0 4px,rgba(47,75,209,.07) 4px 8px)"></div>
+          <div style="flex:4;border-radius:3px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 11px 'Plus Jakarta Sans',sans-serif;color:#fff">Seans 60 dk</div>
+          <div style="flex:1;border-radius:3px 8px 8px 3px;background:repeating-linear-gradient(135deg,rgba(47,75,209,.18) 0 4px,rgba(47,75,209,.07) 4px 8px)"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font:600 10.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45)"><span>{{ pT0 }}</span><span>09:00</span><span>10:00</span><span>{{ pT3 }}</span></div>
+        <div style="font:500 11px/1.45 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);text-wrap:pretty">Öğrenci 09:00 seansını görür. 8 seanslık paket takvimde toplam 12 saat tutar.</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:11px;border-top:1px solid rgba(0,0,0,.07)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Molayı öğrenciden gizle</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Paylaştığın takvimde yalnız 09:00–10:00 görünür</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    </div>
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:11px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme yöntemi</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Bu pakette kabul ettiklerin</div></div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px">
+        <span style="padding:9px 13px;border-radius:11px;background:#15161a;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">Havale / IBAN</span>
+        <span style="padding:9px 13px;border-radius:11px;background:#15161a;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">Nakit</span>
+        <span style="padding:9px 13px;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Kredi kartı</span>
+      </div>
+    </div>
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders kuralları</div><div style="font:500 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:3px">Bu pakete özel · genel varsayılanı ezer</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Rezervasyon penceresi</span>
+        <div style="display:flex;gap:6px">
+          <span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:700 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">1 sa</span>
+          <span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif">2 sa</span>
+          <span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:700 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">6 sa</span>
+          <span style="flex:1;text-align:center;padding:10px 0;border-radius:11px;background:#fbfaf8;border:1px solid rgba(0,0,0,.1);font:700 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">24 sa</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <span style="font:600 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ücretsiz iptal süresi</span>
+        <div style="display:flex;align-items:center;gap:12px"><div style="flex:1;height:4px;border-radius:2px;background:rgba(0,0,0,.08);position:relative"><div style="width:40%;height:100%;background:#2f4bd1;border-radius:2px"></div><div style="position:absolute;left:40%;top:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.2);border:1px solid rgba(0,0,0,.06)"></div></div><span style="font:800 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">4 sa</span></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid rgba(0,0,0,.07)"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">İptal edilen ders paketten düşsün</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:2px">Süre geçtikten sonraki iptallerde</div></div><div style="width:46px;height:28px;border-radius:14px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px;flex:none"><div style="width:22px;height:22px;border-radius:50%;background:#fff"></div></div></div>
+    </div>
+    <div style="padding:14px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Peşin ödeme iste</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">Paket başlarken tek seferde</div></div><div style="width:44px;height:26px;border-radius:13px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px"><div style="width:20px;height:20px;border-radius:50%;background:#fff"></div></div></div>
+      <div style="height:1px;background:rgba(0,0,0,.07)"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bitince hatırlat</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">Son ders kaldığında bildirim</div></div><div style="width:44px;height:26px;border-radius:13px;background:#2f4bd1;display:flex;align-items:center;justify-content:flex-end;padding:3px"><div style="width:20px;height:20px;border-radius:50%;background:#fff"></div></div></div>
+      <div style="height:1px;background:rgba(0,0,0,.07)"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><div><div style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">Profilde göster</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5);margin-top:2px">Paket, paylaştığın sayfada görünür</div></div><div style="width:44px;height:26px;border-radius:13px;background:rgba(0,0,0,.14);display:flex;align-items:center;padding:3px"><div style="width:20px;height:20px;border-radius:50%;background:#fff"></div></div></div>
+    </div>
+    <div style="padding:13px 15px;border-radius:16px;background:#fff;border:1px dashed rgba(0,0,0,.16);font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Paketi kaydettikten sonra kişi eklerken listeden seçebilirsin. Kalan ders sayısı otomatik düşer.</div>
+    <div style="height:6px"></div>
+  </div>
+  <div style="padding:10px 22px 6px"><div onClick="{{ go.pricing }}" style="cursor:pointer;height:52px;border-radius:15px;background:#2f4bd1;display:flex;align-items:center;justify-content:center;font:700 14.5px 'Plus Jakarta Sans',sans-serif;color:#fff">Paketi kaydet</div></div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+
+
+
+<sc-if value="{{ showAccountOffline }}" hint-placeholder-val="{{ false }}">
+<div style="width:390px;height:844px;background:#fbfaf8;border-radius:46px;border:1px solid rgba(0,0,0,.14);box-shadow:0 18px 50px rgba(0,0,0,.13);overflow:hidden;display:flex;flex-direction:column;position:relative">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 30px 4px;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a"><span>9:41</span><div style="display:flex;gap:6px;align-items:center"><div style="position:relative;width:17px;height:10px;border:1.4px solid rgba(21,22,26,.3);border-radius:3px"><i style="position:absolute;left:-2px;top:4px;width:21px;height:1.4px;background:#15161a;transform:rotate(-36deg);display:block"></i></div><div style="width:4px;height:9px;background:rgba(21,22,26,.22);border-radius:1px"></div><div style="width:4px;height:12px;background:#15161a;border-radius:1px"></div></div></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 42px;text-align:center">
+    <div style="position:relative;width:104px;height:104px;border-radius:50%;background:rgba(0,0,0,.045);display:flex;align-items:center;justify-content:center;margin-bottom:30px">
+      <div style="width:40px;height:40px;border-radius:13px;border:2.5px solid rgba(21,22,26,.26)"></div>
+      <i style="position:absolute;left:16px;top:50px;width:72px;height:2.5px;border-radius:2px;background:#15161a;transform:rotate(-40deg);display:block"></i>
+    </div>
+    <div style="font:800 26px/1.2 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">İnternet bağlantısı yok</div>
+    <div style="font:400 14px/1.6 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55);margin-top:12px;max-width:272px;text-wrap:pretty">Wi-Fi veya mobil verini kontrol et. Bağlantı kurulduğunda kaldığın yerden devam edeceksin.</div>
+  </div>
+  <div style="padding:0 26px 16px;display:flex;flex-direction:column;gap:11px">
+    <div style="cursor:pointer;height:56px;border-radius:16px;background:#15161a;color:#fff;display:flex;align-items:center;justify-content:center;font:700 16px 'Plus Jakarta Sans',sans-serif">Yeniden dene</div>
+    <span style="text-align:center;font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.42)">Hesap bilgileri son olarak 09:12'de yenilendi</span>
+  </div>
+  <div style="height:5px;width:134px;background:#15161a;border-radius:3px;margin:4px auto 9px;opacity:.85"></div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:900},&quot;only&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;account&quot;,&quot;accountMenu&quot;,&quot;accountEdit&quot;,&quot;logoutConfirm&quot;,&quot;loggedOut&quot;,&quot;deleteAccount&quot;,&quot;accountDeleted&quot;,&quot;pricing&quot;,&quot;notifPrefs&quot;,&quot;payments&quot;,&quot;share&quot;,&quot;help&quot;,&quot;packageMulti&quot;,&quot;packageSingle&quot;,&quot;calendarPrefs&quot;,&quot;dayRule&quot;,&quot;breakNew&quot;,&quot;rules&quot;,&quot;accountOffline&quot;],&quot;default&quot;:&quot;account&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;empty&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;go&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Record&lt;string, () =&gt; void&gt;&quot;},&quot;back&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+class Component extends DCLogic {
+  state = {};
+  renderVals() {
+    const only = this.props.only || "";
+    const g = !only;
+    const ids = ["account","accountMenu","accountEdit","logoutConfirm","loggedOut","deleteAccount","accountDeleted","pricing","notifPrefs","payments","share","help","packageMulti","packageSingle","calendarPrefs","dayRule","breakNew","rules","accountOffline"];
+    const noop = function () {};
+    const given = this.props.go || {};
+    const go = {};
+    ids.concat(["calendar","contacts","login","payment"]).forEach(function (id) { go[id] = given[id] || noop; });
+    const empty = !!this.props.empty;
+    const hasEmpty = { account: 1, accountEdit: 1, pricing: 1, payments: 1, share: 1, rules: 1 };
+    const out = { go: go, back: this.props.back || noop };
+    ids.forEach(function (id) {
+      const key = id.charAt(0).toUpperCase() + id.slice(1);
+      out["show" + key] = g || (only === id && !(empty && hasEmpty[id]));
+      if (hasEmpty[id]) out["show" + key + "Empty"] = g || (only === id && empty);
+    });
+    const st = this.state || {};
+    const self = this;
+    const chipOn = "flex:1;text-align:center;padding:10px 0;border-radius:11px;box-sizing:border-box;background:#2f4bd1;color:#fff;font:700 12px 'Plus Jakarta Sans',sans-serif;cursor:pointer";
+    const chipOff = "flex:1;text-align:center;padding:10px 0;border-radius:11px;box-sizing:border-box;background:#fbfaf8;border:1px solid rgba(0,0,0,.09);font:600 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);cursor:pointer";
+    function chip(sel) { return sel ? chipOn : chipOff; }
+    function inp(on) {
+      return "flex:1;min-width:0;text-align:center;padding:10px 0;border-radius:11px;box-sizing:border-box;font:700 12px 'Plus Jakarta Sans',sans-serif;outline:none;" + (on ? "background:#2f4bd1;color:#fff;border:1.5px solid #2f4bd1" : "background:#fbfaf8;border:1px solid rgba(0,0,0,.09);color:rgba(21,22,26,.6)");
+    }
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function clock(off) { const tot = ((540 + off) % 1440 + 1440) % 1440; return pad(Math.floor(tot / 60)) + ":" + pad(tot % 60); }
+    function set(key, val) { const o = {}; o[key] = val; self.setState(o); }
+    function mk(key) {
+      const v = st[key] === undefined ? 15 : st[key];
+      const custom = v !== 0 && v !== 15 && v !== 30;
+      out[key + "S0"] = chip(v === 0);
+      out[key + "S15"] = chip(v === 15);
+      out[key + "S30"] = chip(v === 30);
+      out[key + "I"] = inp(custom);
+      out[key + "Text"] = custom ? String(v) : "";
+      out[key + "0"] = function () { set(key, 0); };
+      out[key + "15"] = function () { set(key, 15); };
+      out[key + "30"] = function () { set(key, 30); };
+      out[key + "Type"] = function (e) {
+        const digits = String(e.target.value).replace(/[^0-9]/g, "");
+        set(key, digits === "" ? 0 : Math.min(parseInt(digits, 10), 240));
+      };
+      return v;
+    }
+    const sPre = mk("sPre"), sPost = mk("sPost"), pPre = mk("pPre"), pPost = mk("pPost");
+    out.sTotal = sPre + 60 + sPost;
+    out.sSum = sPre + " + 60 + " + sPost;
+    out.sT0 = clock(-sPre);
+    out.sT3 = clock(60 + sPost);
+    out.pTotal = pPre + 60 + pPost;
+    out.pSum = pPre + " + 60 + " + pPost;
+    out.pT0 = clock(-pPre);
+    out.pT3 = clock(60 + pPost);
+    return out;
+  }
+}
+</script>
+</body>
+</html>

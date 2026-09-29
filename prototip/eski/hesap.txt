@@ -1,0 +1,74 @@
+## showAccount
+hint-placeholder-val="{{ true }}"> | 9:41 | Hesabım | DA | Deniz Arslan | Özel ders · İstanbul | PRO | Düzenle › | Ödeme takibi | Eylül › | ₺12.400 | bu ay tahsil edilen | ₺1.500 | bekleyen · 1 kişi | pro.app/deniz-arslan | NFC ile paylaş | Telefonu yaklaştırman yeterli | Web sitesi | denizarslan.com | Takvim ayarlarım | 10:00 – 18:00 › | Bildirim ayarları | Açık › | Paket tercihleri | 4 paket › | Takvim | Kişiler | Hesabım
+
+## showAccountEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | Hesabım | Fiyatlandırmanı seçmedin | Tekil ders ücretini girebilir ya da paket oluşturabilirsin. İkisi de olur; profilin zaten yayında. | Fiyatlandırmayı seç | foto | Deniz Arslan | Matematik öğretmeni · İstanbul | › | Ödeme takibi | Eylül | ₺0 | bu ay tahsil edilen | ₺0 | bekleyen | İlk dersini kaydettiğinde burada tahsilat özetin görünür. | QR kod | Bağlantın ve QR kodun çalışıyor. Fiyatı sabitlemek istersen buradan belirleyebilirsin. | Fiyatlandırmayı aç | Bildirim ayarları | Açık › | Paket tercihleri | Paket yok › | Takvim | Kişiler | Hesabım
+
+## showAccountMenu
+hint-placeholder-val="{{ false }}"> | 9:41 | Hesabım | DA | Deniz Arslan | Özel ders · İstanbul | PRO | Ödeme takibi | Eylül › | ₺12.400 | bu ay tahsil edilen | ₺1.500 | bekleyen · 1 kişi | pro.app/deniz-arslan | Hesap ayarları | Deniz Arslan · pro.app/deniz-arslan | Yardım ve destek | › | Çıkış yap | › | Kapat
+
+## showAccountEdit
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Hesabı düzenle | Kaydet | DA | + | Fotoğrafı değiştir | Ad | Deniz | Soyad | Arslan | Ünvan / iş kolu | Matematik öğretmeni | › | Telefon | +90 532 440 16 28 | DOĞRULANDI | Web sitesi | denizarslan.com | Hakkımda | 10 yıldır lise ve üniversite hazırlık matematik dersleri veriyorum. | Profil herkese açık | QR ile gelenler randevu alabilir | Çıkış yap | Hesabı sil | Hesabı silmek tüm ders geçmişini ve ödeme kayıtlarını kaldırır.
+
+## showAccountEditEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Hesabı düzenle | Kaydet | foto | + | Fotoğraf ekle | Ad | Deniz | Soyad | Arslan | Ünvan / iş kolu | Matematik öğretmeni | › | Telefon | +90 532 440 16 28 | DOĞRULANDI | Web sitesi | İsteğe bağlı | Hakkımda | Öğrencilerin profilinde göreceği kısa tanıtım | Profil herkese açık | QR ile gelenler randevu alabilir | Çıkış yap | Hesabı sil
+
+## showLogoutConfirm
+hint-placeholder-val="{{ false }}"> | 9:41 | Hesabım | DA | Deniz Arslan | Özel ders · İstanbul | PRO | Ödeme takibi | Eylül › | ₺12.400 | bu ay tahsil edilen | ₺1.500 | bekleyen · 1 kişi | pro.app/deniz-arslan | Çıkış yapılsın mı? | Takvimin ve kişileri sunucuda kalır. Tekrar giriş yaptığında her şey yerinde olur. | DA | deniz@ornek.com | Bu cihazda oturum açık | Çevrimdışı verileri sil | Bu telefondaki önbelleği temizler | Çıkış yap | Vazgeç
+
+## showLoggedOut
+hint-placeholder-val="{{ false }}"> | 9:41 | ✓ | Çıkış yapıldı | Geri dön | Tekrar hoş geldin | Takvimin ve kişileri olduğu gibi duruyor. | E-posta | deniz@ornek.com | Şifre | •••••••• | Göster | Giriş yap | Apple ile devam et | Şifremi unuttum
+
+## showDeleteAccount
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Hesabı sil | Bu işlem geri alınamaz | Silme talebinden 30 gün sonra tüm veriler kalıcı olarak kaldırılır. Bu süre içinde giriş yaparak iptal edebilirsin. | Silinecekler | Kişiler | 18 | Geçmiş ders kaydı | 246 | Ödeme kaydı | ₺148.200 | Önce çözülmesi gerekenler | ₺1.500 bekleyen tahsilat · Mert Doğan | 4 planlı ders iptal edilecek ve öğrencilere bildirilecek | Onaylamak için SİL yaz | SİL | ✓ | Kayıtlarımın kalıcı olarak silineceğini anlıyorum. | Hesabı kalıcı olarak sil | Vazgeç
+
+## showAccountDeleted
+hint-placeholder-val="{{ false }}"> | 9:41 | ↺ | Hesabın silinmek üzere | 14 Ekim 2026'ya kadar giriş yaparsan silme iptal edilir ve her şey geri gelir. | Kalan süre | 30 gün | Öğrencilerine profilinin kapandığı bildirildi. Bekleyen ₺1.500 tahsilat kaydı arşive alındı. | Silmeyi iptal et | Giriş ekranına dön
+
+## showPricing
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Paket tercihleri | Fiyat, süre, ödeme ve kurallar her pakette | Paketler | Yıldıza dokun → temel paket | TEKİL DERS | ★ | Tek ders · 60 dk | TEMEL | +15 / +15 dk mola · takvimde 90 dk | Nakit, Havale · 2 sa pencere | ₺750 | ☆ | Tek ders · 90 dk | Mola yok · takvimde 90 dk | Nakit · 6 sa pencere | ₺1.125 | ÇOKLU PAKET | ☆ | 8 derslik paket | 8 seans × 60 dk · ders başı ₺675 | Havale, Nakit · peşin · 2 sa pencere | ₺5.400 | ☆ | 12 derslik paket | 12 seans × 90 dk · ders başı ₺950 | Kredi kartı · 2 taksit · 6 sa pencere | ₺11.400 | + Paket ekle | Bir paketin solundaki yıldıza dokun: o paket temel olur, profilinde ilk sırada çıkar ve yeni derslerde varsayılan seçilir. Yalnız biri yıldızlı olabilir. | Paketi değiştirmen devam eden dersleri etkilemez; yeni rezervasyonlarda geçerli olur. Fiyat güncellenince ilgili kişilere bildirim gider. | Terci
+
+## showPricingEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Paket tercihleri | Henüz paket oluşturmadın | Her şey pakette | Bir pakette kaç seans, her seans kaç dakika ve molası var mı, hangi ödeme yöntemleri geçerli olacak: hepsini sen belirlersin. Tek seanslık paket = tekil ders. | Paketler | Tekil ders | 1 seans | Çoklu paket | 4, 8, 12 seans | İlk paketini oluştur; yıldız verdiğin paket varsayılan olur. | + İlk paketi ekle | Fiyatları kaydet
+
+## showRules
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ders kuralları | Paketi olmayan dersler için varsayılan | Rezervasyon penceresi | Ders başlangıcından en geç kaç saat önce rezervasyon yapılabilir? | 1 sa | 2 sa | 6 sa | 24 sa | Ücretsiz iptal süresi | 4 sa | Sonrasındaki iptallerde ders ücreti tahsil edilir. | Pakete özel kurallar | Paketi olan derslerde paketin kendi rezervasyon penceresi ve iptal süresi geçerli. Fiyatlandırma › paket içinden düzenlenir. | › | Çalışma saatleri ve molalar | 10:00 – 18:00 · 2 düzenli mola · başlama kademesi tam saat. Takvim ayarlarım'dan düzenlenir. | › | Kontrol | Takvimine ne otomatik girsin, neyi sen onaylayasın | Talepleri elle onayla | Kapalıysa müsait saatler doğrudan rezerve edilir | Çakışma ve mola ihlalini uyar | Ders eklerken üst üste binen saatlerde uyarı çıkar | Apple Takvim senkronu | Son senkron: 2 dk önce | Kuralları kaydet
+
+## showRulesEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ders kuralları | Varsayılan kurallar geçerli | Şimdilik varsayılanları kullanıyorsun | 2 saat rezervasyon penceresi ve 4 saat ücretsiz iptal. İlk derslerinden sonra kendine göre ayarlarsın. | Rezervasyon penceresi | 1 sa | 2 sa | 6 sa | 24 sa | varsayılan | Ücretsiz iptal süresi | 4 sa | Paket kuralları | Paket oluşturduğunda rezervasyon penceresi ve iptal süresini pakete özel ayarlarsın. | Tam zamanlı | Aylık paket | Apple Takvim senkronu | Bağlı değil | Varsayılanlarla devam et
+
+## showCalendarPrefs
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Takvim ayarlarım | Haftalık çalışma saatleri ve molalar | Her gün için varsayılan | Tek tek değiştirmeden tüm haftaya uygulanır | Başlangıç | 10:00 | Bitiş | 18:00 | Düzenli molalar | Her hafta tekrar eden molalar. Bir günde istemediğinde o günün ayarından inaktif edersin. | Öğle molası | 12:30 – 13:30 · Pzt, Sal, Çar, Per, Cum, Cmt | › | Akşam arası | 17:00 – 17:30 · Sal, Per, Cmt | › | + | Düzenli mola ekle | Günler | özel ayar için dokun | Pazartesi | 10:00 – 18:00 | › | Salı | 10:00 – 18:00 | › | Çarşamba | 10:00 – 18:00 | › | Perşembe | 10:00 – 18:00 | › | Cuma | 10:00 – 18:00 | › | Cumartesi | 10:00 – 18:00 | 10 geçe başlar | 10 dk ders arası | akşam arası inaktif | › | Pazar | Kapalı | › | Ders başlama kademesi | Kişiler dersi hangi dakikalarda başlatabilir | Tam saat | 10 geçe | 30 dk | 15 dk | Cumartesi bu ayarı ezip 10 geçe başlı
+
+## showBreakNew
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Düzenli mola | Kaydet | Buradaki mola her hafta tekrar eder. Tek bir tarih için mola koyacaksan takvimdeki + butonunu kullan. | Mola adı | Kahve arası | Başlangıç | 15:00 | Bitiş | 15:30 | Hangi günler | Seçtiğin günlerde her hafta tekrar eder | Pzt | Sal | Çar | Per | Cum | Cmt | Paz | Pazar kapalı olduğu için seçilemez. Bir günde istemediğinde o günün ayarından inaktif edebilirsin. | Mola saatinde rezervasyon alma | Kişiler bu aralığı takvimde görmez | Mevcut dersleri koru | Bu aralıkta zaten 1 ders var; kapatırsan iptal talebi gönderilir | Molayı ekle
+
+## showDayRule
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ Günler | Cumartesi | her cumartesi geçerli | Kaydet | Bu gün çalışıyorum | Kapatırsan cumartesileri rezervasyon alınmaz | Çalışma saatleri | Başlangıç | 10:00 | Bitiş | 18:00 | Ders başlama dakikası | Cumartesi dersleri hangi dakikada başlar | Tam saat | 10 geçe | Çeyrek | Buçuk | Ders arası mola | Cumartesi dersleri arasında bırakılan boşluk | Yok | 10 dk | 15 dk | 30 dk | Cumartesi ders saatleri | 60 dk ders + 10 dk ara | 10:10 – 11:10 | 11:20 – 12:20 | 12:30 mola | 13:40 – 14:40 | 14:50 – 15:50 | İlk ders 10 geçe başlar, aralara 10 dakika girer, öğle molası atlanır. | Bu günün molaları | Düzenli molalar burada görünür; cumartesi için inaktif edebilirsin | Öğle molası | 12:30 – 13:30 · düzenli | İnaktif et | Akşam arası | 17:00 – 17:30 · cumartesi inaktif | Geri al | + | Cumartesiye özel mola ekle | Tek bir tarihi kapatmak istiyorsan takvi
+
+## showNotifPrefs
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Bildirim ayarları | Hangi durumda haber verilsin? | Rezervasyon talebi | Yeni talep geldiğinde anında | Ders hatırlatması | Ders başlamadan 1 saat önce | Ödeme hareketi | Tahsilat ve gecikme uyarıları | İptal ve erteleme | Öğrenci saat değiştirdiğinde | Sessiz saatler | Başlangıç | 22:00 | Bitiş | 08:00 | Bu aralıkta yalnızca iptal bildirimleri gelir. | E-posta özeti | Haftalık › | SMS ile hatırlatma | Kapalı › | Kaydet
+
+## showPayments
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ödemeler | Tahsilat ve bekleyen tutarlar | ‹ | Eylül 2026 | › | Bu ay tahsil edilen | ₺12.400 | ₺1.500 | bekleyen | 21 | ders | ₺590 | ders ortalaması | Bekleyen | Tahsil edilen | MD | Mert Doğan | 3 ders · 6 gün gecikmiş | -₺1.500 | EYLÜL TAHSİLATI | SA | Selin Arı | 10 Eyl · Aylık paket | ₺5.400 | EK | Elif Kaya | 8 Eyl · 4 ders | ₺4.500 | KY | Kaan Yıldız | 3 Eyl · 2 ders | ₺2.500 | Bekleyen ödemeler kişi kartından değil buradan takip edilir. Hatırlatma göndermek için kişiye dokun. | Ödeme al
+
+## showPaymentsEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ödemeler | Henüz kayıt yok | ‹ | Eylül 2026 | › | ₺ | Bu ay tahsilat yok | Ders verdikçe ödemeler burada toplanır. Nakit aldıklarını da elle kaydedebilirsin. | ₺0 | tahsil edilen | ₺0 | bekleyen | 0 | ders | Elle ödeme kaydet
+
+## showShare
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ayarlar | QR kod | Deniz Arslan | Matematik & Fizik · İstanbul | pro.app/deniz-arslan | Öğrenciler bu kodu okutarak müsait saatlerini görür ve doğrudan rezervasyon yapar. | Bağlantıyı kopyala | NFC ile paylaş | Kapat
+
+## showShareEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ayarlar | QR kod | profil açılınca | Profil kapalı | Bağlantı şimdilik kimseye açılmıyor | Profili herkese açtığında QR kodun ve pro.app bağlantın anında çalışır. Kapalıyken yalnızca senin eklediğin kişiler rezervasyon yapabilir. | Profili herkese aç | Kapat
+
+## showHelp
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yardım ve destek | Ortalama yanıt süresi 4 saat | Destek ekibine yaz | Uygulama içi mesaj | › | WhatsApp’tan sor | Hafta içi 09:00 – 19:00 | › | Sık sorulanlar | Her öğrenciye farklı fiyat nasıl veririm? | › | Fiyatı güncellersem öğrencilere bildirim gider mi? | › | İptal ve geç kalma kurallarını nasıl değiştiririm? | › | Ödemeyi elle kaydetmek nasıl çalışır? | › | Uygulama sürümü | 2.4.1 · güncel | iOS | Kullanım koşulları | Gizlilik
+
+## showPackageSingle
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Tekil ders | ★ | Kaydet | Tekil ders | 1 seans | Çoklu paket | Birden fazla seans | Ders adı | Tek ders | Ders süresi | 30 dk | 45 dk | 60 dk | 90 dk | Ders ücreti | ₺750 | ders başına | Mola | Dersin önüne ve arkasına eklenen boşluk. Takvimde senin için tutulur, ücrete girmez. | Ders öncesi | Yok | 15 dk | 30 dk | Ders sonrası | Yok | 15 dk | 30 dk | Takvimde {{ sTotal }} dk yer tutar | {{ sSum }} | Ders 60 dk | {{ sT0 }} | 09:00 | 10:00 | {{ sT3 }} | Öğrenci 09:00 dersini görür. Peş peşe rezervasyonda her 1,5 saate bir ders düşer. | Molayı öğrenciden gizle | Paylaştığın takvimde yalnız 09:00–10:00 görünür | Ödeme yöntemi | Bu derste kabul ettiklerin | Nakit | Havale / IBAN | Kredi kartı | Ders öncesi ödeme iste | Kapalıysa ders sonrası tahsil edilir | Ders kuralları | Bu derse özel · genel varsayılanı ezer | Rezervasyon penceresi | 
+
+## showPackageMulti
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Çoklu paket | ★ | Kaydet | Tekil ders | 1 seans | Çoklu paket | Birden fazla seans | Paket adı | 8 derslik paket | Seans sayısı | − | 8 seans | + | Seans süresi | 30 dk | 60 dk | 90 dk | 120 dk | Paket ücreti | ₺5.400 | Geçerlilik | 2 ay | Mola | Her seansın önüne ve arkasına eklenen boşluk. Takvimde senin için tutulur, pakete girmez. | Seans öncesi | Yok | 15 dk | 30 dk | Seans sonrası | Yok | 15 dk | 30 dk | Her seans {{ pTotal }} dk yer tutar | {{ pSum }} | Seans 60 dk | {{ pT0 }} | 09:00 | 10:00 | {{ pT3 }} | Öğrenci 09:00 seansını görür. 8 seanslık paket takvimde toplam 12 saat tutar. | Molayı öğrenciden gizle | Paylaştığın takvimde yalnız 09:00–10:00 görünür | Ödeme yöntemi | Bu pakette kabul ettiklerin | Havale / IBAN | Nakit | Kredi kartı | Ders kuralları | Bu pakete özel · genel varsayılanı ezer | Rezervasyon penceresi | 1 sa
+
+## showAccountOffline
+hint-placeholder-val="{{ false }}"> | 9:41 | İnternet bağlantısı yok | Wi-Fi veya mobil verini kontrol et. Bağlantı kurulduğunda kaldığın yerden devam edeceksin. | Yeniden dene | Hesap bilgileri son olarak 09:12'de yenilendi

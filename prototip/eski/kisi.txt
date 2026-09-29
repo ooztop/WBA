@@ -1,0 +1,62 @@
+## showContacts
+hint-placeholder-val="{{ true }}"> | 9:41 | Kişiler | 18 aktif kişi | + | Kişi ara | Tümü | Üyeler | Bu hafta | Arşiv | EK | Elif Kaya | Sonraki: 17 Eyl · 16:00 | AYLIK | MD | Mert Doğan | Sonraki: 18 Eyl · 19:00 | ₺1.500 BORÇ | SA | Selin Arı | Tam zamanlı üyelik · Aylık | ÜYE | KY | Kaan Yıldız | Sonraki: 19 Eyl · 11:00 | TEK DERS | Takvim | Kişiler | Hesabım
+
+## showContactsEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | Kişiler | Henüz kişi yok | + | İlk kişini ekle | Öğrencilerini elle ekleyebilir ya da profil bağlantını paylaşıp kendilerinin kaydolmasını sağlayabilirsin. | Kişi ekle | QR ile profilini paylaş | ↧ | Rehberden içe aktar | Telefon rehberindeki kişileri seç | › | Takvim | Kişiler | Hesabım
+
+## showAddContact
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yeni kişi | Bilgileri sonra da düzenleyebilirsin | SA | Fotoğraf ekle | İsteğe bağlı · rehberden de alabilirsin | Ad | Selin | Soyad | Arı | Telefon | +90 532 118 44 10 | Rehber | E-posta | selin@ornek.com | Saat ücreti | ₺ 750 | varsayılan | Not | Salı ve perşembe uygun | Profilimi paylaş | Kişiye rezervasyon bağlantısı gönder | Kişiyi kaydet | Vazgeç
+
+## showAddContactEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Yeni kişi | Ad ve telefon yeterli | ↧ | Rehberden doldur | Tek dokunuşla ad, telefon ve e-posta | › | foto | Fotoğraf ekle | İsteğe bağlı | Ad | Ad | Soyad | Soyad | Telefon | +90 5•• ••• •••• | Rehber | E-posta | İsteğe bağlı | Saat ücreti | ₺ — | Fiyatlandırmadan gelir | Not | Örn. salı ve perşembe uygun | Kişiyi kaydet | Vazgeç
+
+## showContact
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Düzenle | MD | Mert Doğan | +90 532 000 00 00 | ₺750 | saatlik ücret | 12 | toplam ders | ₺1.500 | bekleyen | Geçmiş dersler | Gelecek dersler | 3 Eylül · 19:00 | Fizik — Deneme · 60 dk | ₺750 ✗ | 27 Ağustos · 19:00 | Fizik — Optik · 60 dk | ₺750 ✗ | 20 Ağustos · 19:00 | Fizik — Dinamik · 60 dk | ₺750 ✓ | Ödeme al | Ders ekle
+
+## showContactEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Düzenle | SA | Selin Arı | Yeni kişi · bugün eklendi | ₺750 | saatlik ücret | 0 | toplam ders | ₺0 | bekleyen | Geçmiş dersler | Gelecek dersler | Henüz ders yok | İlk dersi takvime eklediğinde geçmiş, ücret ve ödeme bilgileri burada birikmeye başlar. | Ödeme al | İlk dersi ekle
+
+## showPayment
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ödeme al | Mert Doğan · 2 ders | Tahsil edilecek | ₺1.500 | 6 GÜN GECİKMİŞ | 27 Ağustos · Fizik | ₺750 | 3 Eylül · Fizik | ₺750 | Ödeme yöntemi | Havale / EFT | Ziraat · TR•• •••• 4821 | Nakit | Ders sonunda elden | Kart bağlantısı | Öğrenciye ödeme linki gönder | Alınan tutar | ₺ 1.500 | Kısmi | Makbuz gönder | WhatsApp ile PDF makbuz | Ödemeyi işaretle | Vazgeç
+
+## showPaymentEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Ödeme al | Selin Arı | ✓ | Bekleyen ödeme yok | Selin Arı’nın tüm dersleri tahsil edilmiş durumda. Yine de elle bir tahsilat kaydedebilirsin. | Son tahsilat | 10 Eyl · ₺5.400 | Üyelik | Aylık paket | Sonraki fatura | 1 Ekim | Elle tahsilat ekle | Kişiye dön
+
+## showPaymentDone
+hint-placeholder-val="{{ false }}"> | 9:41 | ✓ | ₺1.500 tahsil edildi | Mert Doğan’ın borcu kapandı. Kişi kartındaki rozet “güncel” olarak güncellendi. | Kişi | Mert Doğan | Yöntem | Havale / EFT | Tarih | 10 Eylül, 09:41 | Makbuz | Gönderildi | Kişiye dön | Kişiler listesine dön
+
+## showPaymentDoneEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ! | Kısmi ödeme kaydedildi | ₺750 tahsil edildi, ₺750 açık kaldı. Kalan tutar kişi kartında bekleyen olarak görünmeye devam eder. | Kişi | Mert Doğan | Alınan | ₺750 | Kalan | ₺750 | Makbuz | Gönderilmedi | Kalan için hatırlatma gönder | Kişiye dön
+
+## showEditContact
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Kişiyi düzenle | Kaydet | MD | + | Fotoğrafı değiştir | Ad | Mert | Soyad | Doğan | Telefon | +90 532 000 00 00 | WhatsApp | E-posta | mert@ornek.com | Üyelik tipi | Tam zamanlı | Aylık paket | Tek ders | Saatlik ücret | ₺ 750 | kişiye özel | Not | Ödemeleri ay sonunda toplu yapıyor | Ödeme hatırlatması | Borç 7 günü geçince otomatik mesaj | Arşivle | Kişiyi sil
+
+## showArchiveConfirm
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Kişiyi düzenle | Kaydet | MD | Fotoğrafı değiştir | Ad | Mert | Soyad | Doğan | Telefon | +90 532 000 00 00 | WhatsApp | E-posta | mert@ornek.com | Üyelik tipi | Tam zamanlı | Aylık paket | Tek ders | Saatlik ücret | ₺ 750 | kişiye özel | ↧ | Mert Doğan arşivlensin mi? | Kişiler listesinden kalkar, gelecek dersleri iptal edilir. Ders geçmişi ve ödeme kaydı durur; istediğinde tek dokunuşla geri alırsın. | Açık borcu var | Arşivde de takip edilir | ₺1.500 | Arşivle | Vazgeç
+
+## showDeleteContact
+hint-placeholder-val="{{ false }}"> | 9:41 | Vazgeç | Kişiyi düzenle | Kaydet | MD | Fotoğrafı değiştir | Ad | Mert | Soyad | Doğan | Telefon | +90 532 000 00 00 | WhatsApp | E-posta | mert@ornek.com | Üyelik tipi | Tam zamanlı | Aylık paket | Tek ders | Saatlik ücret | ₺ 750 | kişiye özel | Not | Ödemeleri ay sonunda toplu yapıyor | Ödeme hatırlatması | Borç 7 günü geçince otomatik mesaj | Arşivle | Kişiyi sil | ! | Mert Doğan silinsin mi? | 12 ders kaydı ve tüm ödeme geçmişi kalıcı olarak silinir. Bu işlem geri alınamaz. | Açık borcu var | 6 gün gecikmiş · 2 ders | ₺1.500 | Silmek yerine arşivle | Evet, kalıcı olarak sil | Vazgeç
+
+## showArchived
+hint-placeholder-val="{{ false }}"> | 9:41 | Kişiler | 17 aktif kişi | + | Tümü | Üyeler | Bu hafta | Arşiv | EK | Elif Kaya | Sonraki: 17 Eyl · 16:00 | AYLIK | SA | Selin Arı | Tam zamanlı üyelik · Aylık | ÜYE | KY | Kaan Yıldız | Sonraki: 19 Eyl · 11:00 | TEK DERS | Mert Doğan arşivlendi | 2 ders iptal edildi · ₺1.500 borç takipte | Geri al | Takvim | Kişiler | Hesabım
+
+## showDeleted
+hint-placeholder-val="{{ false }}"> | 9:41 | Kişiler | 17 aktif kişi | + | Tümü | Üyeler | Bu hafta | Arşiv | EK | Elif Kaya | Sonraki: 17 Eyl · 16:00 | AYLIK | SA | Selin Arı | Tam zamanlı üyelik · Aylık | ÜYE | KY | Kaan Yıldız | Sonraki: 19 Eyl · 11:00 | TEK DERS | Mert Doğan silindi | 12 ders ve ödeme kaydı kaldırıldı · 10 sn | Geri al | Takvim | Kişiler | Hesabım
+
+## showArchivedList
+hint-placeholder-val="{{ false }}"> | 9:41 | Kişiler | Arşivdeki kişiler | + | Tümü | Üyeler | Bu hafta | Arşiv | Arşivdeki kişiler takvimde ve aramalarda çıkmaz. Geri aldığında dersleri ve ödeme geçmişi olduğu gibi döner. | MD | Mert Doğan | 14 Eyl’de arşivlendi · ₺1.500 borç | Geri al | BT | Burak Tekin | 2 Tem’de arşivlendi · borcu yok | Geri al | Takvim | Kişiler | Hesabım
+
+## showSearch
+hint-placeholder-val="{{ false }}"> | 9:41 | mer | × | Vazgeç | Tümü | Kişiler | Dersler | Arşiv | Kişiler | MD | Mert Doğan | Sonraki: 18 Eyl · 19:00 | ₺1.500 BORÇ | MA | Merve Aslan | Sonraki: 21 Eyl · 14:30 | AYLIK | Dersler | 18 Eylül · 19:00 | Mert Doğan · Fizik — Elektrik | › | Arşivde | MT | Mert Tunç | 2 Tem’de arşivlendi | Geri al | Takvim | Kişiler | Hesabım
+
+## showSearchEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | zeynep | × | Vazgeç | “zeynep” için sonuç yok | Kişiler, dersler ve arşivde arandı. Ad, telefon ya da ders adının bir bölümünü yazarak tekrar deneyebilirsin. | “zeynep”i kişi olarak ekle | Son aramalar | mert | borçlular | fizik | Takvim | Kişiler | Hesabım
+
+## showUpcoming
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Düzenle | MD | Mert Doğan | +90 532 000 00 00 | 4 | planlı ders | 18 Eyl | ilk ders | ₺3.000 | beklenen | Geçmiş dersler | Gelecek dersler | Bu hafta | 18 Eylül · 19:00 · Yarın | Fizik — Elektrik · 60 dk | ONAYLI | 20 Eylül · 11:00 | Fizik — Manyetizma · 60 dk | ONAY BEKLİYOR | Önümüzdeki hafta | 25 Eylül · 19:00 | Fizik — Tekrar · 60 dk | HAFTALIK | 27 Eylül · 11:00 | Fizik — Deneme sınavı · 90 dk | HAFTALIK | Takvimde gör | Ders ekle
+
+## showUpcomingEmpty
+hint-placeholder-val="{{ false }}"> | 9:41 | ‹ | Düzenle | SA | Selin Arı | Yeni kişi · bugün eklendi | 0 | planlı ders | — | ilk ders | ₺0 | beklenen | Geçmiş dersler | Gelecek dersler | Planlı ders yok | Takvime ders eklediğinde ya da Selin Arı profil bağlantısından rezervasyon yaptığında dersler burada listelenir. | ↻ | Tekrarlayan ders kur | Her hafta aynı gün ve saat | › | İlk dersi ekle
+
+## showContactsOffline
+hint-placeholder-val="{{ false }}"> | 9:41 | İnternet bağlantısı yok | Wi-Fi veya mobil verini kontrol et. Bağlantı kurulduğunda kaldığın yerden devam edeceksin. | Yeniden dene | Kişiler son olarak 09:12'de yenilendi
