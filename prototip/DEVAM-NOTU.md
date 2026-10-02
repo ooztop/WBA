@@ -22,19 +22,18 @@ cd prototip && python3 -m http.server 8095
 sonra http://localhost:8095/app.html (kullanıcı kendisi bakar).
 
 ## Nerede yedekli
-- Claude Design "Wellness" projesi: `Pro App - Final Product (Başlangıç) 3.html` = 1 Ekim sonu hâli. Başlangıç / Başlangıç 2 eski kontrol noktaları, dokunma.
-- GitHub `ooztop/WBA` branch `claude/pro-prototip` = ESKİ (29 Eylül) hâl. Bu turdaki değişiklikler henüz push edilmedi.
+- Claude Design "Wellness" projesi: **`Pro App - Final 1.html` = en güncel (2 Ekim akşamı, boş hâller + alt bar dahil)**. `Pro App - Final Product (Başlangıç) 4.html` = 2 Ekim öğlen. `Başlangıç 3` = 1 Ekim sonu. Başlangıç / Başlangıç 2 eski kontrol noktaları, dokunma.
+- GitHub `ooztop/WBA` branch `claude/pro-prototip`, commit 9ebba79 (2 Ekim) = Başlangıç 3 ile aynı hâl.
+- Design'da ayrıca `Pro App - Tasarım Sistemi v3.md`.
 
 ## Durum
 **Kullanıcıyla tek tek elden geçen ve onaylanan:** Takvim, Kişiler listesi, Yeni kişi, Kişi detayı, Kişiyi düzenle, Hesabım, Bildirimler sekmesi, Bildirim ayarları, Yardım, Takvim ayarları, Gün sayfası, Düzenli mola, İzin/kapalı gün, Ders kuralları, Paket tercihleri, Tekil/Çoklu paket, Yeni ders (+Paketler, Kişi seç, Yeni paket), Ara ekle, Ders detayı, Dersi ertele, Dersi iptal et, Ödeme al, Ödeme alındı, Ödemeler, Hesabı düzenle.
 
-**Sıradaki (henüz tek tek bakılmadı):**
-1. Ders iptal edildi (sonuç ekranı — Ödeme alındı'nın yeni tasarımına uyarlanabilir)
-2. Rezervasyon talebi (normal + çakışmalı)
-3. Rezervasyon onaylandı
-4. Profilini paylaş (QR)
-5. Hesabı sil → Silinmek üzere
-6. Giriş
+**2 Ekim'de eklenen/yenilenen (Başlangıç 4):** Profilini paylaş (beyaz sayfa), Hesabı sil (Silinmek üzere ekranı tamamen silindi → doğrudan Giriş), Rezervasyon talebi normal/çakışmalı, sonuç ekranları ortak `doneS()` ile (Rezervasyon onaylandı, Talep reddedildi, Yeni saat onaylandı `rsAccepted`, Ders iptal edildi — kişi iptali `k`), Bildirimlerde her satır tıklanır, Ödeme al üst kısmı ortalı sade (kart yok), Kişi detayında paket kutusu (`cpk4`, sadece PAKET kişilerde), Giriş + adımlı Kaydol (`signup` → `suMail` → `suMailCode` → `suPhone` → `suPhoneCode` → `suJob`, ortak `suS()`).
+
+**Final 1 sonrası eklenenler:** Üstte "Boş sayfa" düğmesi (`EMP` bayrağı) — boş olabilen ekranların boş hâli: Takvim (saatler/şimdi çizgisi/+ gizli, ortada "Takvimin boş" + Ders ekle), Kişiler, Bildirimler, Ödemeler, Paket tercihleri, Yeni ders (Kişi seç, Paketler, ücret kartı), Takvim ayarları molalar, İzin dersleri, Hesabı sil. Ortak `EMPT()` / `EMPS()`. Sonuç ekranlarının boş hâli yok (veri olmadan açılmazlar). Alt bar: açık mavi zemin + radial lila/mavi lekeler (takvimdeki buğulu görünüm her sekmede).
+
+**Sıradaki:** Kullanıcıyla birlikte karar verilecek.
 
 Bilerek dokunulmayan: onay/menü açılır pencereleri ("Vazgeç" olanlar).
 
