@@ -10,7 +10,7 @@ Kullanıcıyla sade Türkçe konuşulur. Kurum ve Mekân ekranları kapsam dış
 | Dosya | Ne |
 |---|---|
 | `prototip/app.html` | **Güncel, tıklanabilir prototip** (tek dosya, vanilla JS) |
-| `prototip/TASARIM-SISTEMI-v3.md` | **Güncel tasarım kuralları** — önce bunu oku |
+| `prototip/TASARIM-SISTEMI-v4.md` | **Güncel tasarım kuralları** — önce bunu oku (v3 eski) |
 | `prototip/PLAN-ekran-revizyonu.md` | Ekran ekran ilerleme, onaylananlar, kalanlar |
 | `prototip/design-upload/` | Claude Design'a yüklenen kopyalar |
 | `prototip/eski/` | Eski Claude Design ekranlarının dökümü (fikir için) |
