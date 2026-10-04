@@ -165,3 +165,17 @@ Prototipte üstte **"Boş sayfa"** düğmesi (yanında "Koyu tema"); basınca ve
 - Görsel + kısa not gönderir; notu görseldeki öğeye uygula.
 - Boşluk/hizalama ince ayarı sadece söylenen yerde.
 - Kayıt: "kaydet X diye" → Design'a o adla; "her yere" → Design + GitHub + devam notu.
+
+---
+
+## 13. v4.1 ekleri (4 Ekim, Final 2)
+
+- **Takvim gün seçici:** seçili gün siyah yuvarlak; bugün seçili değilse mavi dolu yuvarlak + beyaz rakam.
+- **Yüzen ana buton:** liste ekranlarında altta, arkası şeffaf (liste arkadan görünür), tam mavi, beyaz ikon+yazı, hafif mavi gölge (Yeni kişi ekle, Kişiye özel paket). Listenin sonuna 90px boşluk.
+- **Açılır bölüm her yerde aynı:** Ders kuralları ve Tekrar aynı kalıp — başlık + özet alt yazı + ok; açılınca açık mavi alan (`ruleOpen`, `data-on` ile açıkken alt yazı).
+- **Sahip olunan / kişiye özel öğe:** mavi çerçeve + açık mavi zemin, sağda mavi durum ("5 kaldı"), listenin en üstünde ayrı bölüm ("Elif'in paketleri").
+- **Kapalı/kullanılamaz seçenek:** soluk (%35), zeminsiz ince çerçeve, basılamaz (ör. kapalı gün).
+- **Gizli tutar:** mavi `***`, sağda dikey ortalı mavi göz; dokununca tutar (borçsa kırmızı) ve üstü çizili göz.
+- **Kişi bağlamlı alt sayfa başlığı:** üstte mavi isim (19/600), altında küçük silik sayfa adı ("Dokümanlar").
+- **Değer yazısı gereksizse yazma:** Hesabım'da Ders kuralları gibi satırlarda sağ değer kaldırıldı.
+- **İsimlendirme:** "Ara ekle" yerine "Mola ekle".
