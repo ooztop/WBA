@@ -1,6 +1,6 @@
 # Pro App · Tasarım Sistemi v4
 
-Son güncelleme: 2 Ekim 2026. Kaynak: `prototip/app.html` (Design'da **"Pro App - Final 1.html"**).
+Son güncelleme: 4 Ekim 2026. Kaynak: `prototip/app.html` (Design'da **"Pro App - Final 2.html"**).
 v3'ün üstüne: kalan ekranlar (paylaş, hesabı sil, rezervasyon, sonuç ekranları, giriş/kaydol), boş hâller ve alt bar.
 v3'te olup burada değişen kurallar **(v4)** ile işaretli.
 

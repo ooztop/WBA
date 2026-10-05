@@ -10,10 +10,9 @@ Kullanıcıyla sade Türkçe konuşulur. Kurum ve Mekân ekranları kapsam dış
 | Dosya | Ne |
 |---|---|
 | `prototip/app.html` | **Güncel, tıklanabilir prototip** (tek dosya, vanilla JS) |
-| `prototip/TASARIM-SISTEMI-v4.md` | **Güncel tasarım kuralları** — önce bunu oku (v3 eski) |
-| `prototip/PLAN-ekran-revizyonu.md` | Ekran ekran ilerleme, onaylananlar, kalanlar |
+| `prototip/TASARIM-SISTEMI-v4.md` | **Güncel tasarım kuralları** — önce bunu oku |
 | `prototip/design-upload/` | Claude Design'a yüklenen kopyalar |
-| `prototip/eski/` | Eski Claude Design ekranlarının dökümü (fikir için) |
+| `Eski Proje Geri Yüklendi/` | Kullanıcının eski Claude Design ekranları (fikir için) |
 
 Yerelde açmak için:
 ```
@@ -22,9 +21,8 @@ cd prototip && python3 -m http.server 8095
 sonra http://localhost:8095/app.html (kullanıcı kendisi bakar).
 
 ## Nerede yedekli
-- Claude Design "Wellness" projesi: **`Pro App - Final 2.html` = en güncel (4 Ekim)**. `Pro App - Final 1.html` = 2 Ekim akşamı. `Pro App - Final Product (Başlangıç) 4.html` = 2 Ekim öğlen. `Başlangıç 3` = 1 Ekim sonu. Başlangıç / Başlangıç 2 eski kontrol noktaları, dokunma.
-- GitHub `ooztop/WBA` branch `claude/pro-prototip`, commit 9ebba79 (2 Ekim) = Başlangıç 3 ile aynı hâl.
-- Design'da ayrıca `Pro App - Tasarım Sistemi v3.md`.
+- Claude Design "Wellness" projesi: **`Pro App - Final 2.html`** (tek güncel prototip), `Pro App - Tasarım Sistemi v4.md`, `PRO-APP-DEVAM-NOTU.md`. Eski kontrol noktaları (Başlangıç 1–4, Final 1, v2, v3) 5 Ekim'de kullanıcı isteğiyle silindi; kullanıcının kendi eski dosyaları duruyor.
+- GitHub `ooztop/WBA` dal `claude/pro-prototip`, `prototip/` klasörü (eski hâller git geçmişinde).
 
 ## Durum
 **Kullanıcıyla tek tek elden geçen ve onaylanan:** Takvim, Kişiler listesi, Yeni kişi, Kişi detayı, Kişiyi düzenle, Hesabım, Bildirimler sekmesi, Bildirim ayarları, Yardım, Takvim ayarları, Gün sayfası, Düzenli mola, İzin/kapalı gün, Ders kuralları, Paket tercihleri, Tekil/Çoklu paket, Yeni ders (+Paketler, Kişi seç, Yeni paket), Ara ekle, Ders detayı, Dersi ertele, Dersi iptal et, Ödeme al, Ödeme alındı, Ödemeler, Hesabı düzenle.
@@ -45,7 +43,11 @@ sonra http://localhost:8095/app.html (kullanıcı kendisi bakar).
 
 **Sunucu notu:** Arka plan sunucusu 10 dk sınırına takılıyor; kullanıcı kendi terminalinde `cd prototip && python3 -m http.server 8095` çalıştırmalı. Test için dosya `file://` ile de açılabiliyor.
 
-**Sıradaki:** Kullanıcıyla birlikte karar verilecek.
+**Web (5 Ekim'den itibaren):** Kullanıcı uygulamanın web hâlini istiyor: önce **Uzman web paneli** (`prototip/web.html`), sonra **Tanıtım sitesi**. İskelet B seçildi: sol menü (Takvim, Kişiler, Ödemeler, Bildirimler, Ayarlar) + ana alan + sağ detay paneli (mobildeki alttan panellerin karşılığı). Aynı v4 tasarım dili. İlk sürüm: haftalık takvim (dersler, molalar, şimdi çizgisi), sağ panelde Bugün özeti / Ders detayı / Yeni ders / Mola ekle / Talep / Ödeme al / Dokümanlar / Yeni kişi; Kişiler liste+detay; Ödemeler tablo; Bildirimler; Ayarlar (sol alt menü + içerik). 1280px altında sağ panel üstte açılan çekmece olur.
+
+**Not:** Web işi artık ayrı bir konuşmada yürüyor → `prototip/WEB-DEVAM-NOTU.md`. Bu not ve bu konuşma sadece mobil içindir.
+
+**Sıradaki (mobil):** Kullanıcıyla birlikte karar verilecek.
 
 Bilerek dokunulmayan: onay/menü açılır pencereleri ("Vazgeç" olanlar).
 
