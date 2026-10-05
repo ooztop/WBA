@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics=""><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><style>body{margin:0;background:#ecebe7;font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}a{color:#3a5ccc;text-decoration:none}a:hover{color:#26409a}</style></helmet>
+
+<div style="padding:48px 56px 64px;display:flex;flex-direction:column;gap:56px;width:max-content">
+
+  <div style="display:flex;flex-direction:column;gap:8px;max-width:760px">
+    <h1 style="margin:0;font:800 30px/1.1 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Eski tasarım</h1>
+    <p style="margin:0;font:400 13.5px/1.6 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);text-wrap:pretty">İlk tasarımın üç akışı tek dosyada: Takvim, Kişi ve Hesap. Her bölümde tıklanabilir prototip ve ekranların mock / boş halleri var. Güncel tasarım: Pro App - Final 2.</p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:44px">
+  <div style="display:flex;flex-direction:column;gap:8px;max-width:760px">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <h2 style="margin:0;font:800 24px/1.1 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Takvim akışı</h2>
+      <span style="font:600 11px ui-monospace,Menlo,monospace;padding:4px 8px;background:#15161a;color:#fff;border-radius:5px">takvim → ders</span>
+    </div>
+    <p style="margin:0;font:400 13.5px/1.6 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);text-wrap:pretty">Takvim sekmesinden çıkan dokuz ekran. Üstte tıklanabilir akış, altta ekranlar sayfa sayfa dikey sırada: çoğunda mock verili ve boş hali yan yana, ders detayında erteleme ve iptal alt sayfalarıyla alt alta.</p>
+  </div>
+  <div style="display:flex;gap:36px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#15161a;color:#fff;border-radius:5px">akış</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Tıklanabilir prototip</span></div>
+      <dc-import name="Eski Tasarım - Ekranlar" only="{{ tkScreen }}" empty="{{ tkEmpty }}" go="{{ tkGo }}" back="{{ tkBack }}" hint-size="390px,844px"></dc-import>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;width:280px;padding-top:30px">
+      <div style="padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:6px">
+        <span style="font:600 10.5px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.45)">YIĞIN</span>
+        <span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">{{ tkTrail }}</span>
+      </div>
+      <div onClick="{{ tkToggleEmpty }}" style="cursor:pointer;padding:13px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Boş veri</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Yeni hesabın hali</div></div>
+        <div style="width:46px;height:28px;border-radius:14px;background:{{ tkToggleBg }};display:flex;align-items:center;padding:3px;flex:none;justify-content:{{ tkToggleJustify }}"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)"></div></div>
+      </div>
+      <div style="display:flex;gap:9px">
+        <div onClick="{{ tkBack }}" style="cursor:pointer;flex:1;height:44px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹ Geri</div>
+        <div onClick="{{ tkReset }}" style="cursor:pointer;flex:1;height:44px;border-radius:14px;background:#15161a;display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#fff">Baştan</div>
+      </div>
+      <div style="padding:13px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.2);font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Ders kartını dikey sürükle: saat değişir. Sağa kaydır: silinir. Ay adına dokun: ay görünümü. Günün molaları ekranında gün şeridiyle gün değiştirilir. Sol ok tuşu da geri gider.</div>
+    </div>
+  </div>
+  <div style="height:1px;background:rgba(0,0,0,.1)"></div>
+  <div style="display:flex;flex-direction:column;gap:48px">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">01</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Takvim</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Hafta şeridi + bugünün çizelgesi · giriş noktası</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="calendar" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · hiç ders yok</span><dc-import name="Eski Tasarım - Ekranlar" only="calendar" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">02</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ay görünümü</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ay adına dokununca · renk kodu ve ay özeti</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="month" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · kayıt yok</span><dc-import name="Eski Tasarım - Ekranlar" only="month" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Hafta görünümü · 7 gün × saat</span><dc-import name="Eski Tasarım - Ekranlar" only="week" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ V2 · dikey gün rayları, ders tipine göre renkli kapsül</span><dc-import name="Eski Tasarım - Ekranlar" only="weekTypes" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">03</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Günü düzenle</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Dersler · güne özel molalar ve izin</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="day" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · hiç saat işaretlenmemiş</span><dc-import name="Eski Tasarım - Ekranlar" only="day" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">04</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Yeni ders</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Kişi, saat, süre, ücret</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="newLesson" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · kayıtlı kişi yok</span><dc-import name="Eski Tasarım - Ekranlar" only="newLesson" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Manuel fiyat</span><dc-import name="Eski Tasarım - Ekranlar" only="newLessonManual" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Tekrar · alt sayfa</span><dc-import name="Eski Tasarım - Ekranlar" only="repeat" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">05</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ders detayı</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Ertele / iptal · iptal kayda geçer</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Ödendi · seriye bağlı</span><dc-import name="Eski Tasarım - Ekranlar" only="lesson" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · ödeme bekliyor, not girilmemiş</span><dc-import name="Eski Tasarım - Ekranlar" only="lesson" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ “Dersi ertele”ye basınca · müsait saatlerden seçim</span><dc-import name="Eski Tasarım - Ekranlar" only="reschedule" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ “Dersi iptal et”e basınca · sebep ve yazılı onay</span><dc-import name="Eski Tasarım - Ekranlar" only="cancel" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ İptal edildi · onay sonrası</span><dc-import name="Eski Tasarım - Ekranlar" only="cancelled" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">06</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bildirimler</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Zil ikonundan · talepler, ödemeler, iptaller</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="notifications" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · bildirim yok</span><dc-import name="Eski Tasarım - Ekranlar" only="notifications" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">07</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Rezervasyon talebi</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Onayla, başka saat öner, reddet</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Çakışma yok</span><dc-import name="Eski Tasarım - Ekranlar" only="request" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Çakışma uyarısı · karşı teklif</span><dc-import name="Eski Tasarım - Ekranlar" only="request" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Onaylandı · takvime eklendi</span><dc-import name="Eski Tasarım - Ekranlar" only="requestAccepted" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">08</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bağlantı yok</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Önbellekten okuma · bekleyen değişiklikler</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Çevrimdışı takvim</span><dc-import name="Eski Tasarım - Ekranlar" only="calendarOffline" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div style="height:3px;background:rgba(0,0,0,.18);border-radius:2px"></div>
+  <div style="display:flex;flex-direction:column;gap:44px">
+  <div style="display:flex;flex-direction:column;gap:8px;max-width:760px">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <h2 style="margin:0;font:800 24px/1.1 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Kişi akışı</h2>
+      <span style="font:600 11px ui-monospace,Menlo,monospace;padding:4px 8px;background:#15161a;color:#fff;border-radius:5px">kişiler → ödeme</span>
+    </div>
+    <p style="margin:0;font:400 13.5px/1.6 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);text-wrap:pretty">Kişiler listesinden başlayıp ödeme sonucuna kadar giden altı ekran. Üstte tıklanabilir akış, altta ekranlar sayfa sayfa dikey sırada: çoğunda mock verili ve boş hali yan yana, kişiyi düzenlemede ise alt sayfalarıyla alt alta.</p>
+  </div>
+  <div style="display:flex;gap:36px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#15161a;color:#fff;border-radius:5px">akış</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Tıklanabilir prototip</span></div>
+      <dc-import name="Eski Tasarım - Ekranlar" only="{{ kiScreen }}" empty="{{ kiEmpty }}" go="{{ kiGo }}" back="{{ kiBack }}" hint-size="390px,844px"></dc-import>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;width:280px;padding-top:30px">
+      <div style="padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:6px">
+        <span style="font:600 10.5px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.45)">YIĞIN</span>
+        <span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">{{ kiTrail }}</span>
+      </div>
+      <div onClick="{{ kiToggleEmpty }}" style="cursor:pointer;padding:13px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Boş veri</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Yeni hesabın hali</div></div>
+        <div style="width:46px;height:28px;border-radius:14px;background:{{ kiToggleBg }};display:flex;align-items:center;padding:3px;flex:none;justify-content:{{ kiToggleJustify }}"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)"></div></div>
+      </div>
+      <div style="display:flex;gap:9px">
+        <div onClick="{{ kiBack }}" style="cursor:pointer;flex:1;height:44px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹ Geri</div>
+        <div onClick="{{ kiReset }}" style="cursor:pointer;flex:1;height:44px;border-radius:14px;background:#15161a;display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#fff">Baştan</div>
+      </div>
+      <div style="padding:13px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.2);font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">Listede bir kişiye dokun, bekleyen tutardan ödeme alma ekranına geç. Sol ok tuşu da geri gider.</div>
+    </div>
+  </div>
+  <div style="height:1px;background:rgba(0,0,0,.1)"></div>
+  <div style="display:flex;flex-direction:column;gap:48px">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">01</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kişiler</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Liste, arama, filtre · giriş noktası</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="contacts" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş</span><dc-import name="Eski Tasarım - Ekranlar" only="contacts" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Arama · kişi, ders ve arşivde arar</span><dc-import name="Eski Tasarım - Ekranlar" only="search" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Sonuç yok</span><dc-import name="Eski Tasarım - Ekranlar" only="search" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Arşiv filtresi · geri alma</span><dc-import name="Eski Tasarım - Ekranlar" only="archivedList" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">02</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Yeni kişi</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Elle ekleme formu · rehberden doldurma</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="addContact" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş</span><dc-import name="Eski Tasarım - Ekranlar" only="addContact" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">03</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kişi detayı</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">İstatistikler, ders geçmişi, ödeme girişi</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="contact" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş</span><dc-import name="Eski Tasarım - Ekranlar" only="contact" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Gelecek dersler · ikinci sekme</span><dc-import name="Eski Tasarım - Ekranlar" only="upcoming" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · ders yok</span><dc-import name="Eski Tasarım - Ekranlar" only="upcoming" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">04</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Kişiyi düzenle</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Detaydaki “Düzenle” · arşivle / sil</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri · formun altında arşivle / sil</span><dc-import name="Eski Tasarım - Ekranlar" only="editContact" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ “Arşivle”ye basınca · onay</span><dc-import name="Eski Tasarım - Ekranlar" only="archiveConfirm" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Arşivlendi · listeye dönüş ve geri al</span><dc-import name="Eski Tasarım - Ekranlar" only="archived" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ “Kişiyi sil”e basınca · borç uyarısı ve onay</span><dc-import name="Eski Tasarım - Ekranlar" only="deleteContact" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Silindi · 10 saniyelik geri al</span><dc-import name="Eski Tasarım - Ekranlar" only="deleted" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">05</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme al</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Tutar, yöntem, makbuz</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="payment" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · borç yok</span><dc-import name="Eski Tasarım - Ekranlar" only="payment" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">06</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödeme sonucu</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Tam tahsilat · kısmi tahsilat</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Tamamı alındı</span><dc-import name="Eski Tasarım - Ekranlar" only="paymentDone" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Kısmi · açık kaldı</span><dc-import name="Eski Tasarım - Ekranlar" only="paymentDone" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">07</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bağlantı yok</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">İndirilmiş kişiler · ödeme kapalı</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Çevrimdışı kişiler</span><dc-import name="Eski Tasarım - Ekranlar" only="contactsOffline" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div style="height:3px;background:rgba(0,0,0,.18);border-radius:2px"></div>
+  <div style="display:flex;flex-direction:column;gap:44px">
+  <div style="display:flex;flex-direction:column;gap:8px;max-width:760px">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <h2 style="margin:0;font:800 24px/1.1 'Plus Jakarta Sans',sans-serif;color:#15161a;letter-spacing:-0.02em">Hesap akışı</h2>
+      <span style="font:600 11px ui-monospace,Menlo,monospace;padding:4px 8px;background:#15161a;color:#fff;border-radius:5px">hesabım → ayarlar</span>
+    </div>
+    <p style="margin:0;font:400 13.5px/1.6 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6);text-wrap:pretty">Hesabım sekmesinden çıkan altı ekran. Üstte tıklanabilir akış, altta ekranlar sayfa sayfa dikey sırada: çoğunda mock verili ve boş hali yan yana, hesabı düzenlemede ise çıkış ve silme alt sayfalarıyla alt alta.</p>
+  </div>
+  <div style="display:flex;gap:36px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div style="display:flex;align-items:baseline;gap:8px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:#15161a;color:#fff;border-radius:5px">akış</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Tıklanabilir prototip</span></div>
+      <dc-import name="Eski Tasarım - Ekranlar" only="{{ heScreen }}" empty="{{ heEmpty }}" go="{{ heGo }}" back="{{ heBack }}" hint-size="390px,844px"></dc-import>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;width:280px;padding-top:30px">
+      <div style="padding:14px 16px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:6px">
+        <span style="font:600 10.5px ui-monospace,Menlo,monospace;color:rgba(21,22,26,.45)">YIĞIN</span>
+        <span style="font:700 13.5px 'Plus Jakarta Sans',sans-serif;color:#15161a">{{ heTrail }}</span>
+      </div>
+      <div onClick="{{ heToggleEmpty }}" style="cursor:pointer;padding:13px 15px;border-radius:16px;background:#fff;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div><div style="font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">Boş veri</div><div style="font:500 11.5px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.55)">Yeni hesabın hali</div></div>
+        <div style="width:46px;height:28px;border-radius:14px;background:{{ heToggleBg }};display:flex;align-items:center;padding:3px;flex:none;justify-content:{{ heToggleJustify }}"><div style="width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)"></div></div>
+      </div>
+      <div style="display:flex;gap:9px">
+        <div onClick="{{ heBack }}" style="cursor:pointer;flex:1;height:44px;border-radius:14px;background:#fff;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#15161a">‹ Geri</div>
+        <div onClick="{{ heReset }}" style="cursor:pointer;flex:1;height:44px;border-radius:14px;background:#15161a;display:flex;align-items:center;justify-content:center;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#fff">Baştan</div>
+      </div>
+      <div style="padding:13px 15px;border-radius:16px;background:rgba(47,75,209,.06);border:1px solid rgba(47,75,209,.2);font:500 12px/1.5 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.6)">⋯ menüsünden ayarlara, ödeme kartından tahsilat listesine gir. Çıkış ve silme akışları düzenleme ekranının altında. Sol ok tuşu da geri gider.</div>
+    </div>
+  </div>
+  <div style="height:1px;background:rgba(0,0,0,.1)"></div>
+  <div style="display:flex;flex-direction:column;gap:48px">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">01</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Hesabım</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Profil, tahsilat özeti, QR · giriş noktası</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="account" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · fiyat belirlenmemiş</span><dc-import name="Eski Tasarım - Ekranlar" only="account" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ ⋯ menüsü · tüm ayarlar</span><dc-import name="Eski Tasarım - Ekranlar" only="accountMenu" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">02</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Hesabı düzenle</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Profil formu · çıkış yap / hesabı sil</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="accountEdit" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · fotoğraf eklenmemiş</span><dc-import name="Eski Tasarım - Ekranlar" only="accountEdit" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ “Çıkış yap”a basınca · onay</span><dc-import name="Eski Tasarım - Ekranlar" only="logoutConfirm" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Çıkış yapıldı · giriş ekranı ve geri dönüş</span><dc-import name="Eski Tasarım - Ekranlar" only="loggedOut" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ “Hesabı sil”e basınca · bekleyen tahsilat uyarısı ve yazılı onay</span><dc-import name="Eski Tasarım - Ekranlar" only="deleteAccount" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Silme talebi alındı · 30 gün geri alma</span><dc-import name="Eski Tasarım - Ekranlar" only="accountDeleted" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">03</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Fiyatlandırma</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Paketler, tekil ders, ödeme yöntemleri</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="pricing" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · fiyatlandırma biçimi seçilmedi</span><dc-import name="Eski Tasarım - Ekranlar" only="pricing" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Tekil ders · mola ve temel ders</span><dc-import name="Eski Tasarım - Ekranlar" only="packageSingle" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Çoklu paket · yeni paket formu</span><dc-import name="Eski Tasarım - Ekranlar" only="packageMulti" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">04</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Takvim ayarlarım</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Haftalık çalışma saatleri, molalar, güne özel kurallar</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Haftalık saatler</span><dc-import name="Eski Tasarım - Ekranlar" only="calendarPrefs" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Cumartesi · güne özel ayar</span><dc-import name="Eski Tasarım - Ekranlar" only="dayRule" hint-size="390px,844px"></dc-import></div>
+      </div>
+      <div style="padding-left:28px;border-left:2px solid rgba(0,0,0,.09);display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">↳ Mola ekle</span><dc-import name="Eski Tasarım - Ekranlar" only="breakNew" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">05</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bildirim ayarları</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">⋯ menüsünden</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Bildirim ayarları</span><dc-import name="Eski Tasarım - Ekranlar" only="notifPrefs" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">06</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Ödemeler</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Aylık tahsilat, bekleyenler · ödeme kartından</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Mock veri</span><dc-import name="Eski Tasarım - Ekranlar" only="payments" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · kayıt yok</span><dc-import name="Eski Tasarım - Ekranlar" only="payments" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">07</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">QR ile paylaş</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">Bağlantı, NFC · profil açık / kapalı</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Profil açık</span><dc-import name="Eski Tasarım - Ekranlar" only="share" hint-size="390px,844px"></dc-import></div>
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Boş · profil kapalı</span><dc-import name="Eski Tasarım - Ekranlar" only="share" empty="{{ true }}" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">08</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Yardım ve destek</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">⋯ menüsünün alt bloğundan</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Destek kanalları · SSS</span><dc-import name="Eski Tasarım - Ekranlar" only="help" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px"><span style="font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#15161a;border-radius:5px">09</span><span style="font:700 14px 'Plus Jakarta Sans',sans-serif;color:#15161a">Bağlantı yok</span><span style="font:500 12px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.5)">QR ve sunucu ayarları kapalı</span></div>
+      <div style="display:flex;gap:28px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:9px"><span style="font:600 11px 'Plus Jakarta Sans',sans-serif;color:rgba(21,22,26,.45);max-width:390px">Çevrimdışı hesap</span><dc-import name="Eski Tasarım - Ekranlar" only="accountOffline" hint-size="390px,844px"></dc-import></div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1000,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  state = { tk: ['calendar'], ki: ['contacts'], he: ['account'], tkE: false, kiE: false, heE: false };
+
+  flows = {
+    tk: { root: 'calendar', key: 'takvim', ids: ['calendar', 'week', 'month', 'day', 'newLesson', 'newLessonManual', 'repeat', 'lesson', 'reschedule', 'cancel', 'cancelled', 'notifications', 'request', 'requestAccepted', 'timeOff', 'quickAdd', 'newBreak', 'contacts', 'contact', 'account', 'payment'],
+      labels: { calendar: 'Takvim', week: 'Hafta görünümü', month: 'Ay görünümü', day: 'Günün molaları', newLesson: 'Yeni ders', newLessonManual: 'Manuel fiyat', repeat: 'Tekrar', lesson: 'Ders detayı', reschedule: 'Ertele', cancel: 'İptal onayı', cancelled: 'İptal edildi', notifications: 'Bildirimler', request: 'Rezervasyon talebi', requestAccepted: 'Talep onaylandı', timeOff: 'İzin / kapalı gün', quickAdd: 'Hızlı ekle', newBreak: 'Müsaitliği kapat' } },
+    ki: { root: 'contacts', key: 'kisi', ids: ['contacts', 'search', 'addContact', 'contact', 'upcoming', 'editContact', 'archiveConfirm', 'deleteContact', 'archived', 'deleted', 'archivedList', 'payment', 'paymentDone', 'share'],
+      labels: { contacts: 'Kişiler', search: 'Arama', upcoming: 'Gelecek dersler', addContact: 'Yeni kişi', contact: 'Kişi detayı', editContact: 'Kişiyi düzenle', archiveConfirm: 'Arşiv onayı', deleteContact: 'Silme onayı', archived: 'Arşivlendi', deleted: 'Silindi', archivedList: 'Arşiv listesi', payment: 'Ödeme al', paymentDone: 'Ödeme sonucu' } },
+    he: { root: 'account', key: 'hesap', ids: ['account', 'accountMenu', 'accountEdit', 'logoutConfirm', 'loggedOut', 'deleteAccount', 'accountDeleted', 'pricing', 'rules', 'notifPrefs', 'payments', 'packageMulti', 'packageSingle', 'calendarPrefs', 'dayRule', 'breakNew', 'share', 'help', 'payment', 'contacts', 'calendar', 'login'],
+      labels: { account: 'Hesabım', accountMenu: 'Menü', accountEdit: 'Hesabı düzenle', logoutConfirm: 'Çıkış onayı', loggedOut: 'Çıkış yapıldı', deleteAccount: 'Silme onayı', accountDeleted: 'Silme talebi', pricing: 'Fiyatlandırma', rules: 'Ders kuralları', notifPrefs: 'Bildirim ayarları', payments: 'Ödemeler', packageMulti: 'Çoklu paket', packageSingle: 'Tekil ders', calendarPrefs: 'Takvim ayarlarım', dayRule: 'Cumartesi', breakNew: 'Mola ekle', share: 'QR paylaş', help: 'Yardım ve destek' } }
+  };
+
+  constructor(props) {
+    super(props);
+    const self = this;
+    this.h = {};
+    Object.keys(this.flows).forEach(function (f) {
+      const go = {};
+      self.flows[f].ids.forEach(function (id) { go[id] = function () { self.push(f, id); }; });
+      self.h[f] = {
+        go: go,
+        back: function () { self.pop(f); },
+        reset: function () { self.set(f, [self.flows[f].root]); },
+        toggleEmpty: function () {
+          const v = !self.state[f + 'E'];
+          try { localStorage.setItem('pro-' + self.flows[f].key + '-empty', v ? '1' : '0'); } catch (e) {}
+          const o = {}; o[f + 'E'] = v; self.setState(o);
+        }
+      };
+    });
+  }
+
+  componentDidMount() {
+    const self = this;
+    try {
+      Object.keys(this.flows).forEach(function (f) {
+        const k = self.flows[f].key;
+        const saved = localStorage.getItem('pro-' + k + '-stack');
+        const o = {};
+        if (saved) { const arr = JSON.parse(saved); if (Array.isArray(arr) && arr.length) o[f] = arr; }
+        if (localStorage.getItem('pro-' + k + '-empty') === '1') o[f + 'E'] = true;
+        self.setState(o);
+      });
+    } catch (e) {}
+  }
+
+  set(f, stack) {
+    try { localStorage.setItem('pro-' + this.flows[f].key + '-stack', JSON.stringify(stack)); } catch (e) {}
+    const o = {}; o[f] = stack; this.setState(o);
+  }
+
+  push(f, name) {
+    const stack = this.state[f].slice();
+    const top = stack[stack.length - 1];
+    if (top === name) return;
+    if (name === this.flows[f].root) { this.set(f, [name]); return; }
+    const at = stack.indexOf(name);
+    if (at > -1) stack.length = at + 1;
+    else stack.push(name);
+    if (stack.length > 12) stack.splice(1, 1);
+    this.set(f, stack);
+  }
+
+  pop(f) {
+    if (this.state[f].length < 2) return;
+    this.set(f, this.state[f].slice(0, -1));
+  }
+
+  renderVals() {
+    const self = this, v = {};
+    Object.keys(this.flows).forEach(function (f) {
+      const stack = self.state[f], labels = self.flows[f].labels, e = self.state[f + 'E'];
+      const tail = stack.slice(-3).map(function (id) { return labels[id] || id; });
+      v[f + 'Screen'] = stack[stack.length - 1];
+      v[f + 'Empty'] = e;
+      v[f + 'Trail'] = (stack.length > 3 ? '… / ' : '') + tail.join(' / ');
+      v[f + 'ToggleBg'] = e ? '#2f4bd1' : 'rgba(0,0,0,.14)';
+      v[f + 'ToggleJustify'] = e ? 'flex-end' : 'flex-start';
+      v[f + 'Go'] = self.h[f].go;
+      v[f + 'Back'] = self.h[f].back;
+      v[f + 'Reset'] = self.h[f].reset;
+      v[f + 'ToggleEmpty'] = self.h[f].toggleEmpty;
+    });
+    return v;
+  }
+}
+</script>
+</body>
+</html>
