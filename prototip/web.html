@@ -79,7 +79,9 @@ input,textarea{font:inherit;color:var(--t)}
 .ev b{display:block;font-size:13px;font-weight:650;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ev span{display:block;font-size:11.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ev.b{background:var(--tb);border-color:var(--a);color:var(--tbt)}.ev.g{background:var(--tg);border-color:var(--tgl);color:var(--tgt)}.ev.o{background:var(--to);border-color:var(--tol);color:var(--tot)}.ev.d{background:var(--td);border-color:var(--tdl);color:var(--tdt)}
-.ev.br{background:repeating-linear-gradient(135deg,var(--fill) 0 6px,var(--bg) 6px 12px);border-color:var(--t3);color:var(--t2)}
+.ev.br{background:repeating-linear-gradient(135deg,transparent 0 5px,color-mix(in srgb,var(--fill2) 70%,transparent) 5px 6px);border-left:0;color:var(--t3);display:flex;align-items:center;justify-content:center;border-radius:6px}
+.ev.br:hover{box-shadow:none}
+.ev.br b{font-size:11px;font-weight:550}
 .now{position:absolute;left:64px;right:0;height:2px;background:var(--t2);z-index:3;pointer-events:none}
 .now::before{content:'12:36';position:absolute;left:-50px;top:-8px;font-size:10.5px;font-weight:700;color:var(--bg);background:var(--t2);padding:1px 6px;border-radius:99px}
 .legend{display:flex;gap:16px;padding:10px 0 14px 64px;font-size:12.5px;color:var(--t2)}
@@ -262,8 +264,8 @@ function pCal(){
  const hrs=[];for(let h=H0;h<=H1;h++)hrs.push(h);
  const top=x=>(x-H0)*HH;
  const cols=DN.map((d,i)=>{const evs=EVS.map((e,k)=>[e,k]).filter(([e])=>e[0]==i).map(([e,k])=>{const p=PEOPLE[e[4]];return `<div class="ev ${e[3]}${selEv===k?' sel':''}" data-ev="${k}" style="top:${top(e[1])+2}px;height:${e[2]/60*HH-4}px"><b>${p[1]}</b><span>${hm(e[1])} · ${TY[e[3]][0]}</span></div>`}).join('');
-  const brs=BRK.filter(b=>b[0]==i).map(b=>`<div class="ev br" style="top:${top(b[1])+2}px;height:${b[2]/60*HH-4}px" data-toast="Mola düzenlenir"><b>${b[3]}</b><span>${hm(b[1])} – ${hm(b[1]+b[2]/60)}</span></div>`).join('');
-  return `<div class="col${i==6?' off':''}" style="height:${(H1-H0+1)*HH}px">${evs}${brs}</div>`}).join('');
+  const brs=BRK.filter(b=>b[0]==i).map(b=>`<div class="ev br" style="top:${top(b[1])+2}px;height:${b[2]/60*HH-4}px" data-toast="Mola düzenlenir"><b>Mola</b></div>`).join('');
+  return `<div class="col${i==6?' off':''}" style="height:${(H1-H0+1)*HH}px">${brs}${evs}</div>`}).join('');
  return `<div class="ph"><div><h1>${calView=='week'?'Bu hafta':'Eylül 2026'}</h1><div class="sub">${calView=='week'?`7 – 13 Eylül · ${EVS.length} ders`:`${MEV.reduce((a,d)=>a+d.length,0)} ders`}</div></div><div class="act"><div class="seg"><button class="${calView=='week'?'on':''}" data-cv="week">Hafta</button><button class="${calView=='month'?'on':''}" data-cv="month">Ay</button></div><button class="btn o" data-rp="brk">${I('snooze')}Mola ekle</button><button class="btn p" data-rp="new">${I('add')}Ders ekle</button></div></div>
  ${calView=='month'?pMonth():`<div class="cal"><div class="dh"><div></div>${DN.map((d,i)=>{const ty=[...new Set(EVS.filter(e=>e[0]==i).map(e=>e[3]))];return `<div class="${i==2&&selDay!=2?'td':''}${i==selDay?' sel':''}${i==6?' off':''}" data-day="${i}"><small>${d}</small><b>${DATES[i]}</b><div class="dots">${ty.slice(0,3).map(t=>`<i style="background:${TY[t][1]}"></i>`).join('')}</div></div>`}).join('')}</div>
  <div class="grid" id="grid"><div class="gin">${hrs.map((h,k)=>`<div class="hl" style="top:${k*HH}px"></div>`).join('')}<div>${hrs.map(h=>`<div class="hr">${hm(h)}</div>`).join('')}</div>${cols}<div class="now" style="top:${top(12.6)}px"></div></div></div>

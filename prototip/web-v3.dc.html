@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Pro · Web paneli</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,500,0..1,0&display=block" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;background:#fff;color:#16171A;font:450 13.5px/1.45 'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:inherit}
+button:disabled{cursor:default}
+input,select,textarea{font:inherit;color:inherit}
+a{color:#2F4BD1;text-decoration:none}
+a:hover{text-decoration:underline}
+[data-rqa]{display:none}
+[data-pa]{display:none}
+[data-prow]:hover [data-pa]{display:flex}
+[data-rq]:hover [data-rqa],[data-rq]:focus-within [data-rqa]{display:flex}
+[data-rq]:hover [data-rqs],[data-rq]:focus-within [data-rqs]{display:none}
+:focus-visible{outline:2px solid #2F4BD1;outline-offset:2px}
+input:focus-visible,select:focus-visible{outline:2px solid #2F4BD1!important;outline-offset:0}
+label:focus-within{box-shadow:inset 0 0 0 1.5px #2F4BD1!important}
+label:focus-within input:focus-visible{outline:0!important}
+::selection{background:rgba(47,75,209,.18)}
+</style>
+</helmet>
+<div data-zr="1" style="display:flex;flex-direction:column;height:var(--zh,calc(100vh / 1.14));overflow:hidden;zoom:var(--z,1.14)">
+
+<header style="height:60px;flex:none;display:flex;align-items:center;gap:18px;padding:0 14px 0 16px;border-bottom:1px solid #E4E4E8;position:relative;z-index:30;background:#fff">
+  <button onClick="{{ goCal }}" style="display:flex;align-items:center;gap:8px;flex:none">
+    <span style="width:30px;height:30px;border-radius:8px;background:#2F4BD1;color:#fff;font-size:12px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;justify-content:center">Pro</span>
+  </button>
+  <nav style="display:flex;align-self:stretch;gap:2px">
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="3">
+      <button onClick="{{ n.on }}" aria-current="{{ n.cur }}" style="display:flex;align-items:center;gap:7px;padding:0 12px;font-size:14.5px;font-weight:570;color:{{ n.fg }};box-shadow:{{ n.sh }}" style-hover="color:#16171A">
+        <span>{{ n.l }}</span>
+        <sc-if value="{{ n.hasB }}"><span style="min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:{{ n.bBg }};color:{{ n.bFg }};font-size:11px;font-weight:650;display:flex;align-items:center;justify-content:center">{{ n.b }}</span></sc-if>
+      </button>
+    </sc-for>
+  </nav>
+  <div style="flex:1"></div>
+  <div style="position:relative;width:clamp(170px,22vw,280px)">
+    <label style="display:flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 10px;border-radius:8px;background:#F3F4F6;color:#717378">
+      <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">search</span>
+      <input ref="{{ sRef }}" value="{{ q }}" onChange="{{ onQ }}" onFocus="{{ onQFocus }}" onBlur="{{ onQBlur }}" placeholder="Kişi ara" aria-label="Kişi ara" style="flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:14px;color:#16171A"></input>
+    </label>
+    <sc-if value="{{ showSearch }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:44px;left:0;right:0;background:#fff;border:1px solid #E4E4E8;border-radius:10px;box-shadow:0 8px 20px rgba(22,23,26,.10);padding:4px">
+        <sc-for list="{{ sres }}" as="r">
+          <button onMouseDown="{{ r.on }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:7px 8px;border-radius:7px" style-hover="background:#F3F4F6">
+            <span style="width:24px;height:24px;border-radius:99px;background:{{ r.avBg }};color:{{ r.avFg }};font-size:11px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ r.ini }}</span>
+            <span style="flex:1;min-width:0;font-size:13px;font-weight:570">{{ r.n }}</span>
+            <span style="font-size:12px;color:#717378">{{ r.m }}</span>
+          </button>
+        </sc-for>
+        <sc-if value="{{ sEmpty }}"><div style="padding:10px;font-size:13px;color:#717378">Sonuç yok</div></sc-if>
+      </div>
+    </sc-if>
+  </div>
+  <div style="position:relative">
+    <button onClick="{{ tNew }}" style="display:flex;align-items:center;gap:4px;height:36px;padding:0 10px 0 12px;border-radius:8px;background:#2F4BD1;color:#fff;font-size:14px;font-weight:600" style-hover="background:#2840B8">
+      <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">add</span><span>Yeni</span><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400;opacity:.8">expand_more</span>
+    </button>
+    <sc-if value="{{ menuNew }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:44px;right:0;width:220px;background:#fff;border:1px solid #E4E4E8;border-radius:10px;box-shadow:0 8px 20px rgba(22,23,26,.10);padding:4px">
+        <sc-for list="{{ newItems }}" as="m">
+          <button onClick="{{ m.on }}" style="display:flex;align-items:center;gap:10px;width:100%;height:34px;padding:0 8px;border-radius:7px;font-size:13px;font-weight:550" style-hover="background:#F3F4F6">
+            <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400;color:#6C6E72">{{ m.ic }}</span>
+            <span style="flex:1">{{ m.l }}</span>
+            <sc-if value="{{ m.hasK }}"><span style="font-size:11px;font-weight:600;color:#717378;border:1px solid #E4E4E8;border-radius:5px;padding:0 5px">{{ m.k }}</span></sc-if>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+  <div style="position:relative">
+    <button onClick="{{ tBell }}" aria-label="Bildirimler" style="position:relative;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#6C6E72;background:{{ bellBg }}" style-hover="background:#F3F4F6;color:#16171A">
+      <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;font-weight:400">notifications</span>
+      <sc-if value="{{ hasUnread }}"><span style="position:absolute;top:4px;right:4px;min-width:15px;height:15px;padding:0 4px;border-radius:99px;background:#2F4BD1;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff">{{ unreadN }}</span></sc-if>
+    </button>
+    <sc-if value="{{ menuBell }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:44px;right:-44px;width:400px;max-height:calc(100vh - 80px);display:flex;flex-direction:column;background:#fff;border:1px solid #E4E4E8;border-radius:12px;box-shadow:0 10px 20px rgba(22,23,26,.14)">
+        <div style="display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid #E4E4E8">
+          <span style="flex:1;font-size:14px;font-weight:600">Bildirimler</span>
+          <button onClick="{{ readAll }}" style="font-size:12.5px;font-weight:600;color:#2F4BD1;opacity:{{ readAllOp }}">Tümünü okundu say</button>
+        </div>
+        <div style="overflow:auto;padding:4px 0 6px">
+          <sc-for list="{{ ntfGroups }}" as="g">
+            <div style="font-size:12px;font-weight:600;color:#717378;padding:10px 14px 4px">{{ g.t }}</div>
+            <sc-for list="{{ g.rows }}" as="n">
+              <div onClick="{{ n.on }}" style="display:flex;gap:11px;padding:9px 14px;cursor:pointer;background:{{ n.bg }}" style-hover="background:#F7F7F9">
+                <span style="position:relative;flex:none;height:32px">
+                  <span style="width:32px;height:32px;border-radius:99px;background:{{ n.avBg }};color:{{ n.avFg }};font-size:11.5px;font-weight:650;display:flex;align-items:center;justify-content:center">{{ n.ini }}</span>
+                  <span style="position:absolute;right:-4px;bottom:-4px;width:18px;height:18px;border-radius:99px;background:{{ n.kBg }};color:{{ n.kFg }};box-shadow:0 0 0 2px #fff;display:flex;align-items:center;justify-content:center"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:12px;line-height:1;font-weight:400;font-variation-settings:'FILL' 1">{{ n.kIc }}</span></span>
+                </span>
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:1px">
+                  <span style="display:flex;align-items:center;gap:8px"><span style="flex:1;min-width:0;font-size:13.5px;font-weight:{{ n.tw }}">{{ n.t }}</span><span style="font-size:11.5px;color:#717378">{{ n.tm }}</span><span style="width:7px;height:7px;border-radius:99px;background:{{ n.dot }};flex:none"></span></span>
+                  <span style="font-size:12.5px;color:{{ n.sFg }}">{{ n.s }}</span>
+                  <sc-if value="{{ n.act }}">
+                    <span style="display:flex;gap:6px;margin-top:7px">
+                      <button onClick="{{ n.rej }}" style="height:28px;padding:0 12px;border-radius:7px;box-shadow:inset 0 0 0 1px #E4E4E8;font-size:12.5px;font-weight:600;color:#BA332C" style-hover="background:#FBE7E5">Reddet</button>
+                      <button onClick="{{ n.ok }}" style="height:28px;padding:0 12px;border-radius:7px;background:{{ n.okBg }};color:#fff;font-size:12.5px;font-weight:600" style-hover="background:#2840B8">{{ n.okL }}</button>
+                    </span>
+                  </sc-if>
+                  <sc-if value="{{ n.hasSt }}"><span style="align-self:flex-start;margin-top:5px;font-size:11.5px;font-weight:600;padding:1px 8px;border-radius:99px;background:{{ n.stBg }};color:{{ n.stFg }}">{{ n.st }}</span></sc-if>
+                </span>
+              </div>
+            </sc-for>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+  <div style="position:relative">
+    <button onClick="{{ tUser }}" aria-label="Hesap" style="width:34px;height:34px;border-radius:99px;background:#F2F4FF;color:#2F4BD1;font-size:11px;font-weight:650;display:flex;align-items:center;justify-content:center">DA</button>
+    <sc-if value="{{ menuUser }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:44px;right:0;width:240px;background:#fff;border:1px solid #E4E4E8;border-radius:10px;box-shadow:0 8px 20px rgba(22,23,26,.10);padding:4px">
+        <div style="display:flex;align-items:center;gap:8px;padding:10px 6px 10px 10px;border-bottom:1px solid #E4E4E8;margin-bottom:4px"><div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:600">Deniz Arslan</div><div style="font-size:12px;color:#6C6E72">Kişisel antrenör</div></div><button onClick="{{ editMe }}" aria-label="Profili düzenle" style="width:30px;height:30px;border-radius:99px;display:flex;align-items:center;justify-content:center;color:#2F4BD1;background:#F2F4FF" style-hover="background:#E3E8FF"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:17px;line-height:1;font-weight:400">edit</span></button></div>
+        <sc-for list="{{ userItems }}" as="m">
+          <button onClick="{{ m.on }}" style="display:flex;align-items:center;gap:10px;width:100%;height:34px;padding:0 8px;border-radius:7px;font-size:13px;font-weight:550;color:{{ m.fg }}" style-hover="background:#F3F4F6">
+            <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400;color:#6C6E72">{{ m.ic }}</span><span>{{ m.l }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+</header>
+
+<sc-if value="{{ anyMenu }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeMenu }}" style="position:fixed;inset:0;z-index:20"></div></sc-if>
+
+<div role="main" style="flex:1;min-height:0;display:flex">
+
+<sc-if value="{{ isCal }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;position:relative">
+    <sc-if value="{{ isMonth }}" hint-placeholder-val="{{ false }}">
+      <div style="flex:1;min-height:0;display:flex;flex-direction:column">
+        <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-bottom:1px solid #E4E4E8">
+          <sc-for list="{{ mHead }}" as="h"><span style="position:relative;height:48px;display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:500;color:{{ h.fg }}"><span style="position:absolute;left:0;bottom:0;width:1px;height:12px;background:#EEEEF1"></span>{{ h.l }}</span></sc-for>
+        </div>
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-template-rows:{{ mRows }}">
+          <sc-for list="{{ mcells }}" as="c">
+            <div onClick="{{ c.on }}" style="min-height:0;overflow:hidden;border-left:1px solid #EEEEF1;border-bottom:1px solid #EEEEF1;background:{{ c.bg }};padding:6px 6px 4px;display:flex;flex-direction:column;gap:3px;cursor:pointer" style-hover="background:#F7F7F9">
+              <span style="width:24px;height:24px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;flex:none;background:{{ c.numBg }};color:{{ c.numFg }}">{{ c.n }}</span>
+              <sc-for list="{{ c.evs }}" as="e"><button onClick="{{ e.on }}" style="display:block;width:100%;text-align:left;font-size:11.5px;padding:2px 6px;border-radius:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:{{ e.bg }};color:{{ e.fg }};opacity:{{ c.op }}"><b style="font-weight:600;margin-right:4px">{{ e.t }}</b>{{ e.n }}</button></sc-for>
+              <sc-if value="{{ c.hasMore }}"><span style="font-size:11px;font-weight:600;color:#6C6E72;padding-left:4px">{{ c.more }}</span></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ notMonth }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;min-height:0;overflow:auto">
+      <div style="min-width:{{ gridMin }}">
+        <sc-if value="{{ isDay }}" hint-placeholder-val="{{ false }}">
+          <div style="position:sticky;top:0;z-index:6;background:#fff;border-bottom:1px solid #E4E4E8;padding:16px 20px 14px 66px">
+            <div style="display:flex;align-items:baseline;gap:12px;font-size:30px;line-height:1.1;letter-spacing:-.02em"><span style="flex:1;word-spacing:.12em"><b style="font-weight:700">{{ dayBig }}</b> <span style="font-weight:400">{{ dayYear }}</span></span><span style="font-size:20px;font-weight:600;letter-spacing:-.01em;color:{{ dayDnFg }}">{{ dayDn }}</span></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ notDay }}" hint-placeholder-val="{{ true }}">
+        <div style="position:sticky;top:0;z-index:6;display:grid;grid-template-columns:{{ gridCols }};background:#fff;border-bottom:1px solid #E4E4E8">
+            <div></div>
+            <sc-for list="{{ cols }}" as="c" hint-placeholder-count="7">
+              <button onClick="{{ c.onHead }}" style="position:relative;display:flex;align-items:center;justify-content:center;gap:6px;height:48px;padding:0 10px">
+                <span style="position:absolute;left:0;bottom:0;width:1px;height:12px;background:#EEEEF1"></span>
+                <span style="min-width:26px;height:26px;padding:0 4px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:600;background:{{ c.numBg }};color:{{ c.numFg }}">{{ c.num }}</span>
+                <span style="font-size:14.5px;font-weight:500;color:{{ c.dnFg }}">{{ c.dn }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display:grid;grid-template-columns:{{ gridCols }}">
+          <div style="position:relative;height:{{ totalH }}px">
+            <sc-for list="{{ hours }}" as="h"><span style="position:absolute;top:{{ h.top }}px;right:8px;transform:translateY(-50%);font-size:11px;color:#717378">{{ h.l }}</span></sc-for>
+          </div>
+          <sc-for list="{{ cols }}" as="c">
+            <div onClick="{{ c.onSlot }}" style="position:relative;height:{{ totalH }}px;border-left:1px solid #EEEEF1;background-color:{{ c.bg }};background-image:{{ gridBg }};cursor:copy">
+              <sc-for list="{{ c.evs }}" as="e">
+                <button onClick="{{ e.on }}" style="position:absolute;top:{{ e.top }}px;height:{{ e.h }}px;left:{{ e.l }};width:{{ e.wd }};border-radius:6px;padding:3px 7px 3px 10px;background:{{ e.bg }};color:{{ e.fg }};border:{{ e.bd }};opacity:{{ e.op }};z-index:{{ e.z }};overflow:hidden;display:flex;flex-direction:column;cursor:{{ e.cur }};box-shadow:{{ e.sh }}">
+                  <span style="position:absolute;left:0;top:0;bottom:0;width:3px;background:{{ e.ln }}"></span>
+                  <span style="display:flex;align-items:center;gap:5px;min-width:0"><span style="flex:1;min-width:0;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.t }}</span><span style="width:6px;height:6px;border-radius:99px;background:{{ e.dot }};flex:none"></span></span>
+                  <sc-if value="{{ e.showSub }}"><span style="font-size:11.5px;opacity:.78;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.sub }}</span></sc-if>
+                </button>
+              </sc-for>
+              <sc-if value="{{ c.isToday }}">
+                <div style="position:absolute;left:-4px;right:0;top:{{ nowTop }}px;height:2px;background:#2F4BD1;z-index:4;pointer-events:none"><span style="position:absolute;left:0;top:-3px;width:8px;height:8px;border-radius:99px;background:#2F4BD1"></span></div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ showInsp }}" hint-placeholder-val="{{ true }}">
+    <aside style="width:320px;flex:none;border-left:1px solid #E4E4E8;display:flex;flex-direction:column;min-height:0;background:#fff">
+      <div style="flex:1;min-height:0;overflow:auto">
+      <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:18px 16px 16px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="flex:1;font-size:12.5px;color:#6C6E72">{{ ins.date }}</span><button onClick="{{ clearSel }}" aria-label="Kapat" style="width:28px;height:28px;margin:-4px -6px -4px 0;border-radius:99px;display:flex;align-items:center;justify-content:center;color:#6C6E72" style-hover="background:#F3F4F6"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">close</span></button></div>
+          <div style="font-size:26px;font-weight:600;letter-spacing:-.025em;margin-top:2px">{{ ins.time }}</div>
+          <button onClick="{{ ins.goP }}" style="display:flex;align-items:center;gap:10px;width:100%;margin-top:14px;padding:8px;margin-left:-8px;border-radius:9px" style-hover="background:#F3F4F6">
+            <span style="width:34px;height:34px;border-radius:99px;background:{{ ins.avBg }};color:{{ ins.avFg }};font-size:12px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ ins.ini }}</span>
+            <span style="flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:600">{{ ins.name }}</span><span style="display:block;font-size:12.5px;color:#6C6E72">{{ ins.m }}</span></span>
+            <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400;color:#717378">chevron_right</span>
+          </button>
+        </div>
+        <div style="display:flex;gap:8px;padding:0 16px 16px">
+          <sc-if value="{{ ins.unpaid }}"><button onClick="{{ ins.pay }}" style="display:flex;align-items:center;justify-content:center;white-space:nowrap;flex:1;height:32px;border-radius:8px;background:#2F4BD1;color:#fff;font-size:13px;font-weight:600">Ödeme al</button></sc-if>
+          <button onClick="{{ ins.move }}" style="display:flex;align-items:center;justify-content:center;white-space:nowrap;flex:1;height:32px;border-radius:8px;box-shadow:inset 0 0 0 1px #E4E4E8;font-size:13px;font-weight:600" style-hover="background:#F3F4F6">Ertele</button>
+          <button onClick="{{ ins.cancel }}" style="display:flex;align-items:center;justify-content:center;white-space:nowrap;flex:1;height:32px;border-radius:8px;box-shadow:inset 0 0 0 1px #E4E4E8;font-size:13px;font-weight:600;color:#BA332C" style-hover="background:#FBE7E5">İptal et</button>
+        </div>
+        <div style="border-top:1px solid #E4E4E8">
+          <sc-for list="{{ ins.kv }}" as="k"><div style="display:flex;align-items:center;gap:12px;padding:10px 16px;font-size:13px;border-bottom:1px solid #F0F0F2"><span style="width:84px;color:#6C6E72">{{ k.k }}</span><span style="flex:1;text-align:right;font-weight:570;color:{{ k.fg }}">{{ k.v }}</span></div></sc-for>
+        </div>
+        <sc-if value="{{ ins.hasPk }}">
+          <div style="padding:14px 16px">
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:7px"><span style="color:#6C6E72">{{ ins.pkN }}</span><span style="color:#2F4BD1;font-weight:600">{{ ins.left }} ders kaldı</span></div>
+            <div style="display:flex;gap:3px"><sc-for list="{{ ins.segs }}" as="s"><span style="flex:1;height:6px;border-radius:3px;background:{{ s.bg }}"></span></sc-for></div>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ noSel }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:12px 16px 16px;border-bottom:1px solid #E4E4E8">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+            <span style="flex:1;padding-left:8px;font-size:13.5px;font-weight:600">{{ mmTitle }}</span>
+            <button onClick="{{ mmPrev }}" aria-label="Önceki ay" style="width:26px;height:26px;border-radius:99px;display:flex;align-items:center;justify-content:center;color:#16171A;background:#F0F0F2" style-hover="background:#E4E4E8"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">chevron_left</span></button>
+            <button onClick="{{ mmNext }}" aria-label="Sonraki ay" style="width:26px;height:26px;border-radius:99px;display:flex;align-items:center;justify-content:center;color:#16171A;background:#F0F0F2" style-hover="background:#E4E4E8"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">chevron_right</span></button>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);row-gap:2px">
+            <sc-for list="{{ mmHead }}" as="h" hint-placeholder-count="7"><span style="height:24px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#2F4BD1">{{ h }}</span></sc-for>
+            <sc-for list="{{ mm }}" as="d" hint-placeholder-count="35">
+              <button onClick="{{ d.on }}" style="height:30px;display:flex;align-items:center;justify-content:center;background:{{ d.rowBg }};border-radius:{{ d.rad }}">
+                <span style="width:26px;height:26px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:{{ d.fw }};background:{{ d.bg }};color:{{ d.fg }}">{{ d.n }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:14px 16px 6px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="flex:1;font-size:13.5px;font-weight:600">Onay bekleyen</span></div>
+          <sc-for list="{{ reqRows }}" as="r">
+            <div data-rq="1" onClick="{{ r.on }}" style="display:flex;align-items:center;gap:10px;height:46px;padding:0 8px;margin:0 -8px;border-radius:9px;cursor:pointer" style-hover="background:#F7F7F9">
+              <span style="width:30px;height:30px;border-radius:99px;background:{{ r.avBg }};color:{{ r.avFg }};font-size:11px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ r.ini }}</span>
+              <span style="flex:1;min-width:0"><span style="display:block;font-size:13px;font-weight:600">{{ r.name }}</span><span style="display:block;font-size:12px;color:{{ r.subFg }}">{{ r.when }}</span></span>
+              <sc-if value="{{ r.conf }}"><span data-rqs="1" style="font-size:11.5px;font-weight:600;color:#BA332C">Çakışıyor</span></sc-if>
+              <span data-rqa="1" style="gap:6px">
+                <button onClick="{{ r.rej }}" aria-label="Reddet" style="width:28px;height:28px;border-radius:99px;display:flex;align-items:center;justify-content:center;background:#FBE7E5;color:#BA332C" style-hover="background:#BA332C;color:#fff"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">close</span></button>
+                <button onClick="{{ r.ok }}" aria-label="{{ r.okL }}" style="width:28px;height:28px;border-radius:99px;display:flex;align-items:center;justify-content:center;background:#F2F4FF;color:#2F4BD1" style-hover="background:#2F4BD1;color:#fff"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">check</span></button>
+              </span>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noReq }}"><div style="font-size:12.5px;color:#717378;padding:4px 0 8px">Bekleyen talep yok</div></sc-if>
+        </div>
+      </sc-if>
+      </div>
+      <div style="flex:none;border-top:1px solid #E4E4E8;padding:22px 16px 24px;display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="flex:1;font-size:20px;font-weight:650;letter-spacing:-.02em;white-space:nowrap;color:#2F4BD1">{{ rangeT }}</span>
+          <button onClick="{{ prev }}" aria-label="Önceki" style="width:30px;height:30px;border-radius:99px;display:flex;align-items:center;justify-content:center;color:#16171A;background:#F0F0F2" style-hover="background:#E4E4E8"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;font-weight:400">chevron_left</span></button>
+          <button onClick="{{ goToday }}" style="height:30px;padding:0 14px;border-radius:99px;background:#F0F0F2;color:#16171A;font-size:13px;font-weight:550" style-hover="background:#E4E4E8">Bugün</button>
+          <button onClick="{{ next }}" aria-label="Sonraki" style="width:30px;height:30px;border-radius:99px;display:flex;align-items:center;justify-content:center;color:#16171A;background:#F0F0F2" style-hover="background:#E4E4E8"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;font-weight:400">chevron_right</span></button>
+        </div>
+        <div style="display:flex;padding:2px;border-radius:8px;background:#F3F4F6">
+          <sc-for list="{{ modeSeg }}" as="s" hint-placeholder-count="3"><button onClick="{{ s.on }}" aria-pressed="{{ s.pr }}" style="flex:1;height:28px;padding:0 12px;border-radius:6px;font-size:12.5px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }};box-shadow:{{ s.sh }}">{{ s.l }}</button></sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px 14px">
+          <sc-for list="{{ legend }}" as="l" hint-placeholder-count="4"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:#6C6E72;white-space:nowrap"><span style="width:8px;height:8px;border-radius:3px;background:{{ l.c }}"></span>{{ l.n }}</span></sc-for>
+        </div>
+      </div>
+    </aside>
+  </sc-if>
+</sc-if>
+
+<sc-if value="{{ isPpl }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;min-width:0;overflow:auto">
+    <div style="padding:12px 16px 56px">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:1px solid #E4E4E8">
+        <div style="display:flex;gap:18px">
+          <sc-for list="{{ pTabs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.on }}" aria-pressed="{{ t.pr }}" style="display:flex;gap:6px;height:44px;align-items:center;font-size:15px;font-weight:570;color:{{ t.fg }};box-shadow:{{ t.sh }}">{{ t.l }}<span style="font-size:13px;color:#717378">{{ t.c }}</span></button></sc-for>
+        </div>
+      </div>
+      <div style="overflow-x:auto;margin:0 -10px">
+        <div style="min-width:860px">
+          <div style="display:grid;grid-template-columns:minmax(240px,2.2fr) 2fr 1.5fr 120px 140px;gap:16px;align-items:center;height:44px;padding:0 10px;font-size:13px;font-weight:600;color:#2F4BD1;border-bottom:1px solid #E4E4E8">
+            <span>Kişi</span><span>Üyelik</span><span>Sonraki ders</span><span style="text-align:center">Borç</span><span></span>
+          </div>
+          <sc-for list="{{ pRows }}" as="r" hint-placeholder-count="8">
+            <div data-prow="1" onClick="{{ r.on }}" style="display:grid;grid-template-columns:minmax(240px,2.2fr) 2fr 1.5fr 120px 140px;gap:16px;align-items:center;height:{{ pRowH }}px;padding:0 10px;border-bottom:1px solid #F0F0F2;cursor:pointer" style-hover="background:#F7F7F9">
+              <span style="display:flex;align-items:center;gap:10px;min-width:0">
+                <span style="width:36px;height:36px;border-radius:99px;background:{{ r.avBg }};color:{{ r.avFg }};font-size:12.5px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ r.ini }}</span>
+                <span style="min-width:0"><span style="display:block;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.n }}</span><span style="display:block;font-size:13px;color:#717378;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.tel }}</span></span>
+              </span>
+              <span style="display:flex;align-items:center;gap:10px;min-width:0">
+                <span style="font-size:14.5px;color:#717378;white-space:nowrap">{{ r.m }}</span>
+                <sc-if value="{{ r.hasPk }}"><span style="display:flex;gap:2px;width:76px;flex:none"><sc-for list="{{ r.segs }}" as="s"><span style="flex:1;height:6px;border-radius:3px;background:{{ s.bg }}"></span></sc-for></span><span style="white-space:nowrap;font-size:14px;font-weight:600;color:{{ r.leftFg }}">{{ r.left }} kaldı</span></sc-if>
+              </span>
+              <span style="font-size:14.5px;color:{{ r.nextFg }}">{{ r.next }}</span>
+              <span style="font-size:14.5px;font-weight:600;text-align:center;color:{{ r.debtFg }}">{{ r.debt }}</span>
+              <span data-pa="1" style="justify-content:flex-end;gap:6px">
+                <button onClick="{{ r.add }}" style="display:flex;align-items:center;gap:4px;height:32px;padding:0 12px;border-radius:99px;background:#2F4BD1;color:#fff;font-size:14px;font-weight:600" style-hover="background:#2840B8"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:15px;line-height:1;font-weight:400">add</span>Ders ekle</button>
+              </span>
+            </div>
+          </sc-for>
+          <sc-if value="{{ pEmpty }}"><div style="padding:48px 0;text-align:center;font-size:15px;color:#717378">Bu filtrede kişi yok</div></sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPerson }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;min-width:0;overflow:auto">
+    <div style="padding:24px 16px 56px">
+      <div style="display:flex;align-items:center;gap:4px;font-size:14.5px;color:#6C6E72">
+        <button onClick="{{ goPpl }}" style="color:#6C6E72" style-hover="color:#2F4BD1">Kişiler</button>
+        <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;font-weight:400;color:#C4C5C9">chevron_right</span>
+        <span style="color:#16171A;font-weight:550">{{ pv.n }}</span>
+      </div>
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:16px;margin-top:18px">
+        <span style="width:60px;height:60px;border-radius:99px;background:{{ pv.avBg }};color:{{ pv.avFg }};font-size:19px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ pv.ini }}</span>
+        <div style="flex:1;min-width:200px">
+          <h1 style="margin:0;font-size:26px;font-weight:650;letter-spacing:-.02em">{{ pv.n }}</h1>
+          <div style="font-size:14.5px;color:#6C6E72;margin-top:1px">{{ pv.sub }}</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <sc-if value="{{ pv.hasDebt }}"><button onClick="{{ pv.pay }}" style="height:36px;padding:0 16px;border-radius:8px;box-shadow:inset 0 0 0 1px #E4E4E8;font-size:14.5px;font-weight:600" style-hover="background:#F3F4F6">Ödeme al</button></sc-if>
+          <button onClick="{{ pv.newL }}" style="display:flex;align-items:center;gap:5px;height:36px;padding:0 14px 0 11px;border-radius:8px;background:#2F4BD1;color:#fff;font-size:14.5px;font-weight:600" style-hover="background:#2840B8"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">add</span>Ders ekle</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:28px;margin-top:24px;align-items:flex-start">
+        <div style="flex:1 1 520px;min-width:0">
+          <div style="display:flex;gap:18px;border-bottom:1px solid #E4E4E8">
+            <sc-for list="{{ pv.tabs }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.on }}" aria-pressed="{{ t.pr }}" style="height:44px;font-size:15px;font-weight:570;color:{{ t.fg }};box-shadow:{{ t.sh }}">{{ t.l }}</button></sc-for>
+          </div>
+          <sc-if value="{{ pv.tabL }}">
+            <div style="overflow-x:auto;margin:0 -8px"><div style="min-width:460px">
+              <div style="display:grid;grid-template-columns:1.3fr 1.1fr 1fr 1.3fr 1fr;gap:14px;height:42px;align-items:center;padding:0 8px;font-size:13px;font-weight:600;color:#2F4BD1;border-bottom:1px solid #E4E4E8"><span>Tarih</span><span>Saat</span><span>Tür</span><span>Konum</span><span style="text-align:right">Ödeme</span></div>
+              <sc-for list="{{ pv.upc }}" as="l">
+                <div onClick="{{ l.on }}" style="display:grid;grid-template-columns:1.3fr 1.1fr 1fr 1.3fr 1fr;gap:14px;height:54px;align-items:center;padding:0 8px;font-size:14.5px;border-bottom:1px solid #F0F0F2;cursor:pointer;opacity:{{ l.op }}" style-hover="background:#F7F7F9">
+                  <span style="font-weight:570">{{ l.date }}</span><span style="color:#6C6E72">{{ l.time }}</span>
+                  <span style="display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:3px;background:{{ l.ln }}"></span>{{ l.ty }}</span>
+                  <span style="color:#6C6E72">{{ l.loc }}</span><span style="text-align:right;font-weight:570;color:{{ l.payFg }}">{{ l.pay }}</span>
+                </div>
+              </sc-for>
+              <sc-if value="{{ pv.hasPst }}"><div style="padding:22px 8px 8px;font-size:13px;font-weight:600;color:#A1A3A7">Geçmiş dersler</div></sc-if>
+              <sc-for list="{{ pv.pst }}" as="l">
+                <div onClick="{{ l.on }}" style="display:grid;grid-template-columns:1.3fr 1.1fr 1fr 1.3fr 1fr;gap:14px;height:54px;align-items:center;padding:0 8px;font-size:14.5px;border-bottom:1px solid #F0F0F2;cursor:pointer;opacity:{{ l.op }}" style-hover="background:#F7F7F9">
+                  <span style="font-weight:570">{{ l.date }}</span><span style="color:#6C6E72">{{ l.time }}</span>
+                  <span style="display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:3px;background:{{ l.ln }}"></span>{{ l.ty }}</span>
+                  <span style="color:#6C6E72">{{ l.loc }}</span><span style="text-align:right;font-weight:570;color:{{ l.payFg }}">{{ l.pay }}</span>
+                </div>
+              </sc-for>
+              <sc-if value="{{ pv.noL }}"><div style="padding:36px 0;text-align:center;font-size:15px;color:#717378">Planlanmış ders yok</div></sc-if>
+            </div></div>
+          </sc-if>
+          <sc-if value="{{ pv.tabP }}">
+            <div style="overflow-x:auto;margin:0 -8px"><div style="min-width:520px">
+              <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:14px;height:42px;align-items:center;padding:0 8px;font-size:13px;font-weight:600;color:#2F4BD1;border-bottom:1px solid #E4E4E8"><span>Açıklama</span><span>Tarih</span><span>Yöntem</span><span style="text-align:right">Tutar</span></div>
+              <sc-for list="{{ pv.pays }}" as="x">
+                <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:14px;height:54px;align-items:center;padding:0 8px;font-size:14.5px;border-bottom:1px solid #F0F0F2">
+                  <span style="font-weight:570">{{ x.t }}</span><span style="color:{{ x.dFg }}">{{ x.d }}</span><span style="color:#6C6E72">{{ x.m }}</span><span style="text-align:right;font-weight:600;color:{{ x.aFg }}">{{ x.a }}</span>
+                </div>
+              </sc-for>
+              <sc-if value="{{ pv.noP }}"><div style="padding:36px 0;text-align:center;font-size:15px;color:#717378">Ödeme kaydı yok</div></sc-if>
+            </div></div>
+          </sc-if>
+        </div>
+        <div style="flex:0 1 340px;min-width:290px;display:flex;flex-direction:column;gap:16px">
+          <sc-if value="{{ pv.hasPk }}">
+            <div style="background:#F2F4FF;border-radius:12px;padding:16px">
+              <div style="display:flex;align-items:center">
+                <div style="flex:1"><div style="font-size:14px;color:#6C6E72">{{ pv.m }}</div><div style="margin-top:2px;color:#2F4BD1"><span style="font-size:32px;font-weight:600;letter-spacing:-.02em">{{ pv.left }}</span><span style="font-size:14px;font-weight:570;margin-left:5px">ders kaldı</span></div></div>
+                <button onClick="{{ pv.renew }}" style="font-size:14.5px;font-weight:600;color:#2F4BD1">Yenile</button>
+              </div>
+              <div style="display:flex;gap:4px;margin-top:12px"><sc-for list="{{ pv.segs }}" as="s"><span style="flex:1;height:8px;border-radius:4px;background:{{ s.bg }}"></span></sc-for></div>
+            </div>
+          </sc-if>
+          <div style="border:1px solid #E4E4E8;border-radius:12px">
+            <sc-for list="{{ pv.kv }}" as="k"><div style="display:flex;align-items:center;gap:12px;padding:13px 16px;font-size:14.5px;border-top:{{ k.bt }}"><span style="width:110px;color:#6C6E72">{{ k.k }}</span><span style="flex:1;text-align:right;font-weight:570;color:{{ k.fg }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ k.v }}</span></div></sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isPay }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;min-width:0;overflow:auto">
+    <div style="padding:16px 16px 56px">
+      <div style="display:flex;flex-wrap:wrap;gap:0;border:1px solid #E4E4E8;border-radius:12px">
+        <sc-for list="{{ payStats }}" as="s" hint-placeholder-count="3">
+          <div style="flex:1 1 200px;padding:14px 18px;border-left:{{ s.bl }}">
+            <div style="font-size:14px;color:#6C6E72">{{ s.l }}</div>
+            <div style="font-size:25px;font-weight:600;letter-spacing:-.02em;margin-top:2px;color:{{ s.fg }}">{{ s.v }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;gap:18px;margin-top:22px;border-bottom:1px solid #E4E4E8">
+        <sc-for list="{{ payTabs }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.on }}" aria-pressed="{{ t.pr }}" style="display:flex;gap:6px;align-items:center;height:40px;font-size:14px;font-weight:570;color:{{ t.fg }};box-shadow:{{ t.sh }}">{{ t.l }}<span style="font-size:13px;color:#717378">{{ t.c }}</span></button></sc-for>
+      </div>
+      <div style="overflow-x:auto;margin:0 -10px"><div style="min-width:760px">
+        <sc-if value="{{ payPend }}">
+          <div style="display:grid;grid-template-columns:minmax(200px,2fr) 1fr 1.2fr 1fr 120px;gap:16px;height:40px;align-items:center;padding:0 10px;font-size:12.5px;font-weight:600;color:#2F4BD1;border-bottom:1px solid #E4E4E8"><span>Kişi</span><span>Ders</span><span>Gecikme</span><span style="text-align:right">Tutar</span><span></span></div>
+          <sc-for list="{{ pendRows }}" as="r">
+            <div style="display:grid;grid-template-columns:minmax(200px,2fr) 1fr 1.2fr 1fr 120px;gap:16px;height:{{ rowH }}px;align-items:center;padding:0 10px;border-bottom:1px solid #F0F0F2" style-hover="background:#F7F7F9">
+              <button onClick="{{ r.goP }}" style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:32px;height:32px;border-radius:99px;background:{{ r.avBg }};color:{{ r.avFg }};font-size:11.5px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ r.ini }}</span><span style="font-size:14px;font-weight:600" style-hover="color:#2F4BD1">{{ r.n }}</span></button>
+              <span style="font-size:13.5px;color:#6C6E72">{{ r.les }}</span>
+              <span><span style="font-size:13px;font-weight:600;padding:2px 8px;border-radius:99px;background:#FBE7E5;color:#BA332C">{{ r.late }}</span></span>
+              <span style="font-size:14px;font-weight:600;text-align:right;color:#BA332C">{{ r.a }}</span>
+              <span style="display:flex;justify-content:flex-end"><button onClick="{{ r.on }}" style="white-space:nowrap;height:30px;padding:0 12px;border-radius:8px;background:#2F4BD1;color:#fff;font-size:14px;font-weight:600" style-hover="background:#2840B8">Ödeme al</button></span>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noPend }}"><div style="padding:48px 0;text-align:center;font-size:14px;color:#717378">Bekleyen ödeme yok</div></sc-if>
+        </sc-if>
+        <sc-if value="{{ payDoneT }}">
+          <div style="display:grid;grid-template-columns:minmax(200px,2fr) 1.4fr 1fr 1fr 1fr;gap:16px;height:40px;align-items:center;padding:0 10px;font-size:12.5px;font-weight:600;color:#2F4BD1;border-bottom:1px solid #E4E4E8"><span>Kişi</span><span>Açıklama</span><span>Tarih</span><span>Yöntem</span><span style="text-align:right">Tutar</span></div>
+          <sc-for list="{{ paidRows }}" as="r">
+            <div style="display:grid;grid-template-columns:minmax(200px,2fr) 1.4fr 1fr 1fr 1fr;gap:16px;height:{{ rowH }}px;align-items:center;padding:0 10px;border-bottom:1px solid #F0F0F2" style-hover="background:#F7F7F9">
+              <button onClick="{{ r.goP }}" style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:32px;height:32px;border-radius:99px;background:{{ r.avBg }};color:{{ r.avFg }};font-size:11.5px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ r.ini }}</span><span style="font-size:14px;font-weight:600">{{ r.n }}</span></button>
+              <span style="font-size:13.5px">{{ r.t }}</span><span style="font-size:13.5px;color:#6C6E72">{{ r.d }}</span><span style="font-size:13.5px;color:#6C6E72">{{ r.m }}</span>
+              <span style="font-size:14px;font-weight:600;text-align:right">{{ r.a }}</span>
+            </div>
+          </sc-for>
+        </sc-if>
+      </div></div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isSet }}" hint-placeholder-val="{{ false }}">
+  <div style="flex:1;min-width:0;display:flex;min-height:0">
+    <aside style="width:220px;flex:none;border-right:1px solid #E4E4E8;padding:20px 10px;overflow:auto">
+      <div style="font-size:12px;font-weight:600;color:#717378;padding:0 10px 8px">Ayarlar</div>
+      <sc-for list="{{ setNav }}" as="s" hint-placeholder-count="6"><button onClick="{{ s.on }}" aria-pressed="{{ s.pr }}" style="display:flex;align-items:center;gap:10px;width:100%;height:34px;padding:0 10px;border-radius:8px;font-size:13.5px;font-weight:550;background:{{ s.bg }};color:{{ s.fg }}" style-hover="background:#F3F4F6"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400">{{ s.ic }}</span>{{ s.l }}</button></sc-for>
+    </aside>
+    <div style="flex:1;min-width:0;overflow:auto">
+      <div style="max-width:760px;padding:24px 32px 64px">
+        <h1 style="margin:0 0 6px;font-size:22px;font-weight:650;letter-spacing:-.02em">{{ setTitle }}</h1>
+
+        <sc-if value="{{ st0 }}">
+          <div style="max-width:640px">
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 0 10px"><span style="width:32px;height:32px;border-radius:9px;background:#F2F4FF;color:#2F4BD1;display:flex;align-items:center;justify-content:center;flex:none"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">schedule</span></span><div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600">Çalışma saatleri</div><div style="font-size:12.5px;color:#717378;margin-top:1px">Kişiler bu saatlerde rezervasyon yapabilir</div></div></div>
+          <div style="margin-left:44px;border:1px solid #E4E4E8;border-radius:12px;overflow:hidden">
+            <sc-for list="{{ hoursRows }}" as="h">
+              <div style="display:flex;align-items:center;gap:12px;height:48px;padding:0 14px;border-top:{{ h.bt }}">
+                <button onClick="{{ h.tg.on }}" role="switch" aria-checked="{{ h.tg.val }}" aria-label="{{ h.d }}" style="width:42px;height:25px;border-radius:99px;background:{{ h.tg.bg }};position:relative;flex:none"><span style="position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:99px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transform:translateX({{ h.tg.x2 }})"></span></button>
+                <span style="width:96px;font-size:13.5px;font-weight:570">{{ h.d }}</span>
+                <sc-if value="{{ h.open }}">
+                  <select aria-label="{{ h.d }} başlangıç" style="height:30px;border:1px solid #E4E4E8;border-radius:8px;padding:0 8px;background:#fff;font-size:13px"><option>{{ h.a }}</option><option>07:00</option><option>08:00</option><option>10:00</option></select>
+                  <span style="color:#717378">–</span>
+                  <select aria-label="{{ h.d }} bitiş" style="height:30px;border:1px solid #E4E4E8;border-radius:8px;padding:0 8px;background:#fff;font-size:13px"><option>{{ h.b }}</option><option>18:00</option><option>19:00</option><option>21:00</option></select>
+                </sc-if>
+                <sc-if value="{{ h.closed }}"><span style="font-size:13px;color:#717378">Kapalı</span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <div style="border-top:1px solid #E4E4E8;margin-top:16px"></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 0 10px"><span style="width:32px;height:32px;border-radius:9px;background:#F2F4FF;color:#2F4BD1;display:flex;align-items:center;justify-content:center;flex:none"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">snooze</span></span><div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600">Molalar</div><div style="font-size:12.5px;color:#717378;margin-top:1px">Her hafta tekrar eder</div></div><button onClick="{{ openBreak }}" style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:#2F4BD1"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px">add</span>Mola ekle</button></div>
+          <div style="margin-left:44px;border:1px solid #E4E4E8;border-radius:12px;overflow:hidden">
+            <sc-for list="{{ brkRows }}" as="b"><div style="display:flex;align-items:center;gap:14px;height:46px;padding:0 14px;font-size:13.5px;border-top:{{ b.bt }}"><span style="flex:1;font-weight:570">{{ b.t }}</span><span style="color:#717378">{{ b.days }}</span><span style="width:110px;text-align:right;color:#717378">{{ b.time }}</span></div></sc-for>
+          </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ st1 }}">
+          <div style="max-width:640px;margin-top:4px">
+            <sc-for list="{{ ruleSecs }}" as="r">
+              <div style="padding:14px 0 16px;border-bottom:1px solid #E4E4E8">
+                <div style="display:flex;gap:12px">
+                  <span style="width:32px;height:32px;border-radius:9px;background:#F2F4FF;color:#2F4BD1;display:flex;align-items:center;justify-content:center;flex:none"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">{{ r.ic }}</span></span>
+                  <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600">{{ r.t }}</div><div style="font-size:12.5px;color:#717378;margin-top:1px">{{ r.d }}</div></div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:10px 0 0 44px">
+                  <sc-for list="{{ r.chips }}" as="c"><button onClick="{{ c.on }}" aria-pressed="{{ c.pr }}" style="height:32px;display:flex;align-items:center;justify-content:center;border-radius:99px;background:{{ c.bg }};color:{{ c.fg }};font-size:13px;font-weight:600;white-space:nowrap">{{ c.l }}</button></sc-for>
+                  <sc-if value="{{ r.pen.isPen }}"><button onClick="{{ r.pen.on }}" aria-label="Özel değer" style="height:32px;border-radius:99px;background:#F3F4F6;color:#2F4BD1;display:flex;align-items:center;justify-content:center" style-hover="background:#E9EAEE"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">edit</span></button></sc-if>
+                  <sc-if value="{{ r.pen.isTxt }}"><button onClick="{{ r.pen.on }}" style="height:32px;display:flex;align-items:center;justify-content:center;border-radius:99px;background:{{ r.pen.bg }};color:{{ r.pen.fg }};font-size:13px;font-weight:600;white-space:nowrap">{{ r.pen.l }}</button></sc-if>
+                  <sc-if value="{{ r.pen.isIn }}"><input autoFocus="{{ true }}" placeholder="{{ r.pen.ph }}" onKeyDown="{{ r.pen.key }}" onBlur="{{ r.pen.blur }}" aria-label="Özel değer" style="height:32px;min-width:0;border-radius:99px;border:1.5px solid #2F4BD1;outline:0;text-align:center;font-size:13px;font-weight:600;color:#16171A"></input></sc-if>
+                </div>
+              </div>
+            </sc-for>
+            <sc-for list="{{ ruleTogs }}" as="r">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #E4E4E8">
+                <span style="width:32px;height:32px;border-radius:9px;background:#F2F4FF;color:#2F4BD1;display:flex;align-items:center;justify-content:center;flex:none"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">{{ r.ic }}</span></span>
+                <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600">{{ r.t }}</div><div style="font-size:12.5px;color:#717378;margin-top:1px">{{ r.d }}</div></div>
+                <button onClick="{{ r.tg.on }}" role="switch" aria-checked="{{ r.tg.val }}" aria-label="{{ r.t }}" style="width:42px;height:25px;border-radius:99px;background:{{ r.tg.bg }};position:relative;flex:none"><span style="position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:99px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transform:translateX({{ r.tg.x2 }})"></span></button>
+              </div>
+            </sc-for>
+            <div style="font-size:12.5px;color:#717378;margin-top:14px">Paketi olmayan dersler için geçerli. Paketlerin kendi kuralları bunu ezer.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ st2 }}">
+          <div style="max-width:640px">
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 0 10px"><span style="width:32px;height:32px;border-radius:9px;background:#F2F4FF;color:#2F4BD1;display:flex;align-items:center;justify-content:center;flex:none"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">sell</span></span><div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600">Paketler</div><div style="font-size:12.5px;color:#717378;margin-top:1px">Kişinin paketi yoksa temel paket kullanılır</div></div><button onClick="{{ addPkg }}" style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:#2F4BD1"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px">add</span>Paket ekle</button></div>
+          <div style="margin-left:44px;border:1px solid #E4E4E8;border-radius:12px;overflow:hidden">
+            <sc-for list="{{ pkgRows }}" as="k">
+              <div style="display:flex;align-items:center;gap:12px;height:56px;padding:0 14px;border-top:{{ k.bt }}">
+                <span style="width:34px;height:34px;border-radius:99px;background:{{ k.bdBg }};color:{{ k.bdFg }};font-size:12.5px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ k.bd }}</span>
+                <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:600">{{ k.n }}</div><div style="font-size:12.5px;color:#717378">{{ k.sub }}</div></div>
+                <sc-if value="{{ k.base }}"><span style="font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px;background:#F2F4FF;color:#2F4BD1">Temel</span></sc-if>
+                <span style="width:80px;text-align:right;font-size:14px;font-weight:600">{{ k.p }}</span>
+              </div>
+            </sc-for>
+          </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ st3 }}">
+          <div style="max-width:640px">
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 0 10px"><span style="width:32px;height:32px;border-radius:9px;background:#F2F4FF;color:#2F4BD1;display:flex;align-items:center;justify-content:center;flex:none"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">payments</span></span><div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600">Ödeme yöntemleri</div><div style="font-size:12.5px;color:#717378;margin-top:1px">Kişiye sunulan yöntemler</div></div></div>
+          <div style="margin-left:44px;border:1px solid #E4E4E8;border-radius:12px;overflow:hidden">
+            <sc-for list="{{ payMRows }}" as="r">
+              <div style="display:flex;align-items:center;gap:12px;height:48px;padding:0 14px;border-top:{{ r.bt }}">
+                <span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:20px;color:#717378">{{ r.ic }}</span>
+                <span style="flex:1;font-size:13.5px;font-weight:570">{{ r.t }}</span>
+                <button onClick="{{ r.tg.on }}" role="switch" aria-checked="{{ r.tg.val }}" aria-label="{{ r.t }}" style="width:42px;height:25px;border-radius:99px;background:{{ r.tg.bg }};position:relative;flex:none"><span style="position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:99px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transform:translateX({{ r.tg.x2 }})"></span></button>
+              </div>
+            </sc-for>
+          </div>
+          <div style="border-top:1px solid #E4E4E8;margin-top:16px"></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 0 10px"><span style="width:32px;height:32px;border-radius:9px;background:#F2F4FF;color:#2F4BD1;display:flex;align-items:center;justify-content:center;flex:none"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">account_balance</span></span><div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600">IBAN</div><div style="font-size:12.5px;color:#717378;margin-top:1px">Havale seçildiğinde kişiye gösterilir</div></div></div>
+          <div style="margin-left:44px"><input value="TR12 0006 4000 0011 2345 6789 01" aria-label="IBAN" style="width:100%;height:34px;border:1px solid #E4E4E8;border-radius:8px;padding:0 12px;font-size:13.5px;font-weight:550"></input></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ st4 }}">
+          <div style="max-width:640px">
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 0 10px"><span style="width:32px;height:32px;border-radius:9px;background:#F2F4FF;color:#2F4BD1;display:flex;align-items:center;justify-content:center;flex:none"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';line-height:1;font-weight:400;font-size:18px;font-variation-settings:'FILL' 1">notifications</span></span><div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:600">Anlık bildirimler</div><div style="font-size:12.5px;color:#717378;margin-top:1px">Hangi durumda haber verilsin</div></div></div>
+          <div style="margin-left:44px;border:1px solid #E4E4E8;border-radius:12px;overflow:hidden">
+            <sc-for list="{{ ntfSetRows }}" as="r">
+              <div style="display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 14px;border-top:{{ r.bt }}">
+                <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:570">{{ r.t }}</div><div style="font-size:12.5px;color:#717378">{{ r.d }}</div></div>
+                <button onClick="{{ r.tg.on }}" role="switch" aria-checked="{{ r.tg.val }}" aria-label="{{ r.t }}" style="width:42px;height:25px;border-radius:99px;background:{{ r.tg.bg }};position:relative;flex:none"><span style="position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:99px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transform:translateX({{ r.tg.x2 }})"></span></button>
+              </div>
+            </sc-for>
+          </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ st5 }}">
+          <div style="display:flex;align-items:center;gap:14px;margin-top:14px;padding:16px;border-radius:12px;background:#F2F4FF">
+            <span style="width:56px;height:56px;border-radius:99px;background:#fff;color:#2F4BD1;font-size:19px;font-weight:650;display:flex;align-items:center;justify-content:center;flex:none">{{ meIni }}</span>
+            <div style="flex:1;min-width:0"><div style="font-size:17px;font-weight:650">{{ meName }}</div><div style="font-size:13px;color:#6C6E72">{{ meJob }}</div></div>
+            <button onClick="{{ mePhoto }}" style="height:32px;padding:0 12px;border-radius:8px;background:#fff;color:#2F4BD1;font-size:13px;font-weight:600" style-hover="background:#E3E8FF">Fotoğraf ekle</button>
+          </div>
+          <div style="margin-top:10px">
+            <sc-for list="{{ acctRows }}" as="r">
+              <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px;padding:12px 0;border-bottom:1px solid #E4E4E8">
+                <span style="width:160px;font-size:13.5px;color:#6C6E72">{{ r.k }}</span>
+                <input value="{{ r.v }}" onChange="{{ r.onCh }}" onBlur="{{ r.onBl }}" type="{{ r.ty }}" aria-label="{{ r.k }}" style="flex:1 1 260px;height:34px;border:1px solid #E4E4E8;border-radius:8px;padding:0 10px;font-size:13.5px;font-weight:550"></input>
+              </div>
+            </sc-for>
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px;padding:12px 0;border-bottom:1px solid #E4E4E8">
+              <span style="width:160px;font-size:13.5px;color:#6C6E72">Şifre</span>
+              <span style="flex:1 1 260px;font-size:13.5px;letter-spacing:.15em;color:#16171A">••••••••</span>
+              <button onClick="{{ mePass }}" style="font-size:13px;font-weight:600;color:#2F4BD1">Değiştir</button>
+            </div>
+          </div>
+          <div style="margin-top:36px;border:1px solid #F3C9C5;border-radius:12px;padding:18px">
+            <div style="font-size:15px;font-weight:600;color:#BA332C">Hesabı sil</div>
+            <div style="font-size:12.5px;color:#6C6E72;margin-top:2px">{{ delSum }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center">
+              <input value="{{ delTxt }}" onChange="{{ onDel }}" placeholder="Onaylamak için SİL yaz" aria-label="Onaylamak için SİL yaz" style="flex:1 1 220px;height:32px;border:1px solid #E4E4E8;border-radius:8px;padding:0 10px;font-size:13px;outline:0"></input>
+              <button onClick="{{ doDel }}" disabled="{{ delDis }}" style="height:32px;padding:0 14px;border-radius:8px;background:#BA332C;color:#fff;font-size:13px;font-weight:600;opacity:{{ delOp }}">Hesabı sil</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+
+<sc-if value="{{ hasModal }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:50;background:rgba(22,23,26,.28);display:flex;align-items:flex-start;justify-content:center;padding:8vh 20px 20px;overflow:auto">
+    <div onClick="{{ stop }}" role="dialog" aria-modal="true" aria-label="{{ mTitle }}" style="width:100%;max-width:{{ mW }}px;background:#fff;border-radius:14px;box-shadow:0 24px 64px rgba(22,23,26,.22);display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;gap:12px;padding:16px 16px 14px 20px;border-bottom:1px solid #E4E4E8">
+        <div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:600">{{ mTitle }}</div><sc-if value="{{ mHasSub }}"><div style="font-size:12.5px;color:#6C6E72">{{ mSub }}</div></sc-if></div>
+        <sc-if value="{{ mNew }}"><div style="display:flex;padding:2px;border-radius:8px;background:#F3F4F6"><sc-for list="{{ nfKind }}" as="s"><button onClick="{{ s.on }}" aria-pressed="{{ s.pr }}" style="height:28px;padding:0 12px;border-radius:6px;font-size:12.5px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }};box-shadow:{{ s.sh }}">{{ s.l }}</button></sc-for></div></sc-if>
+        <sc-if value="{{ mHasPill }}"><span style="font-size:12px;font-weight:600;padding:3px 9px;border-radius:99px;background:#F2F4FF;color:#2F4BD1">{{ mPill }}</span></sc-if>
+        <button onClick="{{ closeModal }}" aria-label="Kapat" style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#6C6E72" style-hover="background:#F3F4F6"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:19px;line-height:1;font-weight:400">close</span></button>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;min-height:0">
+        <div style="flex:1 1 380px;min-width:0;padding:8px 20px 18px">
+
+          <sc-if value="{{ mNewL }}">
+            <sc-for list="{{ nfRows }}" as="r">
+              <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:center;min-height:48px;border-bottom:1px solid #F0F0F2">
+                <span style="font-size:13px;color:#6C6E72">{{ r.k }}</span>
+                <div style="display:flex;align-items:center;gap:8px;min-width:0">
+                  <sc-if value="{{ r.isSel }}"><select value="{{ r.val }}" onChange="{{ r.onCh }}" aria-label="{{ r.k }}" style="flex:1;max-width:280px;height:32px;border:1px solid #E4E4E8;border-radius:8px;padding:0 8px;background:#fff;font-size:13px"><sc-for list="{{ r.opts }}" as="o"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></sc-if>
+                  <sc-if value="{{ r.isSeg }}"><div style="display:flex;padding:2px;border-radius:8px;background:#F3F4F6"><sc-for list="{{ r.seg }}" as="s"><button onClick="{{ s.on }}" aria-pressed="{{ s.pr }}" style="height:28px;padding:0 11px;border-radius:6px;font-size:12.5px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }};box-shadow:{{ s.sh }}">{{ s.l }}</button></sc-for></div></sc-if>
+                  <sc-if value="{{ r.isTxt }}"><span style="font-size:13.5px;font-weight:570;color:{{ r.fg }}">{{ r.val }}</span></sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </sc-if>
+
+          <sc-if value="{{ mBrk }}">
+            <sc-for list="{{ bfRows }}" as="r">
+              <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:center;min-height:48px;border-bottom:1px solid #F0F0F2">
+                <span style="font-size:13px;color:#6C6E72">{{ r.k }}</span>
+                <select value="{{ r.val }}" onChange="{{ r.onCh }}" aria-label="{{ r.k }}" style="max-width:280px;height:32px;border:1px solid #E4E4E8;border-radius:8px;padding:0 8px;background:#fff;font-size:13px"><sc-for list="{{ r.opts }}" as="o"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+              </div>
+            </sc-for>
+          </sc-if>
+
+          <sc-if value="{{ mMove }}">
+            <div style="display:flex;align-items:center;gap:14px;margin-top:12px;padding:14px 16px;border-radius:12px;background:#F2F4FF">
+              <div style="flex:1"><div style="font-size:12px;color:#6C6E72">Eski</div><div style="font-size:15px;font-weight:600;color:#717378;text-decoration:line-through">{{ mv.old }}</div></div>
+              <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;font-weight:400;color:#2F4BD1">arrow_forward</span>
+              <div style="flex:1"><div style="font-size:12px;color:#6C6E72">Yeni</div><div style="font-size:15px;font-weight:600;color:#2F4BD1">{{ mv.nu }}</div></div>
+            </div>
+            <sc-for list="{{ mv.rows }}" as="r">
+              <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:center;min-height:48px;border-bottom:1px solid #F0F0F2">
+                <span style="font-size:13px;color:#6C6E72">{{ r.k }}</span>
+                <select value="{{ r.val }}" onChange="{{ r.onCh }}" aria-label="{{ r.k }}" style="max-width:280px;height:32px;border:1px solid #E4E4E8;border-radius:8px;padding:0 8px;background:#fff;font-size:13px"><sc-for list="{{ r.opts }}" as="o"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+              </div>
+            </sc-for>
+            <div style="font-size:12.5px;font-weight:600;color:#6C6E72;margin:14px 0 8px">Uygun saatler</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ mv.free }}" as="f"><button onClick="{{ f.on }}" style="height:30px;padding:0 11px;border-radius:8px;font-size:12.5px;font-weight:600;background:{{ f.bg }};color:{{ f.fg }};box-shadow:{{ f.sh }}">{{ f.l }}</button></sc-for></div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:16px"><span style="flex:1;font-size:13.5px">Kişiye bildir</span><button onClick="{{ mv.tg.on }}" role="switch" aria-checked="{{ mv.tg.val }}" aria-label="Kişiye bildir" style="width:36px;height:21px;border-radius:99px;background:{{ mv.tg.bg }};position:relative"><span style="position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:99px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transform:translateX({{ mv.tg.x }})"></span></button></div>
+          </sc-if>
+
+          <sc-if value="{{ mCancel }}">
+            <div style="font-size:12.5px;font-weight:600;color:#6C6E72;margin:12px 0 6px">Neden</div>
+            <sc-for list="{{ cxReasons }}" as="r">
+              <button onClick="{{ r.on }}" style="display:flex;align-items:center;gap:10px;width:100%;height:38px;font-size:13.5px">
+                <span style="width:18px;height:18px;border-radius:99px;box-shadow:inset 0 0 0 {{ r.ring }} {{ r.rc }};flex:none"></span>{{ r.l }}
+              </button>
+            </sc-for>
+            <sc-for list="{{ cxTogs }}" as="t">
+              <div style="display:flex;align-items:center;gap:12px;padding:12px 0 0;margin-top:8px;border-top:1px solid #F0F0F2"><span style="flex:1;font-size:13.5px">{{ t.l }}</span><button onClick="{{ t.tg.on }}" role="switch" aria-checked="{{ t.tg.val }}" aria-label="{{ t.l }}" style="width:36px;height:21px;border-radius:99px;background:{{ t.tg.bg }};position:relative"><span style="position:absolute;top:2px;left:2px;width:17px;height:17px;border-radius:99px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transform:translateX({{ t.tg.x }})"></span></button></div>
+            </sc-for>
+          </sc-if>
+
+          <sc-if value="{{ mPay }}">
+            <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+              <span style="width:36px;height:36px;border-radius:99px;background:{{ pf.avBg }};color:{{ pf.avFg }};font-size:12px;font-weight:650;display:flex;align-items:center;justify-content:center">{{ pf.ini }}</span>
+              <div style="flex:1"><div style="font-size:14px;font-weight:600">{{ pf.n }}</div><div style="font-size:12.5px;color:#6C6E72">{{ pf.les }}</div></div>
+              <span style="font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px;background:#FBE7E5;color:#BA332C">{{ pf.late }}</span>
+            </div>
+            <div style="font-size:34px;font-weight:600;letter-spacing:-.03em;margin:16px 0 6px">{{ pf.a }}</div>
+            <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:center;min-height:52px;border-top:1px solid #F0F0F2">
+              <span style="font-size:13px;color:#6C6E72">Yöntem</span>
+              <div style="display:flex;padding:2px;border-radius:8px;background:#F3F4F6;justify-self:start"><sc-for list="{{ pf.methods }}" as="s"><button onClick="{{ s.on }}" aria-pressed="{{ s.pr }}" style="display:flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:6px;font-size:12.5px;font-weight:600;background:{{ s.bg }};color:{{ s.fg }};box-shadow:{{ s.sh }}"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:16px;line-height:1;font-weight:400">{{ s.ic }}</span>{{ s.l }}</button></sc-for></div>
+            </div>
+            <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:center;min-height:48px;border-top:1px solid #F0F0F2"><span style="font-size:13px;color:#6C6E72">Tarih</span><span style="font-size:13.5px;font-weight:570">Bugün, 9 Eylül</span></div>
+          </sc-if>
+
+          <sc-if value="{{ mNewP }}">
+            <sc-for list="{{ npRows }}" as="r">
+              <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:center;min-height:50px;border-bottom:1px solid #F0F0F2">
+                <span style="font-size:13px;color:#6C6E72">{{ r.k }}</span>
+                <input value="{{ r.v }}" onChange="{{ r.onCh }}" placeholder="{{ r.ph }}" aria-label="{{ r.k }}" style="height:32px;border:1px solid #E4E4E8;border-radius:8px;padding:0 10px;font-size:13px;outline:0"></input>
+              </div>
+            </sc-for>
+            <div style="display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px;align-items:center;min-height:52px">
+              <span style="font-size:13px;color:#6C6E72">Üyelik</span>
+              <select value="{{ npM }}" onChange="{{ onNpM }}" aria-label="Üyelik" style="height:32px;border:1px solid #E4E4E8;border-radius:8px;padding:0 8px;background:#fff;font-size:13px"><sc-for list="{{ npOpts }}" as="o"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ mReq }}">
+            <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+              <span style="width:38px;height:38px;border-radius:99px;background:{{ rq.avBg }};color:{{ rq.avFg }};font-size:13px;font-weight:650;display:flex;align-items:center;justify-content:center">{{ rq.ini }}</span>
+              <div style="flex:1"><div style="font-size:14.5px;font-weight:600">{{ rq.n }}</div><div style="font-size:12.5px;color:#6C6E72">{{ rq.m }}</div></div>
+            </div>
+            <div style="font-size:26px;font-weight:600;letter-spacing:-.02em;margin-top:16px;color:{{ rq.whenFg }};text-decoration:{{ rq.deco }}">{{ rq.when }}</div>
+            <div style="margin-top:12px">
+              <sc-for list="{{ rq.kv }}" as="k"><div style="display:flex;align-items:center;gap:12px;height:40px;font-size:13px;border-top:1px solid #F0F0F2"><span style="width:90px;color:#6C6E72">{{ k.k }}</span><span style="flex:1;text-align:right;font-weight:570">{{ k.v }}</span></div></sc-for>
+            </div>
+            <sc-if value="{{ rq.conf }}">
+              <div style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;font-weight:600;color:#16171A"><span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400;color:#BA332C">event_busy</span>Bu saatte başka dersin var</div>
+              <div style="font-size:12.5px;font-weight:600;color:#6C6E72;margin:14px 0 8px">Başka saat öner</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ rq.alts }}" as="f"><button onClick="{{ f.on }}" style="height:30px;padding:0 11px;border-radius:8px;font-size:12.5px;font-weight:600;background:{{ f.bg }};color:{{ f.fg }};box-shadow:{{ f.sh }}">{{ f.l }}</button></sc-for></div>
+            </sc-if>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ mHasDay }}">
+          <div style="flex:0 1 270px;min-width:240px;border-left:1px solid #E4E4E8;background:#FAFAFB;padding:16px 16px 18px;border-bottom-right-radius:14px">
+            <div style="font-size:13px;font-weight:600;margin-bottom:10px">{{ dayT }}</div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <sc-for list="{{ dayRows }}" as="r">
+                <div style="display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:8px;background:{{ r.bg }};box-shadow:{{ r.sh }}">
+                  <span style="width:3px;height:28px;border-radius:2px;background:{{ r.ln }};flex:none"></span>
+                  <span style="flex:1;min-width:0"><span style="display:block;font-size:12.5px;font-weight:600;color:{{ r.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span><span style="display:block;font-size:11.5px;color:{{ r.tFg }}">{{ r.time }}</span></span>
+                  <sc-if value="{{ r.hasTag }}"><span style="font-size:11px;font-weight:650;color:{{ r.tagFg }}">{{ r.tag }}</span></sc-if>
+                </div>
+              </sc-for>
+              <sc-if value="{{ dayEmpty }}"><div style="font-size:12.5px;color:#717378">Bu gün boş</div></sc-if>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:8px;padding:12px 16px 12px 20px;border-top:1px solid #E4E4E8">
+        <sc-if value="{{ mHasDanger }}"><button onClick="{{ mDanger }}" style="height:32px;padding:0 14px;border-radius:8px;box-shadow:inset 0 0 0 1px #F3C9C5;color:#BA332C;font-size:13px;font-weight:600" style-hover="background:#FBE7E5">{{ mDangerL }}</button></sc-if>
+        <span style="flex:1;font-size:12.5px;font-weight:600;color:#6C6E72">{{ mWarn }}</span>
+        <button onClick="{{ closeModal }}" style="height:32px;padding:0 14px;border-radius:8px;font-size:13px;font-weight:600;color:#6C6E72" style-hover="background:#F3F4F6">Vazgeç</button>
+        <button onClick="{{ mOk }}" disabled="{{ mDis }}" style="height:32px;padding:0 16px;border-radius:8px;background:{{ mOkBg }};color:#fff;font-size:13px;font-weight:600;opacity:{{ mOp }}">{{ mOkL }}</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<div role="status" aria-live="polite">
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:14px;padding:10px 10px 10px 16px;border-radius:10px;background:#16171A;color:#fff;font-size:13px;font-weight:550;box-shadow:0 10px 30px rgba(22,23,26,.25)">
+    <span aria-hidden="true" style="font-family:'Material Symbols Rounded';font-size:18px;line-height:1;font-weight:400;color:#A9B7F5">check_circle</span>
+    <span>{{ toastT }}</span>
+    <sc-if value="{{ toastUndo }}"><button onClick="{{ undo }}" style="height:28px;padding:0 10px;border-radius:7px;font-weight:650;color:#A9B7F5" style-hover="background:rgba(255,255,255,.08)">Geri al</button></sc-if>
+</div>
+  </div>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;hourHeight&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:52,&quot;min&quot;:40,&quot;max&quot;:80,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;section&quot;:&quot;Takvim&quot;},&quot;calDefault&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Hafta&quot;,&quot;Gün&quot;],&quot;default&quot;:&quot;Hafta&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Takvim&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Rahat&quot;,&quot;Sıkı&quot;],&quot;default&quot;:&quot;Rahat&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Tablolar&quot;}}">
+const A='#2F4BD1',PBG='#F2F4FF',T='#16171A',T2='#6C6E72',T3='#717378',SEP='#E4E4E8',FILL='#F3F4F6',RED='#BA332C',REDS='#FBE7E5',SEGU='rgba(47,75,209,.16)';
+const AVC=[['#E3E8FF','#2F4BD1'],['#EDE6FB','#7A3FD0'],['#D7F0E3','#186B3B'],['#FBE5D6','#C9661C']];
+const TY={b:{n:'Bireysel',bg:'#E6EBFF',ln:'#2F4BD1',tx:'#1A2A80'},g:{n:'Grup',bg:'#F1E7FC',ln:'#8A3FD1',tx:'#4A1A80'},o:{n:'Online',bg:'#DDF3EA',ln:'#12A06B',tx:'#0B5A3C'},d:{n:'Deneme',bg:'#FFEBDB',ln:'#E07B25',tx:'#7A3A08'}};
+const TYK=['b','g','o','d'];
+const DN=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'],DL=['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'];
+const MON=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],MS=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+const TODAY=2,NOW=12.6,H0=8,H1=21;
+const dt=(w,d)=>new Date(2026,8,7+w*7+d);
+const dstr=(w,d)=>{const x=dt(w,d);return DN[d]+' '+x.getDate()+' '+MS[x.getMonth()]};
+const hm=x=>String(Math.floor(x)).padStart(2,'0')+':'+String(Math.round((x%1)*60)).padStart(2,'0');
+const tl=n=>'₺'+n.toLocaleString('tr-TR');
+const HATCH='repeating-linear-gradient(135deg,#fff 0 6px,#F1F1F4 6px 7px)';
+const SEGOFF={bg:'transparent',fg:T2,sh:'none',pr:'false'},SEGON={bg:'#fff',fg:T,sh:'0 1px 2px rgba(22,23,26,.12)',pr:'true'};
+const P0=[
+ {ini:'EY',n:'Elif Yıldırım',c:0,m:'8 derslik paket',tel:'0532 418 22 10',mail:'elif.yildirim@gmail.com',pk:[8,3],tot:14},
+ {ini:'MK',n:'Mert Kaya',c:1,m:'Tek ders',tel:'0533 702 41 18',mail:'mertkaya@outlook.com',debt:1500,late:6,les:2,tot:9},
+ {ini:'DA',n:'Derya Avcı',c:2,m:'Aylık üyelik',tel:'0541 330 09 72',mail:'derya.avci@gmail.com',tot:21},
+ {ini:'ZA',n:'Zeynep Aydın',c:3,m:'4 derslik paket',tel:'0535 664 12 03',mail:'zeynepaydin@gmail.com',pk:[4,3],tot:7},
+ {ini:'CÖ',n:'Can Öztürk',c:0,m:'8 derslik paket',tel:'0532 905 77 41',mail:'can.ozturk@gmail.com',pk:[8,2],tot:10},
+ {ini:'SD',n:'Selin Demir',c:1,m:'Aylık üyelik',tel:'0542 118 60 25',mail:'selindemir@icloud.com',tot:26},
+ {ini:'BŞ',n:'Burak Şahin',c:2,m:'Tek ders',tel:'0530 247 83 16',mail:'buraksahin@gmail.com',tot:3},
+ {ini:'AK',n:'Ayşe Koç',c:3,m:'Aylık üyelik',tel:'0536 812 44 90',mail:'aysekoc@gmail.com',tot:18},
+ {ini:'BA',n:'Berk Aksoy',c:1,m:'Deneme dersi',tel:'0543 561 20 37',mail:'berkaksoy@gmail.com',tot:1},
+ {ini:'CY',n:'Cansu Yılmaz',c:2,m:'Tek ders',tel:'0539 475 38 61',mail:'cansuyilmaz@gmail.com',debt:750,late:2,les:1,tot:4},
+ {ini:'ÇE',n:'Çağla Er',c:3,m:'Tek ders',tel:'0531 690 15 84',mail:'caglaer@gmail.com',tot:5},
+ {ini:'EK',n:'Emre Kılıç',c:0,m:'Tek ders',tel:'0538 223 97 46',mail:'emrekilic@gmail.com',tot:6}];
+const E0=[[0,9,60,'b',0,'Kadıköy stüdyo','Paket',1,1],[0,14,60,'o',2,'Online','Üyelik',1,1],[0,17.5,90,'g',5,'Moda sahil','Üyelik',1,1],[1,10.5,60,'b',4,'Kadıköy stüdyo','Paket',1,0],[1,16,45,'d',8,'Kadıköy stüdyo','Ücretsiz',1,0],[2,9,60,'b',0,'Kadıköy stüdyo','Paket',1,1],[2,11,60,'b',1,'Kadıköy stüdyo',750,0,0],[2,14,60,'o',2,'Online','Üyelik',1,1],[2,18,60,'g',5,'Moda sahil','Üyelik',1,1],[3,10,60,'b',3,'Kadıköy stüdyo','Paket',1,0],[3,15,60,'b',6,'Kadıköy stüdyo',750,1,0],[4,9,60,'o',9,'Online',750,0,0],[4,11,60,'g',7,'Moda sahil','Üyelik',1,1],[4,18,60,'d',10,'Kadıköy stüdyo','Ücretsiz',1,0],[5,10,60,'b',4,'Kadıköy stüdyo','Paket',1,0],[5,12,60,'b',11,'Kadıköy stüdyo',750,1,1]].map((e,i)=>({id:i,w:0,d:e[0],s:e[1],dur:e[2],ty:e[3],p:e[4],loc:e[5],fee:e[6],paid:!!e[7],rep:!!e[8]}));
+const B0=[0,1,2,3,4].map(d=>({d,s:12.5,dur:60,t:'Öğle molası'}));
+const R0=[{id:'r1',p:6,w:0,d:5,s:18,dur:60,fee:750,left:'22 sa kaldı'},{id:'r2',p:9,w:0,d:4,s:11,dur:60,fee:750,left:'5 sa kaldı'}];
+const N0=[{id:'r1',k:'req',t:'Yeni rezervasyon talebi',p:6,s:'Cmt 12 Eyl · 18:00',tm:'24 dk',g:'Bugün',un:1},{id:'r2',k:'req',t:'Talep çakışıyor',p:9,s:'Cum 11 Eyl · 11:00',tm:'1 sa',g:'Bugün',un:1},{id:'n3',k:'paid',t:'Ödeme alındı',p:3,s:'₺2.800 · Havale',tm:'3 sa',g:'Bugün',un:1},{id:'n4',k:'pkg',t:'Paket bitmek üzere',p:3,s:'1 ders kaldı',tm:'Dün',g:'Dün'},{id:'n5',k:'cancel',t:'Kişi dersi iptal etti',p:10,s:'Per 10 Eyl · 17:00',tm:'Dün',g:'Dün'},{id:'n6',k:'moved',t:'Yeni saat onaylandı',p:4,s:'Sal 8 Eyl · 10:30',tm:'Dün',g:'Dün'}];
+const PAID0=[{p:3,t:'4 derslik paket',d:'8 Eyl',m:'Havale',a:2800},{p:11,t:'Tek ders',d:'5 Eyl',m:'Nakit',a:750},{p:6,t:'Tek ders',d:'3 Eyl',m:'Nakit',a:750},{p:0,t:'8 derslik paket',d:'1 Eyl',m:'Kart',a:5200},{p:5,t:'Aylık üyelik',d:'1 Eyl',m:'Havale',a:4800}];
+const PM=[['payments','Nakit'],['account_balance','Havale'],['credit_card','Kart']];
+const LOCS=['Kadıköy stüdyo','Moda sahil','Online'];
+const MEMS=['Tek ders','4 derslik paket','8 derslik paket','Aylık üyelik','Deneme dersi'];
+const KM={req:['event_upcoming',PBG,A],paid:['payments','#DDF3EA','#12A06B'],pkg:['inventory_2','#FFEBDB','#C9661C'],cancel:['event_busy',REDS,RED],moved:['event_available',PBG,A]};
+const CXR=['Kişi istedi','Ben iptal ediyorum','Hastalık','Diğer'];
+const segs=pk=>Array.from({length:pk[0]},(_,i)=>({bg:i<pk[1]?SEGU:A}));
+const timeOpts=(()=>{const o=[];for(let h=H0;h<H1;h+=.5)o.push({v:String(h),l:hm(h)});return o})();
+const dayOpts=w=>[0,1,2,3,4,5,6].map(d=>({v:String(d),l:DL[d]+', '+dt(w,d).getDate()+' '+MON[dt(w,d).getMonth()]}));
+
+class Component extends DCLogic {
+  state={page:'cal',mode:null,wk:0,selDay:TODAY,sel:null,insp:true,modal:null,menu:null,q:'',sFocus:false,person:0,ptab:0,pf:0,pq:'',payTab:0,setTab:0,ntfDone:{},read:{},toast:null,evs:E0,reqs:R0,people:P0,paid:PAID0,brks:B0,nf:null,bf:null,payP:null,payM:0,mv:null,cx:{r:0},rq:null,rqAlt:null,np:{n:'',tel:'',mail:'',m:'0'},tg:{},seg:{},delTxt:''};
+  sRef=React.createRef();
+  componentDidMount(){
+    this._k=e=>{const typing=/INPUT|SELECT|TEXTAREA/.test(e.target.tagName||'');
+      if(e.key==='Escape'){this.setState({modal:null,menu:null,sel:null});if(typing)e.target.blur();return}
+      if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();this.sRef.current&&this.sRef.current.focus();return}
+      if(typing||this.state.modal||e.metaKey||e.ctrlKey)return;
+      if(e.key==='n')this.openNew();else if(e.key==='m')this.openBreak();else if(e.key==='t')this.go('cal',{wk:0,selDay:TODAY})};
+    window.addEventListener('keydown',this._k);
+    this._r=()=>this.setState({vw:window.innerWidth/1.14});this._r();window.addEventListener('resize',this._r);
+  }
+  componentWillUnmount(){window.removeEventListener('keydown',this._k);window.removeEventListener('resize',this._r);clearTimeout(this._tt)}
+  snap(){const s=this.state;return {evs:s.evs,reqs:s.reqs,people:s.people,paid:s.paid,brks:s.brks,ntfDone:s.ntfDone}}
+  commit(ch,msg,undo=true){const snap=this.snap();this.setState({...ch,toast:{t:msg,snap:undo?snap:null}});clearTimeout(this._tt);this._tt=setTimeout(()=>this.setState({toast:null}),4500)}
+  note(msg){this.commit({},msg,false)}
+  go(page,x={}){this.setState({page,menu:null,sel:null,...x})}
+  busy(w,d,s,dur,ex){const e=s+dur/60,S=this.state;return [...S.evs.filter(x=>x.w===w),...S.brks,...S.reqs.filter(x=>x.w===w)].some(x=>(ex==null||x.id!==ex)&&x.d===d&&s<x.s+x.dur/60-1e-6&&x.s<e-1e-6)}
+  free(w,d0,dur,n,ex){const o=[];for(let d=d0;d<7&&o.length<n;d++)for(let h=9;h<=19&&o.length<n;h++){if(w===0&&(d<TODAY||(d===TODAY&&h<=NOW)))continue;if(!this.busy(w,d,h,dur,ex))o.push({d,s:h})}return o}
+  seg(key,opts,def){const sel=this.state.seg[key]??def;return opts.map((l,i)=>({l,...(i===sel?SEGON:SEGOFF),on:()=>this.setState(s=>({seg:{...s.seg,[key]:i}}))}))}
+  segI(key,def){return this.state.seg[key]??def}
+  tog(key,def){const on=this.state.tg[key]??def;return {bg:on?A:'#DADBE0',x:on?'15px':'0px',x2:on?'17px':'0px',val:on,on:e=>{e&&e.stopPropagation&&e.stopPropagation();this.setState(s=>({tg:{...s.tg,[key]:!on}}))}}}
+  openNew(pre={}){const S=this.state;this.setState({modal:'new',menu:null,nf:{kind:0,w:S.wk,d:pre.d??(S.mode==='day'?S.selDay:Math.max(TODAY,0)),s:pre.s??15,p:pre.p??0,ty:'b',dur:60,loc:0,rep:0}})}
+  openBreak(){const w=this.state.wk;this.setState({modal:'new',menu:null,nf:{kind:1,w,d:w===0?TODAY:0,s:16,e:16.5,rep:0}})}
+  openPay(i){this.setState({modal:'pay',payP:i,payM:0,menu:null})}
+  openReq(id){this.setState({modal:'req',rq:id,rqAlt:null,menu:null})}
+  approve(id){const S=this.state,r=S.reqs.find(x=>x.id===id);if(!r)return;const ev={id:'e'+Date.now(),w:r.w,d:r.d,s:r.s,dur:r.dur,ty:'b',p:r.p,loc:'Kadıköy stüdyo',fee:r.fee,paid:false,rep:false};
+    this.commit({evs:[...S.evs,ev],reqs:S.reqs.filter(x=>x.id!==id),ntfDone:{...S.ntfDone,[id]:'ok'},modal:null},S.people[r.p].n+' · '+dstr(r.w,r.d)+' '+hm(r.s)+' onaylandı')}
+  reject(id){const S=this.state,r=S.reqs.find(x=>x.id===id);if(!r)return;this.commit({reqs:S.reqs.filter(x=>x.id!==id),ntfDone:{...S.ntfDone,[id]:'rej'},modal:null},'Talep reddedildi')}
+  suggest(id,alt){const S=this.state;this.commit({reqs:S.reqs.filter(x=>x.id!==id),ntfDone:{...S.ntfDone,[id]:'sug'},modal:null},'Yeni saat önerildi · '+dstr(0,alt.d)+' '+hm(alt.s))}
+  dayRows(w,d,ins){const S=this.state,P=S.people;const it=[...S.evs.filter(e=>e.w===w&&e.d===d).map(e=>({s:e.s,e:e.s+e.dur/60,name:P[e.p].n,ln:TY[e.ty].ln,id:e.id})),...S.brks.filter(b=>b.d===d).map(b=>({s:b.s,e:b.s+b.dur/60,name:b.t,ln:'#C4C5C9',id:'b'})),...S.reqs.filter(r=>r.w===w&&r.d===d&&(!ins||r.id!==ins.id)).map(r=>({s:r.s,e:r.s+r.dur/60,name:P[r.p].n+' · talep',ln:A,id:r.id}))].filter(x=>!ins||x.id!==ins.ex);
+    let conf=false;if(ins){const ie=ins.s+ins.dur/60;it.forEach(x=>{x.c=ins.s<x.e-1e-6&&x.s<ie-1e-6;if(x.c)conf=true});it.push({s:ins.s,e:ie,name:ins.label,ln:A,isNew:true})}
+    it.sort((a,b)=>a.s-b.s);
+    return {conf,rows:it.map(x=>x.isNew?{name:x.name,time:hm(x.s)+' – '+hm(x.e),ln:conf?RED:A,bg:conf?REDS:PBG,sh:'inset 0 0 0 1px '+(conf?'#F3C9C5':'#CBD4FA'),fg:conf?RED:A,tFg:conf?RED:A,hasTag:true,tag:conf?'Çakışma':'Yeni',tagFg:conf?RED:A}:{name:x.name,time:hm(x.s)+' – '+hm(x.e),ln:x.ln,bg:'transparent',sh:'none',fg:T,tFg:T2,hasTag:false,tag:'',tagFg:T3})}}
+  renderVals(){
+    const S=this.state,P=S.people,HH=this.props.hourHeight??52,vw=S.vw??1440,rowH=this.props.density==='Sıkı'?44:54,pRowH=rowH+10;
+    const mode=S.mode??(this.props.calDefault==='Gün'?'day':'week');
+    const totalH=(H1-H0)*HH,wk=S.wk;
+    const av=p=>({ini:p.ini,avBg:AVC[p.c%4][0],avFg:AVC[p.c%4][1]});
+    const feeS=f=>f==='Paket'?'Paketten':f==='Üyelik'?'Üyelik':f==='Ücretsiz'?'Ücretsiz':tl(f);
+    const isPast=(w,d,s)=>w<0||(w===0&&(d<TODAY||(d===TODAY&&s<NOW)));
+    const sorted=[...S.evs].sort((a,b)=>a.w-b.w||a.d-b.d||a.s-b.s);
+    const occOf=i=>{const o=[];sorted.filter(e=>e.p===i).forEach(e=>{o.push(e);if(e.rep)for(let k=1;k<=2;k++)o.push({...e,w:e.w+k,id:e.id+'_'+k,_v:1,paid:false})});return o.sort((a,b)=>a.w-b.w||a.d-b.d||a.s-b.s)};
+    const nextOf=i=>{const e=occOf(i).find(e=>!isPast(e.w,e.d,e.s));return e?dstr(e.w,e.d)+' · '+hm(e.s):'—'};
+    const debtors=P.map((p,i)=>[p,i]).filter(([p])=>p.debt>0);
+    const unreadN=N0.filter(n=>n.un&&!S.read[n.id]&&!S.ntfDone[n.id]).length;
+    const closeMenu=()=>this.setState({menu:null});
+    const tm=k=>()=>this.setState(s=>({menu:s.menu===k?null:k}));
+
+    const nav=[['cal','Takvim',0,PBG,A],['ppl','Kişiler',0],['pay','Ödemeler',debtors.length,REDS,RED]].map(([k,l,b,bBg,bFg])=>{const on=S.page===k||(k==='ppl'&&S.page==='person');return {l,cur:on?'page':'false',fg:on?T:T2,sh:on?'inset 0 -2px 0 '+A:'none',hasB:b>0,b,bBg,bFg,on:()=>this.go(k)}});
+    const ql=S.q.trim().toLocaleLowerCase('tr');
+    const sres=ql?P.map((p,i)=>[p,i]).filter(([p])=>p.n.toLocaleLowerCase('tr').includes(ql)).slice(0,6).map(([p,i])=>({...av(p),n:p.n,m:p.m,on:e=>{e.preventDefault();this.sRef.current&&this.sRef.current.blur();this.go('person',{person:i,ptab:0,q:'',sFocus:false})}})):[];
+    const newItems=[['event','Ders','N',()=>this.openNew()],['coffee','Mola','M',()=>this.openBreak()],['person_add','Kişi','',()=>this.setState({modal:'newp',menu:null,np:{n:'',tel:'',mail:'',m:'0'}})]].map(([ic,l,k,on])=>({ic,l,k,hasK:!!k,on}));
+    const userItems=[['settings','Ayarlar',()=>this.go('set'),T],['logout','Çıkış yap',()=>{this.setState({menu:null});this.note('Örnek panelde çıkış kapalı')},T]].map(([ic,l,on,fg])=>({ic,l,on,fg}));
+
+    // notifications
+    const nst=n=>{if(n.k!=='req')return null;const d=S.ntfDone[n.id];if(d)return d==='rej'?['Reddedildi',REDS,RED]:[d==='ok'?'Onaylandı':'Saat önerildi',PBG,A];return null};
+    const ntfGroups=['Bugün','Dün'].map(g=>({t:g,rows:N0.filter(n=>n.g===g).map(n=>{const p=P[n.p],un=n.un&&!S.read[n.id]&&!S.ntfDone[n.id],k=KM[n.k],st=nst(n),r=S.reqs.find(x=>x.id===n.id),conf=r&&this.busy(r.w,r.d,r.s,r.dur,r.id);
+      return {...av(p),t:n.t,s:p.n+' · '+n.s,sFg:conf?RED:T2,tm:n.tm,tw:un?650:550,dot:un?A:'transparent',bg:un?'#FBFBFF':'transparent',kIc:k[0],kBg:k[1],kFg:k[2],act:!!r,okL:conf?'İncele':'Onayla',okBg:A,hasSt:!!st,st:st?st[0]:'',stBg:st?st[1]:'',stFg:st?st[2]:'',
+        ok:e=>{e.stopPropagation();this.setState(s=>({read:{...s.read,[n.id]:1}}));conf?this.openReq(n.id):(this.approve(n.id),this.setState({menu:null}))},
+        rej:e=>{e.stopPropagation();this.reject(n.id);this.setState({menu:null})},
+        on:()=>{this.setState(s=>({read:{...s.read,[n.id]:1}}));if(r)this.openReq(n.id);else this.go('person',{person:n.p,ptab:n.k==='paid'?1:0})}}})}));
+
+    // calendar
+    const colIdx=mode==='day'?[S.selDay]:[0,1,2,3,4,5,6];
+    const mkE=e=>{const p=P[e.p],t=TY[e.ty],sel=S.sel===e.id,past=isPast(e.w,e.d,e.s+e.dur/60),unpaid=!e.paid&&typeof e.fee==='number';
+      return {s:e.s,e:e.s+e.dur/60,lane:0,t:p.n,sub:hm(e.s)+' · '+e.loc,top:(e.s-H0)*HH+1,h:Math.max(e.dur/60*HH-3,20),bg:sel?t.ln:t.bg,fg:sel?'#fff':t.tx,ln:t.ln,bd:'0',op:past&&!sel?.55:1,z:sel?3:1,cur:'pointer',sh:sel?'0 6px 16px rgba(22,23,26,.18)':'none',dot:unpaid?(sel?'#fff':RED):'transparent',showSub:e.dur/60*HH>=40,on:ev=>{ev.stopPropagation();this.setState({sel:e.id,insp:true})}}};
+    const cols=colIdx.map(d=>{const x=dt(wk,d),isT=wk===0&&d===TODAY;
+      const evs=[...S.brks.filter(b=>b.d===d).map(b=>({t:b.t,sub:hm(b.s)+' – '+hm(b.s+b.dur/60),top:(b.s-H0)*HH+1,h:b.dur/60*HH-3,bg:HATCH,fg:T3,ln:'transparent',bd:'0',op:1,z:1,cur:'default',sh:'inset 0 0 0 1px #ECECEF',dot:'transparent',showSub:b.dur/60*HH>=40,on:ev=>ev.stopPropagation()})),
+        ...S.evs.filter(e=>e.w===wk&&e.d===d).map(mkE),
+        ...S.reqs.filter(r=>r.w===wk&&r.d===d).map(r=>({s:r.s,e:r.s+r.dur/60,lane:0,t:P[r.p].n,sub:'Talep · '+hm(r.s),top:(r.s-H0)*HH+1,h:r.dur/60*HH-3,bg:'#fff',fg:A,ln:'transparent',bd:'1.5px dashed '+A,op:1,z:2,cur:'pointer',sh:'none',dot:'transparent',showSub:r.dur/60*HH>=40,on:ev=>{ev.stopPropagation();this.openReq(r.id)}}))];
+      const items=evs.filter(x=>x.lane!==undefined).sort((a,b)=>a.s-b.s);items.forEach((a,i)=>{const used=items.slice(0,i).filter(b=>b.s<a.e-1e-6&&a.s<b.e-1e-6).map(b=>b.lane);let l=0;while(used.includes(l))l++;a.lane=l});items.forEach(a=>{const ov=items.filter(b=>b.s<a.e-1e-6&&a.s<b.e-1e-6);a.n=Math.max(...ov.map(b=>b.lane))+1;});items.forEach(a=>{const ov=items.filter(b=>b.s<a.e-1e-6&&a.s<b.e-1e-6);a.n=Math.max(...ov.map(b=>b.n))});
+      evs.forEach(x=>{if(x.lane===undefined){x.l='3px';x.wd='calc(100% - 7px)'}else{x.l=`calc(${x.lane/x.n*100}% + 3px)`;x.wd=`calc(${100/x.n}% - 5px)`}});
+      const cnt=S.evs.filter(e=>e.w===wk&&e.d===d).length;
+      return {dn:mode==='day'?DL[d]:DN[d],dnFg:isT?A:d>=5?T3:T,num:x.getDate(),numBg:isT?A:'transparent',numFg:isT?'#fff':d>=5?T3:T,hasCnt:cnt>0&&mode==='week'&&vw>=1200,cnt:cnt+' ders',isToday:isT,bg:d>=5?'#FCFCFD':'#fff',evs,
+        onHead:()=>this.setState({mode:'day',selDay:d}),
+        onSlot:ev=>{const r=ev.currentTarget.getBoundingClientRect();const h=Math.floor((H0+(ev.clientY-r.top)/(r.height/((H1-H0)*HH)||1)/HH)*2)/2;this.openNew({d,s:Math.min(h,H1-1)})}}});
+    const hours=[];for(let h=H0+1;h<H1;h++)hours.push({top:(h-H0)*HH,l:hm(h)});
+    const d0=dt(wk,0),d6=dt(wk,6),sd=dt(wk,S.selDay);
+    const moD=new Date(2026,8+(S.mo||0),1),moY=moD.getFullYear(),moM=moD.getMonth();
+    const tD=mode==='month'?moD:mode==='week'?dt(wk,3):sd;
+    const rangeT=MON[tD.getMonth()]+' '+tD.getFullYear();
+    const moOf=w=>{const x=dt(w,3);return (x.getFullYear()-2026)*12+x.getMonth()-8};
+    const step=k=>()=>{if(mode==='month'){this.setState({mo:(S.mo||0)+k,sel:null});return}if(mode==='week')this.setState({wk:wk+k,sel:null});else{let d=S.selDay+k,w=wk;if(d<0){d=6;w--}if(d>6){d=0;w++}this.setState({selDay:d,wk:w,sel:null})}};
+    const modeSeg=[['Gün','day'],['Hafta','week'],['Ay','month']].map(([l,m])=>({l,...(mode===m?SEGON:SEGOFF),on:()=>this.setState(m==='month'?{mode:m,mo:moOf(wk),sel:null}:{mode:m})}));
+    const BASE=new Date(2026,8,7),DAY=864e5;
+    const g0=new Date(moY,moM,1-((new Date(moY,moM,1).getDay()+6)%7)),gw0=Math.round((g0-BASE)/DAY/7);
+    const nRows=Math.ceil((((new Date(moY,moM,1).getDay()+6)%7)+new Date(moY,moM+1,0).getDate())/7);
+    const mcells=[];for(let r=0;r<nRows;r++)for(let d=0;d<7;d++){const w=gw0+r,x=dt(w,d),inM=x.getMonth()===moM,isT=w===0&&d===TODAY;
+      const es=S.evs.filter(e=>e.d===d&&(e.w===w||(e.rep&&w>e.w))).sort((a,b)=>a.s-b.s);
+      mcells.push({n:x.getDate(),numBg:isT?A:'transparent',numFg:isT?'#fff':inM?T:'#C4C5C9',bg:inM?(d>=5?'#FCFCFD':'#fff'):'#FAFAFB',op:inM?1:.55,
+        evs:es.slice(0,3).map(e=>({t:hm(e.s),n:P[e.p].n.split(' ')[0],bg:TY[e.ty].bg,fg:TY[e.ty].tx,on:ev=>{ev.stopPropagation();this.setState({mode:'week',wk:w,sel:e.w===w?e.id:null,insp:true})}})),
+        hasMore:es.length>3,more:'+'+(es.length-3)+' ders',on:()=>this.setState({mode:'day',wk:w,selDay:d,sel:null})})}
+
+    const se=S.evs.find(e=>e.id===S.sel&&e.w===wk);
+    let ins={};
+    if(se){const p=P[se.p],t=TY[se.ty],x=dt(se.w,se.d),num=typeof se.fee==='number';
+      const kv=[['Konum',se.loc,T],['Süre',se.dur+' dk',T],['Ücret',feeS(se.fee),T]];
+      if(num)kv.push(['Ödeme',se.paid?'Ödendi':'Ödenmedi',se.paid?T:RED]);
+      ins={ty:t.n,tyBg:t.bg,tyTx:t.tx,rep:se.rep,date:DL[se.d]+', '+x.getDate()+' '+MON[x.getMonth()],time:hm(se.s)+' – '+hm(se.s+se.dur/60),...av(p),name:p.n,m:p.m,unpaid:num&&!se.paid,
+        kv:kv.map(([k,v,fg])=>({k,v,fg})),hasPk:!!p.pk,pkN:p.m,left:p.pk?p.pk[0]-p.pk[1]:0,segs:p.pk?segs(p.pk):[],
+        goP:()=>this.go('person',{person:se.p,ptab:0}),pay:()=>this.openPay(se.p),
+        move:()=>{const f=this.free(se.w,se.d,se.dur,1,se.id)[0]||{d:se.d,s:se.s};this.setState({modal:'move',mv:{id:se.id,d:f.d,s:f.s},tg:{...S.tg,mvN:true}})},
+        cancel:()=>this.setState({modal:'cancel',cx:{id:se.id,r:0}})}}
+    const showInsp=S.insp&&(vw>=1080||!!se);
+    const mmD=new Date(2026,8+(S.mmo||0),1),mmM=mmD.getMonth(),mmY=mmD.getFullYear(),mmLead=(mmD.getDay()+6)%7,mmN=Math.ceil((mmLead+new Date(mmY,mmM+1,0).getDate())/7)*7;
+    const mm=[];for(let i=0;i<mmN;i++){const x=new Date(mmY,mmM,1-mmLead+i),inM=x.getMonth()===mmM,off=Math.round((x-BASE)/DAY),w=Math.floor(off/7),d=((off%7)+7)%7,isT=off===TODAY,inWk=mode!=='month'&&w===wk&&(mode==='week'||d===S.selDay);
+      mm.push({n:x.getDate(),fg:isT?'#fff':inM?T:'#C4C5C9',fw:isT?650:500,bg:isT?A:'transparent',rowBg:inWk?PBG:'transparent',rad:mode==='day'?'8px':(d===0?'8px 0 0 8px':d===6?'0 8px 8px 0':'0'),on:()=>this.setState({wk:w,selDay:d,sel:null})})}
+    const reqRows=S.reqs.map(r=>{const p=P[r.p],conf=this.busy(r.w,r.d,r.s,r.dur,r.id);return {...av(p),name:p.n,when:dstr(r.w,r.d)+' · '+hm(r.s),subFg:T2,conf,canOk:!conf,okL:conf?'İncele':'Onayla',on:()=>this.openReq(r.id),ok:e=>{e.stopPropagation();conf?this.openReq(r.id):this.approve(r.id)},rej:e=>{e.stopPropagation();this.reject(r.id)}}});
+    const todayEv=S.evs.filter(e=>e.w===0&&e.d===TODAY).sort((a,b)=>a.s-b.s);
+    const agenda=todayEv.map(e=>({time:hm(e.s),ln:TY[e.ty].ln,name:P[e.p].n,sub:TY[e.ty].n+' · '+e.loc,op:e.s+e.dur/60<NOW?.5:1,on:()=>this.setState({page:'cal',wk:0,sel:e.id,selDay:TODAY,insp:true})}));
+
+    // people
+    const PF=[['Tümü',()=>true],['Paketli',p=>!!p.pk],['Üyelik',p=>p.m==='Aylık üyelik'],['Borçlu',p=>p.debt>0]];
+    const pql=S.pq.trim().toLocaleLowerCase('tr');
+    const pTabs=PF.map(([l,f],i)=>({l,pr:S.pf===i?'true':'false',c:P.filter(f).length,fg:S.pf===i?T:T2,sh:S.pf===i?'inset 0 -2px 0 '+A:'none',on:()=>this.setState({pf:i})}));
+    const pRows=P.map((p,i)=>[p,i]).filter(([p])=>PF[S.pf][1](p)&&(!pql||p.n.toLocaleLowerCase('tr').includes(pql))).map(([p,i])=>{const left=p.pk?p.pk[0]-p.pk[1]:0,nx=nextOf(i);
+      return {...av(p),n:p.n,tel:p.tel,m:p.m,hasPk:!!p.pk,noPk:!p.pk,left,leftFg:A,segs:p.pk?segs(p.pk):[],next:nx==='—'?'':nx,nextFg:T,tot:p.tot,debt:p.debt?tl(p.debt):'',debtFg:RED,call:e=>{e.stopPropagation();this.note(p.n+' aranıyor · '+p.tel)},add:e=>{e.stopPropagation();this.openNew({p:i})},on:()=>this.go('person',{person:i,ptab:0})}});
+
+    // person
+    const pi=S.person,pp=P[pi]||P[0];
+    const lRow=e=>{const num=typeof e.fee==='number',past=isPast(e.w,e.d,e.s+e.dur/60);return {date:dstr(e.w,e.d),time:hm(e.s)+' – '+hm(e.s+e.dur/60),ty:TY[e.ty].n,ln:TY[e.ty].ln,loc:e.loc,pay:num?(past?(e.paid?'Ödendi':'Ödenmedi'):tl(e.fee)):feeS(e.fee),payFg:num&&past&&!e.paid?RED:T2,op:past?.55:1,on:()=>this.setState({page:'cal',mode:'week',wk:e.w,selDay:e.d,sel:e._v?null:e.id,insp:true})}};
+    const pOcc=occOf(pi),pUpc=pOcc.filter(e=>!isPast(e.w,e.d,e.s+e.dur/60)).map(lRow),pPst=pOcc.filter(e=>isPast(e.w,e.d,e.s+e.dur/60)).reverse().map(lRow),pLessons=[...pUpc,...pPst];
+    const pPays=[...(pp.debt?[{t:pp.les+' ders · bekliyor',d:pp.late+' gün gecikmiş',dFg:RED,m:'—',a:tl(pp.debt),aFg:RED}]:[]),...S.paid.filter(x=>x.p===pi).map(x=>({t:x.t,d:x.d,dFg:T2,m:x.m,a:tl(x.a),aFg:T}))];
+    const pv={...av(pp),n:pp.n,m:pp.m,sub:pp.m+' · '+pp.tot+' ders',hasDebt:pp.debt>0,hasPk:!!pp.pk,left:pp.pk?pp.pk[0]-pp.pk[1]:0,segs:pp.pk?segs(pp.pk):[],
+      tabs:['Dersler','Ödemeler'].map((l,i)=>({l,pr:S.ptab===i?'true':'false',fg:S.ptab===i?T:T2,sh:S.ptab===i?'inset 0 -2px 0 '+A:'none',on:()=>this.setState({ptab:i})})),
+      tabL:S.ptab===0,tabP:S.ptab===1,lessons:pLessons,upc:pUpc,pst:pPst,hasUpc:pUpc.length>0,hasPst:pPst.length>0,upcN:pUpc.length,pstN:pPst.length,noL:!pLessons.length,pays:pPays,noP:!pPays.length,
+      kv:[['Telefon',pp.tel,T],['E-posta',pp.mail,T],['Sonraki ders',nextOf(pi),T],['Toplam ders',String(pp.tot),T],['Borç',pp.debt?tl(pp.debt):'Yok',pp.debt?RED:T2]].map(([k,v,fg],i)=>({k,v,fg,bt:i?'1px solid #E4E4E8':'0'})),
+      pay:()=>this.openPay(pi),newL:()=>this.openNew({p:pi}),renew:()=>this.commit({people:P.map((x,i)=>i===pi?{...x,pk:[x.pk[0],0]}:x)},pp.n+' · paket yenilendi')};
+
+    // payments
+    const pendTotal=debtors.reduce((a,[p])=>a+p.debt,0),paidTotal=S.paid.reduce((a,x)=>a+x.a,0);
+    const payStats=[['Bekleyen',tl(pendTotal),pendTotal?RED:T],['Eylül’de alınan',tl(paidTotal),T],['Ödeme sayısı',String(S.paid.length),T]].map(([l,v,fg],i)=>({l,v,fg,bl:i?'1px solid #E4E4E8':'0'}));
+    const payTabs=[['Bekleyen',debtors.length],['Alınan',S.paid.length]].map(([l,c],i)=>({l,c,pr:S.payTab===i?'true':'false',fg:S.payTab===i?T:T2,sh:S.payTab===i?'inset 0 -2px 0 '+A:'none',on:()=>this.setState({payTab:i})}));
+    const pendRows=debtors.map(([p,i])=>({...av(p),n:p.n,les:p.les+' ders',late:p.late+' gün gecikmiş',a:tl(p.debt),on:()=>this.openPay(i),goP:()=>this.go('person',{person:i,ptab:1})}));
+    const paidRows=S.paid.map(x=>{const p=P[x.p];return {...av(p),n:p.n,t:x.t,d:x.d,m:x.m,a:tl(x.a),goP:()=>this.go('person',{person:x.p,ptab:1})}});
+
+    // settings
+    const SN=[['schedule','Çalışma saatleri'],['rule','Ders kuralları'],['inventory_2','Paketler'],['account_balance_wallet','Ödeme'],['notifications','Bildirimler'],['person','Hesap']];
+    const setNav=SN.map(([ic,l],i)=>({ic,l,pr:S.setTab===i?'true':'false',bg:S.setTab===i?FILL:'transparent',fg:S.setTab===i?T:T2,on:()=>this.setState({setTab:i})}));
+    const hoursRows=DL.map((d,i)=>{const tg=this.tog('wd'+i,i<6);return {d,tg,open:tg.val,closed:!tg.val,a:'09:00',b:i===5?'14:00':'20:00',bt:i?'1px solid #E4E4E8':'0'}});
+    const brkRows=[{t:'Öğle molası',days:'Pzt – Cum',time:'12:30 – 13:30',bt:'0'}];
+    const RULES=[['event_available','Rezervasyon penceresi','Kişi dersten en geç kaç saat önce rezervasyon yapabilir',['1 sa','2 sa','24 sa'],1,'rWin','örn. 6 sa'],['event_busy','Ücretsiz iptal süresi','Bu süreden sonraki iptallerde ders ücreti alınır',['2 sa','4 sa','24 sa'],1,'rCx','örn. 12 sa'],['schedule','Ders başlama kademesi','Kişiler dersi hangi dakikalarda başlatabilir',['Tam saat','15 dk','30 dk'],0,'rStep','örn. 20 dk'],['snooze','Ders arası mola','Bir ders bitince sonraki derse kadar zorunlu boşluk',['Yok','10 dk','15 dk'],2,'rGap','örn. 5 dk']];
+    const RC=S.rc||{};
+    const ruleSecs=RULES.map(([ic,t,d,opts,def,key,ph])=>{const sel=S.seg[key]??def,cust=RC[key],ed=S.rEd===key,setSel=i=>this.setState(s=>({seg:{...s.seg,[key]:i},rEd:null}));
+      const commit=v=>{v=(v||'').trim();this.setState(s=>v?{rc:{...(s.rc||{}),[key]:v},seg:{...s.seg,[key]:3},rEd:null}:{rEd:null})};
+      return {ic,t,d,chips:opts.map((l,i)=>({l,pr:sel===i?'true':'false',bg:sel===i?A:FILL,fg:sel===i?'#fff':T,on:()=>setSel(i)})),
+        pen:{isPen:!cust&&!ed,isTxt:!!cust&&!ed,isIn:ed,l:cust||'',ph,bg:sel===3?A:FILL,fg:sel===3?'#fff':T,on:()=>cust&&sel!==3?setSel(3):this.setState({rEd:key}),key:e=>{if(e.key==='Enter')commit(e.target.value);if(e.key==='Escape'){e.stopPropagation();this.setState({rEd:null})}},blur:e=>commit(e.target.value)}}});
+    const ruleTogs=[['how_to_reg','Talepleri elle onayla','Kapalıysa uygun talepler otomatik onaylanır',this.tog('rMan',true)],['inventory_2','Geç iptalde paketten düş','Paketli kişilerde ders hakkı kullanılmış sayılır',this.tog('rLate',true)]].map(([ic,t,d,tg])=>({ic,t,d,tg}));
+    const ruleRows=[
+      {t:'Varsayılan ders süresi',d:'Yeni derslerde önce bu seçilir',isSeg:true,seg:this.seg('rDur',['45 dk','60 dk','90 dk'],1)},
+      {t:'Dersler arası boşluk',d:'Takvim bu kadar boşluk bırakır',isSeg:true,seg:this.seg('rGap',['Yok','10 dk','15 dk'],1)},
+      {t:'Ücretsiz iptal süresi',d:'Bu süreden sonra iptal geç sayılır',isSeg:true,seg:this.seg('rCx',['12 sa','24 sa','48 sa'],1)},
+      {t:'Talepleri elle onayla',d:'Kapalıysa uygun talepler otomatik onaylanır',isTg:true,tg:this.tog('rMan',true)},
+      {t:'Geç iptalde paketten düş',d:'Paketli kişilerde ders hakkı kullanılmış sayılır',isTg:true,tg:this.tog('rLate',true)}].map(r=>({isSeg:false,isTg:false,seg:[],tg:{},...r}));
+    const pkgRows=[['Tek ders','1','₺750',true],['4 derslik paket','4','₺2.800',false],['8 derslik paket','8','₺5.200',false],['Aylık üyelik','Sınırsız','₺4.800',false]].map(([n,c,p,base],i)=>({n,c,p,base,bt:i?'1px solid #E4E4E8':'0',bd:c==='Sınırsız'?'∞':c+'×',bdBg:base?A:PBG,bdFg:base?'#fff':A,sub:c==='Sınırsız'?'Sınırsız ders':c+' ders'}));
+    const payMRows=PM.map(([ic,t],i)=>({ic,t,bt:i?'1px solid #E4E4E8':'0',tg:this.tog('pm'+i,true)}));
+    const ntfSetRows=[['Yeni rezervasyon talebi','Kişi takvimden saat seçtiğinde'],['İptal ve erteleme','Kişi dersi iptal ettiğinde ya da yeni saat seçtiğinde'],['Ödeme','Ödeme kaydedildiğinde'],['Paket bitmek üzere','Kişinin 1 dersi kaldığında'],['Günlük özet e-postası','Her sabah 07:00’de']].map(([t,d],i)=>({t,d,bt:i?'1px solid #E4E4E8':'0',tg:this.tog('ns'+i,i<4)}));
+    const ME={n:'Deniz Arslan',j:'Kişisel antrenör',m:'deniz.arslan@gmail.com',t:'0532 111 48 20',...(S.me||{})};
+    const acctRows=[['Ad soyad','n','text'],['Meslek','j','text'],['E-posta','m','email'],['Telefon','t','tel']].map(([k,f,ty])=>({k,ty,v:ME[f],onCh:e=>{const v=e.target.value;this.setState(s=>({me:{...(s.me||{}),[f]:v}}))},onBl:()=>{if(S.me&&S.me[f]!==undefined)this.note('Kaydedildi')}}));
+    const delOk=S.delTxt.trim().toLocaleUpperCase('tr')==='SİL';
+
+    // modals
+    const M=S.modal;let mv={},rq={},pf={},dayT='',dayR={rows:[]},mTitle='',mSub='',mOk=()=>{},mOkL='Kaydet',mDis=false,mWarn='',mHasDay=false,mW=520,mPill='',mDanger=null,mDangerL='',mOkBg=A;
+    let nfRows=[],bfRows=[],nfKind=[];
+    if(M==='new'&&S.nf){const f=S.nf,set=o=>this.setState(s=>({nf:{...s.nf,...o}}));
+      nfKind=['Ders','Mola'].map((l,i)=>({l,...(f.kind===i?SEGON:SEGOFF),on:()=>set(i?{kind:1,e:f.s+1,rep:1}:{kind:0,p:f.p??0,ty:f.ty??'b',dur:f.dur??60,loc:f.loc??0})}));
+      mHasDay=true;mW=800;dayT=DL[f.d]+', '+dt(f.w,f.d).getDate()+' '+MON[dt(f.w,f.d).getMonth()];
+      if(f.kind===0){const p=P[f.p];mTitle='Yeni ders';
+        const fee=p.pk?'Paketten · '+(p.pk[0]-p.pk[1])+' ders kaldı':p.m==='Aylık üyelik'?'Üyelik':f.ty==='d'?'Ücretsiz':'₺750 · temel paket';
+        nfRows=[
+          {k:'Kişi',isSel:true,val:String(f.p),opts:P.map((x,i)=>({v:String(i),l:x.n})),onCh:e=>set({p:+e.target.value})},
+          {k:'Tür',isSeg:true,seg:TYK.map(k=>({l:TY[k].n,...(f.ty===k?SEGON:SEGOFF),on:()=>set({ty:k,loc:k==='o'?2:k==='g'?1:0})}))},
+          {k:'Gün',isSel:true,val:String(f.d),opts:dayOpts(f.w),onCh:e=>set({d:+e.target.value})},
+          {k:'Saat',isSel:true,val:String(f.s),opts:timeOpts,onCh:e=>set({s:+e.target.value})},
+          {k:'Süre',isSeg:true,seg:[45,60,90].map(m=>({l:m+' dk',...(f.dur===m?SEGON:SEGOFF),on:()=>set({dur:m})}))},
+          {k:'Konum',isSel:true,val:String(f.loc),opts:LOCS.map((l,i)=>({v:String(i),l})),onCh:e=>set({loc:+e.target.value})},
+          {k:'Tekrar',isSel:true,val:String(f.rep),opts:[{v:'0',l:'Tekrar yok'},{v:'1',l:'Her hafta'}],onCh:e=>set({rep:+e.target.value})},
+          {k:'Ücret',isTxt:true,val:fee,fg:T}].map(r=>({isSel:false,isSeg:false,isTxt:false,seg:[],opts:[],val:'',fg:T,onCh:null,...r}));
+        dayR=this.dayRows(f.w,f.d,{s:f.s,dur:f.dur,label:p.n});
+        mWarn=dayR.conf?'Bu saatte başka dersin var':'';mDis=dayR.conf;mOkL='Dersi ekle';
+        mOk=()=>{const ev={id:'e'+Date.now(),w:f.w,d:f.d,s:f.s,dur:f.dur,ty:f.ty,p:f.p,loc:LOCS[f.loc],fee:p.pk?'Paket':p.m==='Aylık üyelik'?'Üyelik':f.ty==='d'?'Ücretsiz':750,paid:false,rep:!!f.rep};
+          this.commit({evs:[...S.evs,ev],modal:null,page:'cal',wk:f.w,sel:ev.id,insp:true},'Ders eklendi · '+dstr(f.w,f.d)+' '+hm(f.s))};
+      }else{mTitle='Mola ekle';
+        bfRows=[
+          {k:'Gün',val:String(f.d),opts:dayOpts(f.w),onCh:e=>set({d:+e.target.value})},
+          {k:'Başlangıç',val:String(f.s),opts:timeOpts,onCh:e=>{const s=+e.target.value;set({s,e:Math.max(f.e,s+.5)})}},
+          {k:'Bitiş',val:String(f.e),opts:timeOpts.filter(o=>+o.v>f.s).concat([{v:String(H1),l:hm(H1)}]),onCh:e=>set({e:+e.target.value})},
+          {k:'Tekrar',val:String(f.rep),opts:[{v:'0',l:'Tekrar yok'},{v:'1',l:'Her hafta'}],onCh:e=>set({rep:+e.target.value})}];
+        dayR=this.dayRows(f.w,f.d,{s:f.s,dur:(f.e-f.s)*60,label:'Mola'});
+        mWarn=dayR.conf?'Bu saatte başka ders ya da mola var':'';mDis=dayR.conf;mOkL='Molayı ekle';
+        mOk=()=>this.commit({brks:[...S.brks,{d:f.d,s:f.s,dur:(f.e-f.s)*60,t:'Mola'}],modal:null},'Mola eklendi · '+DN[f.d]+' '+hm(f.s))}}
+    if(M==='move'&&S.mv){const e=S.evs.find(x=>x.id===S.mv.id);if(e){const v=S.mv,set=o=>this.setState(s=>({mv:{...s.mv,...o}}));
+      const b=this.busy(e.w,v.d,v.s,e.dur,e.id);mTitle='Dersi ertele';mSub=P[e.p].n+' · '+TY[e.ty].n;mW=800;mHasDay=true;
+      dayT=DL[v.d]+', '+dt(e.w,v.d).getDate()+' '+MON[dt(e.w,v.d).getMonth()];dayR=this.dayRows(e.w,v.d,{s:v.s,dur:e.dur,label:P[e.p].n,ex:e.id});
+      mv={old:dstr(e.w,e.d)+' · '+hm(e.s),nu:dstr(e.w,v.d)+' · '+hm(v.s),tg:this.tog('mvN',true),
+        rows:[{k:'Gün',val:String(v.d),opts:dayOpts(e.w),onCh:x=>set({d:+x.target.value})},{k:'Saat',val:String(v.s),opts:timeOpts,onCh:x=>set({s:+x.target.value})}],
+        free:this.free(e.w,0,e.dur,8,e.id).map(f=>{const on=f.d===v.d&&f.s===v.s;return {l:DN[f.d]+' '+hm(f.s),bg:on?PBG:'#fff',fg:on?A:T,sh:'inset 0 0 0 1px '+(on?A:SEP),on:()=>set({d:f.d,s:f.s})}})};
+      mWarn=b?'Bu saatte başka dersin var':'';mDis=b;mOkL='Ertele';
+      mOk=()=>this.commit({evs:S.evs.map(x=>x.id===e.id?{...x,d:v.d,s:v.s}:x),modal:null,selDay:v.d},'Ders ertelendi · '+dstr(e.w,v.d)+' '+hm(v.s))}}
+    let cxReasons=[],cxTogs=[];
+    if(M==='cancel'&&S.cx){const e=S.evs.find(x=>x.id===S.cx.id);if(e){const p=P[e.p];mTitle='Dersi iptal et';mSub=p.n+' · '+dstr(e.w,e.d)+' '+hm(e.s);mW=460;
+      cxReasons=CXR.map((l,i)=>({l,ring:S.cx.r===i?'5px':'1.5px',rc:S.cx.r===i?RED:'#C4C5C9',on:()=>this.setState(s=>({cx:{...s.cx,r:i}}))}));
+      cxTogs=[...(p.pk?[{l:'Paketten düş',tg:this.tog('cxPk',false)}]:[]),{l:'Kişiye bildir',tg:this.tog('cxN',true)}];
+      mOkL='Dersi iptal et';mOkBg=RED;mOk=()=>this.commit({evs:S.evs.filter(x=>x.id!==e.id),modal:null,sel:null},'Ders iptal edildi · '+p.n)}}
+    if((M==='pay')&&S.payP!=null){const p=P[S.payP];mTitle='Ödeme al';mW=460;
+      pf={...av(p),n:p.n,les:(p.les||1)+' ders · '+p.m,late:(p.late||0)+' gün gecikmiş',a:tl(p.debt||750),methods:PM.map(([ic,l],i)=>({ic,l,...(S.payM===i?SEGON:SEGOFF),on:()=>this.setState({payM:i})}))};
+      mOkL='Ödemeyi kaydet';
+      mOk=()=>{const i=S.payP,a=p.debt||750;this.commit({people:P.map((x,j)=>j===i?{...x,debt:0,late:0,les:0}:x),paid:[{p:i,t:(p.les||1)+' ders',d:'9 Eyl',m:PM[S.payM][1],a},...S.paid],evs:S.evs.map(x=>x.p===i?{...x,paid:true}:x),modal:null},'Ödeme kaydedildi · '+tl(a)+' · '+PM[S.payM][1])}}
+    let npRows=[];
+    if(M==='newp'){const n=S.np,set=o=>this.setState(s=>({np:{...s.np,...o}}));mTitle='Yeni kişi';mW=480;
+      npRows=[['Ad soyad','n','Örn. Deniz Yılmaz'],['Telefon','tel','05xx xxx xx xx'],['E-posta','mail','ornek@mail.com']].map(([k,f,ph])=>({k,v:n[f],ph,onCh:e=>set({[f]:e.target.value})}));
+      mDis=!n.n.trim();mOkL='Kişiyi ekle';
+      mOk=()=>{const nm=n.n.trim(),ini=nm.split(/\s+/).map(x=>x[0]).slice(0,2).join('').toLocaleUpperCase('tr');const np={ini,n:nm,c:P.length%4,m:MEMS[+n.m],tel:n.tel||'—',mail:n.mail||'—',tot:0,...(n.m==='1'?{pk:[4,0]}:n.m==='2'?{pk:[8,0]}:{})};
+        this.commit({people:[...P,np],modal:null,page:'person',person:P.length,ptab:0},nm+' eklendi')}}
+    if(M==='req'){const r=S.reqs.find(x=>x.id===S.rq);if(r){const p=P[r.p],conf=this.busy(r.w,r.d,r.s,r.dur,r.id);mTitle='Rezervasyon talebi';mPill=r.left;mW=800;mHasDay=true;
+      dayT=DL[r.d]+', '+dt(r.w,r.d).getDate()+' '+MON[dt(r.w,r.d).getMonth()];
+      const alts=conf?this.free(r.w,r.d,r.dur,4,r.id):[];const alt=S.rqAlt!=null?alts[S.rqAlt]:null;
+      dayR=this.dayRows(r.w,alt?alt.d:r.d,{s:alt?alt.s:r.s,dur:r.dur,label:p.n,id:r.id});
+      if(alt)dayT=DL[alt.d]+', '+dt(r.w,alt.d).getDate()+' '+MON[dt(r.w,alt.d).getMonth()];
+      rq={...av(p),n:p.n,m:p.m+' · '+p.tot+' ders',when:dstr(r.w,r.d)+' · '+hm(r.s),whenFg:conf?(alt?T3:T):A,deco:alt?'line-through':'none',conf,
+        kv:[['Ders','Bireysel · '+r.dur+' dk'],['Ücret',tl(r.fee)],['Konum','Kadıköy stüdyo']].map(([k,v])=>({k,v})),
+        alts:alts.map((f,i)=>{const on=S.rqAlt===i;return {l:DN[f.d]+' '+hm(f.s),bg:on?PBG:'#fff',fg:on?A:T,sh:'inset 0 0 0 1px '+(on?A:SEP),on:()=>this.setState({rqAlt:on?null:i})}})};
+      mDanger=()=>this.reject(r.id);mDangerL='Reddet';
+      if(conf){mOkL=alt?'Bu saati öner':'Onayla';mDis=!alt;mWarn=alt?'':'Onaylamak için başka saat seç';mOk=()=>alt&&this.suggest(r.id,alt)}
+      else{mOkL='Onayla';mOk=()=>this.approve(r.id)}}}
+    const titles={new:mTitle,move:mTitle,cancel:mTitle,pay:mTitle,newp:mTitle,req:mTitle};
+
+    return {
+      nav,goCal:()=>this.go('cal'),q:S.q,sRef:this.sRef,onQ:e=>this.setState({q:e.target.value}),onQFocus:()=>this.setState({sFocus:true,menu:null}),onQBlur:()=>setTimeout(()=>this.setState({sFocus:false}),120),
+      showSearch:S.sFocus&&!!ql,sres,sEmpty:!!ql&&!sres.length,
+      tNew:tm('new'),menuNew:S.menu==='new',newItems,tBell:tm('bell'),menuBell:S.menu==='bell',bellBg:S.menu==='bell'?FILL:'transparent',hasUnread:unreadN>0,unreadN,tUser:tm('user'),editMe:()=>this.go('set',{setTab:5}),menuUser:S.menu==='user',userItems,
+      anyMenu:!!S.menu,closeMenu,ntfGroups,readAll:()=>this.setState({read:Object.fromEntries(N0.map(n=>[n.id,1]))}),readAllOp:unreadN?1:.4,
+      isCal:S.page==='cal',isPpl:S.page==='ppl',isPerson:S.page==='person',isPay:S.page==='pay',isSet:S.page==='set',
+      goToday:()=>this.setState({wk:0,mo:0,mmo:0,selDay:TODAY,sel:null}),prev:step(-1),next:step(1),rangeT,isDay:mode==='day',notDay:mode!=='day',dayBig:sd.getDate()+' '+MON[sd.getMonth()],dayYear:String(sd.getFullYear()),dayDn:DL[S.selDay],dayDnFg:A,isMonth:mode==='month',notMonth:mode!=='month',mcells,mRows:'repeat('+nRows+',minmax(0,1fr))',mHead:DN.map((l,i)=>({l,fg:i>=5?T3:T})),legend:TYK.map(k=>({n:TY[k].n,c:TY[k].ln})),modeSeg,
+      tInsp:()=>this.setState({insp:!S.insp}),inspBtnFg:S.insp?A:T2,inspBtnBg:S.insp?PBG:'transparent',
+      gridMin:mode==='week'?'760px':'0',gridCols:`56px repeat(${cols.length},minmax(0,1fr))`,cols,hours,totalH,gridBg:`repeating-linear-gradient(to bottom,#EEEEF1 0 1px,transparent 1px ${HH}px)`,nowTop:(NOW-H0)*HH,
+      showInsp,hasSel:!!se,noSel:!se,ins,clearSel:()=>this.setState({sel:null}),
+      mmTitle:MON[mmM]+' '+mmY,mmPrev:()=>this.setState({mmo:(S.mmo||0)-1}),mmNext:()=>this.setState({mmo:(S.mmo||0)+1}),mmHead:['P','S','Ç','P','C','C','P'],mm,reqRows,reqN:S.reqs.length,noReq:!S.reqs.length,agenda,agendaN:todayEv.length+' ders',
+      pplTotal:P.length,openNewP:()=>this.setState({modal:'newp',np:{n:'',tel:'',mail:'',m:'0'}}),pTabs,pq:S.pq,onPq:e=>this.setState({pq:e.target.value}),pRows,pEmpty:!pRows.length,rowH,pRowH,
+      goPpl:()=>this.go('ppl'),pv,
+      payStats,payTabs,payPend:S.payTab===0,payDoneT:S.payTab===1,pendRows,noPend:!pendRows.length,paidRows,
+      setNav,setTitle:SN[S.setTab][1],st0:S.setTab===0,st1:S.setTab===1,st2:S.setTab===2,st3:S.setTab===3,st4:S.setTab===4,st5:S.setTab===5,
+      hoursRows,brkRows,openBreak:()=>this.openBreak(),ruleRows,ruleSecs,ruleTogs,pkgRows,addPkg:()=>this.note('Paket ekleme bu örnekte kapalı'),payMRows,ntfSetRows,acctRows,meName:ME.n,meJob:ME.j,meIni:ME.n.split(/\s+/).map(x=>x[0]||'').slice(0,2).join('').toLocaleUpperCase('tr'),mePhoto:()=>this.note('Fotoğraf seçme bu örnekte kapalı'),mePass:()=>this.note('Şifre değiştirme bağlantısı e-postana gönderildi'),
+      delSum:P.length+' kişi, '+S.evs.length+' ders ve tüm ödeme kayıtları silinir. 30 gün içinde giriş yaparsan silme iptal edilir.',delTxt:S.delTxt,onDel:e=>this.setState({delTxt:e.target.value}),delDis:!delOk,delOp:delOk?1:.35,doDel:()=>{this.setState({delTxt:''});this.note('Silme isteği alındı (örnek)')},
+      hasModal:!!M,closeModal:()=>this.setState({modal:null}),stop:e=>e.stopPropagation(),mW,mTitle:titles[M]||'',mHasSub:!!mSub,mSub,mHasPill:!!mPill,mPill,
+      mNew:M==='new',mNewL:M==='new'&&S.nf&&S.nf.kind===0,mBrk:M==='new'&&S.nf&&S.nf.kind===1,nfKind,nfRows,bfRows,
+      mMove:M==='move',mv,mCancel:M==='cancel',cxReasons,cxTogs,mPay:M==='pay',pf,mNewP:M==='newp',npRows,npM:S.np.m,onNpM:e=>{const m=e.target.value;this.setState(s=>({np:{...s.np,m}}))},npOpts:MEMS.map((l,i)=>({v:String(i),l})),
+      mReq:M==='req',rq,mHasDay,dayT,dayRows:dayR.rows,dayEmpty:!dayR.rows.length,
+      mHasDanger:!!mDanger,mDanger:mDanger||(()=>{}),mDangerL,mWarn,mOk,mOkL,mDis,mOp:mDis?.4:1,mOkBg,
+      hasToast:!!S.toast,toastT:S.toast?S.toast.t:'',toastUndo:!!(S.toast&&S.toast.snap),undo:()=>{const t=S.toast;if(t&&t.snap)this.setState({...t.snap,toast:null,sel:null})}
+    };
+  }
+}
+</script>
+<script>
+/* ölçek: pencere genişliğine göre büyüt (1520px'de 1.14), yükseklik her tarayıcıda ekranı doldursun */
+(function(){const R=document.documentElement;
+ function fit(){const z=Math.min(1.45,Math.max(1,1.14*innerWidth/1520));R.style.setProperty('--z',z.toFixed(3));R.style.setProperty('--zh',(innerHeight/z)+'px');
+  requestAnimationFrame(()=>{const w=document.querySelector('[data-zr]');if(!w)return;const h=w.getBoundingClientRect().height;if(h&&Math.abs(h-innerHeight)>2)R.style.setProperty('--zh',(innerHeight/z*innerHeight/h)+'px')})}
+ addEventListener('resize',fit);addEventListener('load',fit);const mo=new MutationObserver(()=>{if(document.querySelector('[data-zr]')){mo.disconnect();fit()}});mo.observe(document.documentElement,{childList:true,subtree:true});fit()})();
+</script>
+</body>
+</html>
