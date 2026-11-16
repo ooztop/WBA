@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { DN, MN, TODAY, addD, dkey, first, type Lesson } from './data';
-import { addPerson, closeSheet, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { addPerson, closeSheet, hhmm, nextId, num, tl, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
 import { EASE, ff } from './theme';
 import { Av, Blk, Btn, Ck, Cols, DC, Fld, Form, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SFoot, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { Amt } from './screens1';
@@ -139,6 +139,14 @@ function AddContact() {
 function EditContact({ p }: SP) {
   const x = person(p.i || 0), n = x.name.split(' ');
   const [pk, setPk] = useState(true);
+  const [ad, setAd] = useState(n[0]);
+  const [soyad, setSoyad] = useState(n.slice(1).join(' '));
+  const saveC = () => {
+    const nm = `${ad.trim()} ${soyad.trim()}`.trim();
+    if (!nm) { toast('Önce bir ad yaz'); return; }
+    patchPerson(x.id, { name: nm, ini: nm.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toLocaleUpperCase('tr') });
+    closeSheet(); toastLater('Değişiklikler kaydedildi');
+  };
   const gone = (patch: { arch?: boolean; gone?: boolean }, msg: string) => {
     patchPerson(x.id, patch);
     closeSheet(); pop();
@@ -147,7 +155,7 @@ function EditContact({ p }: SP) {
   return (
     <Sheet
       title="Kişiyi düzenle"
-      foot={<Btn glow t="Kaydet" onPress={done('Değişiklikler kaydedildi')} />}
+      foot={<Btn glow t="Kaydet" onPress={saveC} />}
       extra={
         <Pair>
           <Btn flex k="g" ic="archive" t="Arşivle" onPress={() => openAction(`${x.name} arşivlensin mi?`, 'Kişiler listesinden kalkar, gelecek dersleri iptal edilir. Ders geçmişi ve ödeme kaydı durur.', 'Arşivle', false, () => gone({ arch: true }, `${x.name} arşivlendi`))} />
@@ -155,7 +163,7 @@ function EditContact({ p }: SP) {
         </Pair>
       }>
       <PhotoRow ini={x.ini} sub="İsteğe bağlı · rehberden de alabilirsin" />
-      <Cols><Fld flex label="Ad" v={n[0]} /><Fld flex label="Soyad" v={n.slice(1).join(' ')} /></Cols>
+      <Cols><Fld flex label="Ad" value={ad} onChangeText={setAd} /><Fld flex label="Soyad" value={soyad} onChangeText={setSoyad} /></Cols>
       <Fld label="Telefon" link="Rehberden seç" onLink={() => toast('Rehber açılıyor')}><Tel v="532 24 43 03" /></Fld>
       <Fld label="E-posta" v={`${n[0].toLocaleLowerCase('tr')}@ornek.com`} keyboardType="email-address" autoCapitalize="none" />
       <Fld label="Not" area v="Ödemeleri ay sonunda toplu yapıyor" />
@@ -170,11 +178,14 @@ function EditContact({ p }: SP) {
 
 function AccountEdit() {
   const C = useC();
+  const me0 = useStore(s => s.me);
+  const [me, setMe] = useState(me0);
+  const saveMe = () => { set({ me: { ad: me.ad.trim() || me0.ad, soyad: me.soyad.trim(), title: me.title.trim() } }); closeSheet(); toastLater('Değişiklikler kaydedildi'); };
   return (
-    <Sheet title="Hesabı düzenle" foot={<Btn glow t="Kaydet" onPress={done('Değişiklikler kaydedildi')} />} extra={<Btn k="x" t="Hesabı sil" onPress={() => { closeSheet(); setTimeout(() => push('deleteAccount'), 250); }} />}>
-      <PhotoRow ini="DA" sub="Profilinde görünür" />
-      <Cols><Fld flex label="Ad" v="Deniz" /><Fld flex label="Soyad" v="Arslan" /></Cols>
-      <Fld label="Ünvan / iş kolu" v="Özel ders · Matematik" />
+    <Sheet title="Hesabı düzenle" foot={<Btn glow t="Kaydet" onPress={saveMe} />} extra={<Btn k="x" t="Hesabı sil" onPress={() => { closeSheet(); setTimeout(() => push('deleteAccount'), 250); }} />}>
+      <PhotoRow ini={((me0.ad[0] || '') + (me0.soyad[0] || '')).toLocaleUpperCase('tr')} sub="Profilinde görünür" />
+      <Cols><Fld flex label="Ad" value={me.ad} onChangeText={v => setMe({ ...me, ad: v })} /><Fld flex label="Soyad" value={me.soyad} onChangeText={v => setMe({ ...me, soyad: v })} /></Cols>
+      <Fld label="Ünvan / iş kolu" value={me.title} onChangeText={v => setMe({ ...me, title: v })} />
       <View style={{ gap: 6 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <T s={13} w={700} c={C.muted}>Telefon</T>
@@ -191,13 +202,24 @@ function AccountEdit() {
 
 /* ================= molalar ================= */
 function BreakNew({ p }: SP) {
-  const [days, setDays] = useState([0, 1, 2, 3, 4]);
+  const cur = useStore(s => s.breaks).find(b => b.id === p?.id);
+  const [name, setName] = useState(cur?.name ?? 'Kahve arası');
+  const [start, setStart] = useState(cur?.start ?? '15:00');
+  const [end, setEnd] = useState(cur?.end ?? '15:30');
+  const [days, setDays] = useState(cur?.days ?? [0, 1, 2, 3, 4]);
+  const mins = Math.max(0, Math.round((hhmm(end, 0) - hhmm(start, 0)) * 60));
+  const save = () => {
+    const b = { id: cur?.id ?? nextId(), name: name.trim() || 'Mola', start, end, days };
+    set(s => ({ breaks: cur ? s.breaks.map(x => (x.id === cur.id ? b : x)) : [...s.breaks, b] }));
+    closeSheet(); toastLater('Mola kaydedildi');
+  };
+  const del = () => { set(s => ({ breaks: s.breaks.filter(x => x.id !== cur!.id) })); closeSheet(); toastLater('Mola silindi'); };
   return (
-    <Sheet title="Düzenli mola" gap={20} foot={<Btn glow t="Kaydet" onPress={done('Mola kaydedildi')} />}>
-      <Fld label="Mola adı" v={p?.n || 'Kahve arası'} />
+    <Sheet title="Düzenli mola" gap={20} right={cur ? <IB ic="trash" k="del" label="Molayı sil" onPress={del} /> : undefined} foot={<Btn glow t="Kaydet" onPress={save} />}>
+      <Fld label="Mola adı" value={name} onChangeText={setName} />
       <View style={{ gap: 10 }}>
-        <Cols><Fld flex label="Başlangıç" v="15:00" /><Fld flex label="Bitiş" v="15:30" /></Cols>
-        <Sm>Takvimde 30 dk yer tutar</Sm>
+        <Cols><Fld flex label="Başlangıç" value={start} onChangeText={setStart} /><Fld flex label="Bitiş" value={end} onChangeText={setEnd} /></Cols>
+        <Sm>Takvimde {mins} dk yer tutar</Sm>
       </View>
       <View style={{ gap: 10 }}>
         <Rt t="Hangi günler" s="Pazar kapalı olduğu için seçilemez" />
@@ -212,14 +234,22 @@ function BreakNew({ p }: SP) {
 }
 
 function NewBreak() {
+  const C = useC();
   const [all, setAll] = useState(0);
   const [days, setDays] = useState([2]);
   const [why, setWhy] = useState('Öğle arası');
+  const [start, setStart] = useState('12:30');
+  const [end, setEnd] = useState('13:00');
   const D: [string, string][] = [['Pzt', '7'], ['Sal', '8'], ['Çar', '9'], ['Per', '10'], ['Cum', '11'], ['Cmt', '12'], ['Paz', '13']];
-  const C = useC();
   const opts = all ? ['İzin günü', 'Tatil', 'Hastalık', 'Kişisel', 'Diğer'] : ['Öğle arası', 'Kahve arası', 'Toplantı', 'Kişisel', 'Diğer'];
+  const save = () => {
+    if (!days.length) { toast('Önce bir gün seç'); return; }
+    const add = days.map(i => ({ k: dkey(new Date(2026, 8, 7 + i)), name: why, start: hhmm(start, 12.5), end: hhmm(end, 13), all: !!all }));
+    set(s => ({ offs: [...s.offs, ...add] }));
+    closeSheet(); toastLater(all ? 'Gün kapatıldı' : 'Mola eklendi');
+  };
   return (
-    <Sheet title="Mola ekle" gap={18} foot={<Btn glow t={all ? 'Günü kapat' : 'Molayı ekle'} onPress={done(all ? 'Gün kapatıldı' : 'Mola eklendi')} />}>
+    <Sheet title="Mola ekle" gap={18} foot={<Btn glow t={all ? 'Günü kapat' : 'Molayı ekle'} onPress={save} />}>
       <Tiles cols={2} value={all} onChange={i => { setAll(i); setWhy(i ? 'İzin günü' : 'Öğle arası'); }} items={[['timer', 'Gün içinde ara', 'Saat aralığı'], ['umbrella', 'Tüm gün kapalı', 'İzin günü']]} />
       <View style={{ gap: 10 }}>
         <Rt t="Gün" s="Birden fazla seçebilirsin" />
@@ -227,7 +257,7 @@ function NewBreak() {
           {D.map((d, i) => <DC key={i} a={d[0]} b={d[1]} on={days.includes(i)} dis={i === 6} onPress={() => setDays(days.includes(i) ? days.filter(x => x !== i) : [...days, i])} />)}
         </View>
       </View>
-      {all ? null : <Cols><Fld flex label="Başlangıç" v="12:30" /><Fld flex label="Bitiş" v="13:00" /></Cols>}
+      {all ? null : <Cols><Fld flex label="Başlangıç" value={start} onChangeText={setStart} /><Fld flex label="Bitiş" value={end} onChangeText={setEnd} /></Cols>}
       <InCard>
         <GR t="Sebep" s="Takvimde bu isimle görünür" chev onPress={() => pick('Sebep', opts, why, setWhy)} right={<T s={13} w={700} c={C.muted}>{why}</T>} />
         <GR t="Sebebi kişiler görsün" s="Kapalıysa sadece dolu görünür" right={<Sw label="Sebebi kişiler görsün" />} />
@@ -239,16 +269,33 @@ function NewBreak() {
 
 /* ================= paketler: Tekil ↔ Çoklu ================= */
 const PAY: [string, string][] = [['cash', 'Nakit'], ['bank', 'Havale'], ['card2', 'Kart']];
+const SES = ['4', '8', '12'], VAL = ['1 ay', '2 ay', '3 ay'];
 function PackageSheet({ multi, p }: { multi: boolean; p: any }) {
-  const isNew = !!p?.isNew;
-  const [name, setName] = useState(p?.name ?? (multi ? '8 derslik paket' : 'Tek ders'));
-  const [price, setPrice] = useState(multi ? '₺5.400' : '₺750');
+  const cur = useStore(s => s.packages).find(x => x.id === p?.id);
+  const editing = !!cur && (cur.kind === 'multi') === multi;
+  const isNew = !cur;
+  const DUR = multi ? ['30 dk', '60 dk', '90 dk'] : ['30 dk', '45 dk', '60 dk'];
+  const [name, setName] = useState(p?.name ?? (editing ? cur!.name : multi ? '8 derslik paket' : 'Tek ders'));
+  const [price, setPrice] = useState(editing ? cur!.price : multi ? '₺5.400' : '₺750');
+  const [ses, setSes] = useState(editing && multi ? cur!.c1.replace('×', '') : '8');
+  const [dur, setDur] = useState(editing && !multi ? cur!.c1.replace('′', '') + ' dk' : '60 dk');
+  const [val, setVal] = useState('2 ay');
+  const idx = (arr: string[], v: string) => arr.indexOf(v);
   const del = () =>
-    openAction(multi ? 'Bu paket silinsin mi?' : 'Bu ders silinsin mi?', 'Paket tercihlerinden kalkar. Daha önce satın alanların hakları durur.', multi ? 'Paketi sil' : 'Dersi sil', true, () => { closeSheet(); toastLater(multi ? 'Paket silindi' : 'Ders silindi'); });
+    openAction(multi ? 'Bu paket silinsin mi?' : 'Bu ders silinsin mi?', 'Paket tercihlerinden kalkar. Daha önce satın alanların hakları durur.', multi ? 'Paketi sil' : 'Dersi sil', true, () => {
+      if (cur) set(s => ({ packages: s.packages.filter(x => x.id !== cur.id) }));
+      closeSheet(); toastLater(multi ? 'Paket silindi' : 'Ders silindi');
+    });
   const save = () => {
     closeSheet();
-    if (p?.onSave) p.onSave(name.trim() || 'Özel paket', price.trim() || '₺5.000');
-    else toastLater('Paket kaydedildi');
+    if (p?.onSave) { p.onSave(name.trim() || 'Özel paket', price.trim() || '₺5.000'); return; }
+    const n = parseInt(ses, 10) || 1, pr = num(price), mins = parseInt(dur, 10) || 60;
+    const nm = name.trim() || (multi ? `${n} derslik paket` : 'Tek ders');
+    const pk = multi
+      ? { kind: 'multi' as const, c1: `${n}×`, c2: '', name: nm, sub: `ders başı ${tl(pr / n)} · ${val}`, price: tl(pr) }
+      : { kind: 'single' as const, c1: `${mins}′`, c2: '', name: nm.includes('dk') ? nm : `${nm} · ${mins} dk`, sub: editing ? cur!.sub : 'Mola yok', price: tl(pr) };
+    set(s => ({ packages: cur ? s.packages.map(x => (x.id === cur.id ? { ...x, ...pk } : x)) : [...s.packages, { id: nextId(), ...pk }] }));
+    toastLater('Paket kaydedildi');
   };
   return (
     <Sheet title={multi ? 'Çoklu paket' : 'Tekil ders'} gap={18} right={isNew ? undefined : <IB ic="trash" k="del" label={multi ? 'Bu paketi sil' : 'Bu dersi sil'} onPress={del} />} foot={<Btn glow t="Kaydet" onPress={save} />}>
@@ -257,9 +304,9 @@ function PackageSheet({ multi, p }: { multi: boolean; p: any }) {
         <Fld flex label={multi ? 'Paket adı' : 'Ders adı'} value={name} onChangeText={setName} />
         <Fld flex label={multi ? 'Ücret / paket' : 'Ücret / ders'} value={price} onChangeText={setPrice} />
       </Cols>
-      {multi ? <Blk lbl="Seans sayısı"><PChips items={['4', '8', '12']} init={1} cst="seans" /></Blk> : null}
-      <Blk lbl={multi ? 'Seans süresi' : 'Ders süresi'}><PChips items={multi ? ['30 dk', '60 dk', '90 dk'] : ['30 dk', '45 dk', '60 dk']} init={multi ? 1 : 2} cst="dk" /></Blk>
-      {multi ? <Blk lbl="Geçerlilik · paket bu sürede kullanılmalı"><PChips items={['1 ay', '2 ay', '3 ay']} init={1} cst="ay" /></Blk> : null}
+      {multi ? <Blk lbl="Seans sayısı"><PChips items={SES} init={Math.max(0, idx(SES, ses))} cst="seans" cstInit={idx(SES, ses) < 0 ? `${ses} seans` : undefined} onChange={(_, l) => setSes(l)} /></Blk> : null}
+      <Blk lbl={multi ? 'Seans süresi' : 'Ders süresi'}><PChips items={DUR} init={idx(DUR, dur) < 0 ? (multi ? 1 : 2) : idx(DUR, dur)} cst="dk" cstInit={idx(DUR, dur) < 0 ? dur : undefined} onChange={(_, l) => setDur(l)} /></Blk>
+      {multi ? <Blk lbl="Geçerlilik · paket bu sürede kullanılmalı"><PChips items={VAL} init={1} cst="ay" onChange={(_, l) => setVal(l)} /></Blk> : null}
       <Blk lbl="Ödeme yöntemi · birden fazla"><Tiles items={PAY} multi init={[0, 1]} /></Blk>
       <InCard>
         {multi ? <GR t="Peşin ödeme" s="Paket başında tamamı alınır" right={<Sw init label="Peşin ödeme" />} /> : null}

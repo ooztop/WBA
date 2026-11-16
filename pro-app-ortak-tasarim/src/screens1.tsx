@@ -1,7 +1,7 @@
 // Sayfalar 1: kişi detayı, dokümanlar, bildirim ayarları, profil paylaş, ödemeler
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { go, openMenu, openSheet, person, pick, toast, toastLater, useC, useFrame, useStore } from './store';
+import { go, openMenu, openSheet, person, pick, tl, toast, toastLater, useC, useFrame, useStore } from './store';
 import { Av, Band, BandBack, Btn, Cols, Empty, FC, Fic, Fld, Foot, GCard, GR, Grp, IB, Icon, Lbl, List, NavH, Pg, QR, Row, Rt, Scr, Seg, Sm, Stat, Sw, T, Tag, Tap, Val, type TagK } from './ui';
 
 type SP = { p: any };
@@ -195,6 +195,8 @@ function Share() {
 function Payments() {
   const C = useC();
   const emp = useStore(s => s.emp);
+  const debts = useStore(s => s.debts), paid = useStore(s => s.paid), collected = useStore(s => s.collected);
+  const wait = debts.reduce((n, d) => n + d.lessons.length * 750, 0);
   const mb = (ic: string, label: string, msg: string) => <IB ic={ic} k="dkq" s={40} label={label} onPress={() => toast(msg)} />;
   return (
     <>
@@ -206,28 +208,26 @@ function Payments() {
           <T s={15} w={800} c={C.onDark}>Eylül 2026</T>
           {mb('chevR', 'Sonraki ay: Ekim', 'Ekim 2026')}
         </View>
-        <T s={24} w={800} lh={1.15} c={C.onDark}>{emp ? 'Bekleyen ödeme yok' : '2 ödeme bekliyor'}</T>
+        <T s={24} w={800} lh={1.15} c={C.onDark}>{emp || !debts.length ? 'Bekleyen ödeme yok' : `${debts.length} ödeme bekliyor`}</T>
         <View style={{ flexDirection: 'row', gap: 8, marginTop: 16 }}>
-          <Stat b={emp ? '₺0' : '₺12.400'} t="tahsil edildi" />
-          <Stat b={emp ? '₺0' : '₺2.250'} t="bekliyor" />
+          <Stat b={emp ? '₺0' : tl(collected)} t="tahsil edildi" />
+          <Stat b={emp ? '₺0' : tl(wait)} t="bekliyor" />
         </View>
       </Band>
       {emp ? (
         <Empty ic="receipt" t="Bu ay tahsilat yok" sub="Aldığın ödemeler ve bekleyenler burada görünür." />
       ) : (
         <Scr>
-          <Grp t="Ödenmemiş · 2" style={{ paddingTop: 14 }} />
-          <List>
-            <Row left={<Av ini="MK" />} t="Mert Kaya" s="2 ders · 6 gün gecikti" right={<Amt b="₺1.500" bC={C.danger} k="d" tag="Gecikti" />} onPress={() => go('payment', undefined, { i: 1 })} />
-            <Row left={<Av ini="BŞ" />} t="Burak Şahin" s="1 ders · vadesi yarın" right={<Amt b="₺750" k="i" tag="Yarın" />} onPress={() => go('payment', undefined, { i: 6 })} />
-          </List>
-          <Grp t="Tahsil edilen · 4" style={{ paddingTop: 18 }} />
-          <List>
-            <Row left={<Av ini="ZA" />} t="Zeynep Aydın" s="10 Eyl · Havale · aylık üyelik" right={<Amt b="₺5.400" />} />
-            <Row left={<Av ini="EY" />} t="Elif Yıldırım" s="8 Eyl · Nakit · 4 ders" right={<Amt b="₺3.000" />} />
-            <Row left={<Av ini="CÖ" />} t="Can Öztürk" s="5 Eyl · Havale · 8 derslik paket" right={<Amt b="₺2.500" />} />
-            <Row left={<Av ini="SD" />} t="Selin Demir" s="3 Eyl · Kart · 2 ders" right={<Amt b="₺1.500" />} />
-          </List>
+          {debts.length ? (
+            <>
+              <Grp t={`Ödenmemiş · ${debts.length}`} style={{ paddingTop: 14 }} />
+              <List>
+                {debts.map(d => { const x = person(d.pid), a = d.lessons.length * 750; return <Row key={d.pid} left={<Av ini={x.ini} />} t={x.name} s={`${d.lessons.length} ders · ${d.note}`} right={<Amt b={tl(a)} bC={d.late ? C.danger : undefined} k={d.late ? 'd' : 'i'} tag={d.tag} />} onPress={() => go('payment', undefined, { i: d.pid })} />; })}
+              </List>
+            </>
+          ) : null}
+          <Grp t={`Tahsil edilen · ${paid.length}`} style={{ paddingTop: 18 }} />
+          <List>{paid.map((r, i) => <Row key={i} left={<Av ini={r.ini} />} t={r.name} s={r.sub} right={<Amt b={tl(r.amt)} />} />)}</List>
         </Scr>
       )}
     </>

@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { DL, DN, MN, MS, dkey, first, hm, wd, type Lesson } from './data';
-import { go, home, openAction, popAll as toRoot, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
+import { collect, go, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { ff } from './theme';
 import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, DC, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
@@ -216,21 +216,30 @@ function RsAccepted({ p }: SP) {
 function Payment({ p }: SP) {
   const C = useC();
   const x = person(p.i ?? 1);
-  const [sel, setSel] = useState([true, true]);
-  const LS = [['27 Ağustos · 09:00', 'Bireysel · 60 dk'], ['3 Eylül · 09:00', 'Bireysel · 60 dk']];
-  const n = sel.filter(Boolean).length, total = n === 2 ? '₺1.500' : n === 1 ? '₺750' : '₺0';
+  const debt = useStore(s => s.debts).find(d => d.pid === x.id);
+  // Borç kaydı yoksa (ör. tek dersten gelindi) tek derslik ödeme
+  const [LS] = useState<[string, string][]>(debt ? debt.lessons : [['Bu ders', 'Bireysel · 60 dk']]);
+  const [late] = useState(!!debt?.late);
+  const [sel, setSel] = useState(LS.map(() => true));
+  const [mi, setMi] = useState(1);
+  const M = ['Nakit', 'Havale', 'Kart'];
+  const idx = sel.map((v, i) => (v ? i : -1)).filter(i => i >= 0), n = idx.length, total = tl(n * 750);
+  const pay = () => {
+    collect(x.id, x.name, x.ini, debt ? idx : [], M[mi], n * 750);
+    go('paymentDone', 'rep', { n: x.name, total, m: mi === 1 ? 'Havale / EFT' : M[mi], ls: idx.map(i => { const w = LS[i][0].split(' · ')[0].split(' '); return w.length > 1 ? `${w[0]} ${w[1].slice(0, 3)}` : w[0]; }).join(', '), part: !!debt && n < LS.length });
+  };
   return (
-    <Page title="Ödeme al" gap={16} foot={<Btn t={`${total} tahsil et`} off={n === 0} onPress={() => go('paymentDone', 'rep', { n: x.name, total })} />}>
+    <Page title="Ödeme al" gap={16} foot={<Btn t={`${total} tahsil et`} off={n === 0} onPress={pay} />}>
       <View style={{ alignItems: 'center', gap: 4, marginTop: -8 }}>
         <Av ini={x.ini} s={40} />
         <T s={14} lh={1.45} c={C.muted}>{x.name} · {n} ders</T>
         <T s={36} w={800} lh={1.1}>{total}</T>
-        <Tag k="d" t="6 gün gecikmiş" />
+        {late ? <Tag k="d" t="6 gün gecikmiş" /> : <Tag k="i" t="Bekliyor" />}
       </View>
       <Blk lbl="Dersler" gap={6}>
         {LS.map((l, i) => <Row key={i} left={<Ck on={sel[i]} />} t={l[0]} s={l[1]} right={<T s={15} w={800}>₺750</T>} onPress={() => setSel(sel.map((v, j) => (j === i ? !v : v)))} style={{ backgroundColor: C.page, minHeight: 56 }} />)}
       </Blk>
-      <Blk lbl="Ödeme yöntemi" gap={6}><Tiles items={[['cash', 'Nakit'], ['bank', 'Havale'], ['card2', 'Kart']]} init={1} /></Blk>
+      <Blk lbl="Ödeme yöntemi" gap={6}><Tiles items={[['cash', 'Nakit'], ['bank', 'Havale'], ['card2', 'Kart']]} value={mi} onChange={setMi} /></Blk>
       <Fld key={total} label="Alınan tutar (kısmi ödeme için değiştir)" v={total} />
       <ORow t="Makbuz gönder" s="WhatsApp ile PDF" right={<Sw init label="Makbuz gönder" />} />
     </Page>
@@ -239,7 +248,7 @@ function Payment({ p }: SP) {
 function PaymentDone({ p }: SP) {
   const C = useC();
   return (
-    <Res ic="check" onBack={toRoot} top={`${p.n || 'Mert Kaya'} · ödeme alındı`} big={p.total || '₺1.500'} sub="Borç kapandı, kişi kartı güncellendi." rows={[['Yöntem', 'Havale / EFT'], ['Dersler', '27 Ağu, 3 Eyl'], ['Tarih', '10 Eyl · 14:32'], ['Makbuz', 'WhatsApp ile gönderildi', OK(C)]]}>
+    <Res ic="check" onBack={toRoot} top={`${p.n || 'Mert Kaya'} · ödeme alındı`} big={p.total || '₺1.500'} sub={p.part ? "Kalan borç duruyor, kişi kartı güncellendi." : "Borç kapandı, kişi kartı güncellendi."} rows={[['Yöntem', p.m || 'Havale / EFT'], ['Dersler', p.ls || '27 Ağu, 3 Eyl'], ['Tarih', '10 Eyl · 14:32'], ['Makbuz', 'WhatsApp ile gönderildi', OK(C)]]}>
       <Pair><Btn flex k="g" t="Makbuzu gör" onPress={() => toast('Makbuz açılıyor')} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
     </Res>
   );

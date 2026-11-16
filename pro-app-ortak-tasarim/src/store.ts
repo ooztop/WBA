@@ -8,18 +8,35 @@ export type Route = { key: number; id: string; p: any; prog: SharedValue<number>
 export type SheetR = { key: number; id: string; p: any; closing?: boolean; swap?: boolean };
 export type ActRow = { label: string; icon?: string; danger?: boolean; check?: boolean; big?: boolean; onPress?: () => void };
 export type ActionS = { key: number; kind: 'dlg' | 'ass'; title: string; msg?: string; rows: ActRow[] };
+export type Brk = { id: number; name: string; start: string; end: string; days: number[] };
+export type Off = { k: string; name: string; start: number; end: number; all?: boolean };
+export type Debt = { pid: number; lessons: [string, string][]; note: string; late?: boolean; tag: string };
+export type PaidRow = { ini: string; name: string; sub: string; amt: number };
 export type ToastS = { key: number; msg: string; undo?: string; onUndo?: () => void };
 
 type State = {
   dark: boolean; accent: Accent; emp: boolean; tab: number; F: Date;
   stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null;
   people: Person[]; packages: Pkg[]; extra: Extra[]; cancelled: string[]; menu: boolean;
+  breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: { ad: string; soyad: string; title: string };
 };
 
 let state: State = {
   dark: false, accent: 'blue', emp: false, tab: 0, F: new Date(TODAY),
   stack: [], sheets: [], action: null, toast: null,
   people: PEOPLE0, packages: PACKAGES0, extra: [], cancelled: [], menu: false,
+  breaks: [{ id: 1, name: 'Öğle molası', start: '12:30', end: '13:30', days: [0, 1, 2, 3, 4, 5] }, { id: 2, name: 'Akşam arası', start: '17:00', end: '17:30', days: [1, 3] }],
+  offs: [],
+  debts: [
+    { pid: 1, lessons: [['27 Ağustos · 09:00', 'Bireysel · 60 dk'], ['3 Eylül · 09:00', 'Bireysel · 60 dk']], note: '6 gün gecikti', late: true, tag: 'Gecikti' },
+    { pid: 6, lessons: [['8 Eylül · 10:30', 'Bireysel · 60 dk']], note: 'vadesi yarın', tag: 'Yarın' },
+  ],
+  paid: [
+    { ini: 'ZA', name: 'Zeynep Aydın', sub: '10 Eyl · Havale · aylık üyelik', amt: 5400 }, { ini: 'EY', name: 'Elif Yıldırım', sub: '8 Eyl · Nakit · 4 ders', amt: 3000 },
+    { ini: 'CÖ', name: 'Can Öztürk', sub: '5 Eyl · Havale · 8 derslik paket', amt: 2500 }, { ini: 'SD', name: 'Selin Demir', sub: '3 Eyl · Kart · 2 ders', amt: 1500 },
+  ],
+  collected: 12400,
+  me: { ad: 'Deniz', soyad: 'Arslan', title: 'Özel ders · Matematik' },
 };
 const subs = new Set<() => void>();
 const sub = (f: () => void) => { subs.add(f); return () => { subs.delete(f); }; };
@@ -122,3 +139,26 @@ export function addPerson(name: string, sub = ''): Person {
 }
 export const patchPerson = (id: number, patch: Partial<Person>) =>
   set(s => ({ people: s.people.map(p => (p.id === id ? { ...p, ...patch } : p)) }));
+
+/* ---------- yardımcılar ---------- */
+export const nextId = () => K++;
+export const tl = (n: number) => '₺' + String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+export const num = (t: string) => parseInt(t.replace(/[^0-9]/g, ''), 10) || 0;
+export const hhmm = (t: string, def: number) => { const m = t.match(/(\d{1,2})[:.](\d{2})/); return m ? +m[1] + +m[2] / 60 : def; };
+const DNS = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+export const daysText = (d: number[]) => {
+  const x = d.slice().sort((a, b) => a - b);
+  if (!x.length) return 'Gün seçilmedi';
+  const run = x.every((v, i) => i === 0 || v === x[i - 1] + 1);
+  return run && x.length > 2 ? `${DNS[x[0]]} – ${DNS[x[x.length - 1]]}` : x.map(i => DNS[i]).join(', ');
+};
+// Ödeme al: seçilen dersleri borçtan düş, tahsilata ekle
+export function collect(pid: number, name: string, ini: string, idx: number[], method: string, amount: number) {
+  set(s => {
+    const d = s.debts.find(x => x.pid === pid);
+    const left = d ? d.lessons.filter((_, i) => !idx.includes(i)) : [];
+    const debts = d ? (left.length ? s.debts.map(x => (x.pid === pid ? { ...x, lessons: left } : x)) : s.debts.filter(x => x.pid !== pid)) : s.debts;
+    const people = !left.length ? s.people.map(p => (p.id === pid && p.tag[0] === 'd' ? { ...p, tag: ['n', 'Tek ders'] as [any, string], cat: p.cat.replace('borc', '').trim() } : p)) : s.people;
+    return { debts, people, collected: s.collected + amount, paid: [{ ini, name, sub: `10 Eyl · ${method} · ${idx.length} ders`, amt: amount }, ...s.paid] };
+  });
+}

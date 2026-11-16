@@ -5,7 +5,7 @@ import { Pressable, View } from 'react-native';
 import Animated, { cancelAnimation, Easing, runOnJS, useAnimatedReaction, useAnimatedStyle, useSharedValue, withTiming, type SharedValue } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { addD, D1, DL, DN, dkey, hm, lessons, MN, mon, MS, NOW_H, p2, same, TODAY, wd, type Lesson } from './data';
-import { openSheet, push, set, useC, useFrame, useStore } from './store';
+import { hhmm, openSheet, push, set, useC, useFrame, useStore } from './store';
 import type { Colors } from './theme';
 import { Btn, Fic, Icon, Lbl, Rt, T, Tag, type TagK } from './ui';
 
@@ -106,6 +106,19 @@ function Block({ l, di, det, done, g, C, name, onPress }: { l: Lesson; di: numbe
   );
 }
 
+// Mola / kapalı saat: kesik çizgili kutu, sadece gün görünümünde
+function BreakBlock({ from, to, label, time, g, C }: { from: number; to: number; label: string; time: string; g: Geo; C: Colors }) {
+  const { P, TS } = g;
+  const st = useAnimatedStyle(() => { const e = cl(P.value); return { transform: [{ translateY: yOf(from, e, TS.value) + 1 }], height: Math.max(20, (to - from) * lp(48, HW, e) - 3), opacity: cl(1 - e * 2) }; });
+  return (
+    <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: 62, right: 14, top: 0, borderRadius: 12, backgroundColor: C.page, borderWidth: 1.5, borderStyle: 'dashed', borderColor: C.border, flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, overflow: 'hidden' }, st]}>
+      <Icon n="coffee" s={16} c={C.muted} />
+      <T s={12.5} w={700} numberOfLines={1}>{label}</T>
+      <T s={12.5} c={C.muted} numberOfLines={1}>{time}</T>
+    </Animated.View>
+  );
+}
+
 function StripCell({ i, d, g, C, sel, n, inRow, yRowF, onPress }: { i: number; d: Date; g: Geo; C: Colors; sel: boolean; n: number; inRow: boolean; yRowF: number; onPress: () => void }) {
   const { P, W } = g;
   const st = useAnimatedStyle(() => {
@@ -178,7 +191,7 @@ export function Calendar() {
   const fr = useFrame();
   const { W, top, tbh } = fr;
   const H = fr.H - tbh;
-  const F = useStore(s => s.F), emp = useStore(s => s.emp), extra = useStore(s => s.extra), cancelled = useStore(s => s.cancelled), people = useStore(s => s.people);
+  const F = useStore(s => s.F), emp = useStore(s => s.emp), extra = useStore(s => s.extra), cancelled = useStore(s => s.cancelled), people = useStore(s => s.people), breaks = useStore(s => s.breaks), offs = useStore(s => s.offs);
   const P = useSharedValue(0), TS = useSharedValue(84), S = useSharedValue(0), DX = useSharedValue(0), TIO = useSharedValue(1);
   const [mode, setMode] = useState(0);
   const [tmIdx, setTmIdx] = useState(2);
@@ -273,6 +286,10 @@ export function Calendar() {
   const tm = lay.months[Math.min(tmIdx, lay.months.length - 1)].m0;
   const isToday = same(F, TODAY), inW = week.some(d => same(d, TODAY)), a0 = emp ? 0 : isToday ? 1 : 0, a1 = emp ? 0 : inW ? 1 : 0, fi = wd(F);
   const away = mode === 0 ? !isToday : mode === 1 ? !inW : !(tm.getMonth() === TODAY.getMonth() && tm.getFullYear() === TODAY.getFullYear());
+  const dayBreaks = [
+    ...breaks.filter(b => b.days.includes(fi)).map(b => ({ from: hhmm(b.start, 12.5), to: hhmm(b.end, 13.5), name: b.name, time: `${b.start} – ${b.end}` })),
+    ...offs.filter(o => o.k === dkey(F)).map(o => ({ from: o.all ? 9 : o.start, to: o.all ? 18 : o.end, name: o.name, time: o.all ? 'Tüm gün kapalı' : `${hm(o.start)} – ${hm(o.end)}` })),
+  ].filter(b => b.to > b.from);
   const nameOf = (id: number) => (people.find(p => p.id === id) || people[0]).name;
 
   const band = useAnimatedStyle(() => ({ height: lp(BANDH, H, cl(P.value - 1)) }));
@@ -283,7 +300,6 @@ export function Calendar() {
   const clip = useAnimatedStyle(() => { const q = cl(P.value - 1); return { opacity: 1 - q, transform: [{ translateX: DX.value }, { translateY: q * 30 }] }; });
   const nowTag = useAnimatedStyle(() => { const e = cl(P.value); return { transform: [{ translateY: yOf(NOW_H, e, TS.value) - 8 }], opacity: lp(a0, a1, e) }; });
   const nowLine = useAnimatedStyle(() => { const e = cl(P.value); return { transform: [{ translateY: yOf(NOW_H, e, TS.value) }], left: lp(56, 52, e), opacity: lp(a0, a1, e) }; });
-  const brk = useAnimatedStyle(() => { const e = cl(P.value); return { transform: [{ translateY: yOf(12.5, e, TS.value) + 1 }], height: lp(48, HW, e) - 3, opacity: cl(1 - e * 2) }; });
   const empSt = useAnimatedStyle(() => ({ opacity: 1 - cl(P.value) }));
   const fabSt = useAnimatedStyle(() => ({ opacity: 1 }));
 
@@ -306,13 +322,7 @@ export function Calendar() {
                 <>
                   {Array.from({ length: 16 }, (_, k) => <Hour key={k} h={7 + k} g={g} C={C} a0={a0} a1={a1} />)}
                   {week.map((_, i) => <VLine key={i} i={i} g={g} col={i === fi ? C.muted : C.divider} VLH={VLH} />)}
-                  {isToday ? (
-                    <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: 62, right: 14, top: 0, borderRadius: 12, backgroundColor: C.page, borderWidth: 1.5, borderStyle: 'dashed', borderColor: C.border, flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12 }, brk]}>
-                      <Icon n="coffee" s={16} c={C.muted} />
-                      <T s={12.5} w={700}>Öğle molası</T>
-                      <T s={12.5} c={C.muted}>12:30 – 13:30</T>
-                    </Animated.View>
-                  ) : null}
+                  {dayBreaks.map((b, i) => <BreakBlock key={i} from={b.from} to={b.to} label={b.name} time={b.time} g={g} C={C} />)}
                   {week.map((d, di) => L(d).map(l => (
                     <Block key={`${+d}-${l[0]}`} l={l} di={di} det={same(d, F)} done={d < TODAY || (same(d, TODAY) && l[0] + l[1] / 60 < NOW_H)} g={g} C={C} name={nameOf(l[2])}
                       onPress={guard(() => { if (mode === 0) push('lesson', { l, f: +d }); })} />

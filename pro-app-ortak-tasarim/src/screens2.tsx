@@ -4,7 +4,7 @@ import { TextInput, View } from 'react-native';
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { DL, DN, type Pkg } from './data';
-import { go, openSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { daysText, go, openSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
 import { EASE, ff } from './theme';
 import { Box, Btn, Cols, Empty, FC, Fic, Fld, GCard, GR, IB, Icon, Inote, Lbl, List, NavH, noOutline, PChips, Rt, Scr, Sm, Sw, T, Tag, Tap } from './ui';
 import { Amt } from './screens1';
@@ -25,6 +25,7 @@ export const GrpS = ({ t, s, pt = 18, right, pb = 6 }: { t: string; s?: string; 
 function CalendarPrefs() {
   const C = useC();
   const emp = useStore(s => s.emp);
+  const breaks = useStore(s => s.breaks);
   const H = ['10:00 – 18:00', '10:00 – 18:00', '10:00 – 18:00', '10:00 – 18:00', '10:00 – 18:00', '10:00 – 14:00', null];
   return (
     <>
@@ -36,12 +37,11 @@ function CalendarPrefs() {
           <Cols><Fld flex label="Başlangıç" v="10:00" /><Fld flex label="Bitiş" v="18:00" /></Cols>
         </View>
         <GrpS t="Düzenli molalar" pb={4} right={<IB ic="plus" s={36} label="Mola ekle" onPress={() => openSheet('breakNew')} />} />
-        {emp ? (
+        {emp || !breaks.length ? (
           <View style={{ marginHorizontal: 16, padding: 14, borderRadius: 16, borderWidth: 1.5, borderStyle: 'dashed', borderColor: C.border }}><Sm style={{ textAlign: 'center' }}>Düzenli mola yok. + ile ekleyebilirsin.</Sm></View>
         ) : (
           <GCard>
-            <GR t="Öğle molası" s="12:30 – 13:30 · Pzt – Cmt" chev onPress={() => openSheet('breakNew', { n: 'Öğle molası' })} />
-            <GR t="Akşam arası" s="17:00 – 17:30 · Sal, Per" chev onPress={() => openSheet('breakNew', { n: 'Akşam arası' })} />
+            {breaks.map(b => <GR key={b.id} t={b.name} s={`${b.start} – ${b.end} · ${daysText(b.days)}`} chev onPress={() => openSheet('breakNew', { id: b.id })} />)}
           </GCard>
         )}
         <GrpS t="Günler" s="Özel ayar için güne dokun" />
@@ -65,6 +65,7 @@ function DayRule({ p }: SP) {
   const C = useC();
   const gi = p.g ?? 5, g = DL[gi], sat = gi === 5;
   const [on, setOn] = useState(gi !== 6);
+  const breaks = useStore(s => s.breaks);
   return (
     <>
       <NavH title={g} />
@@ -82,8 +83,7 @@ function DayRule({ p }: SP) {
             <Cols style={{ paddingHorizontal: 16 }}><Fld flex label="Başlangıç" v="10:00" /><Fld flex label="Bitiş" v={sat ? '14:00' : '18:00'} /></Cols>
             <GrpS t="Molalar" s="Bu günde geçerli düzenli molalar" />
             <GCard>
-              <GR t="Öğle molası" s="12:30 – 13:30" right={<Sw init label="Öğle molası" />} />
-              <GR t="Akşam arası" s="17:00 – 17:30" right={<Sw init={!sat} label="Akşam arası" />} />
+              {breaks.map(b => <GR key={b.id} t={b.name} s={`${b.start} – ${b.end}`} right={<Sw on={b.days.includes(gi)} onChange={v => set(s => ({ breaks: s.breaks.map(y => (y.id === b.id ? { ...y, days: v ? [...y.days, gi] : y.days.filter(d => d !== gi) } : y)) }))} label={b.name} />} />)}
             </GCard>
             <GrpS t="Kurallar" />
             <GCard>
@@ -177,7 +177,7 @@ function Pricing() {
   const star = (id: number) => { set(s => ({ packages: s.packages.map(p => ({ ...p, base: p.id === id })) })); toast('Temel paket güncellendi'); };
   const del = (pk: Pkg) => { const prev = pkgs; set(s => ({ packages: s.packages.filter(p => p.id !== pk.id) })); toast(`${pk.name} silindi`, 'Geri al', () => set({ packages: prev })); };
   const list = (kind: Pkg['kind']) => (
-    <List>{pkgs.filter(p => p.kind === kind).map(pk => <SwipeRow key={pk.id} pk={pk} onStar={() => star(pk.id)} onDel={() => del(pk)} onOpen={() => openSheet(kind === 'single' ? 'packageSingle' : 'packageMulti', {})} />)}</List>
+    <List>{pkgs.filter(p => p.kind === kind).map(pk => <SwipeRow key={pk.id} pk={pk} onStar={() => star(pk.id)} onDel={() => del(pk)} onOpen={() => openSheet(kind === 'single' ? 'packageSingle' : 'packageMulti', { id: pk.id })} />)}</List>
   );
   const add = () => openSheet('packageSingle', { isNew: true });
   return (

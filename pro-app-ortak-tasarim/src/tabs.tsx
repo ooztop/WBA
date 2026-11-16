@@ -161,6 +161,7 @@ function acctMenu() {
 
 function Account() {
   const C = useC();
+  const nPk = useStore(s => s.packages.length), me = useStore(s => s.me);
   const { tbh } = useFrame();
   const gr = (ic: string, t: string, to: string, v?: string) => (
     <GR left={<Fic k="n" ic={ic} c={C.ink} />} t={t} right={v ? <T s={13} w={700} c={C.muted}>{v}</T> : null} chev onPress={() => go(to)} />
@@ -169,9 +170,9 @@ function Account() {
     <>
       <Band lbl="Hesabım" right={<IB ic="dots" k="dk" label="Diğer: Yardım ve destek, Çıkış yap" onPress={acctMenu} />}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 4 }}>
-          <Av ini="DA" lg />
+          <Av ini={((me.ad[0] || '') + (me.soyad[0] || '')).toLocaleUpperCase('tr')} lg />
           <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
-            <T s={22} w={800} lh={1.2} c={C.onDark} numberOfLines={1}>Deniz Arslan</T>
+            <T s={22} w={800} lh={1.2} c={C.onDark} numberOfLines={1}>{me.ad} {me.soyad}</T>
             <T s={14} lh={1.45} c={C.onDarkMuted}>Özel ders · İstanbul</T>
           </View>
           <IB ic="edit" k="dk" label="Hesabı düzenle" onPress={() => openSheet('accountEdit')} style={{ marginRight: 2 }} />
@@ -193,7 +194,7 @@ function Account() {
           {gr('receipt', 'Ödemeler', 'payments')}
           {gr('clock', 'Takvim ayarlarım', 'calendarPrefs', '10:00 – 18:00')}
           {gr('gavel', 'Ders kuralları', 'rules')}
-          {gr('tag', 'Paket tercihleri', 'pricing', '4 paket')}
+          {gr('tag', 'Paket tercihleri', 'pricing', `${nPk} paket`)}
         </GCard>
       </Scr>
     </>
