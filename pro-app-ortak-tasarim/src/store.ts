@@ -13,11 +13,12 @@ export type Brk = { id: number; name: string; start: string; end: string; days: 
 export type Off = { k: string; name: string; start: number; end: number; all?: boolean };
 export type Debt = { pid: number; lessons: [string, string][]; note: string; late?: boolean; tag: string };
 export type PaidRow = { ini: string; name: string; sub: string; amt: number };
+export type PickerS = { key: number; kind: 'date'; value: Date; onPick: (d: Date) => void } | { key: number; kind: 'time'; value: number; step: number; onPick: (h: number) => void };
 export type ToastS = { key: number; msg: string; undo?: string; onUndo?: () => void };
 
 type State = {
   dark: boolean; accent: Accent; emp: boolean; tab: number; F: Date;
-  stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null;
+  stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null; picker: PickerS | null;
   people: Person[]; packages: Pkg[]; extra: Extra[]; cancelled: string[]; menu: boolean;
   breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: { ad: string; soyad: string; title: string };
   prefs: Record<string, any>; reqs: { b: boolean; a: boolean };
@@ -25,7 +26,7 @@ type State = {
 
 let state: State = {
   dark: false, accent: 'blue', emp: false, tab: 0, F: new Date(TODAY),
-  stack: [], sheets: [], action: null, toast: null,
+  stack: [], sheets: [], action: null, toast: null, picker: null,
   people: PEOPLE0, packages: PACKAGES0, extra: [], cancelled: [], menu: false,
   breaks: [{ id: 1, name: 'Öğle molası', start: '12:30', end: '13:30', days: [0, 1, 2, 3, 4, 5] }, { id: 2, name: 'Akşam arası', start: '17:00', end: '17:30', days: [1, 3] }],
   offs: [],
@@ -193,3 +194,18 @@ export async function hydrate() {
 export function resetData() {
   set({ ...JSON.parse(FRESH), stack: [], sheets: [], tab: 0, emp: false, F: new Date(TODAY) });
 }
+
+/* ---------- tarih ve saat seçici ---------- */
+export const pickDate = (value: Date, onPick: (d: Date) => void) => set({ picker: { key: K++, kind: 'date', value, onPick } });
+export const pickTime = (value: number, onPick: (h: number) => void) => set({ picker: { key: K++, kind: 'time', value, step: lessonStep(), onPick } });
+export const closePicker = () => { if (state.picker) set({ picker: null }); };
+// Ders başlama kademesi (Ders kuralları): Tam saat → 60, 15 dk, 30 dk ya da özel değer
+export function lessonStep(): number {
+  const r = state.prefs['rule.2'];
+  if (!r) return 60;
+  if (r.c) return Math.max(5, parseInt(r.c, 10) || 60);
+  return [60, 15, 30][r.s] ?? 60;
+}
+// Ders bilgisi (paket adı, tekrar, konum): ders anahtarıyla saklanır
+export type LesMeta = { pk?: string; rep?: number; loc?: string };
+export const lesMeta = (lk?: string): LesMeta => (lk && state.prefs[`les.${lk}`]) || {};

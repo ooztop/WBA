@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { DN, MN, TODAY, addD, dkey, first, type Lesson } from './data';
-import { addPerson, closeSheet, hhmm, nextId, num, tl, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { DN, MN, MS, TODAY, addD, dkey, first, hm, wd, type Lesson } from './data';
+import { addPerson, closeSheet, hhmm, nextId, num, pickDate, pickTime, tl, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
 import { EASE, ff } from './theme';
 import { Av, Blk, Btn, Ck, Cols, DC, Fld, Form, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SFoot, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { Amt } from './screens1';
@@ -109,7 +109,7 @@ function PkgOpts() {
   );
 }
 
-function AddContact() {
+function AddContact({ p }: SP) {
   const [ad, setAd] = useState('');
   const [soyad, setSoyad] = useState('');
   const [pk, setPk] = useState(false);
@@ -117,8 +117,9 @@ function AddContact() {
     const n = `${ad.trim()} ${soyad.trim()}`.trim();
     if (!n) { toast('Önce bir ad yaz'); return; }
     addPerson(n, 'Yeni kişi');
+    p?.onSave?.(n);
     closeSheet();
-    toastLater('Kişi eklendi');
+    toastLater(p?.onSave ? `${first(n)} eklendi ve seçildi` : 'Kişi eklendi');
   };
   return (
     <Sheet title="Yeni kişi" foot={<Btn glow t="Kişiyi kaydet" onPress={save} />}>
@@ -348,19 +349,10 @@ function PeoplePanel({ sel, onBack, onDone }: { sel: string[]; onBack: () => voi
   const people = useStore(s => s.people);
   const [on, setOn] = useState<string[]>(sel);
   const [q, setQ] = useState('');
-  const [form, setForm] = useState(false);
-  const [nm, setNm] = useState('');
   const [fresh, setFresh] = useState<string[]>([]);
   const qq = q.toLocaleLowerCase('tr');
   const base = emp ? people.filter(p => fresh.includes(p.name)) : people.filter(p => !p.arch && !p.gone);
   const list = base.slice().sort((a, b) => (fresh.includes(b.name) ? 1 : 0) - (fresh.includes(a.name) ? 1 : 0) || a.name.localeCompare(b.name, 'tr')).filter(p => p.name.toLocaleLowerCase('tr').includes(qq));
-  const save = () => {
-    const n = nm.trim();
-    if (!n) return;
-    addPerson(n, 'Yeni kişi');
-    setFresh([n, ...fresh]); setOn([...on, n]); setNm(''); setForm(false);
-    toast(`${first(n)} eklendi`);
-  };
   return (
     <View style={{ flex: 1 }}>
       <SheetH title="Kişi seç" onBack={onBack} right={<IB ic="check" k="p" label="Seçimi onayla" onPress={() => onDone(on)} />} />
@@ -369,7 +361,7 @@ function PeoplePanel({ sel, onBack, onDone }: { sel: string[]; onBack: () => voi
         <TextInput value={q} onChangeText={setQ} accessibilityLabel="Kişi ara" placeholder="Kişi ara" placeholderTextColor={C.muted} selectionColor={C.accent} style={[{ flex: 1, minWidth: 0, fontFamily: ff(500), fontSize: 15, color: C.ink, padding: 0 }, noOutline]} />
       </View>
       <Grp t={`${on.length} kişi seçili`} style={{ paddingTop: 12 }} />
-      <Scr pb={form ? 250 : 110}>
+      <Scr pb={110}>
         {list.length === 0 ? <Sm style={{ textAlign: 'center', paddingTop: 30, paddingHorizontal: 30 }}>{emp ? 'Henüz kişi yok. Yeni kişi ekle ile hızlıca ekleyebilirsin.' : 'Bu aramada kişi yok.'}</Sm> : null}
         <List style={{ gap: 2 }}>
           {list.map(p => {
@@ -379,15 +371,7 @@ function PeoplePanel({ sel, onBack, onDone }: { sel: string[]; onBack: () => voi
         </List>
       </Scr>
       <Ffab>
-        {form ? (
-          <View style={{ gap: 8, backgroundColor: C.card, padding: 12, borderRadius: 18, boxShadow: C.shToast }}>
-            <Inp autoFocus ph="Ad soyad" value={nm} onChangeText={setNm} onSubmitEditing={save} />
-            <Inp ph="Telefon (isteğe bağlı)" keyboardType="phone-pad" />
-            <Pair><Btn flex k="g" t="Vazgeç" onPress={() => setForm(false)} /><Btn flex t="Ekle" onPress={save} /></Pair>
-          </View>
-        ) : (
-          <Btn ic="userPlus" t="Yeni kişi ekle" onPress={() => setForm(true)} style={{ boxShadow: C.shFloat }} />
-        )}
+        <Btn ic="userPlus" t="Yeni kişi ekle" onPress={() => openSheet('addContact', { onSave: (n: string) => { setFresh(f => [n, ...f]); setOn(o => (o.includes(n) ? o : [...o, n])); } })} style={{ boxShadow: C.shFloat }} />
       </Ffab>
     </View>
   );
@@ -432,6 +416,20 @@ function PkgPanel({ cur, who, onBack, onSel, onNew }: { cur: PkSel | null; who: 
   );
 }
 
+// Dokununca seçici açan alan (giriş kutusu görünümünde)
+function PickBox({ label, v, ic, onPress }: { label: string; v: string; ic: string; onPress: () => void }) {
+  const C = useC();
+  return (
+    <View style={{ flex: 1, minWidth: 0, gap: 6 }}>
+      <T s={13} w={700} c={C.muted}>{label}</T>
+      <Tap onPress={onPress} label={`${label}: ${v}`} style={{ height: 52, borderRadius: 12, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+        <T s={16} w={700} numberOfLines={1}>{v}</T>
+        <Icon n={ic} s={18} c={C.muted} />
+      </Tap>
+    </View>
+  );
+}
+
 function parseWhen(date: string, time: string): { d: Date; h: number } {
   const day = parseInt(date, 10);
   const lo = date.toLocaleLowerCase('tr');
@@ -449,8 +447,9 @@ function NewLesson({ p }: SP) {
   const [sel, setSel] = useState<string[]>(p?.n ? [p.n] : emp ? [] : ['Elif Yıldırım']);
   const auto = (n: string[]): PkSel => (n.length === 1 && n[0] === 'Elif Yıldırım' ? PK_OWN : PK_BASE);
   const [pk, setPk] = useState<PkSel | null>(emp ? null : auto(sel));
-  const [date, setDate] = useState('10 Eyl Çar');
-  const [time, setTime] = useState('16:00');
+  const [date, setDate] = useState(new Date(2026, 8, 10));
+  const [time, setTime] = useState(16);
+  const [note, setNote] = useState('');
   const [loc, setLoc] = useState('Stüdyo');
   const [rep, setRep] = useState({ v: 2, end: '' });
   const [sub, setSub] = useState<'' | 'people' | 'pkgs'>('');
@@ -459,7 +458,7 @@ function NewLesson({ p }: SP) {
   const who = sel[0] || '';
   const open = (k: 'people' | 'pkgs') => { setLast(k); setSub(k); };
   const save = () => {
-    const { d, h } = parseWhen(date, time);
+    const d = date, h = time;
     const pe = personByName(who);
     if (!pe) { toast('Önce bir kişi seç'); return; }
     const l: Lesson = [h, 60, pe.id, loc === 'Online' ? 'Online' : sel.length > 1 ? `Grup · ${sel.length} kişi` : 'Bireysel', 'w'];
@@ -472,7 +471,10 @@ function NewLesson({ p }: SP) {
       if (rep.v === 1 && x.getDay() === 0) continue;
       add.push({ k: dkey(x), l });
     }
-    set(s => ({ extra: [...s.extra, ...add], F: d }));
+    // Not, paket adı, tekrar ve konum ders detayında görünür
+    const meta: Record<string, any> = {};
+    add.forEach(a => { const lk = `${a.k}|${h}`; meta[`les.${lk}`] = { pk: pk?.name, rep: rep.v, loc }; if (note.trim()) meta[`note.${lk}`] = note.trim(); });
+    set(s => ({ extra: [...s.extra, ...add], F: d, prefs: { ...s.prefs, ...meta } }));
     closeSheet();
     toastLater(add.length > 1 ? `${add.length} ders eklendi` : 'Ders eklendi');
   };
@@ -496,7 +498,12 @@ function NewLesson({ p }: SP) {
               style={{ backgroundColor: C.page, minHeight: 56 }}
             />
           </Blk>
-          <Blk lbl="Zaman"><Cols><Fld flex label="Tarih" value={date} onChangeText={setDate} /><Fld flex label="Başlangıç" value={time} onChangeText={setTime} /></Cols></Blk>
+          <Blk lbl="Zaman">
+            <Cols>
+              <PickBox label="Tarih" ic="calendar" v={`${date.getDate()} ${MS[date.getMonth()]} ${DN[wd(date)]}`} onPress={() => pickDate(date, setDate)} />
+              <PickBox label="Başlangıç" ic="clock" v={hm(time)} onPress={() => pickTime(time, setTime)} />
+            </Cols>
+          </Blk>
           <Blk lbl="Ücret">
             {pk ? (
               <Row onPress={() => open('pkgs')} left={<View style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: C.card, alignItems: 'center', justifyContent: 'center' }}><T s={14} w={800}>{pk.badge}</T></View>} t={pk.name} s={pk.why}
@@ -511,7 +518,7 @@ function NewLesson({ p }: SP) {
             <Repeat init={2} sum0="Her hafta · bitiş yok" start="10 Eylül" onChange={(v, end) => setRep({ v, end })} />
             <GR t="Kişiye bildir" s="Ders saati ve ücret onayına gider" right={<Sw init label="Kişiye bildir" />} />
           </InCard>
-          <Blk lbl="Not"><Inp area accessibilityLabel="Ders notu" ph="Ders için not ekle · sadece sen görürsün" /></Blk>
+          <Blk lbl="Not"><Inp area accessibilityLabel="Ders notu" ph="Ders için not ekle · sadece sen görürsün" value={note} onChangeText={setNote} /></Blk>
         </Sheet>
         <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: 0, top: -13, right: 0, bottom: 0, backgroundColor: '#000' }, s1.dim]} />
       </Animated.View>

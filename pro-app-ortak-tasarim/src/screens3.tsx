@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { DL, DN, MN, MS, dkey, first, hm, wd, type Lesson } from './data';
-import { collect, get, go, hhmm, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
+import { collect, get, go, hhmm, home, lesMeta, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { ff } from './theme';
 import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, DC, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
@@ -45,6 +45,12 @@ function LessonScr({ p }: SP) {
   const paid = l ? l[4] === 'ok' : true;
   const [note] = useState(paid ? 'Türev konusunu bitirdik, önümüzdeki hafta integral testi yapılacak.' : '');
   const info = { n: pe.name, when: `${DN[wd(d)]} ${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, big: `${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, lk: l ? `${dkey(d)}|${h0}` : undefined, ty: `${ty} · ${dur} dk`, l };
+  // Paket adı, tekrar ve konum: yeni derste seçilenler; demo derslerinde türe göre
+  const m = lesMeta(info.lk);
+  const pkName = m.pk ?? (ty.startsWith('Deneme') ? 'Deneme dersi' : pe.tag[1] === 'Paket' || pe.name === 'Elif Yıldırım' ? '8 derslik paket' : pe.tag[1] === 'Üye' ? 'Aylık üyelik' : `Tek ders · ${dur} dk`);
+  const rep = m.rep ?? (ty.startsWith('Deneme') ? 0 : 2);
+  const loc = m.loc ?? (ty.startsWith('Online') ? 'Online' : 'Stüdyo');
+  const st = l ? l[4] : 'ok';
   const kv = (t: string, right: React.ReactNode) => <GR style={{ minHeight: 52 }} right={right}><T s={15} lh={1.35} c={C.muted} style={{ flex: 1 }}>{t}</T></GR>;
   return (
     <>
@@ -52,23 +58,24 @@ function LessonScr({ p }: SP) {
         <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: useFrame().top + 8, height: 56, alignItems: 'center', justifyContent: 'center' }}><Lbl t={`${ty} · ${dur} dk`} c={C.onDarkMuted} /></View>
         <T s={24} w={800} lh={1.15} c={C.onDark}>{d.getDate()} {MN[d.getMonth()]} {DL[wd(d)]}</T>
         <T s={15} lh={1.45} c={C.onDark} style={{ marginTop: 4 }}>{hm(h0)} – {hm(h0 + dur / 60)}</T>
+        {rep ? (
         <View style={{ flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center', gap: 6, marginTop: 12, backgroundColor: C.sdark2, borderRadius: 999, paddingVertical: 6, paddingHorizontal: 12 }}>
           <Icon n="repeat" s={16} c={C.onDark} />
-          <T s={13} w={700} c={C.onDark}>Her hafta tekrarlanır</T>
+          <T s={13} w={700} c={C.onDark}>{rep === 1 ? 'Her gün tekrarlanır' : 'Her hafta tekrarlanır'}</T>
         </View>
+        ) : null}
       </Band>
       <Scr>
         <View style={{ paddingTop: 16, gap: 10 }}>
-          <List><Row left={<Av ini={pe.ini} />} t={pe.name} s="Aylık paket · 12. ders" chev onPress={() => go('contact', undefined, { i: pe.id })} /></List>
+          <List><Row left={<Av ini={pe.ini} />} t={pe.name} s={pe.sub || pe.tag[1]} chev onPress={() => go('contact', undefined, { i: pe.id })} /></List>
           <GCard>
-            {kv('Konum', ty.startsWith('Online') ? <T s={14} w={700}>Online görüşme</T> : <Lnk s={14} t="Kadıköy stüdyo ↗" onPress={() => openUrl('https://maps.apple.com/?q=Kad%C4%B1k%C3%B6y', 'Haritalar açılıyor')} />)}
-            {kv('Ücret', <T s={15} w={800}>₺750</T>)}
-            {kv('Ödeme', paid ? <Tag k="s" t="Ödendi" /> : <Tap onPress={() => go('payment', undefined, { i: pe.id })}><Tag k="d" t="Ödenmedi" /></Tap>)}
+            {kv('Ders', <T s={15} w={800} numberOfLines={1}>{pkName}</T>)}
+            {kv('Konum', loc === 'Online' ? <T s={14} w={700}>Online görüşme</T> : loc === 'Adres' ? <T s={14} w={700}>Kişinin adresi</T> : <Lnk s={14} t="Kadıköy stüdyo ↗" onPress={() => openUrl('https://maps.apple.com/?q=Kad%C4%B1k%C3%B6y', 'Haritalar açılıyor')} />)}
+            {kv('Ödeme', st === 'ok' ? <Tag k="s" t="Ödendi" /> : st === 'no' ? <Tap onPress={() => go('payment', undefined, { i: pe.id })}><Tag k="d" t="Ödenmedi" /></Tap> : <Tag k="i" t="Bekliyor" />)}
           </GCard>
           <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, paddingVertical: 12, paddingHorizontal: 14 }}>
             <Fld label="Ders notu" area v={note} ph="Not ekle" pk={info.lk ? `note.${info.lk}` : undefined} />
           </View>
-          <GCard><GR t="Seriyi görüntüle" s={`Her ${DL[wd(d)].toLocaleLowerCase('tr')} · 8 ders kaldı`} chev onPress={() => toast('Seri görünümü yakında')} /></GCard>
         </View>
       </Scr>
       <Foot>

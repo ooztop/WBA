@@ -6,7 +6,9 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 import { BlurView } from 'expo-blur';
 import { EASE, mix } from './theme';
-import { closeAction, closeSheet, pop, removeRoute, removeSheet, setTab, useC, useFrame, useStore, type ActionS, type Route, type SheetR, type ToastS } from './store';
+import { closeAction, closePicker, closeSheet, pop, removeRoute, removeSheet, setTab, useC, useFrame, useStore, type ActionS, type PickerS, type Route, type SheetR, type ToastS } from './store';
+import { DN, MN, TODAY, hm, same, wd } from './data';
+import { ScrollView } from 'react-native';
 import { Btn, Icon, T } from './ui';
 import { BAND, SCREENS, SHEETS } from './registry';
 
@@ -259,6 +261,96 @@ export function ActionLayer() {
           </Pressable>
         </Animated.View>
       )}
+    </View>
+  );
+}
+
+/* ---------- tarih ve saat seçici (alttan açılır) ---------- */
+const IH = 44; // saat satırı yüksekliği
+function TimeWheel({ value, step, onChange }: { value: number; step: number; onChange: (h: number) => void }) {
+  const C = useC();
+  const items = React.useMemo(() => { const o: number[] = []; for (let m = 7 * 60; m <= 22 * 60; m += step) o.push(m / 60); return o; }, [step]);
+  const start = Math.max(0, items.reduce((b, x, i) => (Math.abs(x - value) < Math.abs(items[b] - value) ? i : b), 0));
+  const [idx, setIdx] = useState(start);
+  const ref = useRef<React.ComponentRef<typeof ScrollView>>(null);
+  useEffect(() => { const t = setTimeout(() => ref.current?.scrollTo({ y: start * IH, animated: false }), 30); return () => clearTimeout(t); }, []);
+  const pickI = (i: number) => { const k = Math.max(0, Math.min(items.length - 1, i)); if (k !== idx) { setIdx(k); onChange(items[k]); } };
+  return (
+    <View style={{ height: IH * 5 }}>
+      <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: IH * 2, height: IH, borderRadius: 12, backgroundColor: C.page }} />
+      <ScrollView ref={ref} showsVerticalScrollIndicator={false} snapToInterval={IH} decelerationRate="fast" contentContainerStyle={{ paddingVertical: IH * 2 }} scrollEventThrottle={16}
+        onScroll={e => pickI(Math.round(e.nativeEvent.contentOffset.y / IH))}>
+        {items.map((h, i) => (
+          <Pressable key={i} onPress={() => { ref.current?.scrollTo({ y: i * IH, animated: true }); pickI(i); }} accessibilityRole="button" accessibilityState={{ selected: i === idx }} style={{ height: IH, alignItems: 'center', justifyContent: 'center' }}>
+            <T s={i === idx ? 22 : 17} w={i === idx ? 800 : 500} c={i === idx ? C.ink : C.muted}>{hm(h)}</T>
+          </Pressable>
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+function MonthPick({ value, onChange }: { value: Date; onChange: (d: Date) => void }) {
+  const C = useC();
+  const [m0, setM0] = useState(new Date(value.getFullYear(), value.getMonth(), 1));
+  const off = wd(m0), nd = new Date(m0.getFullYear(), m0.getMonth() + 1, 0).getDate();
+  const cells: (Date | null)[] = [...Array(off).fill(null), ...Array.from({ length: nd }, (_, i) => new Date(m0.getFullYear(), m0.getMonth(), i + 1))];
+  while (cells.length % 7) cells.push(null);
+  const rows: (Date | null)[][] = [];
+  for (let i = 0; i < cells.length; i += 7) rows.push(cells.slice(i, i + 7));
+  const nav = (n: number) => setM0(new Date(m0.getFullYear(), m0.getMonth() + n, 1));
+  return (
+    <View style={{ gap: 6 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Pressable onPress={() => nav(-1)} accessibilityLabel="Önceki ay" hitSlop={8} style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}><Icon n="chevL" /></Pressable>
+        <T s={15} w={800}>{MN[m0.getMonth()]} {m0.getFullYear()}</T>
+        <Pressable onPress={() => nav(1)} accessibilityLabel="Sonraki ay" hitSlop={8} style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}><Icon n="chevR" /></Pressable>
+      </View>
+      <View style={{ flexDirection: 'row' }}>{DN.map(d => <T key={d} s={11} w={700} c={C.muted} style={{ flex: 1, textAlign: 'center' }}>{d}</T>)}</View>
+      {rows.map((r, ri) => (
+        <View key={ri} style={{ flexDirection: 'row' }}>
+          {r.map((d, i) => {
+            if (!d) return <View key={i} style={{ flex: 1, height: 44 }} />;
+            const sel = same(d, value), tod = same(d, TODAY);
+            return (
+              <Pressable key={i} onPress={() => onChange(d)} accessibilityRole="button" accessibilityLabel={`${d.getDate()} ${MN[d.getMonth()]}`} accessibilityState={{ selected: sel }} style={{ flex: 1, height: 44, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: 38, height: 38, borderRadius: 999, alignItems: 'center', justifyContent: 'center', backgroundColor: sel ? C.sdark : 'transparent', borderWidth: tod && !sel ? 1.5 : 0, borderColor: C.accent }}>
+                  <T s={15} w={sel || tod ? 800 : 700} c={sel ? C.onDark : i > 4 ? C.muted : C.ink}>{d.getDate()}</T>
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+      ))}
+    </View>
+  );
+}
+export function PickerLayer() {
+  const C = useC();
+  const { bottom } = useFrame();
+  const picker = useStore(s => s.picker);
+  const [shown, setShown] = useState<PickerS | null>(null);
+  const [val, setVal] = useState<any>(null);
+  const v = useSharedValue(0);
+  useEffect(() => {
+    if (picker) { setShown(picker); setVal(picker.value); v.value = withTiming(1, { duration: 400, easing: ease }); }
+    else v.value = withTiming(0, { duration: 240 }, f => { if (f) runOnJS(setShown)(null); });
+  }, [picker]);
+  const scrim = useAnimatedStyle(() => ({ opacity: v.value }));
+  const st = useAnimatedStyle(() => ({ transform: [{ translateY: (1 - v.value) * 520 }] }));
+  if (!shown) return null;
+  const done = () => { (shown.onPick as (x: any) => void)(val); closePicker(); };
+  return (
+    <View pointerEvents={picker ? 'auto' : 'none'} style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0 }}>
+      <Animated.View style={[{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, backgroundColor: C.scrim }, scrim]}>
+        <Pressable style={{ flex: 1 }} onPress={closePicker} accessibilityLabel="Vazgeç" />
+      </Animated.View>
+      <Animated.View style={[{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: C.card, borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingTop: 8, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), gap: 14 }, st]}>
+        <View style={{ alignSelf: 'center', width: 36, height: 5, borderRadius: 999, backgroundColor: C.divider }} />
+        <T s={20} w={800} lh={1.25} style={{ textAlign: 'center' }}>{shown.kind === 'date' ? 'Tarih seç' : 'Başlangıç saati'}</T>
+        {shown.kind === 'date' ? <MonthPick key={shown.key} value={val ?? shown.value} onChange={setVal} /> : <TimeWheel key={shown.key} value={shown.value} step={shown.step} onChange={setVal} />}
+        {shown.kind === 'time' ? <T s={13} c={C.muted} style={{ textAlign: 'center' }}>{shown.step === 60 ? 'Dersler tam saatte başlar' : `Dersler ${shown.step} dakikada bir başlayabilir`} · Ders kuralları</T> : null}
+        <Btn t="Tamam" onPress={done} />
+      </Animated.View>
     </View>
   );
 }
