@@ -357,6 +357,23 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
 .phone button,.phone .row,.phone a{cursor:pointer}
 .ptoast{position:absolute;left:50%;bottom:110px;transform:translate(-50%,20px);opacity:0;background:var(--surface-dark);color:var(--on-dark);font-size:14px;font-weight:700;padding:12px 18px;border-radius:14px;box-shadow:var(--shadow-toast);transition:opacity 200ms ease,transform 300ms cubic-bezier(.32,.72,0,1);z-index:99;white-space:nowrap;pointer-events:none}
 .ptoast.on{opacity:1;transform:translate(-50%,0)}
+.phone .pko .dtc{position:absolute;left:0;right:0;bottom:0;background:var(--surface-card);border-radius:24px 24px 0 0;padding:8px 16px 30px;display:flex;flex-direction:column;gap:14px;transform:translateY(105%);transition:transform .4s cubic-bezier(.32,.72,0,1)}
+.phone .pko.on .dtc{transform:none}
+.dtc .grab{margin:0 auto}
+.dtm{display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:800}
+.dtg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));row-gap:2px;text-align:center}
+.dtg span{font-size:11px;font-weight:700;color:var(--ink-muted);padding-bottom:6px}
+.dtg button{height:44px;border:0;background:none;padding:0;display:flex;align-items:center;justify-content:center}
+.dtg button i{width:38px;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:15px;font-weight:700;color:var(--ink)}
+.dtg button.we i{color:var(--ink-muted)}
+.dtg button.td i{box-shadow:inset 0 0 0 1.5px var(--accent);font-weight:800}
+.dtg button.on i{background:var(--surface-dark);color:var(--on-dark);box-shadow:none;font-weight:800}
+.dtw{position:relative;height:220px}
+.dtw::before{content:"";position:absolute;left:0;right:0;top:88px;height:44px;border-radius:12px;background:var(--surface-page)}
+.dtl{position:relative;height:220px;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;padding:88px 0}
+.dtl::-webkit-scrollbar{display:none}
+.dtl button{display:flex;align-items:center;justify-content:center;width:100%;height:44px;border:0;background:none;font-size:17px;font-weight:500;color:var(--ink-muted);scroll-snap-align:center;transition:font-size .12s ease,color .12s ease}
+.dtl button.on{font-size:22px;font-weight:800;color:var(--ink)}
 .hint{font-size:12px;font-weight:600;color:var(--ink-muted);text-align:center;padding:10px 16px 0}
 </style>
 </head>
@@ -1123,8 +1140,8 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
       </div>
       <div class="blk"><span class="lbl">Zaman</span>
         <div class="cols">
-          <label class="fld">Tarih<input class="inp" value="10 Eyl Çar"></label>
-          <label class="fld">Başlangıç<input class="inp" value="16:00"></label>
+          <div class="fld">Tarih<button class="inp" style="display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer" data-dt="date" aria-label="Tarih seç"><span class="dtv">10 Eyl Per</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;color:var(--ink-muted)"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></button></div>
+          <div class="fld">Başlangıç<button class="inp" style="display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer" data-dt="time" aria-label="Başlangıç saati seç"><span class="dtv">16:00</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;color:var(--ink-muted)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button></div>
         </div>
       </div>
       <div class="blk"><span class="lbl">Ücret</span>
@@ -1259,12 +1276,11 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   <div class="scr" style="padding-top:16px;display:flex;flex-direction:column;gap:10px">
     <div class="list"><button class="row"><span class="av">EY</span><span class="rt"><span class="t">Elif Yıldırım</span><span class="s">Aylık paket · 12. ders</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
     <div class="gcard">
+      <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ders</span></span><b>8 derslik paket</b></div>
       <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Konum</span></span><button class="lnk" style="font-size:14px">Kadıköy stüdyo ↗</button></div>
-      <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ücret</span></span><b>₺750</b></div>
       <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ödeme</span></span><span class="tag tg-s">Ödendi</span></div>
     </div>
     <div class="gcard" style="padding:12px 14px"><label class="fld">Ders notu<textarea class="inp" style="height:84px">Türev konusunu bitirdik, önümüzdeki hafta integral testi yapılacak.</textarea></label></div>
-    <div class="gcard"><button class="gr grb"><span class="rt"><span class="t">Seriyi görüntüle</span><span class="s">Her çarşamba · 8 ders kaldı</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
   </div>
   <div class="foot">
     <button class="btn x">İptal et</button>
@@ -1976,7 +1992,7 @@ const W={
 '01':{'Kişi ekle':'push:04','*row':'push:03'},
 '02':{'Kişi ekle':'push:04','Profilini paylaş':'push:12'},
 '03':{'Geri':'back','Kişiyi düzenle':'push:05','Yenile':'push:25','Dokümanlar':'push:06','Ders ekle':'push:25','Tutarı göster':'reveal','*row':'push:29','+90 532 24 43 03':'push:menuCall'},
-'04':{'Geri':'back','Kişiyi kaydet':'back|toast:Kişi eklendi','Fotoğraf ekle':'toast:Fotoğraf seç','Rehberden seç':'toast:Rehber açılıyor'},
+'04':{'Geri':'back','Kişiyi kaydet':'nksave','Fotoğraf ekle':'toast:Fotoğraf seç','Rehberden seç':'toast:Rehber açılıyor'},
 '05':{'Geri':'back','Kaydet':'back|toast:Değişiklikler kaydedildi','Arşivle':'push:52','Kişiyi sil':'push:53','Fotoğrafı değiştir':'toast:Fotoğraf seç','Rehberden seç':'toast:Rehber açılıyor'},
 '06':{'Geri':'back','Doküman ekle':'toast:Dosya seç · Fotoğraf çek · Not yaz','*row':'toast:Dosya açılıyor'},
 '07':{'Bildirim ayarları':'push:09','Reddet':'push:54','Onayla':'push:35','Talep çakışıyor':'push:34','Yeni saat onaylandı':'push:37','Ödeme bekleniyor':'push:39','Ders iptal edildi':'push:38','Paket bitmek üzere':'push:03'},
@@ -1996,11 +2012,11 @@ const W={
 '21':{'Ders ekle':'rep:25','Mola ekle':'rep:28','Menüyü kapat':'back','*bg':'back'},
 '22':{'Geri':'back','Ders kuralları':'push:15'},
 '24':{'Geri':'back','Kaydet':'back|toast:Mola kaydedildi'},
-'25':{'Geri':'back','Konum':'pickloc','Tekrar':'rpt','Dersi ekle':'back|toast:Ders eklendi'},
+'25':{'Geri':'back','Konum':'pickloc','Tekrar':'rpt','Dersi ekle':'ladd'},
 '26':{'Geri':'back','Seçimi onayla':'ppdone','Yeni kişi ekle':'ppnew','*row':'pick'},
 '27':{'Geri':'back','Kişiye özel paket':'newpk42'},
 '28':{'Geri':'back','Molayı ekle':'nbadd','Günü kapat':'nbadd','Sebep':'pickreason','Tekrar':'rpt'},
-'29':{'Geri':'back','Elif Yıldırım':'push:03','İptal et':'push:31','Dersi ertele':'push:30','Seriyi görüntüle':'toast:Seri görünümü yakında','Kadıköy stüdyo ↗':'toast:Haritalar açılıyor'},
+'29':{'Geri':'back','Elif Yıldırım':'push:03','İptal et':'push:31','Dersi ertele':'push:30','Kadıköy stüdyo ↗':'toast:Haritalar açılıyor'},
 '30':{'Geri':'back','Ertelemeyi onayla':'rsdone','Takvimden başka saat seç':'toast:Takvim açılır'},
 '31':{'Geri':'back','Dersi iptal et':'cask','Ödeme':'cpay'},
 '32':{'Geri':'root','Tamam':'root','Yeni saat öner':'rep:30'},
@@ -2038,6 +2054,7 @@ P.addEventListener('click',e=>{
   const el=e.target.closest('button,.row,.ev,[role=menuitem]');
   if(!el){if((e.target.classList.contains('ph')&&e.target.classList.contains('sheet'))&&w['*bg'])run(w['*bg']);return}
   const lab=labelOf(el);let a=w[lab];
+  if(el.dataset.dt){dtPick(s,el.dataset.dt,el.querySelector('.dtv'));return}
   if(id==='25'&&el.classList.contains('row')){const l=norm(((el.closest('.blk')||{}).querySelector?el.closest('.blk').querySelector('.lbl'):null||{}).textContent);if(l==='Kişiler'){push('26');return}if(l==='Ücret'){push('27');return}}
   if((id==='41'||id==='42')&&el.classList.contains('tile')&&/Paket türü/.test(el.parentElement.getAttribute('aria-label')||'')){const to=/^Çoklu/.test(norm(el.textContent))?'42':'41';if(to!==id){SC[to].querySelectorAll('.tiles[aria-label="Paket türü"] .tile').forEach(x=>{const on=(to==='42')===/^Çoklu/.test(norm(x.textContent));x.classList.toggle('on',on);x.setAttribute('aria-pressed',on)});rep(to)}return}
   if(el.classList.contains('tile')&&/Mola türü/.test(el.parentElement.getAttribute('aria-label')||'')){toggleIn(el,false);nbMode(s,/Tüm gün/.test(el.textContent));return}
@@ -2054,7 +2071,9 @@ P.addEventListener('click',e=>{
   if(a==='pickreason'){pickSheet(s,'Sebep',s.dataset.allday?['İzin günü','Tatil','Hastalık','Kişisel','Diğer']:['Öğle arası','Kahve arası','Toplantı','Kişisel','Diğer'],el.querySelector('.lcv'));return}
   if(a==='nbadd'){back();setTimeout(()=>toast(s.dataset.allday?'Gün kapatıldı':'Mola eklendi'),300);return}
   if(a==='ppdone'){ppApply();back();return}
-  if(a==='ppnew'){ppNewForm(el);return}
+  if(a==='ppnew'){SC['04'].querySelectorAll('.cols .inp').forEach(i=>i.value='');push('04');return}
+  if(a==='nksave'){const ins=s.querySelectorAll('.cols .inp'),n=norm((ins[0]?ins[0].value:'')+' '+(ins[1]?ins[1].value:''));const from=stack[stack.length-2]==='26';if(from&&!n){ins[0]&&ins[0].focus();return}if(from)ppAdd(n);back();setTimeout(()=>toast(from?n.split(' ')[0]+' eklendi ve seçildi':'Kişi eklendi'),300);return}
+  if(a==='ladd'){const t=s.querySelector('textarea[aria-label="Ders notu"]'),n=t&&t.value.trim();if(n){const d=SC['29'].querySelector('textarea');if(d)d.value=n}back();setTimeout(()=>toast('Ders eklendi'),300);return}
   if(a==='newpk'){pkMode(true);push('41');return}
   if(a==='newpk42'){pkMode(true);push('42');return}
   if(a==='pksave42'){if(stack[stack.length-2]==='27'){pkCustom();back();setTimeout(()=>{back();setTimeout(()=>toast('Özel paket oluşturuldu'),350)},420)}else{back();setTimeout(()=>toast('Paket kaydedildi'),300)}return}
@@ -2109,6 +2128,27 @@ function ppApply(){const sel=[...SC['26'].querySelectorAll('.list .row')].filter
 function ppNewForm(btn){const sh=btn.parentElement,f=document.createElement('div');f.className='ppform';f.innerHTML='<input class="inp" placeholder="Ad soyad" data-ppn><input class="inp" type="tel" placeholder="Telefon (isteğe bağlı)"><div class="pair"><button class="btn g" data-ppx>Vazgeç</button><button class="btn p" data-pps>Ekle</button></div>';btn.style.display='none';sh.appendChild(f);setTimeout(()=>f.querySelector('[data-ppn]').focus(),60);
   f.addEventListener('click',e=>{e.stopPropagation();if(e.target.closest('[data-ppx]')){f.remove();btn.style.display=''}else if(e.target.closest('[data-pps]')){const inp=f.querySelector('[data-ppn]'),n=inp.value.trim();if(!n){inp.focus();return}const ini=n.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toLocaleUpperCase('tr');const r=document.createElement('button');r.className='row';r.style.cssText='min-height:56px;background:var(--accent-tint-soft)';r.setAttribute('aria-pressed','true');const ck=SC['26'].querySelector('.ck').cloneNode(true);ck.classList.add('on');r.innerHTML='<span class="av" style="width:36px;height:36px;font-size:13px">'+ini+'</span><span class="rt"><span class="t">'+n+'</span><span class="s">Yeni kişi</span></span>';r.appendChild(ck);const l=SC['26'].querySelector('.list');l.prepend(r);r.animate([{opacity:0,transform:'translateY(-8px)'},{opacity:1,transform:'none'}],{duration:280,easing:'ease-out'});f.remove();btn.style.display='';const c=SC['26'].querySelectorAll('.ck.on').length;const lb=SC['26'].querySelector('.grp .lbl');if(lb)lb.textContent=c+' kişi seçili';SC['26'].querySelector('.sh').scrollTo({top:0,behavior:'smooth'});toast(n.split(' ')[0]+' eklendi')}})}
 (()=>{const q=SC['26']&&SC['26'].querySelector('.search input');if(q)q.addEventListener('input',()=>{const v=q.value.toLocaleLowerCase('tr');SC['26'].querySelectorAll('.list .row').forEach(r=>r.style.display=norm(r.querySelector('.t').textContent).toLocaleLowerCase('tr').includes(v)?'':'none')})})();
+/* Kişi seç → Yeni kişi ekle: Kişiler'deki panel açılır, kaydedince kişi listede seçili gelir */
+function ppAdd(n){const ini=n.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toLocaleUpperCase('tr');const r=document.createElement('button');r.className='row';r.style.cssText='min-height:56px;background:var(--accent-tint-soft)';r.setAttribute('aria-pressed','true');const ck=SC['26'].querySelector('.ck').cloneNode(true);ck.classList.add('on');r.innerHTML='<span class="av" style="width:36px;height:36px;font-size:13px">'+ini+'</span><span class="rt"><span class="t">'+n+'</span><span class="s">Yeni kişi</span></span>';r.appendChild(ck);SC['26'].querySelector('.list').prepend(r);const c=SC['26'].querySelectorAll('.ck.on').length;const lb=SC['26'].querySelector('.grp .lbl');if(lb)lb.textContent=c+' kişi seçili';SC['26'].querySelector('.sh').scrollTo({top:0})}
+/* Yeni ders → Tarih: takvimden işaretle · Başlangıç: ders başlama kademesine göre kaydırarak seç */
+const DTD=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'],DTM=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],DTS=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+let DTV=new Date(2026,8,10);
+function dtStep(){const c=SC['15']&&SC['15'].querySelector('[aria-label="Ders başlama kademesi"] .chip.on');const t=c?norm(c.textContent):'Tam saat';return /^Tam/.test(t)?60:Math.max(5,parseInt(t)||60)}
+function dtPick(s,kind,target){const ph=s.querySelector('.ph'),d=document.createElement('div');d.className='pko';const CH='<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="';
+  d.innerHTML='<div class="dtc" role="dialog" aria-label="'+(kind==='date'?'Tarih seç':'Başlangıç saati')+'"><div class="grab"></div><h3 class="t3" style="text-align:center">'+(kind==='date'?'Tarih seç':'Başlangıç saati')+'</h3><div class="dtb"></div><button class="btn p" data-ok>Tamam</button></div>';
+  const body=d.querySelector('.dtb');let val;
+  if(kind==='date'){val=new Date(DTV);let m0=new Date(val.getFullYear(),val.getMonth(),1);
+    const draw=()=>{const off=(m0.getDay()+6)%7,nd=new Date(m0.getFullYear(),m0.getMonth()+1,0).getDate();let h='<div class="dtm"><button class="ib q" data-m="-1" aria-label="Önceki ay" style="width:40px;height:40px">'+CH+'M15 18l-6-6 6-6"></path></svg></button><span>'+DTM[m0.getMonth()]+' '+m0.getFullYear()+'</span><button class="ib q" data-m="1" aria-label="Sonraki ay" style="width:40px;height:40px">'+CH+'M9 6l6 6-6 6"></path></svg></button></div><div class="dtg">'+DTD.map(x=>'<span>'+x+'</span>').join('')+'<i style="grid-column:span '+off+(off?'':';display:none')+'"></i>';
+      for(let i=1;i<=nd;i++){const x=new Date(m0.getFullYear(),m0.getMonth(),i),w=(x.getDay()+6)%7;h+='<button data-d="'+i+'" class="'+(w>4?'we ':'')+(x.toDateString()===new Date(2026,8,9).toDateString()?'td ':'')+(x.toDateString()===val.toDateString()?'on':'')+'" aria-label="'+i+' '+DTM[m0.getMonth()]+'"><i>'+i+'</i></button>'}
+      body.innerHTML=h+'</div>'};
+    draw();body.addEventListener('click',e=>{const m=e.target.closest('[data-m]'),x=e.target.closest('[data-d]');if(m){m0=new Date(m0.getFullYear(),m0.getMonth()+ +m.dataset.m,1);draw()}else if(x){val=new Date(m0.getFullYear(),m0.getMonth(),+x.dataset.d);draw()}})}
+  else{const st=dtStep(),it=[];for(let m=420;m<=1320;m+=st)it.push(String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'));val=norm(target.textContent);let k=Math.max(0,it.indexOf(val));
+    body.innerHTML='<div class="dtw"><div class="dtl">'+it.map((t,i)=>'<button data-t="'+i+'"'+(i===k?' class="on"':'')+'>'+t+'</button>').join('')+'</div></div><div class="sm" style="text-align:center;margin-top:10px">'+(st===60?'Dersler tam saatte başlar':'Dersler '+st+' dakikada bir başlayabilir')+' · Ders kuralları</div>';
+    const l=body.querySelector('.dtl'),mark=i=>{k=Math.max(0,Math.min(it.length-1,i));val=it[k];l.querySelectorAll('button').forEach((b,j)=>b.classList.toggle('on',j===k))};
+    requestAnimationFrame(()=>{l.scrollTop=k*44});l.addEventListener('scroll',()=>mark(Math.round(l.scrollTop/44)));l.addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b)l.scrollTo({top:+b.dataset.t*44,behavior:'smooth'})})}
+  ph.appendChild(d);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('on')));
+  const close=()=>{d.classList.remove('on');setTimeout(()=>d.remove(),400)};
+  d.addEventListener('click',e=>{e.stopPropagation();if(e.target.closest('[data-ok]')){if(kind==='date'){DTV=val;target.textContent=val.getDate()+' '+DTS[val.getMonth()]+' '+DTD[(val.getDay()+6)%7]}else target.textContent=val;close()}else if(e.target===d)close()})}
 /* Yeni ders: Paketler → Ücret kartı */
 function pkCard(){return [...SC['25'].querySelectorAll('.blk')].find(b=>norm((b.querySelector('.lbl')||{}).textContent)==='Ücret').querySelector('.row')}
 function pkApply(r,why){const c=pkCard(),t=norm(r.querySelector('.t').textContent),b=norm(r.querySelector('.pkb').textContent),own=r.closest('.list')===SC['27'].querySelector('.list');const pr=r.querySelector('.amt b');const per=/ders başı (₺[\d.]+)/.exec(norm((r.querySelector('.s')||{}).textContent));

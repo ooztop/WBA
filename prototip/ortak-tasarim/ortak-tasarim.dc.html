@@ -1180,8 +1180,8 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
       </div>
       <div class="blk"><span class="lbl">Zaman</span>
         <div class="cols">
-          <label class="fld">Tarih<input class="inp" defaultValue="10 Eyl Çar"></label>
-          <label class="fld">Başlangıç<input class="inp" defaultValue="16:00"></label>
+          <div class="fld">Tarih<button class="inp" style="display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer" data-dt="date" aria-label="Tarih seç"><span class="dtv">10 Eyl Per</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;color:var(--ink-muted)"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></button></div>
+          <div class="fld">Başlangıç<button class="inp" style="display:flex;align-items:center;justify-content:space-between;text-align:left;cursor:pointer" data-dt="time" aria-label="Başlangıç saati seç"><span class="dtv">16:00</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;color:var(--ink-muted)"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button></div>
         </div>
       </div>
       <div class="blk"><span class="lbl">Ücret</span>
@@ -1328,12 +1328,11 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
   <div class="scr" style="padding-top:16px;display:flex;flex-direction:column;gap:10px">
     <div class="list"><button class="row"><span class="av">EY</span><span class="rt"><span class="t">Elif Yıldırım</span><span class="s">Aylık paket · 12. ders</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
     <div class="gcard">
+      <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ders</span></span><b>8 derslik paket</b></div>
       <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Konum</span></span><button class="lnk" style="font-size:14px">Kadıköy stüdyo ↗</button></div>
-      <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ücret</span></span><b>₺750</b></div>
       <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ödeme</span></span><span class="tag tg-s">Ödendi</span></div>
     </div>
     <div class="gcard" style="padding:12px 14px"><label class="fld">Ders notu<textarea class="inp" style="height:84px" defaultValue="Türev konusunu bitirdik, önümüzdeki hafta integral testi yapılacak."></textarea></label></div>
-    <div class="gcard"><button class="gr grb"><span class="rt"><span class="t">Seriyi görüntüle</span><span class="s">Her çarşamba · 8 ders kaldı</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
   </div>
   <div class="foot">
     <button class="btn x">İptal et</button>
