@@ -51,7 +51,7 @@ function Expander({ t, s, children, gap = 10, onToggle }: { t: string; s: string
   );
 }
 // Tekrar: sıklık + tarih aralığı
-function Repeat({ init, sum0, start }: { init: number; sum0: string; start: string }) {
+function Repeat({ init, sum0, start, onChange }: { init: number; sum0: string; start: string; onChange?: (v: number, end: string) => void }) {
   const OPT = ['Yok', 'Her gün', 'Her hafta'];
   const [v, setV] = useState(init);
   const [end, setEnd] = useState('');
@@ -60,11 +60,11 @@ function Repeat({ init, sum0, start }: { init: number; sum0: string; start: stri
   return (
     <Expander t="Tekrar" s={sum}>
       <Lbl t="Sıklık" />
-      <Seg items={OPT} sel={v} onSel={i => { setV(i); setTouched(true); }} style={{ marginTop: 0, marginHorizontal: 0 }} />
+      <Seg items={OPT} sel={v} onSel={i => { setV(i); setTouched(true); onChange?.(i, end); }} style={{ marginTop: 0, marginHorizontal: 0 }} />
       {v !== 0 ? (
         <View style={{ gap: 10, marginTop: 4 }}>
           <Lbl t="Tarih aralığı" />
-          <Cols><Fld flex label="Başlangıç" v={start} /><Fld flex label="Bitiş" ph="Bitiş yok" value={end} onChangeText={t => { setEnd(t); setTouched(true); }} /></Cols>
+          <Cols><Fld flex label="Başlangıç" v={start} /><Fld flex label="Bitiş" ph="Bitiş yok" value={end} onChangeText={t => { setEnd(t); setTouched(true); onChange?.(v, t); }} /></Cols>
         </View>
       ) : null}
     </Expander>
@@ -452,6 +452,7 @@ function NewLesson({ p }: SP) {
   const [date, setDate] = useState('10 Eyl Çar');
   const [time, setTime] = useState('16:00');
   const [loc, setLoc] = useState('Stüdyo');
+  const [rep, setRep] = useState({ v: 2, end: '' });
   const [sub, setSub] = useState<'' | 'people' | 'pkgs'>('');
   const [last, setLast] = useState<'people' | 'pkgs'>('people');
   const s1 = useSlide(!!sub);
@@ -462,9 +463,18 @@ function NewLesson({ p }: SP) {
     const pe = personByName(who);
     if (!pe) { toast('Önce bir kişi seç'); return; }
     const l: Lesson = [h, 60, pe.id, loc === 'Online' ? 'Online' : sel.length > 1 ? `Grup · ${sel.length} kişi` : 'Bireysel', 'w'];
-    set(s => ({ extra: [...s.extra, { k: dkey(d), l }] }));
+    // Tekrar: her hafta 8 ders, her gün 14 gün (pazar hariç); bitiş tarihi yazıldıysa oraya kadar
+    const step = rep.v === 2 ? 7 : 1, max = rep.v === 0 ? 1 : rep.v === 2 ? 8 : 14;
+    const until = rep.v !== 0 && rep.end.trim() ? parseWhen(rep.end, '').d : null;
+    const add: { k: string; l: Lesson }[] = [];
+    for (let i = 0, x = d; add.length < (until ? 60 : max) && i < 400; i++, x = addD(d, i * step)) {
+      if (until && x > until) break;
+      if (rep.v === 1 && x.getDay() === 0) continue;
+      add.push({ k: dkey(x), l });
+    }
+    set(s => ({ extra: [...s.extra, ...add], F: d }));
     closeSheet();
-    toastLater('Ders eklendi');
+    toastLater(add.length > 1 ? `${add.length} ders eklendi` : 'Ders eklendi');
   };
   const newPk = () =>
     openSheet('packageMulti', {
@@ -498,7 +508,7 @@ function NewLesson({ p }: SP) {
           </Blk>
           <InCard>
             <GR t="Konum" chev onPress={() => pick('Konum', ['Stüdyo', 'Online', 'Adres'], loc, setLoc)} right={<T s={13} w={700} c={C.muted}>{loc}</T>} />
-            <Repeat init={2} sum0="Her hafta · bitiş yok" start="10 Eylül" />
+            <Repeat init={2} sum0="Her hafta · bitiş yok" start="10 Eylül" onChange={(v, end) => setRep({ v, end })} />
             <GR t="Kişiye bildir" s="Ders saati ve ücret onayına gider" right={<Sw init label="Kişiye bildir" />} />
           </InCard>
           <Blk lbl="Not"><Inp area accessibilityLabel="Ders notu" ph="Ders için not ekle · sadece sen görürsün" /></Blk>

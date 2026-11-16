@@ -5,7 +5,9 @@ import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, w
 import Svg, { Path, SvgXml } from 'react-native-svg';
 import { IC, QR_D } from './icons';
 import { EASE, ff } from './theme';
-import { pop, useC, useFrame } from './store';
+import { get, pop, setPref, useC, useFrame } from './store';
+
+const saved = (pk: string | undefined) => (pk ? get().prefs[pk] : undefined);
 
 type VS = StyleProp<ViewStyle>;
 export type SV = React.ComponentRef<typeof ScrollView>;
@@ -125,16 +127,16 @@ export const Lnk = ({ t, onPress, s = 15 }: { t: string; onPress?: () => void; s
 };
 
 /* ---------- kontroller ---------- */
-export function Sw({ init = false, on, onChange, label }: { init?: boolean; on?: boolean; onChange?: (v: boolean) => void; label?: string }) {
+export function Sw({ init = false, on, onChange, label, pk }: { init?: boolean; on?: boolean; onChange?: (v: boolean) => void; label?: string; pk?: string }) {
   const C = useC();
-  const [st, setSt] = useState(init);
+  const [st, setSt] = useState<boolean>(saved(pk) ?? init);
   const v = on ?? st;
   const x = useSharedValue(v ? 1 : 0);
   useEffect(() => { x.value = withTiming(v ? 1 : 0, { duration: 300, easing: Easing.bezier(...EASE) }); }, [v]);
   const track = useAnimatedStyle(() => ({ backgroundColor: interpolateColor(x.value, [0, 1], [C.divider, C.accent]) }));
   const knob = useAnimatedStyle(() => ({ transform: [{ translateX: x.value * 20 }] }));
   return (
-    <Pressable onPress={() => { setSt(!v); onChange?.(!v); }} accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: v }} hitSlop={8}>
+    <Pressable onPress={() => { setSt(!v); if (pk) setPref(pk, !v); onChange?.(!v); }} accessibilityRole="switch" accessibilityLabel={label} accessibilityState={{ checked: v }} hitSlop={8}>
       <Animated.View style={[{ width: 51, height: 31, borderRadius: 999 }, track]}>
         <Animated.View style={[{ position: 'absolute', top: 3, left: 3, width: 25, height: 25, borderRadius: 999, backgroundColor: C.knob, boxShadow: '0px 1px 3px rgba(0,0,0,0.25)' }, knob]} />
       </Animated.View>
@@ -153,19 +155,20 @@ export function Chip({ t, on, onPress, cn, grid, style, dark = true }: { t?: str
 }
 
 // Izgara çipler (.pchips): eşit sütun, 44px; cst = ✎ özel değer birimi
-export function PChips({ items, init = 0, value, cols = 4, cst, cstInit, onChange, style }: { items: string[]; init?: number; value?: number; cols?: number; cst?: string; cstInit?: string; onChange?: (i: number, label: string) => void; style?: VS }) {
+export function PChips({ items, init = 0, value, cols = 4, cst, cstInit, onChange, style, pk }: { items: string[]; init?: number; value?: number; cols?: number; cst?: string; cstInit?: string; onChange?: (i: number, label: string) => void; style?: VS; pk?: string }) {
   const C = useC();
-  const [sel, setSel] = useState(init);
-  const [cus, setCus] = useState<string | null>(cstInit ?? null);
+  const sv = saved(pk);
+  const [sel, setSel] = useState<number>(sv ? sv.s : init);
+  const [cus, setCus] = useState<string | null>(sv ? sv.c : cstInit ?? null);
   const [ed, setEd] = useState(false);
   const cur = value ?? sel;
-  const cells: React.ReactNode[] = items.map((x, i) => <Chip key={i} grid t={x} on={cus == null && cur === i} onPress={() => { setCus(null); setEd(false); setSel(i); onChange?.(i, x); }} />);
+  const cells: React.ReactNode[] = items.map((x, i) => <Chip key={i} grid t={x} on={cus == null && cur === i} onPress={() => { setCus(null); setEd(false); setSel(i); if (pk) setPref(pk, { s: i, c: null }); onChange?.(i, x); }} />);
   if (cst)
     cells.push(
       ed ? (
         <View key="c" style={{ flex: 1, height: 44, borderRadius: 12, borderWidth: 2, borderColor: C.accent, backgroundColor: C.card, justifyContent: 'center' }}>
           <TextInput autoFocus keyboardType="number-pad" maxLength={3} placeholder={cst} placeholderTextColor={C.muted} onBlur={() => setEd(false)} onSubmitEditing={() => setEd(false)}
-            onChangeText={v => { const n = parseInt(v, 10); setCus(n > 0 ? `${n} ${cst}` : null); if (n > 0) onChange?.(-1, `${n} ${cst}`); }}
+            onChangeText={v => { const n = parseInt(v, 10); setCus(n > 0 ? `${n} ${cst}` : null); if (n > 0) { if (pk) setPref(pk, { s: sel, c: `${n} ${cst}` }); onChange?.(-1, `${n} ${cst}`); } }}
             style={[{ textAlign: 'center', fontFamily: ff(700), fontSize: 13, color: C.ink, padding: 0, height: 40 }, noOutline]} />
         </View>
       ) : (
@@ -249,9 +252,9 @@ export function Ck({ on }: { on: boolean }) {
   );
 }
 
-export function Inp({ v, ph, area, style, ...rest }: TextInputProps & { v?: string; ph?: string; area?: boolean }) {
+export function Inp({ v, ph, area, style, pk, ...rest }: TextInputProps & { v?: string; ph?: string; area?: boolean; pk?: string }) {
   const C = useC();
-  const [val, setVal] = useState(v ?? '');
+  const [val, setVal] = useState<string>(saved(pk) ?? v ?? '');
   const txt = rest.value ?? val;
   return (
     <TextInput
@@ -261,7 +264,7 @@ export function Inp({ v, ph, area, style, ...rest }: TextInputProps & { v?: stri
       selectionColor={C.accent}
       {...rest}
       value={txt}
-      onChangeText={t => { setVal(t); rest.onChangeText?.(t); }}
+      onChangeText={t => { setVal(t); if (pk) setPref(pk, t); rest.onChangeText?.(t); }}
       style={[
         { height: area ? 76 : 52, borderRadius: 12, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 14, fontFamily: ff(txt ? 700 : 500), fontSize: 16, color: C.ink },
         area && { paddingTop: 12, paddingBottom: 12, lineHeight: 22, textAlignVertical: 'top' },
@@ -271,7 +274,7 @@ export function Inp({ v, ph, area, style, ...rest }: TextInputProps & { v?: stri
     />
   );
 }
-export function Fld({ label, link, onLink, children, style, flex, ...inp }: TextInputProps & { label?: string; v?: string; ph?: string; area?: boolean; link?: string; onLink?: () => void; children?: React.ReactNode; style?: VS; flex?: boolean }) {
+export function Fld({ label, link, onLink, children, style, flex, ...inp }: TextInputProps & { label?: string; v?: string; ph?: string; area?: boolean; pk?: string; link?: string; onLink?: () => void; children?: React.ReactNode; style?: VS; flex?: boolean }) {
   const C = useC();
   return (
     <View style={[{ gap: 6 }, flex && { flex: 1, minWidth: 0 }, style]}>

@@ -1,7 +1,8 @@
 // Sayfalar 1: kişi detayı, dokümanlar, bildirim ayarları, profil paylaş, ödemeler
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { go, openMenu, openSheet, person, pick, tl, toast, toastLater, useC, useFrame, useStore } from './store';
+import { go, openMenu, openSheet, person, pick, tl, toast, toastLater, useC, useFrame, usePref, useStore } from './store';
+import { copy, LINK, openUrl, share } from './device';
 import { Av, Band, BandBack, Btn, Cols, Empty, FC, Fic, Fld, Foot, GCard, GR, Grp, IB, Icon, Lbl, List, NavH, Pg, QR, Row, Rt, Scr, Seg, Sm, Stat, Sw, T, Tag, Tap, Val, type TagK } from './ui';
 
 type SP = { p: any };
@@ -30,9 +31,9 @@ function Contact({ p }: SP) {
   const [show, setShow] = useState(false);
   const phone = `+90 532 ${String(10 + k * 7).padStart(2, '0')} ${40 + k} ${String(k * 3).padStart(2, '0')}`;
   const reach = () => openMenu(x.name, [
-    { label: 'Ara', onPress: () => toastLater('Aranıyor…', 200) },
-    { label: "WhatsApp'tan yaz", onPress: () => toastLater('WhatsApp açılıyor', 200) },
-    { label: 'Numarayı kopyala', onPress: () => toastLater('Numara kopyalandı', 200) },
+    { label: 'Ara', onPress: () => setTimeout(() => openUrl(`tel:${phone.replace(/\s/g, '')}`, 'Aranıyor…'), 200) },
+    { label: "WhatsApp'tan yaz", onPress: () => setTimeout(() => openUrl(`https://wa.me/${phone.replace(/[^0-9]/g, '')}`, 'WhatsApp açılıyor'), 200) },
+    { label: 'Numarayı kopyala', onPress: () => setTimeout(() => copy(phone, 'Numara kopyalandı'), 200) },
   ]);
   const newL = () => openSheet('newLesson', { n: x.name });
   const les = (d: string, m: string, t: string, s: string, amt: string, tk: TagK, tg: string, aC?: string) => (
@@ -132,8 +133,8 @@ function Docs({ p }: SP) {
 }
 
 function NotifPrefs() {
-  const [quiet, setQuiet] = useState(true);
-  const [v, setV] = useState({ rem: '1 sa önce', mail: 'Haftalık', sms: 'Kapalı' });
+  const [quiet, setQuiet] = usePref('nt.quiet', true);
+  const [v, setV] = usePref('nt.v', { rem: '1 sa önce', mail: 'Haftalık', sms: 'Kapalı' });
   const val = (k: keyof typeof v, title: string, opts: string[]) => <Val v={v[k]} onPress={() => pick(title, opts, v[k], x => setV({ ...v, [k]: x }))} />;
   return (
     <>
@@ -141,9 +142,9 @@ function NotifPrefs() {
       <Scr>
         <Grp t="Anlık bildirimler" style={{ paddingTop: 12 }} />
         <GCard>
-          <GR t="Rezervasyon talebi" right={<Sw init label="Rezervasyon talebi" />} />
-          <GR t="Ödeme hareketi" right={<Sw init label="Ödeme hareketi" />} />
-          <GR t="İptal ve erteleme" right={<Sw init label="İptal ve erteleme" />} />
+          <GR t="Rezervasyon talebi" right={<Sw init pk="nt.req" label="Rezervasyon talebi" />} />
+          <GR t="Ödeme hareketi" right={<Sw init pk="nt.pay" label="Ödeme hareketi" />} />
+          <GR t="İptal ve erteleme" right={<Sw init pk="nt.can" label="İptal ve erteleme" />} />
           <GR t="Ders hatırlatması" right={val('rem', 'Ders hatırlatması', ['Kapalı', '15 dk önce', '1 sa önce', '1 gün önce'])} />
         </GCard>
         <Grp t="Sessiz saatler" style={{ paddingTop: 22 }} />
@@ -151,7 +152,7 @@ function NotifPrefs() {
           <View>
             <GR t="Sessiz saatler" s="Bu aralıkta sadece iptaller gelir" right={<Sw on={quiet} onChange={setQuiet} label="Sessiz saatler" />} />
             <View pointerEvents={quiet ? 'auto' : 'none'} style={{ opacity: quiet ? 1 : 0.35 }}>
-              <Cols style={{ paddingTop: 4, paddingHorizontal: 14 }}><Fld flex label="Başlangıç" v="22:00" /><Fld flex label="Bitiş" v="08:00" /></Cols>
+              <Cols style={{ paddingTop: 4, paddingHorizontal: 14 }}><Fld flex label="Başlangıç" v="22:00" pk="nt.qs" /><Fld flex label="Bitiş" v="08:00" pk="nt.qe" /></Cols>
             </View>
           </View>
         </GCard>
@@ -178,7 +179,7 @@ function Share() {
           <T s={14} lh={1.45} c={C.muted} style={{ marginTop: 2 }}>Özel ders · Matematik · İstanbul</T>
           <View style={{ marginTop: 28, padding: 18, borderRadius: 24, backgroundColor: C.card, borderWidth: 1.5, borderColor: C.border }}><QR s={96} c={C.ink} /></View>
           <Sm style={{ marginTop: 14, textAlign: 'center' }}>Kişiler bu kodu okutup müsait saatlerini görür ve rezervasyon yapar.</Sm>
-          <Tap onPress={() => toast('Bağlantı kopyalandı')} label="Bağlantıyı kopyala: pro.app/denizarslan" style={{ marginTop: 16, flexDirection: 'row', alignItems: 'center', gap: 8, height: 48, borderRadius: 999, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 16 }}>
+          <Tap onPress={() => copy(LINK, 'Bağlantı kopyalandı')} label="Bağlantıyı kopyala: pro.app/denizarslan" style={{ marginTop: 16, flexDirection: 'row', alignItems: 'center', gap: 8, height: 48, borderRadius: 999, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 16 }}>
             <T s={15} w={700}>pro.app/denizarslan</T>
             <Icon n="copy" c={C.muted} />
           </Tap>
@@ -186,7 +187,7 @@ function Share() {
       </Scr>
       <View style={{ flexDirection: 'row', gap: 8, paddingTop: 16, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8) }}>
         <Btn flex k="g" ic="nfc" t="NFC" onPress={() => toast('Telefonu yaklaştır')} />
-        <Btn flex ic="share" t="Paylaş" onPress={() => toast('Paylaşım menüsü')} />
+        <Btn flex ic="share" t="Paylaş" onPress={() => share(`Benden ders almak için: ${LINK}`)} />
       </View>
     </View>
   );

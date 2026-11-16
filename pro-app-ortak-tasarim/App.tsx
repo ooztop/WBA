@@ -7,7 +7,7 @@ import { useFonts } from 'expo-font';
 import { Manrope_500Medium } from '@expo-google-fonts/manrope/500Medium';
 import { Manrope_700Bold } from '@expo-google-fonts/manrope/700Bold';
 import { Manrope_800ExtraBold } from '@expo-google-fonts/manrope/800ExtraBold';
-import { closeAction, closeSheet, FrameCtx, get, pop, set, setTab, useC, useStore, type FrameT } from './src/store';
+import { closeAction, closeSheet, FrameCtx, get, hydrate, pop, set, setTab, useC, useStore, type FrameT } from './src/store';
 import { ActionLayer, FakeStatus, RootShift, Sheets, Stack, TabBar, TabFade, Toast, useLightStatus } from './src/layers';
 import { AddMenu, Calendar } from './src/Calendar';
 import { RootTab } from './src/tabs';
@@ -70,7 +70,9 @@ function Frame() {
 
 export default function App() {
   const [ok] = useFonts({ Manrope_500Medium, Manrope_700Bold, Manrope_800ExtraBold });
-  if (!ok) return null;
+  const [ready, setReady] = React.useState(false);
+  useEffect(() => { hydrate().finally(() => setReady(true)); }, []);
+  if (!ok || !ready) return null;
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>

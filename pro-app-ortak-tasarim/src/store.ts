@@ -1,5 +1,6 @@
 // Uygulamanın tamamı bellekte çalışır: API ya da veritabanı yok.
 import { createContext, useContext, useSyncExternalStore } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { makeMutable, type SharedValue } from 'react-native-reanimated';
 import { colors, type Accent, type Colors } from './theme';
 import { PEOPLE0, PACKAGES0, TODAY, type Person, type Pkg, type Extra } from './data';
@@ -19,6 +20,7 @@ type State = {
   stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null;
   people: Person[]; packages: Pkg[]; extra: Extra[]; cancelled: string[]; menu: boolean;
   breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: { ad: string; soyad: string; title: string };
+  prefs: Record<string, any>; reqs: { b: boolean; a: boolean };
 };
 
 let state: State = {
@@ -37,6 +39,7 @@ let state: State = {
   ],
   collected: 12400,
   me: { ad: 'Deniz', soyad: 'Arslan', title: 'Özel ders · Matematik' },
+  prefs: {}, reqs: { b: true, a: true },
 };
 const subs = new Set<() => void>();
 const sub = (f: () => void) => { subs.add(f); return () => { subs.delete(f); }; };
@@ -161,4 +164,32 @@ export function collect(pid: number, name: string, ini: string, idx: number[], m
     const people = !left.length ? s.people.map(p => (p.id === pid && p.tag[0] === 'd' ? { ...p, tag: ['n', 'Tek ders'] as [any, string], cat: p.cat.replace('borc', '').trim() } : p)) : s.people;
     return { debts, people, collected: s.collected + amount, paid: [{ ini, name, sub: `10 Eyl · ${method} · ${idx.length} ders`, amt: amount }, ...s.paid] };
   });
+}
+
+/* ---------- ayarlar: ekrandan çıkınca da kalır ---------- */
+export const setPref = (k: string, v: any) => set(s => ({ prefs: { ...s.prefs, [k]: v } }));
+export function usePref<T>(k: string, d: T): [T, (v: T) => void] {
+  const v = useStore(s => s.prefs[k]);
+  return [v === undefined ? d : v, x => setPref(k, x)];
+}
+
+/* ---------- kalıcılık: veriler cihazda saklanır, uygulama kapanıp açılınca geri gelir ---------- */
+const KEY = 'pro-ortak-tasarim-v1';
+const KEEP = ['dark', 'accent', 'people', 'packages', 'extra', 'cancelled', 'breaks', 'offs', 'debts', 'paid', 'collected', 'me', 'prefs', 'reqs'] as const;
+const snap = () => JSON.stringify(Object.fromEntries(KEEP.map(k => [k, (state as any)[k]])));
+const FRESH = snap();
+let saveT: ReturnType<typeof setTimeout> | null = null, lastSaved = '';
+export async function hydrate() {
+  try {
+    const raw = await AsyncStorage.getItem(KEY);
+    if (raw) { const d = JSON.parse(raw); const patch: any = {}; KEEP.forEach(k => { if (d[k] !== undefined) patch[k] = d[k]; }); set(patch); }
+  } catch {}
+  lastSaved = snap();
+  subs.add(() => {
+    if (saveT) clearTimeout(saveT);
+    saveT = setTimeout(() => { const j = snap(); if (j !== lastSaved) { lastSaved = j; AsyncStorage.setItem(KEY, j).catch(() => {}); } }, 400);
+  });
+}
+export function resetData() {
+  set({ ...JSON.parse(FRESH), stack: [], sheets: [], tab: 0, emp: false, F: new Date(TODAY) });
 }

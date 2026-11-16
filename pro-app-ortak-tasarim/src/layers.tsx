@@ -84,6 +84,7 @@ export function TabBar() {
   const { tbh, framed, W } = useFrame();
   const tab = useStore(s => s.tab);
   const emp = useStore(s => s.emp);
+  const nReq = useStore(s => (s.reqs.b ? 1 : 0) + (s.reqs.a ? 1 : 0));
   const first = useStore(s => s.stack[0]);
   const p = first?.prog;
   const st = useAnimatedStyle(() => ({ transform: [{ translateY: (p ? p.value : 0) * tbh * 1.12 }] }));
@@ -118,9 +119,9 @@ export function TabBar() {
           return (
             <Pressable key={i} onPress={() => setTab(i)} accessibilityRole="tab" accessibilityState={{ selected: on }} style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4 }}>
               <Icon n={t[0]} s={22} c={on ? C.accent : C.muted} />
-              {i === 2 && !emp ? (
+              {i === 2 && !emp && nReq ? (
                 <View style={{ position: 'absolute', top: 7, left: '50%', marginLeft: 3, minWidth: 18, height: 18, paddingHorizontal: 4, borderRadius: 999, backgroundColor: C.accent, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: C.card }}>
-                  <T s={10} w={800} c={C.onAccent} style={{ lineHeight: 12 }}>2</T>
+                  <T s={10} w={800} c={C.onAccent} style={{ lineHeight: 12 }}>{nReq}</T>
                 </View>
               ) : null}
               <T s={11} w={700} c={on ? C.ink : C.muted}>{t[1]}</T>
@@ -269,20 +270,22 @@ export function Toast() {
   const [shown, setShown] = useState<ToastS | null>(null);
   const v = useSharedValue(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [vis, setVis] = useState(false);
   useEffect(() => {
     if (!toast) return;
     setShown(toast);
+    setVis(true);
     v.value = withTiming(1, { duration: 380, easing: Easing.bezier(0.2, 1.3, 0.4, 1) });
     if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => { v.value = withTiming(0, { duration: 220 }); }, toast.undo ? 2800 : 1800);
+    timer.current = setTimeout(() => { v.value = withTiming(0, { duration: 220 }); setVis(false); }, toast.undo ? 2800 : 1800);
   }, [toast]);
   const st = useAnimatedStyle(() => ({ opacity: Math.min(1, v.value), transform: [{ translateY: (1 - v.value) * 20 }] }));
   if (!shown) return null;
   return (
-    <Animated.View pointerEvents="box-none" style={[{ position: 'absolute', left: 0, right: 0, bottom: 110, alignItems: 'center' }, st]}>
+    <Animated.View pointerEvents={vis && shown.undo ? 'box-none' : 'none'} style={[{ position: 'absolute', left: 0, right: 0, bottom: 110, alignItems: 'center' }, st]}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: C.sdark, paddingVertical: 12, paddingHorizontal: 18, borderRadius: 14, boxShadow: C.shToast, maxWidth: '92%' }}>
         <T s={14} w={700} c={C.onDark} numberOfLines={1}>{shown.msg}</T>
-        {shown.undo ? <Pressable hitSlop={10} onPress={() => { shown.onUndo?.(); v.value = withTiming(0, { duration: 200 }); }}><T s={14} w={800} c="#9DB0FF">{shown.undo}</T></Pressable> : null}
+        {shown.undo ? <Pressable hitSlop={10} onPress={() => { shown.onUndo?.(); v.value = withTiming(0, { duration: 200 }); setVis(false); }}><T s={14} w={800} c="#9DB0FF">{shown.undo}</T></Pressable> : null}
       </View>
     </Animated.View>
   );

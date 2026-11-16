@@ -4,7 +4,8 @@ import { TextInput, View } from 'react-native';
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { DL, DN, type Pkg } from './data';
-import { daysText, go, openSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { daysText, go, openSheet, set, toast, toastLater, useC, useFrame, usePref, useStore } from './store';
+import { openUrl } from './device';
 import { EASE, ff } from './theme';
 import { Box, Btn, Cols, Empty, FC, Fic, Fld, GCard, GR, IB, Icon, Inote, Lbl, List, NavH, noOutline, PChips, Rt, Scr, Sm, Sw, T, Tag, Tap } from './ui';
 import { Amt } from './screens1';
@@ -26,7 +27,8 @@ function CalendarPrefs() {
   const C = useC();
   const emp = useStore(s => s.emp);
   const breaks = useStore(s => s.breaks);
-  const H = ['10:00 – 18:00', '10:00 – 18:00', '10:00 – 18:00', '10:00 – 18:00', '10:00 – 18:00', '10:00 – 14:00', null];
+  const prefs = useStore(s => s.prefs);
+  const H = [0, 1, 2, 3, 4, 5, 6].map(i => ((prefs[`day.${i}.on`] ?? i !== 6) ? `${prefs[`day.${i}.s`] ?? prefs['wh.s'] ?? '10:00'} – ${prefs[`day.${i}.e`] ?? (i === 5 ? '14:00' : prefs['wh.e'] ?? '18:00')}` : null));
   return (
     <>
       <NavH title="Takvim ayarlarım" />
@@ -34,7 +36,7 @@ function CalendarPrefs() {
         <GrpS t="Çalışma saatleri" pt={8} />
         <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, paddingTop: 12, paddingHorizontal: 14, paddingBottom: 14, gap: 10 }}>
           <Sm>Her gün için varsayılan. Günlere özel ayar aşağıda.</Sm>
-          <Cols><Fld flex label="Başlangıç" v="10:00" /><Fld flex label="Bitiş" v="18:00" /></Cols>
+          <Cols><Fld flex label="Başlangıç" v="10:00" pk="wh.s" /><Fld flex label="Bitiş" v="18:00" pk="wh.e" /></Cols>
         </View>
         <GrpS t="Düzenli molalar" pb={4} right={<IB ic="plus" s={36} label="Mola ekle" onPress={() => openSheet('breakNew')} />} />
         {emp || !breaks.length ? (
@@ -64,7 +66,7 @@ function CalendarPrefs() {
 function DayRule({ p }: SP) {
   const C = useC();
   const gi = p.g ?? 5, g = DL[gi], sat = gi === 5;
-  const [on, setOn] = useState(gi !== 6);
+  const [on, setOn] = usePref(`day.${gi}.on`, gi !== 6);
   const breaks = useStore(s => s.breaks);
   return (
     <>
@@ -80,7 +82,7 @@ function DayRule({ p }: SP) {
         {on ? (
           <>
             <GrpS t="Çalışma saatleri" s="Genel saatten farklıysa değiştir" />
-            <Cols style={{ paddingHorizontal: 16 }}><Fld flex label="Başlangıç" v="10:00" /><Fld flex label="Bitiş" v={sat ? '14:00' : '18:00'} /></Cols>
+            <Cols style={{ paddingHorizontal: 16 }}><Fld flex label="Başlangıç" v="10:00" pk={`day.${gi}.s`} /><Fld flex label="Bitiş" v={sat ? '14:00' : '18:00'} pk={`day.${gi}.e`} /></Cols>
             <GrpS t="Molalar" s="Bu günde geçerli düzenli molalar" />
             <GCard>
               {breaks.map(b => <GR key={b.id} t={b.name} s={`${b.start} – ${b.end}`} right={<Sw on={b.days.includes(gi)} onChange={v => set(s => ({ breaks: s.breaks.map(y => (y.id === b.id ? { ...y, days: v ? [...y.days, gi] : y.days.filter(d => d !== gi) } : y)) }))} label={b.name} />} />)}
@@ -97,7 +99,7 @@ function DayRule({ p }: SP) {
 }
 
 // Tek kural kartı (.rule)
-export function Rule({ t, s, items, init, cst, cstInit }: { t: string; s: string; items: string[]; init: number; cst: string; cstInit?: string }) {
+export function Rule({ t, s, items, init, cst, cstInit, pk }: { t: string; s: string; items: string[]; init: number; cst: string; cstInit?: string; pk?: string }) {
   const C = useC();
   return (
     <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, padding: 14, gap: 12 }}>
@@ -105,7 +107,7 @@ export function Rule({ t, s, items, init, cst, cstInit }: { t: string; s: string
         <T s={15} w={700} lh={1.35}>{t}</T>
         <T s={13} lh={1.4} c={C.muted}>{s}</T>
       </View>
-      <PChips items={items} init={init} cst={cst} cstInit={cstInit} />
+      <PChips items={items} init={init} cst={cst} cstInit={cstInit} pk={pk} />
     </View>
   );
 }
@@ -115,10 +117,10 @@ function Rules() {
       <NavH title="Ders kuralları" />
       <Scr>
         <View style={{ gap: 8, paddingTop: 8 }}>
-          <Rule t="Rezervasyon penceresi" s="Dersten en geç kaç saat önce rezervasyon yapılabilir" items={['1 sa', '2 sa', '24 sa']} init={1} cst="sa" />
-          <Rule t="Ücretsiz iptal süresi" s="Bu süreden sonraki iptallerde ders ücreti alınır" items={['2 sa', '4 sa', '24 sa']} init={1} cst="sa" />
-          <Rule t="Ders başlama kademesi" s="Kişiler dersi hangi dakikalarda başlatabilir" items={['Tam saat', '15 dk', '30 dk']} init={0} cst="dk" />
-          <Rule t="Ders arası mola" s="Bir ders bitince sonraki derse kadar zorunlu boşluk" items={['Yok', '10 dk', '15 dk']} init={2} cst="dk" />
+          <Rule pk="rule.0" t="Rezervasyon penceresi" s="Dersten en geç kaç saat önce rezervasyon yapılabilir" items={['1 sa', '2 sa', '24 sa']} init={1} cst="sa" />
+          <Rule pk="rule.1" t="Ücretsiz iptal süresi" s="Bu süreden sonraki iptallerde ders ücreti alınır" items={['2 sa', '4 sa', '24 sa']} init={1} cst="sa" />
+          <Rule pk="rule.2" t="Ders başlama kademesi" s="Kişiler dersi hangi dakikalarda başlatabilir" items={['Tam saat', '15 dk', '30 dk']} init={0} cst="dk" />
+          <Rule pk="rule.3" t="Ders arası mola" s="Bir ders bitince sonraki derse kadar zorunlu boşluk" items={['Yok', '10 dk', '15 dk']} init={2} cst="dk" />
         </View>
         <Sm style={{ paddingTop: 14, paddingHorizontal: 20 }}>Paketi olmayan dersler için geçerli. Paketlerin kendi kuralları bunu ezer.</Sm>
       </Scr>
@@ -212,7 +214,7 @@ function Help() {
         <GrpS t="Bize ulaş" pt={16} />
         <GCard>
           <GR left={<Fic k="n" ic="chat" c={C.ink} />} t="Destek ekibine yaz" s="Uygulama içi mesaj" chev onPress={open} />
-          <GR left={<Fic k="n" ic="phone" c={C.ink} />} t="WhatsApp'tan sor" s="Hafta içi 09:00 – 19:00" chev onPress={open} />
+          <GR left={<Fic k="n" ic="phone" c={C.ink} />} t="WhatsApp'tan sor" s="Hafta içi 09:00 – 19:00" chev onPress={() => openUrl('https://wa.me/908500000000', 'WhatsApp açılıyor')} />
         </GCard>
         <GrpS t="Sık sorulanlar" />
         <GCard>

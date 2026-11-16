@@ -2,7 +2,9 @@
 import React, { useRef, useState } from 'react';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import { TRA, type Person } from './data';
-import { get, go, openAction, openMenu, openSheet, patchPerson, push, set, toast, useC, useFrame, useStore } from './store';
+import { get, go, openAction, openMenu, openSheet, patchPerson, push, resetData, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { copy, LINK } from './device';
+import { acceptReq } from './screens3';
 import { ff } from './theme';
 import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, T, Tag, Tap, type SV } from './ui';
 
@@ -106,11 +108,13 @@ function Notifs() {
         <Empty ic="bell" t="Bildirim yok" sub="Rezervasyon talepleri, ödemeler ve iptaller burada görünür." style={{ paddingBottom: tbh + 24 }} />
       </>
     );
-  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => go('requestRejected', undefined, { n: 'Burak Şahin' }));
+  const reqs = useStore(s => s.reqs), nReq = (reqs.b ? 1 : 0) + (reqs.a ? 1 : 0);
+  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { set(s => ({ reqs: { ...s.reqs, b: false } })); go('requestRejected', undefined, { n: 'Burak Şahin' }); });
   return (
     <>
-      <Band lbl="Bildirimler" right={gear}><T2 t="2 talep bekliyor" sub="Bugün 3 yeni bildirim" /></Band>
+      <Band lbl="Bildirimler" right={gear}><T2 t={nReq ? `${nReq} talep bekliyor` : 'Bekleyen talep yok'} sub={`Bugün ${1 + nReq} yeni bildirim`} /></Band>
       <Scr pb={tbh + 24}>
+        {reqs.b ? (
         <FC>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}><Lbl t="Yeni talep" /><T s={13} w={800} c={C.accentInk}>22 sa kaldı</T></View>
           <Tap onPress={() => go('request', undefined, {})} style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
@@ -122,12 +126,13 @@ function Notifs() {
           </Tap>
           <View style={{ flexDirection: 'row', gap: 8 }}>
             <Btn k="x" t="Reddet" onPress={reject} style={{ width: 112, paddingHorizontal: 8 }} />
-            <Btn flex t="Onayla" onPress={() => go('requestAccepted', undefined, { n: 'Burak Şahin' })} />
+            <Btn flex t="Onayla" onPress={() => { acceptReq(); go('requestAccepted', undefined, { n: 'Burak Şahin' }); }} />
           </View>
         </FC>
+        ) : null}
         <Grp t="Bugün" />
         <List>
-          <Row left={<Fic k="d" ic="calX" />} t="Talep çakışıyor" s="Ayşe Koç · grup dersiyle aynı saat" right={<Ntime t="1 sa" k="d" tag="Çakışma" />} onPress={() => go('request', undefined, { c: 1 })} />
+          {reqs.a ? <Row left={<Fic k="d" ic="calX" />} t="Talep çakışıyor" s="Ayşe Koç · grup dersiyle aynı saat" right={<Ntime t="1 sa" k="d" tag="Çakışma" />} onPress={() => go('request', undefined, { c: 1 })} /> : null}
           <Row left={<Fic k="s" ic="calCheck" />} t="Yeni saat onaylandı" s="Elif Yıldırım · 12 Eyl 18:00" right={<Ntime t="3 sa" k="s" tag="Onaylandı" />} onPress={() => go('rsAccepted', undefined, { n: 'Elif Yıldırım' })} />
         </List>
         <Grp t="Bu hafta" />
@@ -155,13 +160,14 @@ function acctMenu() {
     { label: `Vurgu rengi: ${ACN[next]}`, onPress: () => set({ accent: next }) },
     { label: s.dark ? 'Açık tema' : 'Koyu tema', onPress: () => set({ dark: !s.dark }) },
     { label: s.emp ? 'Dolu sayfa' : 'Boş sayfa', onPress: () => set({ emp: !s.emp }) },
+    { label: 'Verileri sıfırla', onPress: () => setTimeout(() => openAction('Veriler sıfırlansın mı?', 'Eklediğin dersler, kişiler, paketler ve ayarlar silinir; demo verisi geri gelir.', 'Sıfırla', true, () => { resetData(); toastLater('Veriler sıfırlandı'); }), 200) },
     { label: 'Çıkış yap', danger: true, onPress: () => setTimeout(logout, 200) },
   ]);
 }
 
 function Account() {
   const C = useC();
-  const nPk = useStore(s => s.packages.length), me = useStore(s => s.me);
+  const nPk = useStore(s => s.packages.length), me = useStore(s => s.me), prefs = useStore(s => s.prefs);
   const { tbh } = useFrame();
   const gr = (ic: string, t: string, to: string, v?: string) => (
     <GR left={<Fic k="n" ic={ic} c={C.ink} />} t={t} right={v ? <T s={13} w={700} c={C.muted}>{v}</T> : null} chev onPress={() => go(to)} />
@@ -184,7 +190,7 @@ function Account() {
           <View style={{ flexDirection: 'row', gap: 14, alignItems: 'stretch' }}>
             <View style={{ backgroundColor: C.card, borderWidth: 1.5, borderColor: C.border, borderRadius: 16, padding: 10 }}><QR s={96} c={C.ink} /></View>
             <View style={{ flex: 1, minWidth: 0, gap: 8, justifyContent: 'center' }}>
-              <Btn small k="g" ic="link" t="Bağlantıyı kopyala" onPress={() => toast('Bağlantı kopyalandı')} style={{ justifyContent: 'flex-start' }} />
+              <Btn small k="g" ic="link" t="Bağlantıyı kopyala" onPress={() => copy(LINK, 'Bağlantı kopyalandı')} style={{ justifyContent: 'flex-start' }} />
               <Btn small k="g" ic="nfc" t="NFC ile paylaş" onPress={() => toast('Telefonu yaklaştır')} style={{ justifyContent: 'flex-start' }} />
             </View>
           </View>
@@ -192,7 +198,7 @@ function Account() {
         </FC>
         <GCard style={{ marginTop: 12 }}>
           {gr('receipt', 'Ödemeler', 'payments')}
-          {gr('clock', 'Takvim ayarlarım', 'calendarPrefs', '10:00 – 18:00')}
+          {gr('clock', 'Takvim ayarlarım', 'calendarPrefs', `${prefs['wh.s'] ?? '10:00'} – ${prefs['wh.e'] ?? '18:00'}`)}
           {gr('gavel', 'Ders kuralları', 'rules')}
           {gr('tag', 'Paket tercihleri', 'pricing', `${nPk} paket`)}
         </GCard>

@@ -2,12 +2,19 @@
 import React, { useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { DL, DN, MN, MS, dkey, first, hm, wd, type Lesson } from './data';
-import { collect, go, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
+import { collect, get, go, hhmm, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { ff } from './theme';
 import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, DC, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
 
+import { openUrl } from './device';
+
 type SP = { p: any };
+// Burak'ın talebini onayla: 12 Eylül 18:00 dersi takvime eklenir
+export function acceptReq() {
+  const k = dkey(new Date(2026, 8, 12));
+  set(s => ({ reqs: { ...s.reqs, b: false }, extra: s.extra.some(e => e.k === k && e.l[0] === 18) ? s.extra : [...s.extra, { k, l: [18, 60, 6, 'Bireysel', 'w'] }] }));
+}
 const OK = (C: ReturnType<typeof useC>) => C.success;
 
 // Beyaz zeminli form sayfası: başlık · form · altta düğme
@@ -37,7 +44,7 @@ function LessonScr({ p }: SP) {
   const pe = l ? person(l[2]) : personByName(p.n || 'Elif Yıldırım') || person(0);
   const paid = l ? l[4] === 'ok' : true;
   const [note] = useState(paid ? 'Türev konusunu bitirdik, önümüzdeki hafta integral testi yapılacak.' : '');
-  const info = { n: pe.name, when: `${DN[wd(d)]} ${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, big: `${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, lk: l ? `${dkey(d)}|${h0}` : undefined, ty: `${ty} · ${dur} dk` };
+  const info = { n: pe.name, when: `${DN[wd(d)]} ${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, big: `${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, lk: l ? `${dkey(d)}|${h0}` : undefined, ty: `${ty} · ${dur} dk`, l };
   const kv = (t: string, right: React.ReactNode) => <GR style={{ minHeight: 52 }} right={right}><T s={15} lh={1.35} c={C.muted} style={{ flex: 1 }}>{t}</T></GR>;
   return (
     <>
@@ -54,12 +61,12 @@ function LessonScr({ p }: SP) {
         <View style={{ paddingTop: 16, gap: 10 }}>
           <List><Row left={<Av ini={pe.ini} />} t={pe.name} s="Aylık paket · 12. ders" chev onPress={() => go('contact', undefined, { i: pe.id })} /></List>
           <GCard>
-            {kv('Konum', ty.startsWith('Online') ? <T s={14} w={700}>Online görüşme</T> : <Lnk s={14} t="Kadıköy stüdyo ↗" onPress={() => toast('Haritalar açılıyor')} />)}
+            {kv('Konum', ty.startsWith('Online') ? <T s={14} w={700}>Online görüşme</T> : <Lnk s={14} t="Kadıköy stüdyo ↗" onPress={() => openUrl('https://maps.apple.com/?q=Kad%C4%B1k%C3%B6y', 'Haritalar açılıyor')} />)}
             {kv('Ücret', <T s={15} w={800}>₺750</T>)}
             {kv('Ödeme', paid ? <Tag k="s" t="Ödendi" /> : <Tap onPress={() => go('payment', undefined, { i: pe.id })}><Tag k="d" t="Ödenmedi" /></Tap>)}
           </GCard>
           <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, paddingVertical: 12, paddingHorizontal: 14 }}>
-            <Fld label="Ders notu" area v={note} ph="Not ekle" />
+            <Fld label="Ders notu" area v={note} ph="Not ekle" pk={info.lk ? `note.${info.lk}` : undefined} />
           </View>
           <GCard><GR t="Seriyi görüntüle" s={`Her ${DL[wd(d)].toLocaleLowerCase('tr')} · 8 ders kaldı`} chev onPress={() => toast('Seri görünümü yakında')} /></GCard>
         </View>
@@ -82,7 +89,16 @@ function Reschedule({ p }: SP) {
   const [si, setSi] = useState(4);
   const [tell, setTell] = useState(true);
   const nv = `${RS_DAYS[di][0]} ${RS_DAYS[di][1]} · ${RS[di][si] ?? RS[di][0]}`;
-  const ok = () => { pop(); toastLater(tell ? `Yeni saat ${f}'e gönderildi · ${nv}` : `Ders ${nv} saatine taşındı`); };
+  const ok = () => {
+    const l: Lesson | undefined = p.l;
+    if (p.lk && l) {
+      // Dersi gerçekten taşı: eski saat takvimden kalkar, yeni saate eklenir
+      const nd = new Date(2026, 8, +RS_DAYS[di][1]);
+      set(s => ({ cancelled: [...s.cancelled, p.lk], extra: [...s.extra, { k: dkey(nd), l: [hhmm(RS[di][si] ?? RS[di][0], 18), l[1], l[2], l[3], l[4] === 'ok' || l[4] === 'no' ? l[4] : 'w'] as Lesson }], F: nd }));
+      toRoot();
+    } else pop();
+    toastLater(tell ? `Yeni saat ${f}'e gönderildi · ${nv}` : `Ders ${nv} saatine taşındı`, 400);
+  };
   const small = (t: string) => <T s={12} w={800} ls={0.05} c={C.muted} style={{ textTransform: 'uppercase', marginBottom: 2 }}>{t}</T>;
   return (
     <Page title="Dersi ertele" foot={<Btn t="Ertelemeyi onayla" onPress={ok} />}>
@@ -150,7 +166,7 @@ function Request({ p }: SP) {
   const C = useC();
   const x = person(p.c ? 7 : 6), f = first(x.name);
   const ALT = ['11 Eyl 14:00', '11 Eyl 15:10', '12 Eyl 10:00'];
-  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => go('requestRejected', 'rep', { n: x.name, c: p.c ? 1 : 0 }));
+  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { set(s => ({ reqs: p.c ? { ...s.reqs, a: false } : { ...s.reqs, b: false } })); go('requestRejected', 'rep', { n: x.name, c: p.c ? 1 : 0 }); });
   return (
     <>
       <NavH title="Rezervasyon talebi" />
@@ -180,7 +196,7 @@ function Request({ p }: SP) {
       </Scr>
       <Foot>
         <Btn flex k="x" t="Reddet" onPress={reject} />
-        {p.c ? <Btn flex t="Bu saati öner" onPress={() => { pop(); toastLater('Karşı teklif gönderildi'); }} /> : <Btn flex t="Onayla" onPress={() => go('requestAccepted', 'rep', { n: x.name })} />}
+        {p.c ? <Btn flex t="Bu saati öner" onPress={() => { set(s => ({ reqs: { ...s.reqs, a: false } })); pop(); toastLater('Karşı teklif gönderildi'); }} /> : <Btn flex t="Onayla" onPress={() => { acceptReq(); go('requestAccepted', 'rep', { n: x.name }); }} />}
       </Foot>
     </>
   );
@@ -189,7 +205,7 @@ const RequestAccepted = ({ p }: SP) => {
   const n = p.n || 'Burak Şahin';
   return (
     <Res ic="check" onBack={toRoot} top={`${n} · rezervasyon onaylandı`} big="12 Eyl · 18:00" sub={`Takvimine eklendi, ${first(n)}'a bildirim gitti.`} rows={[['Ders', 'Bireysel · 60 dk'], ['Yer', 'Kadıköy stüdyo'], ['Ücret', '₺750 ön ödeme alındı'], ['Takvim', '18:00 – 19:00 dolu']]}>
-      <Pair><Btn flex k="g" t="Takvimde gör" onPress={home} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
+      <Pair><Btn flex k="g" t="Takvimde gör" onPress={() => { set({ F: new Date(2026, 8, 12) }); home(); }} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
     </Res>
   );
 };
