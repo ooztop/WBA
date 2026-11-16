@@ -1,0 +1,361 @@
+// Sayfalar 3: ders detayı, erteleme, iptal, rezervasyon talebi, sonuç ekranları, ödeme al, giriş / kaydol
+import React, { useRef, useState } from 'react';
+import { TextInput, View } from 'react-native';
+import { DL, DN, MN, MS, dkey, first, hm, wd, type Lesson } from './data';
+import { go, home, openAction, popAll as toRoot, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
+import { ff } from './theme';
+import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, DC, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
+import { GrpS } from './screens2';
+
+type SP = { p: any };
+const OK = (C: ReturnType<typeof useC>) => C.success;
+
+// Beyaz zeminli form sayfası: başlık · form · altta düğme
+function Page({ title, children, foot, gap = 18 }: { title: string; children: React.ReactNode; foot: React.ReactNode; gap?: number }) {
+  const C = useC();
+  const { bottom } = useFrame();
+  return (
+    <View style={{ flex: 1, backgroundColor: C.card }}>
+      <NavH title={title} />
+      <Scr pb={16}><View style={{ paddingTop: 8, paddingHorizontal: 16, gap }}>{children}</View></Scr>
+      <View style={{ paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), gap: 8 }}>{foot}</View>
+    </View>
+  );
+}
+function InCard({ children }: { children: React.ReactNode }) {
+  const C = useC();
+  const kids = React.Children.toArray(children).filter(Boolean);
+  return <View style={{ backgroundColor: C.card, borderRadius: 16, borderWidth: 1.5, borderColor: C.border, overflow: 'hidden' }}>{kids.map((k, i) => <View key={i} style={i ? { borderTopWidth: 1, borderTopColor: C.divider } : null}>{k}</View>)}</View>;
+}
+
+/* ================= ders ================= */
+function LessonScr({ p }: SP) {
+  const C = useC();
+  const l: Lesson | undefined = p.l;
+  const d = l ? new Date(p.f) : new Date(2026, 8, 9);
+  const h0 = l ? l[0] : 9, dur = l ? l[1] : 60, ty = l ? l[3] : 'Bireysel';
+  const pe = l ? person(l[2]) : personByName(p.n || 'Elif Yıldırım') || person(0);
+  const paid = l ? l[4] === 'ok' : true;
+  const [note] = useState(paid ? 'Türev konusunu bitirdik, önümüzdeki hafta integral testi yapılacak.' : '');
+  const info = { n: pe.name, when: `${DN[wd(d)]} ${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, big: `${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, lk: l ? `${dkey(d)}|${h0}` : undefined, ty: `${ty} · ${dur} dk` };
+  const kv = (t: string, right: React.ReactNode) => <GR style={{ minHeight: 52 }} right={right}><T s={15} lh={1.35} c={C.muted} style={{ flex: 1 }}>{t}</T></GR>;
+  return (
+    <>
+      <Band left={<BandBack />} right={<View style={{ width: 44 }} />}>
+        <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: useFrame().top + 8, height: 56, alignItems: 'center', justifyContent: 'center' }}><Lbl t={`${ty} · ${dur} dk`} c={C.onDarkMuted} /></View>
+        <T s={24} w={800} lh={1.15} c={C.onDark}>{d.getDate()} {MN[d.getMonth()]} {DL[wd(d)]}</T>
+        <T s={15} lh={1.45} c={C.onDark} style={{ marginTop: 4 }}>{hm(h0)} – {hm(h0 + dur / 60)}</T>
+        <View style={{ flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center', gap: 6, marginTop: 12, backgroundColor: C.sdark2, borderRadius: 999, paddingVertical: 6, paddingHorizontal: 12 }}>
+          <Icon n="repeat" s={16} c={C.onDark} />
+          <T s={13} w={700} c={C.onDark}>Her hafta tekrarlanır</T>
+        </View>
+      </Band>
+      <Scr>
+        <View style={{ paddingTop: 16, gap: 10 }}>
+          <List><Row left={<Av ini={pe.ini} />} t={pe.name} s="Aylık paket · 12. ders" chev onPress={() => go('contact', undefined, { i: pe.id })} /></List>
+          <GCard>
+            {kv('Konum', ty.startsWith('Online') ? <T s={14} w={700}>Online görüşme</T> : <Lnk s={14} t="Kadıköy stüdyo ↗" onPress={() => toast('Haritalar açılıyor')} />)}
+            {kv('Ücret', <T s={15} w={800}>₺750</T>)}
+            {kv('Ödeme', paid ? <Tag k="s" t="Ödendi" /> : <Tap onPress={() => go('payment', undefined, { i: pe.id })}><Tag k="d" t="Ödenmedi" /></Tap>)}
+          </GCard>
+          <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, paddingVertical: 12, paddingHorizontal: 14 }}>
+            <Fld label="Ders notu" area v={note} ph="Not ekle" />
+          </View>
+          <GCard><GR t="Seriyi görüntüle" s={`Her ${DL[wd(d)].toLocaleLowerCase('tr')} · 8 ders kaldı`} chev onPress={() => toast('Seri görünümü yakında')} /></GCard>
+        </View>
+      </Scr>
+      <Foot>
+        <Btn flex k="x" t="İptal et" onPress={() => go('cancel', undefined, info)} />
+        <Btn flex t="Dersi ertele" onPress={() => go('reschedule', undefined, info)} />
+      </Foot>
+    </>
+  );
+}
+
+const RS_DAYS: [string, string][] = [['Per', '11'], ['Cum', '12'], ['Cmt', '13'], ['Pzt', '15'], ['Sal', '16'], ['Çar', '17']];
+const RS = [['14:00', '15:10', '16:20'], ['10:00', '11:10', '14:00', '15:10', '18:00', '19:10'], ['11:00', '12:10'], ['10:00', '14:00', '16:20'], ['10:00', '11:10', '13:30'], ['15:10', '17:30']];
+
+function Reschedule({ p }: SP) {
+  const C = useC();
+  const f = first(p.n || 'Elif');
+  const [di, setDi] = useState(1);
+  const [si, setSi] = useState(4);
+  const [tell, setTell] = useState(true);
+  const nv = `${RS_DAYS[di][0]} ${RS_DAYS[di][1]} · ${RS[di][si] ?? RS[di][0]}`;
+  const ok = () => { pop(); toastLater(tell ? `Yeni saat ${f}'e gönderildi · ${nv}` : `Ders ${nv} saatine taşındı`); };
+  const small = (t: string) => <T s={12} w={800} ls={0.05} c={C.muted} style={{ textTransform: 'uppercase', marginBottom: 2 }}>{t}</T>;
+  return (
+    <Page title="Dersi ertele" foot={<Btn t="Ertelemeyi onayla" onPress={ok} />}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: C.page, borderRadius: 16, padding: 14 }}>
+        <View style={{ flex: 1, minWidth: 0 }}>{small('Eski')}<T s={15} w={700} c={C.muted} style={{ textDecorationLine: 'line-through' }} numberOfLines={1}>{p.when || 'Çar 10 Eyl · 09:00'}</T></View>
+        <View style={{ width: 28 }}><Icon n="arrowR" c={C.muted} /></View>
+        <View style={{ flex: 1, minWidth: 0 }}>{small('Yeni')}<T s={17} w={800} numberOfLines={1}>{nv}</T></View>
+      </View>
+      <Blk lbl="Müsait saatlerin">
+        <View style={{ flexDirection: 'row', gap: 6 }}>{RS_DAYS.map((d, i) => <DC key={i} a={d[0]} b={d[1]} on={i === di} onPress={() => { setDi(i); setSi(0); }} />)}</View>
+        <PChips key={di} items={RS[di]} cols={3} value={si} onChange={i => setSi(i)} />
+        <Tap onPress={() => toast('Takvim açılır')} style={{ flexDirection: 'row', alignItems: 'center', gap: 6, minHeight: 44 }}><Icon n="calendar" c={C.info} /><T s={15} w={800} c={C.info}>Takvimden başka saat seç</T></Tap>
+      </Blk>
+      <ORow t={`${f}'e bildir`} s="Yeni saati onaylaması istenir" right={<Sw on={tell} onChange={setTell} label={`${f}'e bildir`} />} />
+      <Sm>Sadece bu ders taşınır; seri ve ödeme aynı kalır.</Sm>
+    </Page>
+  );
+}
+
+function Cancel({ p }: SP) {
+  const C = useC();
+  const n = p.n || 'Elif Yıldırım', f = first(n);
+  const [pay, setPay] = useState('Derse aktar');
+  const ask = () =>
+    openAction('Ders iptal edilsin mi?', `${f}'e bildirim gider. Bu işlem geri alınamaz.`, 'Dersi iptal et', true, () => {
+      if (p.lk) set(s => ({ cancelled: [...s.cancelled, p.lk] }));
+      go('cancelled', 'rep', { n, big: p.big, pay });
+    });
+  return (
+    <Page title="Dersi iptal et" foot={<Btn k="x" t="Dersi iptal et" onPress={ask} />}>
+      <View style={{ backgroundColor: C.dangerTint, borderRadius: 16, padding: 14 }}>
+        <Lbl t="İptal edilecek ders" c={C.danger} />
+        <T s={20} w={800} lh={1.25} style={{ marginTop: 4 }}>{p.when || 'Çar 10 Eyl · 09:00'}</T>
+        <Sm c={C.ink}>{n} · {p.ty || 'Bireysel · 60 dk'}</Sm>
+      </View>
+      <Blk lbl="İptal sebebi"><PChips items={['Ben iptal ediyorum', 'Kişi gelemiyor', 'Hava / mekân', 'Diğer']} cols={2} /></Blk>
+      <Fld label={`${f}'e mesaj (bildirimle gider)`} area ph="Örn. bu haftayı cumaya alalım mı?" />
+      <InCard>
+        <GR t="Ödeme" s="₺750 alındı" chev onPress={() => pick('Ödeme', ['İade et', 'Derse aktar', 'İade etme'], pay, setPay)} right={<T s={13} w={700} c={C.muted}>{pay}</T>} />
+        <GR t="Paket hakkı geri verilsin" s="Ders paketten düşmez" right={<Sw init label="Paket hakkı geri verilsin" />} />
+      </InCard>
+    </Page>
+  );
+}
+
+function Cancelled({ p }: SP) {
+  const C = useC();
+  const n = p.n || 'Elif Yıldırım', f = first(n);
+  if (p.k)
+    return (
+      <Res ic="calX" red onBack={pop} top={`${n} · dersi iptal etti`} big="8 Eyl · 19:00" strike sub="Ücretsiz iptal süresi içinde iptal etti." rows={[['Sebep', 'Hastalık'], ['Ödeme', 'Alınmamıştı'], ['Paket hakkı', 'Geri verildi'], ['Saat', 'Yeniden müsait', OK(C)]]}>
+        <Pair><Btn flex k="g" t="Yeni saat öner" onPress={() => go('reschedule', undefined, { n })} /><Btn flex t="Tamam" onPress={pop} /></Pair>
+      </Res>
+    );
+  const payT = p.pay === 'İade et' ? 'İade edildi' : p.pay === 'İade etme' ? 'İade edilmedi' : 'Derse aktarıldı';
+  return (
+    <Res ic="calX" red onBack={toRoot} top={`${n} · ders iptal edildi`} big={p.big || '10 Eyl · 09:00'} strike sub={`Takvimden kaldırıldı, ${f}'e bildirim gitti.`} rows={[['Ödeme', payT], ['Paket hakkı', 'Geri verildi'], ['Seri', 'Diğer 8 ders duruyor'], ['Saat', 'Yeniden müsait', OK(C)]]}>
+      <Pair><Btn flex k="g" t="Yeni saat öner" onPress={() => go('reschedule', 'rep', { n })} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
+    </Res>
+  );
+}
+
+/* ================= rezervasyon talebi ================= */
+function Request({ p }: SP) {
+  const C = useC();
+  const x = person(p.c ? 7 : 6), f = first(x.name);
+  const ALT = ['11 Eyl 14:00', '11 Eyl 15:10', '12 Eyl 10:00'];
+  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => go('requestRejected', 'rep', { n: x.name, c: p.c ? 1 : 0 }));
+  return (
+    <>
+      <NavH title="Rezervasyon talebi" />
+      <Scr>
+        <FC style={{ marginTop: 4 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+            <View style={{ flex: 1, minWidth: 0, flexDirection: 'row', gap: 12, alignItems: 'center' }}><Av ini={x.ini} /><Rt t={x.name} s={p.c ? 'Tam zamanlı üyelik' : 'Tek ders · 3 ders geçmişi'} /></View>
+            <T s={13} w={800} c={C.accentInk}>22 sa kaldı</T>
+          </View>
+          <T s={24} w={800} lh={1.15}>{p.c ? '10 Eyl Çar · 11:30' : '12 Eyl Cum · 18:00'}</T>
+          <Sm style={{ marginTop: -6 }}>Bireysel · 60 dk · Kadıköy stüdyo</Sm>
+        </FC>
+        {p.c ? (
+          <>
+            <View style={{ marginTop: 14, marginHorizontal: 16, backgroundColor: C.dangerTint, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+              <Icon n="alert" c={C.danger} />
+              <View style={{ flex: 1 }}><T s={14} w={800} c={C.danger}>Bu saatte başka dersin var</T><T s={13} c={C.ink}>Mert Kaya · Grup dersi · 11:30 – 13:00</T></View>
+            </View>
+            <GrpS t="Başka saat öner" s="En yakın müsait saatlerin" pt={16} />
+            <PChips items={ALT} cols={3} init={1} style={{ paddingHorizontal: 16 }} />
+          </>
+        ) : null}
+        <GCard style={{ marginTop: 14 }}><GR t="Ücret" s={p.c ? 'Üyelik kapsamında' : 'Ön ödeme alındı'} right={p.c ? <Tag k="s" t="Üyelik" /> : <T s={15} w={800}>₺750</T>} /></GCard>
+        <GrpS t="Kişinin notu" pt={16} />
+        <View style={{ marginHorizontal: 16, backgroundColor: C.card, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14 }}><T s={14} lh={1.5}>Sınavım var, mümkünse konu tekrarına ağırlık verebilir miyiz?</T></View>
+        {p.c ? null : <GCard style={{ marginTop: 14 }}><GR t="Başka saat öner" s={`${f}'a farklı bir saat gönder`} chev onPress={() => go('reschedule', undefined, { n: x.name, when: 'Cum 12 Eyl · 18:00' })} /></GCard>}
+      </Scr>
+      <Foot>
+        <Btn flex k="x" t="Reddet" onPress={reject} />
+        {p.c ? <Btn flex t="Bu saati öner" onPress={() => { pop(); toastLater('Karşı teklif gönderildi'); }} /> : <Btn flex t="Onayla" onPress={() => go('requestAccepted', 'rep', { n: x.name })} />}
+      </Foot>
+    </>
+  );
+}
+const RequestAccepted = ({ p }: SP) => {
+  const n = p.n || 'Burak Şahin';
+  return (
+    <Res ic="check" onBack={toRoot} top={`${n} · rezervasyon onaylandı`} big="12 Eyl · 18:00" sub={`Takvimine eklendi, ${first(n)}'a bildirim gitti.`} rows={[['Ders', 'Bireysel · 60 dk'], ['Yer', 'Kadıköy stüdyo'], ['Ücret', '₺750 ön ödeme alındı'], ['Takvim', '18:00 – 19:00 dolu']]}>
+      <Pair><Btn flex k="g" t="Takvimde gör" onPress={home} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
+    </Res>
+  );
+};
+function RequestRejected({ p }: SP) {
+  const C = useC();
+  const n = p.n || 'Burak Şahin';
+  return (
+    <Res ic="close" red onBack={toRoot} top={`${n} · talep reddedildi`} big={p.c ? '10 Eyl · 11:30' : '12 Eyl · 18:00'} strike sub={`${first(n)}'a nazik bir ret bildirimi gitti.`} rows={[['Ders', 'Bireysel · 60 dk'], ['Ücret', p.c ? 'Üyelik · ücret yok' : '₺750 iade edildi'], ['Saat', p.c ? 'Grup dersinde kaldı' : 'Müsait kaldı', OK(C)]]}>
+      <Pair><Btn flex k="g" t="Başka saat öner" onPress={() => go('reschedule', 'rep', { n })} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
+    </Res>
+  );
+}
+function RsAccepted({ p }: SP) {
+  const C = useC();
+  const n = p.n || 'Elif Yıldırım';
+  return (
+    <Res ic="calCheck" onBack={pop} top={`${n} · yeni saati onayladı`} big="12 Eyl · 18:00" sub="Ders yeni saatine taşındı." rows={[['Eski saat', '10 Eyl · 09:00', C.muted, true], ['Yeni saat', '12 Eyl · 18:00'], ['Ders', 'Bireysel · 60 dk'], ['Yer', 'Kadıköy stüdyo']]}>
+      <Pair><Btn flex k="g" t="Takvimde gör" onPress={home} /><Btn flex t="Tamam" onPress={pop} /></Pair>
+    </Res>
+  );
+}
+
+/* ================= ödeme ================= */
+function Payment({ p }: SP) {
+  const C = useC();
+  const x = person(p.i ?? 1);
+  const [sel, setSel] = useState([true, true]);
+  const LS = [['27 Ağustos · 09:00', 'Bireysel · 60 dk'], ['3 Eylül · 09:00', 'Bireysel · 60 dk']];
+  const n = sel.filter(Boolean).length, total = n === 2 ? '₺1.500' : n === 1 ? '₺750' : '₺0';
+  return (
+    <Page title="Ödeme al" gap={16} foot={<Btn t={`${total} tahsil et`} off={n === 0} onPress={() => go('paymentDone', 'rep', { n: x.name, total })} />}>
+      <View style={{ alignItems: 'center', gap: 4, marginTop: -8 }}>
+        <Av ini={x.ini} s={40} />
+        <T s={14} lh={1.45} c={C.muted}>{x.name} · {n} ders</T>
+        <T s={36} w={800} lh={1.1}>{total}</T>
+        <Tag k="d" t="6 gün gecikmiş" />
+      </View>
+      <Blk lbl="Dersler" gap={6}>
+        {LS.map((l, i) => <Row key={i} left={<Ck on={sel[i]} />} t={l[0]} s={l[1]} right={<T s={15} w={800}>₺750</T>} onPress={() => setSel(sel.map((v, j) => (j === i ? !v : v)))} style={{ backgroundColor: C.page, minHeight: 56 }} />)}
+      </Blk>
+      <Blk lbl="Ödeme yöntemi" gap={6}><Tiles items={[['cash', 'Nakit'], ['bank', 'Havale'], ['card2', 'Kart']]} init={1} /></Blk>
+      <Fld key={total} label="Alınan tutar (kısmi ödeme için değiştir)" v={total} />
+      <ORow t="Makbuz gönder" s="WhatsApp ile PDF" right={<Sw init label="Makbuz gönder" />} />
+    </Page>
+  );
+}
+function PaymentDone({ p }: SP) {
+  const C = useC();
+  return (
+    <Res ic="check" onBack={toRoot} top={`${p.n || 'Mert Kaya'} · ödeme alındı`} big={p.total || '₺1.500'} sub="Borç kapandı, kişi kartı güncellendi." rows={[['Yöntem', 'Havale / EFT'], ['Dersler', '27 Ağu, 3 Eyl'], ['Tarih', '10 Eyl · 14:32'], ['Makbuz', 'WhatsApp ile gönderildi', OK(C)]]}>
+      <Pair><Btn flex k="g" t="Makbuzu gör" onPress={() => toast('Makbuz açılıyor')} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
+    </Res>
+  );
+}
+
+/* ================= giriş / kaydol ================= */
+function AuthShell({ children, bottomText, link, onLink }: { children: React.ReactNode; bottomText: string; link: string; onLink: () => void }) {
+  const C = useC();
+  const { top, bottom } = useFrame();
+  return (
+    <View style={{ flex: 1, backgroundColor: C.card, paddingTop: top }}>
+      <Scr><View style={{ paddingTop: 48, paddingHorizontal: 24, gap: 16 }}>{children}</View></Scr>
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingBottom: Math.max(34, bottom + 8) }}>
+        <T s={14} c={C.muted}>{bottomText} </T><Lnk s={14} t={link} onPress={onLink} />
+      </View>
+    </View>
+  );
+}
+const Logo = () => {
+  const C = useC();
+  return <View style={{ width: 56, height: 56, borderRadius: 16, backgroundColor: C.sdark, alignItems: 'center', justifyContent: 'center' }}><T s={18} w={800} c={C.onDark}>Pro</T></View>;
+};
+const Head = ({ t, s }: { t: string; s: string }) => {
+  const C = useC();
+  return <View><T s={28} w={800} lh={1.2}>{t}</T><T s={15} lh={1.5} c={C.muted} style={{ marginTop: 4 }}>{s}</T></View>;
+};
+function Or() {
+  const C = useC();
+  return <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}><View style={{ flex: 1, height: 1, backgroundColor: C.divider }} /><T s={13} w={700} c={C.muted}>veya</T><View style={{ flex: 1, height: 1, backgroundColor: C.divider }} /></View>;
+}
+function Login() {
+  const C = useC();
+  const [hide, setHide] = useState(true);
+  return (
+    <AuthShell bottomText="Hesabın yok mu?" link="Kaydol" onLink={() => go('signup')}>
+      <Logo />
+      <Head t="Tekrar hoş geldin" s="Takvimin ve kişilerin seni bekliyor." />
+      <Fld label="E-posta" v="deniz@ornek.com" keyboardType="email-address" autoCapitalize="none" />
+      <Fld label="Şifre">
+        <View style={{ flexDirection: 'row', gap: 8 }}>
+          <Inp v="sifre1234" secureTextEntry={hide} style={{ flex: 1 }} accessibilityLabel="Şifre" />
+          <IB ic={hide ? 'eye' : 'eyeOff'} s={52} label="Şifreyi göster" onPress={() => setHide(!hide)} />
+        </View>
+        <View style={{ alignSelf: 'flex-end', minHeight: 32, justifyContent: 'center' }}><Lnk s={13} t="Şifremi unuttum" onPress={() => toast('Sıfırlama bağlantısı gönderildi')} /></View>
+      </Fld>
+      <Btn t="Giriş yap" onPress={home} />
+      <Or />
+      <Btn k="g" t="Apple ile devam et" left={<Apple c={C.ink} />} onPress={home} />
+    </AuthShell>
+  );
+}
+function Signup() {
+  const C = useC();
+  return (
+    <AuthShell bottomText="Hesabın var mı?" link="Giriş yap" onLink={pop}>
+      <Logo />
+      <Head t="Hesap oluştur" s="Takvimini birkaç dakikada kur." />
+      <Fld label="Ad soyad" ph="Adın ve soyadın" />
+      <Fld label="Şifre" ph="En az 8 karakter" secureTextEntry />
+      <Fld label="Şifre tekrar" ph="Şifreni tekrar yaz" secureTextEntry />
+      <Btn t="Devam et" onPress={() => go('suMail')} />
+      <Or />
+      <Btn k="g" t="Apple ile kaydol" left={<Apple c={C.ink} />} onPress={() => go('suJob')} />
+    </AuthShell>
+  );
+}
+
+// 6 haneli kod: yazdıkça sonraki kutuya geçer
+function Code() {
+  const C = useC();
+  const [v, setV] = useState(['4', '8', '2', '1', '7', '']);
+  const [foc, setFoc] = useState(5);
+  const refs = useRef<(React.ComponentRef<typeof TextInput> | null)[]>([]);
+  return (
+    <View accessibilityLabel="Doğrulama kodu" style={{ flexDirection: 'row', gap: 8 }}>
+      {v.map((ch, j) => (
+        <TextInput key={j} ref={r => { refs.current[j] = r; }} value={ch} maxLength={1} keyboardType="number-pad" selectTextOnFocus accessibilityLabel={`Kod ${j + 1}. hane`}
+          onFocus={() => setFoc(j)} onBlur={() => setFoc(f => (f === j ? -1 : f))}
+          onChangeText={t => { setV(v.map((x, k) => (k === j ? t : x))); if (t && j < 5) refs.current[j + 1]?.focus(); }}
+          onKeyPress={e => { if (e.nativeEvent.key === 'Backspace' && !v[j] && j > 0) refs.current[j - 1]?.focus(); }}
+          style={[{ flex: 1, minWidth: 0, height: 56, borderRadius: 12, borderWidth: foc === j ? 2 : 1.5, borderColor: foc === j ? C.ink : C.border, backgroundColor: C.card, textAlign: 'center', fontFamily: ff(800), fontSize: 22, color: C.ink, padding: 0 }, noOutline]} />
+      ))}
+    </View>
+  );
+}
+function Step({ n, ic, t, sub, bold, bt, onNext, children, again }: { n: number; ic: string; t: string; sub: string; bold?: string; bt: string; onNext: () => void; children: React.ReactNode; again?: boolean }) {
+  const C = useC();
+  const { top } = useFrame();
+  return (
+    <View style={{ flex: 1, backgroundColor: C.card, paddingTop: top }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, paddingTop: 4, paddingRight: 20, paddingLeft: 16 }}><IB ic="chevL" label="Geri" onPress={pop} /><Steps n={n} /></View>
+      <Scr>
+        <View style={{ paddingTop: 28, paddingHorizontal: 24, gap: 8 }}>
+          <View style={{ width: 56, height: 56, borderRadius: 16, backgroundColor: C.tint, alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}><Icon n={ic} s={26} c={C.accentInk} /></View>
+          <T s={28} w={800} lh={1.2}>{t}</T>
+          <T s={15} lh={1.5} c={C.muted} style={{ marginBottom: 12 }}>{bold ? <T s={15} w={800}>{bold}</T> : null}{sub}</T>
+          {children}
+          <Btn t={bt} onPress={onNext} style={{ marginTop: 12 }} />
+          {again ? <View style={{ alignSelf: 'center', minHeight: 44, justifyContent: 'center' }}><Lnk t="Kodu tekrar gönder" onPress={() => toast('Kod tekrar gönderildi')} /></View> : null}
+        </View>
+      </Scr>
+    </View>
+  );
+}
+const SuMail = () => <Step n={1} ic="mail" t="E-posta adresin" sub="Giriş ve bildirimler için kullanacağız." bt="Kod gönder" onNext={() => go('suMailCode')}><Fld label="E-posta" ph="ornek@mail.com" v="deniz@ornek.com" keyboardType="email-address" autoCapitalize="none" /></Step>;
+const SuMailCode = () => <Step n={2} ic="mail" t="Mailini kontrol et" bold="deniz@ornek.com" sub=" adresine 6 haneli bir kod gönderdik." bt="Doğrula" onNext={() => go('suPhone')} again><Code /></Step>;
+const SuPhone = () => <Step n={3} ic="mobile" t="Telefon numaran" sub="Ders hatırlatmaları ve güvenlik için." bt="Kod gönder" onNext={() => go('suPhoneCode')}><Fld label="Telefon"><Tel ph="5•• ••• •• ••" v="532 384 41 12" /></Fld></Step>;
+const SuPhoneCode = () => <Step n={4} ic="chatDots" t="SMS kodunu gir" bold="+90 532 384 41 12" sub=" numarasına 6 haneli bir kod gönderdik." bt="Doğrula" onNext={() => go('suJob')} again><Code /></Step>;
+const SuJob = () => (
+  <Step n={5} ic="briefcase" t="Ne iş yapıyorsun?" sub="Uygulamayı sana göre hazırlayalım." bt="Başla" onNext={() => { home(); toastLater('Hesabın hazır', 200); }}>
+    <Tiles cols={2} items={[['chatHeart', 'Psikolog'], ['nutrition', 'Diyetisyen'], ['dumbbell', 'Antrenör'], ['gradcap', 'Eğitmen'], ['yoga', 'Yoga / pilates'], ['dots3', 'Diğer']]} />
+  </Step>
+);
+
+export const S3: Record<string, React.ComponentType<SP>> = {
+  lesson: LessonScr, reschedule: Reschedule, cancel: Cancel, cancelled: Cancelled, request: Request, requestAccepted: RequestAccepted, requestRejected: RequestRejected, rsAccepted: RsAccepted,
+  payment: Payment, paymentDone: PaymentDone, login: Login, signup: Signup, suMail: SuMail, suMailCode: SuMailCode, suPhone: SuPhone, suPhoneCode: SuPhoneCode, suJob: SuJob,
+};
+export const BAND3 = ['lesson'];

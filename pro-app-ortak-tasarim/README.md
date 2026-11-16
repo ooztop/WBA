@@ -1,34 +1,35 @@
-# Pro App (React Native / Expo)
+# Pro App · Ortak Tasarım (React Native / Expo)
 
-`prototip/app.html` prototipinin React Native karşılığı. Tasarım kuralları: `prototip/TASARIM-SISTEMI-v4.md`.
+Wellness projesindeki **"Pro App - Ortak Tasarım (Prototip)"** sayfasının React Native karşılığı.
+Kaynak dosyalar: `prototip/ortak-tasarim/prototip.html` (tıklanabilir prototip) ve `ortak-tasarim.dc.html` (tuval).
 
 Sadece arayüz: API ve veritabanı yok, her şey bellekte çalışır (uygulamayı kapatınca sıfırlanır).
 
 ## Çalıştırma
 
 ```bash
-cd pro-app
+cd pro-app-ortak-tasarim
 npm install
 npx expo start
 ```
 
 - Telefonda: Expo Go ile QR kodu okut.
-- Tarayıcıda: `npx expo start --web` (geniş ekranda telefon çerçevesi içinde görünür).
+- Tarayıcıda: `npx expo start --web` (geniş ekranda 390×844 telefon çerçevesi içinde görünür).
 
-Koyu tema ve "Boş sayfa" hâli: Hesabım → sağ üst ⋯ menüsü.
+Vurgu rengi (Pro mavisi / Turuncu / Mor), koyu tema ve "Boş sayfa" hâli: Hesabım → sağ üst ⋯ menüsü.
 
 ## Dosyalar
 
 | Dosya | Ne |
 |---|---|
 | `App.tsx` | Kabuk: çerçeve, katman sırası |
-| `src/theme.ts` | Renkler (açık/koyu), yazı tipi |
+| `src/theme.ts` | Renkler (açık/koyu × 3 vurgu), Manrope |
+| `src/icons.ts` | Prototipteki çizgi ikonlar (otomatik üretildi) |
 | `src/data.ts` | Demo verisi (kişiler, dersler, paketler) |
-| `src/store.ts` | Durum ve gezinme (push/pop, panel, onay penceresi, bildirim balonu) |
-| `src/ui.tsx` | Ortak bileşenler (bölüm, çip, anahtar, alan, buton, liste…) |
-| `src/layers.tsx` | Ekran yığını, alttan panel, onay penceresi, alt bar |
-| `src/Calendar.tsx` | Takvim: Gün ↔ Hafta ↔ Ay |
+| `src/store.ts` | Durum ve gezinme (sayfa, panel, onay penceresi, bildirim balonu) |
+| `src/ui.tsx` | Ortak bileşenler (bant, satır, çip, düğme, alan, anahtar…) |
+| `src/layers.tsx` | Sayfa yığını, üst üste paneller, onay penceresi, alt bar |
+| `src/Calendar.tsx` | Takvim: Gün ↔ Hafta ↔ Ay, + menüsü |
 | `src/tabs.tsx` | Kişiler, Bildirimler, Hesabım |
-| `src/screens.tsx` | İtilen ekranlar |
-| `src/sheets.tsx` | Alttan paneller |
-| `src/icons.ts` | Material Symbols Rounded ikon yolları (otomatik üretildi) |
+| `src/screens1–3.tsx` | İtilen sayfalar |
+| `src/sheets.tsx` | Alttan paneller (yeni ders, kişi seç, paketler, mola…) |

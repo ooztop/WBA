@@ -30,7 +30,7 @@ function Shell() {
     return () => h.remove();
   }, []);
   return (
-    <View style={{ flex: 1, backgroundColor: C.page, overflow: 'hidden' }}>
+    <View style={[{ flex: 1, backgroundColor: C.page, overflow: 'hidden' }, Platform.OS === 'web' ? ({ userSelect: 'none' } as any) : null]}>
       <StatusBar style={light ? 'light' : 'dark'} />
       <RootShift>
         <TabFade tab={tab}>

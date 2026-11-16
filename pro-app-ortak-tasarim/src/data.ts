@@ -73,8 +73,8 @@ export const TRA = 'A B C Ç D E F G H I İ J K L M N O Ö P R S Ş T U Ü V Y Z
 
 export type Pkg = { id: number; kind: 'single' | 'multi'; c1: string; c2: string; name: string; sub: string; price: string; base?: boolean };
 export const PACKAGES0: Pkg[] = [
-  { id: 1, kind: 'single', c1: '60', c2: 'dk', name: 'Tek ders', sub: 'Takvimde 90 dk · 15 dk mola', price: '₺750', base: true },
-  { id: 2, kind: 'single', c1: '90', c2: 'dk', name: 'Tek ders', sub: 'Mola yok', price: '₺1.125' },
+  { id: 1, kind: 'single', c1: '60′', c2: '', name: 'Tek ders · 60 dk', sub: 'Takvimde 90 dk · 15 dk mola', price: '₺750', base: true },
+  { id: 2, kind: 'single', c1: '90′', c2: '', name: 'Tek ders · 90 dk', sub: 'Mola yok', price: '₺1.125' },
   { id: 3, kind: 'multi', c1: '8×', c2: '', name: '8 derslik paket', sub: 'ders başı ₺675 · 2 ay', price: '₺5.400' },
   { id: 4, kind: 'multi', c1: '12×', c2: '', name: 'Aylık üyelik', sub: 'ders başı ₺600 · 1 ay', price: '₺7.200' },
 ];
