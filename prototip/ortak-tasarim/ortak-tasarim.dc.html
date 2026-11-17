@@ -69,7 +69,7 @@ html,body{margin:0;-webkit-font-smoothing:antialiased}
 .strip .dc.on{background:none;color:var(--ink-muted)}
 .strip .dc.on b{background:var(--surface-dark);color:var(--on-dark)}
 .softs .chip{height:40px;border:0;border-radius:999px;background:var(--surface-page);font-size:14px}
-.softs .chip.on{background:var(--surface-dark);color:var(--on-dark)}
+.softs .chip.on{background:var(--accent);color:var(--on-accent)}
 .btn.small{height:44px;border-radius:12px;font-size:14px;padding:0 14px}
 .search{margin:16px 16px 0;height:48px;border-radius:12px;background:var(--surface-card);border:1.5px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--ink-muted)}
 .search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:15px;font-weight:500;color:var(--ink)}
@@ -79,9 +79,10 @@ html,body{margin:0;-webkit-font-smoothing:antialiased}
 .chips[aria-label="Filtre"]{-webkit-mask-image:linear-gradient(90deg,#000 82%,transparent);mask-image:linear-gradient(90deg,#000 82%,transparent);padding-right:40px}
 .tile .i{width:22px;height:22px}
 .chip .cn{font-weight:800;color:var(--ink-muted);margin-left:2px}
-.chip.on .cn{color:var(--on-dark-muted)}
+.chip.on .cn{color:var(--on-accent)}
 .chip{height:36px;padding:0 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface-card);font-size:13px;font-weight:700;white-space:nowrap;flex:none}
-.chip.on{background:var(--surface-dark);border-color:var(--surface-dark);color:var(--on-dark)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.pchips.dk .chip.on{background:var(--surface-dark);border-color:var(--surface-dark);color:var(--on-dark)}
 .scr{flex:1;min-height:0;overflow:hidden;position:relative}
 .grp{padding:14px 16px 6px}
 .grp.ix{padding-right:36px}
@@ -184,6 +185,9 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
 .btn.off{background:var(--divider);color:var(--ink-muted);border:0;cursor:default}
 .mon{display:flex;align-items:center;justify-content:center;gap:2px;font-size:15px;font-weight:800}
 .mon .ib{width:40px;height:40px;background:transparent}
+.pkl .pkb{background:var(--accent-tint);color:var(--accent-ink)}
+.pkl .row:has(.tag.tg-a) .pkb{background:var(--accent);color:var(--on-accent)}
+.pkl .row:has(.tag.tg-a) .amt b{color:var(--accent)}
 .pkb{width:44px;height:44px;border-radius:12px;background:var(--surface-page);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex:none}
 .inote{margin:4px 16px 0;padding:10px 12px;border-radius:12px;background:var(--info-tint);color:var(--info);font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
 .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0 16px}
@@ -511,7 +515,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
       <div class="oc">
         <div class="orow"><div class="rt"><span class="t">Özel paket</span><span class="s">8 derslik paket · ₺5.000</span></div><button class="sw on" role="switch" aria-checked="true" aria-label="Özel paket"></button></div>
         <div class="fld" style="gap:8px">Seans sayısı
-          <div class="pchips" role="group" aria-label="Seans sayısı">
+          <div class="pchips dk" role="group" aria-label="Seans sayısı">
             <button class="chip" aria-pressed="false">Tek ders</button>
             <button class="chip" aria-pressed="false">4</button>
             <button class="chip on" aria-pressed="true">8</button>
@@ -932,12 +936,12 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
   </div>
   <div class="scr">
     <div class="grp" style="padding-top:8px"><span class="lbl">Tekil ders</span><div class="sm" style="margin-top:2px">Tek seanslık dersler</div></div>
-    <div class="list">
+    <div class="list pkl">
       <button class="row" style="background:var(--accent-tint-soft)"><span class="pkb">60′</span><span class="rt"><span class="t">Tek ders · 60 dk</span><span class="s">Takvimde 90 dk · 15 dk mola</span></span><span class="amt"><b>₺750</b><span class="tag tg-a">Temel</span></span></button>
       <button class="row"><span class="pkb">90′</span><span class="rt"><span class="t">Tek ders · 90 dk</span><span class="s">Mola yok</span></span><span class="amt"><b>₺1.125</b></span></button>
     </div>
     <div class="grp" style="padding-top:20px"><span class="lbl">Çoklu paket</span><div class="sm" style="margin-top:2px">Birden fazla seans, tek ödeme</div></div>
-    <div class="list">
+    <div class="list pkl">
       <button class="row"><span class="pkb">8×</span><span class="rt"><span class="t">8 derslik paket</span><span class="s">ders başı ₺675 · 2 ay</span></span><span class="amt"><b>₺5.400</b></span></button>
       <button class="row"><span class="pkb">12×</span><span class="rt"><span class="t">Aylık üyelik</span><span class="s">ders başı ₺600 · 1 ay</span></span><span class="amt"><b>₺7.200</b></span></button>
     </div>
@@ -1697,7 +1701,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
         <label class="fld">Ücret / ders<input class="inp" defaultValue="₺750"></label>
       </div>
       <div class="blk"><span class="lbl">Ders süresi</span>
-        <div class="pchips" role="group" aria-label="Ders süresi"><button class="chip">30 dk</button><button class="chip">45 dk</button><button class="chip on" aria-pressed="true">60 dk</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
+        <div class="pchips dk" role="group" aria-label="Ders süresi"><button class="chip">30 dk</button><button class="chip">45 dk</button><button class="chip on" aria-pressed="true">60 dk</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
       </div>
       <div class="blk"><span class="lbl">Ödeme yöntemi · birden fazla</span>
         <div class="tiles" role="group" aria-label="Ödeme yöntemi"><button class="tile on" style="min-height:56px" aria-pressed="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle><path d="M6 9v.01M18 15v.01"></path></svg>Nakit</button><button class="tile on" style="min-height:56px" aria-pressed="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"></path></svg>Havale</button><button class="tile" style="min-height:56px" aria-pressed="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M2 10h20M6 15h4"></path></svg>Kart</button></div>
@@ -1742,13 +1746,13 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
         </div>
       </div>
       <div class="blk"><span class="lbl">Seans sayısı</span>
-        <div class="pchips" role="group" aria-label="Seans sayısı"><button class="chip">4</button><button class="chip on" aria-pressed="true">8</button><button class="chip">12</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
+        <div class="pchips dk" role="group" aria-label="Seans sayısı"><button class="chip">4</button><button class="chip on" aria-pressed="true">8</button><button class="chip">12</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
       </div>
       <div class="blk"><span class="lbl">Seans süresi</span>
-        <div class="pchips" role="group" aria-label="Seans süresi"><button class="chip">30 dk</button><button class="chip on" aria-pressed="true">60 dk</button><button class="chip">90 dk</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
+        <div class="pchips dk" role="group" aria-label="Seans süresi"><button class="chip">30 dk</button><button class="chip on" aria-pressed="true">60 dk</button><button class="chip">90 dk</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
       </div>
       <div class="blk"><span class="lbl">Geçerlilik · paket bu sürede kullanılmalı</span>
-        <div class="pchips" role="group" aria-label="Geçerlilik"><button class="chip">1 ay</button><button class="chip on" aria-pressed="true">2 ay</button><button class="chip">3 ay</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
+        <div class="pchips dk" role="group" aria-label="Geçerlilik"><button class="chip">1 ay</button><button class="chip on" aria-pressed="true">2 ay</button><button class="chip">3 ay</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
       </div>
       <div class="blk"><span class="lbl">Ödeme yöntemi · birden fazla</span>
         <div class="tiles" role="group" aria-label="Ödeme yöntemi"><button class="tile on" style="min-height:56px" aria-pressed="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle><path d="M6 9v.01M18 15v.01"></path></svg>Nakit</button><button class="tile on" style="min-height:56px" aria-pressed="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"></path></svg>Havale</button><button class="tile" style="min-height:56px" aria-pressed="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M2 10h20M6 15h4"></path></svg>Kart</button></div>

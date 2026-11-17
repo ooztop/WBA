@@ -47,7 +47,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**17 Kas · tasarım turu Wellness'a işlendi** (Wellness sürüm 74). Repodaki kopyalar da aynı:
+**17 Kas · tasarım turu Wellness'a işlendi** (sürüm 74; mavi çipler ve paket vurguları sürüm 75). Repodaki kopyalar da aynı:
 - İptal ve erteleme ekranları, iptal sonucu, alt çubuk ve kişiler listesi güncellendi.
 - Ders detayı örneği gelecekteki bir derse çevrildi (10 Eylül Perşembe). Tuvale ayrıca "29b Geçmiş ders" çizimi eklendi: yalnızca "Ödeme al".
 - Prototipte "Takvimden seç" yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
