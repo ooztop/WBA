@@ -167,10 +167,10 @@ function Reschedule({ p }: SP) {
   return (
     <Page title="Dersi ertele" foot={<Btn t="Ertelemeyi onayla" onPress={ok} />}>
       <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: C.page, borderRadius: 16, padding: 14 }}>
-        <View style={{ flex: 1, minWidth: 0 }}>{small('Eski')}<T s={14} w={700} c={C.muted} style={{ textDecorationLine: 'line-through' }} numberOfLines={1}>{p.when || 'Çar 10 Eyl · 09:00'}</T></View>
+        <View style={{ flexShrink: 1, minWidth: 0 }}>{small('Eski')}<T s={15} w={700} c={C.muted} style={{ textDecorationLine: 'line-through' }} numberOfLines={1}>{p.when || 'Çar 10 Eyl · 09:00'}</T></View>
         {/* Yeni tarih hep tam görünür; yer daralırsa eski tarih kısalır */}
-        <View style={{ width: 18, marginHorizontal: 6 }}><Icon n="arrowR" s={18} c={C.muted} /></View>
-        <View style={{ flexShrink: 0 }}>{small('Yeni')}<T s={16} w={800} numberOfLines={1}>{nv}</T></View>
+        <View style={{ width: 20, marginHorizontal: 10 }}><Icon n="arrowR" s={20} c={C.muted} /></View>
+        <View style={{ flexShrink: 0 }}>{small('Yeni')}<T s={17} w={800} numberOfLines={1}>{nv}</T></View>
       </View>
       <Blk lbl="Müsait saatlerin" right={<Tap onPress={fromCal} hit={8} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 32 }}><Icon n="calendar" s={16} c={C.accent} /><T s={13} w={800} c={C.accent}>Takvimden seç</T></Tap>}>
         <DayStrip days={days.map(x => x.d)} di={sd} onSel={onDay} />
