@@ -1,6 +1,6 @@
-// Jest ayarı: jest-expo ön ayarı ve AsyncStorage sahte (mock) modülü.
+// Jest ayarı: jest-expo ön ayarı ve AsyncStorage sahte (mock) modülü (jest.setup.js içinde kayıtlı).
 module.exports = {
   preset: 'jest-expo',
-  setupFiles: ['@react-native-async-storage/async-storage/jest/async-storage-mock'],
+  setupFiles: ['<rootDir>/jest.setup.js'],
   testMatch: ['**/__tests__/**/*.test.ts'],
 };

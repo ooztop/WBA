@@ -6,9 +6,9 @@ export const MN = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temm
 export const MS = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
 const HRS = [9, 10.5, 12, 14, 16, 17.5, 19];
 
-// Demo verisi bu güne göre kurulu
-export const TODAY = new Date(2026, 8, 9);
-export const NOW_H = 12.6;
+// Demo verisi bu güne göre kurulu (tanım data/mock/lessonGen.ts'te)
+import { TODAY, NOW_H } from './data/mock/lessonGen';
+export { TODAY, NOW_H };
 
 export const p2 = (n: number) => String(n).padStart(2, '0');
 export const hm = (x: number) => `${p2(Math.floor(x))}:${p2(Math.round((x % 1) * 60))}`;
