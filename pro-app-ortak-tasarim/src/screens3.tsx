@@ -117,8 +117,8 @@ function DayStrip({ days, di, onSel }: { days: Date[]; di: number; onSel: (i: nu
 function Soft({ t, on, onPress, style }: { t: string; on: boolean; onPress: () => void; style?: StyleProp<ViewStyle> }) {
   const C = useC();
   return (
-    <Tap onPress={onPress} sel={on} style={[{ height: 40, borderRadius: 999, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? C.sdark : C.page }, style]}>
-      <T s={14} w={700} c={on ? C.onDark : C.ink}>{t}</T>
+    <Tap onPress={onPress} sel={on} style={[{ height: 40, borderRadius: 999, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? C.accent : C.page }, style]}>
+      <T s={14} w={700} c={on ? C.onAccent : C.ink}>{t}</T>
     </Tap>
   );
 }

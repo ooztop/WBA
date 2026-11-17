@@ -148,9 +148,9 @@ export function Sw({ init = false, on, onChange, label, pk }: { init?: boolean; 
 export function Chip({ t, on, onPress, cn, grid, style, dark = true }: { t?: string; on?: boolean; onPress?: () => void; cn?: string; grid?: boolean; style?: VS; dark?: boolean; children?: React.ReactNode }) {
   const C = useC();
   return (
-    <Tap onPress={onPress} sel={!!on} style={[{ height: grid ? 44 : 36, paddingHorizontal: grid ? 4 : 14, borderRadius: grid ? 12 : 999, borderWidth: 1.5, borderColor: on ? C.sdark : C.border, backgroundColor: on ? C.sdark : C.card, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }, grid && { flex: 1 }, style]}>
-      <T s={13} w={700} c={on ? C.onDark : C.ink} numberOfLines={1}>{t}</T>
-      {cn ? <T s={13} w={800} c={on ? C.onDarkMuted : C.muted} style={{ marginLeft: 5 }}>{cn}</T> : null}
+    <Tap onPress={onPress} sel={!!on} style={[{ height: grid ? 44 : 36, paddingHorizontal: grid ? 4 : 14, borderRadius: grid ? 12 : 999, borderWidth: 1.5, borderColor: on ? C.accent : C.border, backgroundColor: on ? C.accent : C.card, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }, grid && { flex: 1 }, style]}>
+      <T s={13} w={700} c={on ? C.onAccent : C.ink} numberOfLines={1}>{t}</T>
+      {cn ? <T s={13} w={800} c={on ? C.onAccent : C.muted} style={{ marginLeft: 5 }}>{cn}</T> : null}
     </Tap>
   );
 }
@@ -173,8 +173,8 @@ export function PChips({ items, init = 0, value, cols = 4, cst, cstInit, onChang
             style={[{ textAlign: 'center', fontFamily: ff(700), fontSize: 13, color: C.ink, padding: 0, height: 40 }, noOutline]} />
         </View>
       ) : (
-        <Tap key="c" onPress={() => setEd(true)} label="Özel değer" style={{ flex: 1, height: 44, borderRadius: 12, borderWidth: 1.5, borderColor: cus ? C.sdark : C.border, backgroundColor: cus ? C.sdark : C.card, alignItems: 'center', justifyContent: 'center' }}>
-          {cus ? <T s={13} w={700} c={C.onDark}>{cus}</T> : <Icon n="edit" s={18} />}
+        <Tap key="c" onPress={() => setEd(true)} label="Özel değer" style={{ flex: 1, height: 44, borderRadius: 12, borderWidth: 1.5, borderColor: cus ? C.accent : C.border, backgroundColor: cus ? C.accent : C.card, alignItems: 'center', justifyContent: 'center' }}>
+          {cus ? <T s={13} w={700} c={C.onAccent}>{cus}</T> : <Icon n="edit" s={18} />}
         </Tap>
       ),
     );

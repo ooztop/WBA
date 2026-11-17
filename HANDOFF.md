@@ -146,3 +146,9 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - Tasarım değişikliklerinde çalışma şekli: önce ekran görüntüsü, belirsizse kısa soru, gerekirse 2 taslak yan yana;
   seçilen uygulanır, test edilir, `main`'e gönderilir ve önizleme güncellenir. Taslak kod commit edilmez.
 - Kırmızı yalnızca iptal / silme gibi geri dönüşsüz işler için; erteleme gri / mavi kalır.
+- **Seçili çipler vurgu mavisinde** (`Chip`, `PChips` ✎ özel değer, erteleme saat çipleri), bütün uygulamada.
+  Gün seçimleri (takvim, tarih seçici, erteleme şeridi, mola günleri `DC`) ve onay kutuları siyah kalır:
+  takvimde "seçili gün siyah, bugün mavi" kararı var. (v4 kuralı "Seçili çip mavi" ile de uyumlu.)
+- Bölüm başlıkları (`GrpS`) gri kalır; tek ekranda mavi denendi, beğenilmedi (tutarsız ve "dokunulabilir" gibi duruyor).
+- Paket tercihleri: paket kutucukları açık mavi, temel paket dolu mavi ve fiyatı mavi.
+- Ders kurallarına ikon kutusu eklenmesi denendi, istenmedi.
