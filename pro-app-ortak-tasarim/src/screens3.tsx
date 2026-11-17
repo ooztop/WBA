@@ -136,7 +136,7 @@ function Reschedule({ p }: SP) {
   const { days, sel } = stripDays(base, cus);
   const sd = sel ? sel.di : di, st = sel ? sel.si : si;
   const tgt = cus ?? { d: base[di].d, h: hhmm(base[di].times[si] ?? base[di].times[0], 18) };
-  const nv = `${DN[wd(tgt.d)]} ${tgt.d.getDate()} · ${hm(tgt.h)}`;
+  const nv = `${DN[wd(tgt.d)]} ${tgt.d.getDate()} ${MS[tgt.d.getMonth()]} · ${hm(tgt.h)}`;
   // Şeritten gün/saat seçmek takvim seçimini bırakır (takvimden gelen gün ya da saat değilse)
   const baseIdx = (d: Date) => base.findIndex(x => x.d.toDateString() === d.toDateString());
   const onDay = (i: number) => { const bi = baseIdx(days[i].d); if (bi < 0) return; setCus(null); setDi(bi); setSi(0); };
