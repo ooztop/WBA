@@ -4,7 +4,7 @@ import { TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
 import { DL, DN, MN, MS, first, hm, lessonStarted, wd, type Lesson } from './data';
 import { iso } from './data/dates';
 import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
-import { get, go, hhmm, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
+import { get, go, hhmm, home, pickDate, pickTime, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
 import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
@@ -127,13 +127,23 @@ function Reschedule({ p }: SP) {
   const [di, setDi] = useState(1);
   const [si, setSi] = useState(4);
   const [tell, setTell] = useState(true);
-  const nv = `${RS_DAYS[di][0]} ${RS_DAYS[di][1]} · ${RS[di][si] ?? RS[di][0]}`;
+  // Takvimden seçilen gün ve saat; seçilince şeritteki hazır saatlerin yerine geçer
+  const [cus, setCus] = useState<{ d: Date; h: number } | null>(null);
+  const tgt = cus ?? { d: new Date(2026, 8, +RS_DAYS[di][1]), h: hhmm(RS[di][si] ?? RS[di][0], 18) };
+  const nv = cus ? `${DN[wd(cus.d)]} ${cus.d.getDate()} · ${hm(cus.h)}` : `${RS_DAYS[di][0]} ${RS_DAYS[di][1]} · ${RS[di][si] ?? RS[di][0]}`;
+  const fromCal = () =>
+    pickDate(tgt.d, d =>
+      // Tarih seçici kapanınca saat seçici açılır
+      setTimeout(() => pickTime(tgt.h, h => {
+        if (lessonStarted(d, h)) { toast('Geçmiş bir saat seçilemez'); return; }
+        setCus({ d, h });
+      }), 350));
   const ok = () => {
     const l: Lesson | undefined = p.l;
     if (p.lid && l) {
       // Dersi gerçekten taşı: eski saat takvimden kalkar, yeni saate eklenir
-      const nd = new Date(2026, 8, +RS_DAYS[di][1]);
-      void rescheduleLesson(p.lid, { date: iso(nd), h: hhmm(RS[di][si] ?? RS[di][0], 18) });
+      const nd = tgt.d;
+      void rescheduleLesson(p.lid, { date: iso(nd), h: tgt.h });
       set({ F: nd });
       toRoot();
     } else pop();
@@ -147,9 +157,10 @@ function Reschedule({ p }: SP) {
         <View style={{ width: 28 }}><Icon n="arrowR" c={C.muted} /></View>
         <View style={{ flex: 1, minWidth: 0 }}>{small('Yeni')}<T s={17} w={800} numberOfLines={1}>{nv}</T></View>
       </View>
-      <Blk lbl="Müsait saatlerin" right={<Tap onPress={() => toast('Takvim açılır')} hit={8} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 32 }}><Icon n="calendar" s={16} c={C.accent} /><T s={13} w={800} c={C.accent}>Takvimden seç</T></Tap>}>
-        <DayStrip di={di} onSel={i => { setDi(i); setSi(0); }} />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{RS[di].map((t, i) => <Soft key={di + t} t={t} on={i === si} onPress={() => setSi(i)} style={{ width: '30%', flexGrow: 1 }} />)}</View>
+      <Blk lbl="Müsait saatlerin" right={<Tap onPress={fromCal} hit={8} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 32 }}><Icon n="calendar" s={16} c={C.accent} /><T s={13} w={800} c={C.accent}>Takvimden seç</T></Tap>}>
+        <DayStrip di={cus ? -1 : di} onSel={i => { setCus(null); setDi(i); setSi(0); }} />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{RS[di].map((t, i) => <Soft key={di + t} t={t} on={!cus && i === si} onPress={() => { setCus(null); setSi(i); }} style={{ width: '30%', flexGrow: 1 }} />)}</View>
+        {cus ? <Soft t={`${cus.d.getDate()} ${MS[cus.d.getMonth()]} ${DN[wd(cus.d)]} · ${hm(cus.h)}`} on onPress={fromCal} /> : null}
       </Blk>
       <ORow style={{ marginTop: 8 }} t={`${f}'e bildir`} s="Yeni saati onaylaması istenir" right={<Sw on={tell} onChange={setTell} label={`${f}'e bildir`} />} />
       <Sm>Sadece bu ders taşınır; seri ve ödeme aynı kalır.</Sm>
