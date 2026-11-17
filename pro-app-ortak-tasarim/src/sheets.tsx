@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { DN, MN, MS, TODAY, addD, dkey, first, hm, mon, wd, type Lesson } from './data';
+import { DN, MN, MS, TODAY, addD, first, hm, mon, wd, type Lesson } from './data';
+import { iso } from './data/dates';
 import { addPerson, closeSheet, hhmm, nextId, num, pickDate, pickTime, snapLesson, tl, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
 import { EASE, ff } from './theme';
 import { Av, Blk, Btn, Ck, Cols, DC, Fld, Form, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SFoot, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
@@ -210,7 +211,7 @@ function BreakNew({ p }: SP) {
   const [days, setDays] = useState(cur?.days ?? [0, 1, 2, 3, 4]);
   const mins = Math.max(0, Math.round((hhmm(end, 0) - hhmm(start, 0)) * 60));
   const save = () => {
-    const b = { id: cur?.id ?? nextId(), name: name.trim() || 'Mola', start, end, days };
+    const b = { id: cur?.id ?? String(nextId()), name: name.trim() || 'Mola', start, end, days };
     set(s => ({ breaks: cur ? s.breaks.map(x => (x.id === cur.id ? b : x)) : [...s.breaks, b] }));
     closeSheet(); toastLater('Mola kaydedildi');
   };
@@ -249,7 +250,7 @@ function NewBreak({ p }: SP) {
   const opts = all ? ['İzin günü', 'Tatil', 'Hastalık', 'Kişisel', 'Diğer'] : ['Öğle arası', 'Kahve arası', 'Toplantı', 'Kişisel', 'Diğer'];
   const save = () => {
     if (!days.length) { toast('Önce bir gün seç'); return; }
-    const add = days.map(i => ({ k: dkey(addD(ws, i)), name: why, start: hhmm(start, 12.5), end: hhmm(end, 13), all: !!all }));
+    const add = days.map(i => ({ id: `o${nextId()}`, date: iso(addD(ws, i)), name: why, start: hhmm(start, 12.5), end: hhmm(end, 13), all: !!all }));
     set(s => ({ offs: [...s.offs, ...add] }));
     closeSheet(); toastLater(all ? 'Gün kapatıldı' : 'Mola eklendi');
   };
@@ -299,7 +300,7 @@ function PackageSheet({ multi, p }: { multi: boolean; p: any }) {
     const pk = multi
       ? { kind: 'multi' as const, c1: `${n}×`, c2: '', name: nm, sub: `ders başı ${tl(pr / n)} · ${val}`, price: tl(pr) }
       : { kind: 'single' as const, c1: `${mins}′`, c2: '', name: nm.includes('dk') ? nm : `${nm} · ${mins} dk`, sub: editing ? cur!.sub : 'Mola yok', price: tl(pr) };
-    set(s => ({ packages: cur ? s.packages.map(x => (x.id === cur.id ? { ...x, ...pk } : x)) : [...s.packages, { id: nextId(), ...pk }] }));
+    set(s => ({ packages: cur ? s.packages.map(x => (x.id === cur.id ? { ...x, ...pk } : x)) : [...s.packages, { id: String(nextId()), ...pk }] }));
     toastLater('Paket kaydedildi');
   };
   return (
@@ -467,19 +468,20 @@ function NewLesson({ p }: SP) {
     const d = date, h = time;
     const pe = personByName(who);
     if (!pe) { toast('Önce bir kişi seç'); return; }
-    const l: Lesson = [h, 60, pe.id, loc === 'Online' ? 'Online' : sel.length > 1 ? `Grup · ${sel.length} kişi` : 'Bireysel', 'w'];
+    const type = loc === 'Online' ? 'Online' : sel.length > 1 ? `Grup · ${sel.length} kişi` : 'Bireysel';
     // Tekrar: her hafta 8 ders, her gün 14 gün (pazar hariç); bitiş tarihi yazıldıysa oraya kadar
     const step = rep.v === 2 ? 7 : 1, max = rep.v === 0 ? 1 : rep.v === 2 ? 8 : 14;
     const until = rep.v !== 0 && rep.end.trim() ? parseWhen(rep.end, '').d : null;
-    const add: { k: string; l: Lesson }[] = [];
+    const add: Lesson[] = [];
     for (let i = 0, x = d; add.length < (until ? 60 : max) && i < 400; i++, x = addD(d, i * step)) {
       if (until && x > until) break;
       if (rep.v === 1 && x.getDay() === 0) continue;
-      add.push({ k: dkey(x), l });
+      const date = iso(x);
+      add.push({ id: `${date}|${h}|n${nextId()}`, date, h, dur: 60, pid: pe.id, type, st: 'w', pk: pk?.name, rep: rep.v, loc });
     }
     // Not, paket adı, tekrar ve konum ders detayında görünür
     const meta: Record<string, any> = {};
-    add.forEach(a => { const lk = `${a.k}|${h}`; meta[`les.${lk}`] = { pk: pk?.name, rep: rep.v, loc }; if (note.trim()) meta[`note.${lk}`] = note.trim(); });
+    add.forEach(a => { if (note.trim()) meta[`note.${a.id}`] = note.trim(); });
     set(s => ({ extra: [...s.extra, ...add], F: d, prefs: { ...s.prefs, ...meta } }));
     closeSheet();
     toastLater(add.length > 1 ? `${add.length} ders eklendi` : 'Ders eklendi');

@@ -3,16 +3,14 @@ import { createContext, useContext, useSyncExternalStore } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { makeMutable, type SharedValue } from 'react-native-reanimated';
 import { colors, type Accent, type Colors } from './theme';
-import { PEOPLE0, PACKAGES0, TODAY, type Person, type Pkg, type Extra } from './data';
+import { TODAY } from './data';
+import type { Brk, Debt, ID, Lesson, Off, PaidRow, Person, Pkg, Profile, ReqState } from './data/models';
+import { BREAKS0, COLLECTED0, DEBTS0, ME0, PACKAGES0, PAID0, PEOPLE0, REQS0 } from './data/mock/seed';
 
 export type Route = { key: number; id: string; p: any; prog: SharedValue<number>; closing?: boolean };
 export type SheetR = { key: number; id: string; p: any; closing?: boolean; swap?: boolean };
 export type ActRow = { label: string; icon?: string; danger?: boolean; check?: boolean; big?: boolean; onPress?: () => void };
 export type ActionS = { key: number; kind: 'dlg' | 'ass'; title: string; msg?: string; rows: ActRow[] };
-export type Brk = { id: number; name: string; start: string; end: string; days: number[] };
-export type Off = { k: string; name: string; start: number; end: number; all?: boolean };
-export type Debt = { pid: number; lessons: [string, string][]; note: string; late?: boolean; tag: string };
-export type PaidRow = { ini: string; name: string; sub: string; amt: number };
 export type PickerS = { key: number; kind: 'date'; value: Date; onPick: (d: Date) => void } | { key: number; kind: 'time'; value: number; min: number; onPick: (h: number) => void };
 // Takvimde boş saate dokununca açılan Ekle menüsü: hangi gün/saat için
 export type SlotMenu = { d: number; h: number; title: string; onDay?: () => void };
@@ -21,28 +19,22 @@ export type ToastS = { key: number; msg: string; undo?: string; onUndo?: () => v
 type State = {
   dark: boolean; accent: Accent; emp: boolean; tab: number; F: Date;
   stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null; picker: PickerS | null;
-  people: Person[]; packages: Pkg[]; extra: Extra[]; cancelled: string[]; menu: boolean | SlotMenu;
-  breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: { ad: string; soyad: string; title: string };
-  prefs: Record<string, any>; reqs: { b: boolean; a: boolean };
+  people: Person[]; packages: Pkg[]; extra: Lesson[]; cancelled: ID[]; menu: boolean | SlotMenu;
+  breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: Profile;
+  prefs: Record<string, any>; reqs: ReqState;
 };
 
 let state: State = {
   dark: false, accent: 'blue', emp: false, tab: 0, F: new Date(TODAY),
   stack: [], sheets: [], action: null, toast: null, picker: null,
   people: PEOPLE0, packages: PACKAGES0, extra: [], cancelled: [], menu: false,
-  breaks: [{ id: 1, name: 'Öğle molası', start: '12:30', end: '13:30', days: [0, 1, 2, 3, 4, 5] }, { id: 2, name: 'Akşam arası', start: '17:00', end: '17:30', days: [1, 3] }],
+  breaks: BREAKS0,
   offs: [],
-  debts: [
-    { pid: 1, lessons: [['27 Ağustos · 09:00', 'Bireysel · 60 dk'], ['3 Eylül · 09:00', 'Bireysel · 60 dk']], note: '6 gün gecikti', late: true, tag: 'Gecikti' },
-    { pid: 6, lessons: [['8 Eylül · 10:30', 'Bireysel · 60 dk']], note: 'vadesi yarın', tag: 'Yarın' },
-  ],
-  paid: [
-    { ini: 'ZA', name: 'Zeynep Aydın', sub: '10 Eyl · Havale · aylık üyelik', amt: 5400 }, { ini: 'EY', name: 'Elif Yıldırım', sub: '8 Eyl · Nakit · 4 ders', amt: 3000 },
-    { ini: 'CÖ', name: 'Can Öztürk', sub: '5 Eyl · Havale · 8 derslik paket', amt: 2500 }, { ini: 'SD', name: 'Selin Demir', sub: '3 Eyl · Kart · 2 ders', amt: 1500 },
-  ],
-  collected: 12400,
-  me: { ad: 'Deniz', soyad: 'Arslan', title: 'Özel ders · Matematik' },
-  prefs: {}, reqs: { b: true, a: true },
+  debts: DEBTS0,
+  paid: PAID0,
+  collected: COLLECTED0,
+  me: ME0,
+  prefs: {}, reqs: REQS0,
 };
 const subs = new Set<() => void>();
 const sub = (f: () => void) => { subs.add(f); return () => { subs.delete(f); }; };
@@ -133,17 +125,17 @@ export function toast(msg: string, undo?: string, onUndo?: () => void) {
 export const toastLater = (msg: string, ms = 300, undo?: string, onUndo?: () => void) => setTimeout(() => toast(msg, undo, onUndo), ms);
 
 /* ---------- veri ---------- */
-export const person = (id: number): Person => state.people.find(p => p.id === id) || state.people[id % 20] || state.people[0];
+export const person = (id: ID): Person => state.people.find(p => p.id === id) || state.people[(parseInt(id, 10) || 0) % 20] || state.people[0];
 export const personByName = (n: string) => state.people.find(p => p.name === n);
 export function addPerson(name: string, sub = ''): Person {
   const ex = personByName(name);
   if (ex) return ex;
   const ini = name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toLocaleUpperCase('tr');
-  const p: Person = { id: 200 + K++, ini, name, sub, tag: ['n', 'Tek ders'], cat: '' };
+  const p: Person = { id: String(200 + K++), ini, name, sub, tag: ['n', 'Tek ders'], cat: '' };
   set(s => ({ people: [...s.people, p] }));
   return p;
 }
-export const patchPerson = (id: number, patch: Partial<Person>) =>
+export const patchPerson = (id: ID, patch: Partial<Person>) =>
   set(s => ({ people: s.people.map(p => (p.id === id ? { ...p, ...patch } : p)) }));
 
 /* ---------- yardımcılar ---------- */
@@ -159,13 +151,13 @@ export const daysText = (d: number[]) => {
   return run && x.length > 2 ? `${DNS[x[0]]} – ${DNS[x[x.length - 1]]}` : x.map(i => DNS[i]).join(', ');
 };
 // Ödeme al: seçilen dersleri borçtan düş, tahsilata ekle
-export function collect(pid: number, name: string, ini: string, idx: number[], method: string, amount: number) {
+export function collect(pid: ID, name: string, ini: string, idx: number[], method: string, amount: number) {
   set(s => {
     const d = s.debts.find(x => x.pid === pid);
     const left = d ? d.lessons.filter((_, i) => !idx.includes(i)) : [];
     const debts = d ? (left.length ? s.debts.map(x => (x.pid === pid ? { ...x, lessons: left } : x)) : s.debts.filter(x => x.pid !== pid)) : s.debts;
     const people = !left.length ? s.people.map(p => (p.id === pid && p.tag[0] === 'd' ? { ...p, tag: ['n', 'Tek ders'] as [any, string], cat: p.cat.replace('borc', '').trim() } : p)) : s.people;
-    return { debts, people, collected: s.collected + amount, paid: [{ ini, name, sub: `10 Eyl · ${method} · ${idx.length} ders`, amt: amount }, ...s.paid] };
+    return { debts, people, collected: s.collected + amount, paid: [{ id: `p${K++}`, ini, name, sub: `10 Eyl · ${method} · ${idx.length} ders`, amt: amount }, ...s.paid] };
   });
 }
 
@@ -211,6 +203,3 @@ export function lessonMin(): number {
 }
 // Verilen saati kurala uydur: o saatin başlama dakikası (ör. 14,7 → 14:30)
 export const snapLesson = (h: number) => Math.floor(h) + lessonMin() / 60;
-// Ders bilgisi (paket adı, tekrar, konum): ders anahtarıyla saklanır
-export type LesMeta = { pk?: string; rep?: number; loc?: string };
-export const lesMeta = (lk?: string): LesMeta => (lk && state.prefs[`les.${lk}`]) || {};

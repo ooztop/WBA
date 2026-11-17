@@ -4,6 +4,7 @@ import { TextInput, View } from 'react-native';
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { DL, DN, type Pkg } from './data';
+import type { ID } from './data/models';
 import { daysText, go, openSheet, set, toast, toastLater, useC, useFrame, usePref, useStore } from './store';
 import { openUrl } from './device';
 import { EASE, ff } from './theme';
@@ -176,7 +177,7 @@ function SwipeRow({ pk, onStar, onDel, onOpen }: { pk: Pkg; onStar: () => void; 
 function Pricing() {
   const emp = useStore(s => s.emp);
   const pkgs = useStore(s => s.packages);
-  const star = (id: number) => { set(s => ({ packages: s.packages.map(p => ({ ...p, base: p.id === id })) })); toast('Temel paket güncellendi'); };
+  const star = (id: ID) => { set(s => ({ packages: s.packages.map(p => ({ ...p, base: p.id === id })) })); toast('Temel paket güncellendi'); };
   const del = (pk: Pkg) => { const prev = pkgs; set(s => ({ packages: s.packages.filter(p => p.id !== pk.id) })); toast(`${pk.name} silindi`, 'Geri al', () => set({ packages: prev })); };
   const list = (kind: Pkg['kind']) => (
     <List>{pkgs.filter(p => p.kind === kind).map(pk => <SwipeRow key={pk.id} pk={pk} onStar={() => star(pk.id)} onDel={() => del(pk)} onOpen={() => openSheet(kind === 'single' ? 'packageSingle' : 'packageMulti', { id: pk.id })} />)}</List>

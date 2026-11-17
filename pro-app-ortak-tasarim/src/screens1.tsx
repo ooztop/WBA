@@ -26,7 +26,7 @@ export const Amt = ({ b, bC, k, tag }: { b: string; bC?: string; k?: TagK; tag?:
 function Contact({ p }: SP) {
   const C = useC();
   useStore(s => s.people);
-  const x = person(p.i || 0), debt = x.tag[0] === 'd', k = x.id % 20, pkg = x.tag[1] === 'Paket';
+  const x = person(p.i || '0'), debt = x.tag[0] === 'd', k = (parseInt(x.id, 10) || 0) % 20, pkg = x.tag[1] === 'Paket';
   const [tab, setTab] = useState(0);
   const [show, setShow] = useState(false);
   const phone = `+90 532 ${String(10 + k * 7).padStart(2, '0')} ${40 + k} ${String(k * 3).padStart(2, '0')}`;
@@ -105,7 +105,7 @@ function Contact({ p }: SP) {
 function Docs({ p }: SP) {
   const C = useC();
   const emp = useStore(s => s.emp);
-  const x = person(p.i || 0);
+  const x = person(p.i || '0');
   const add = () => toast('Dosya seç · Fotoğraf çek · Not yaz');
   const open = () => toast('Dosya açılıyor');
   return (

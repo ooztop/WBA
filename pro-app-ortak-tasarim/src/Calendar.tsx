@@ -6,7 +6,9 @@ import Animated, { cancelAnimation, Easing, useAnimatedReaction, useAnimatedStyl
 import { scheduleOnRN } from 'react-native-worklets';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Svg, { Defs, Path, Pattern, Rect } from 'react-native-svg';
-import { addD, D1, DL, DN, dkey, hm, lessons, MN, mon, MS, NOW_H, p2, same, TODAY, wd, type Lesson } from './data';
+import { addD, D1, DL, DN, hm, lessons, MN, mon, MS, NOW_H, p2, same, TODAY, wd, type Lesson } from './data';
+import { iso } from './data/dates';
+import type { ID } from './data/models';
 import { hhmm, openSheet, push, set, useC, useFrame, useStore, type SlotMenu } from './store';
 import type { Colors } from './theme';
 import { Btn, Fic, Icon, Lbl, Rt, T, Tag, type TagK } from './ui';
@@ -84,10 +86,11 @@ function Hour({ h, g, C, a0, a1 }: { h: number; g: Geo; C: Colors; a0: number; a
 
 function Block({ l, di, det, done, g, C, name, onPress }: { l: Lesson; di: number; det: boolean; done: boolean; g: Geo; C: Colors; name: string; onPress: () => void }) {
   const { P, TS, W } = g;
+  const lh = l.h, ld = l.dur;
   const st = useAnimatedStyle(() => {
     const p = P.value, e = cl(p);
     const hh = lp(48, HW, e), cx = cxOf(p, W, di);
-    const top = yOf(l[0], e, TS.value) + 1, height = (l[1] / 60) * hh - 3;
+    const top = yOf(lh, e, TS.value) + 1, height = (ld / 60) * hh - 3;
     // Konum transform ile (yerleşim hesabı yok); yalnız gün kutusunun genişliği değişir
     if (det) return { transform: [{ translateX: lp(62, cx - 6, e) }, { translateY: top }], width: lp(W - 14 - 62, 12, e), height, borderRadius: lp(12, 6, e), opacity: done ? lp(0.65, 0.45, e) : 1 };
     return { transform: [{ translateX: cx - 6 }, { translateY: top }], width: 12, height, borderRadius: 6, opacity: cl(e * 1.6 - 0.3) * (done ? 0.45 : 1) };
@@ -95,15 +98,15 @@ function Block({ l, di, det, done, g, C, name, onPress }: { l: Lesson; di: numbe
   const fill = useAnimatedStyle(() => ({ opacity: cl(P.value) }));
   const txt = useAnimatedStyle(() => ({ opacity: cl(1 - cl(P.value) * 3) }));
   if (!det) return <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: 0, top: 0, backgroundColor: C.sdark }, st]} />;
-  const tg = TAGS[l[4]];
+  const tg = TAGS[l.st];
   return (
-    <Animated.View style={[{ position: 'absolute', left: 0, top: 0, backgroundColor: l[4] === 'nx' ? C.tintSoft : C.card, overflow: 'hidden' }, st]}>
+    <Animated.View style={[{ position: 'absolute', left: 0, top: 0, backgroundColor: l.st === 'nx' ? C.tintSoft : C.card, overflow: 'hidden' }, st]}>
       <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={`${name} dersi`} style={{ flex: 1 }}>
         <Animated.View style={[{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, backgroundColor: C.sdark }, fill]} />
         <Animated.View style={[{ position: 'absolute', left: 10, right: 10, top: 5, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }, txt]}>
           <View style={{ flex: 1, minWidth: 0 }}>
             <T s={14} w={700} lh={1.35} numberOfLines={1}>{name}</T>
-            <T s={12} c={C.muted} numberOfLines={1}>{hm(l[0])} · {l[3]} · {l[1]} dk</T>
+            <T s={12} c={C.muted} numberOfLines={1}>{hm(l.h)} · {l.type} · {l.dur} dk</T>
           </View>
           <Tag k={tg[0]} t={tg[1]} />
         </Animated.View>
@@ -385,9 +388,9 @@ export function Calendar() {
   };
   const dayBreaks = [
     ...breaks.filter(b => b.days.includes(fi)).map(b => ({ from: hhmm(b.start, 12.5), to: hhmm(b.end, 13.5), name: b.name, time: `${b.start} – ${b.end}` })),
-    ...offs.filter(o => o.k === dkey(F)).map(o => ({ from: o.all ? 9 : o.start, to: o.all ? 18 : o.end, name: o.name, time: o.all ? 'Tüm gün kapalı' : `${hm(o.start)} – ${hm(o.end)}` })),
+    ...offs.filter(o => o.date === iso(F)).map(o => ({ from: o.all ? 9 : o.start, to: o.all ? 18 : o.end, name: o.name, time: o.all ? 'Tüm gün kapalı' : `${hm(o.start)} – ${hm(o.end)}` })),
   ].filter(b => b.to > b.from);
-  const nameOf = (id: number) => (people.find(p => p.id === id) || people[0]).name;
+  const nameOf = (id: ID) => (people.find(p => p.id === id) || people[0]).name;
 
   const band = useAnimatedStyle(() => ({ height: lp(BANDH, H, cl(P.value - 1)) }));
   const thumb = useAnimatedStyle(() => ({ transform: [{ translateX: cl(P.value, 0, 2) * 54 }] }));
@@ -423,7 +426,7 @@ export function Calendar() {
                   {week.map((_, i) => <VLine key={i} i={i} g={g} col={i === fi ? C.muted : C.divider} VLH={VLH} />)}
                   {dayBreaks.map((b, i) => <BreakBlock key={i} from={b.from} to={b.to} label={b.name} time={b.time} g={g} C={C} />)}
                   {week.map((d, di) => L(d).map(l => (
-                    <Block key={`${+d}-${l[0]}`} l={l} di={di} det={same(d, F)} done={d < TODAY || (same(d, TODAY) && l[0] + l[1] / 60 < NOW_H)} g={g} C={C} name={nameOf(l[2])}
+                    <Block key={l.id} l={l} di={di} det={same(d, F)} done={d < TODAY || (same(d, TODAY) && l.h + l.dur / 60 < NOW_H)} g={g} C={C} name={nameOf(l.pid)}
                       onPress={guard(() => { if (mode === 0) push('lesson', { l, f: +d }); else if (mode === 1) pickWeekDay(d); })} />
                   )))}
                   <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: 4, top: 0, height: 16, justifyContent: 'center', backgroundColor: C.ink, paddingHorizontal: 6, borderRadius: 999 }, nowTag]}>
