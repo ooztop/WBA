@@ -47,8 +47,20 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
+**Wellness henüz güncellenmedi:** 17 Kasım'da kodda yapılan tasarım değişiklikleri (aşağıda "17 Kas · tasarım turu")
+Wellness tuvaline ve prototipine işlenmedi. Kullanıcıya soruldu, cevap bekleniyor.
+
+## Tıklanabilir önizleme: "Pro App Önizleme" artifact'i
+**https://claude.ai/artifact/K2nhCwHFhxXKNP6jfkxu47**
+- Kullanıcı uygulamayı burada deniyor. Bulut ortamında iOS simülatörü yok; önizleme paneli de kullanıcının uygulamasında görünmüyor.
+- `pro-app-ortak-tasarim`'in web sürümü, tek HTML dosyasına paketlenmiş hâli.
+- Her tasarım değişikliğinden sonra güncellenir. Adımlar (`pro-app-ortak-tasarim` klasöründe):
+  1. `npx expo export --platform web --output-dir <geçici klasör>`
+  2. `node scripts/onizleme.js <geçici klasör> <çıktı.html>`
+  3. Çıktıyı Artifact aracıyla bu URL'ye yayınla (`url` + `file_path`).
+- Değişikliği göstermeden önce Playwright ile ekran görüntüsü alıp kontrol et, kullanıcıya görüntüyü gönder.
+
 Diğer artifact'ler (claude.ai, yardımcı):
-- Pro App Önizleme
 - Pro App
 - Ortak Tasarım Sistemi Wellbeing
 - Design System
@@ -65,6 +77,28 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - Veri katmanı kuruldu: modeller, mock veritabanı, konu başına servisler, önbellek, iyimser eylemler ve geri alma, testler.
   - Emre'ye backend notu yazıldı.
   - Bütün işler `main`'de toplandı.
+- **17 Kas · tasarım turu** (kullanıcıyla ekran ekran, önizlemede denenerek):
+  - **Ders iptal ekranı:** Sebep ve ödeme/paket tek kartta satır olarak; mesaj altta, isteğe bağlı.
+    Üstte mat pembe "İptal edilecek ders" kutusu (`C.dangerSoft`); altta dolu kırmızı, beyaz yazılı düğme (`Btn k="xf"`).
+  - **İptal kuralları** (`src/data/cancelPolicy.ts`, testli):
+    - Sebepler: Ben iptal ediyorum, Kişi gelemiyor, Hava / mekân ("Diğer" kullanıcı isteğiyle kaldırıldı).
+    - Paketli ders: Pakete geri ekle / Paketten düş.
+    - Paketsiz, ödenmiş ders: İade et / İade etme / Ücretsiz ders ver.
+    - Paketsiz, ödenmemiş ders: Ücret alınmasın / Ücret alınsın.
+    - "Kişi gelemiyor" + ücretsiz iptal süresi (Ders kuralları `rule.1`) geçmişse varsayılan kişinin aleyhine
+      (Paketten düş / İade etme / Ücret alınsın) ve "Ücretsiz iptal süresi geçti" notu. Uzman yine istediğini seçebilir.
+  - **Ders detayı:** Başlamış (geçmiş ya da devam eden) derste İptal et / Dersi ertele yok (`lessonStarted`).
+    Ödenmemişse tek bir "Ödeme al", ödenmişse alt düğme yok.
+  - **Alt düğme çubuğu (`Foot`):** Beyaz zemin ve üst çizgi kaldırıldı.
+  - **Erteleme ekranı:**
+    - Eski/Yeni kutusu duruyor. Yeni tarihte ay da yazıyor; ok eski tarihin hemen yanında.
+    - Günler kutusuz şerit (takvimin hafta şeridi gibi), saatler çerçevesiz açık gri çipler.
+    - "Takvimden seç" başlığın sağında, vurgu mavisinde. Tarih, ardından saat seçici açar.
+      Seçim şeride ve saatlere yerleşir (`src/data/reschedule.ts`, testli); geçmiş saat seçilemez.
+    - Kullanıcı tek liste / kart düzenli bir taslağı beğenmedi; bu ekranın genel düzeni korunmalı.
+  - **Kişiler listesi:** Sağdaki Üye / Tek ders / Paket etiketleri kaldırıldı.
+  - **Demo verisi:** Perşembe 10 Eylül dersleri ödenmiş; o günün ilk dersi (Can, 12:00) paketli.
+    Erteleme şeridindeki gün adları düzeltildi; Pazar (kapalı) listeden çıktı.
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -76,6 +110,16 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - tekil ders fiyatları (`/offerings`)
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki.
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
+- Testler: `npm test` ile 97 test geçiyor; `npx tsc --noEmit` temiz.
+- Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
+  API'ye geçince gerçek saate bağlanmalı.
+
+Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
+- Üyelik (Aylık üyelik) derslerinin iptalinde ne çıksın? Şu an paketsiz tek ders gibi davranıyor.
+- Kişiler listesinde isim altındaki "Tam zamanlı üyelik" / "8 derslik paket · 2 kaldı" yazıları ve "Üyeler" filtresi kalsın mı?
+- Ödeme al ekranı, açıldığı dersi listede seçili göstersin mi? (Şu an demo derslerini listeliyor.)
+- Ders detayındaki "Kadıköy stüdyo ↗" gibi bağlantılar da koyu lacivert yerine vurgu mavisi olsun mu?
+- Henüz yapılmamış derslerde demo ders notu ("Türev konusunu bitirdik…") dolu geliyor; kaldırılsın mı?
 
 ## Sıradaki adımlar
 1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.
@@ -95,3 +139,6 @@ Diğer artifact'ler (claude.ai, yardımcı):
 - Takvimde haftanın ilk günü Pazartesi (`0 = Pazartesi … 6 = Pazar`).
 - Web panelinde yalnızca Hafta ve Ay görünümü var; ‹ › ve "Bugün" gezinme düğmeleri yok.
 - Kullanıcı kalabalık ve büyük arayüz sevmiyor; açıklama yazısı ve bilgi notu az olmalı.
+- Tasarım değişikliklerinde çalışma şekli: önce ekran görüntüsü, belirsizse kısa soru, gerekirse 2 taslak yan yana;
+  seçilen uygulanır, test edilir, `main`'e gönderilir ve önizleme güncellenir. Taslak kod commit edilmez.
+- Kırmızı yalnızca iptal / silme gibi geri dönüşsüz işler için; erteleme gri / mavi kalır.
