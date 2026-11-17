@@ -1,7 +1,7 @@
 // Sayfalar 3: ders detayı, erteleme, iptal, rezervasyon talebi, sonuç ekranları, ödeme al, giriş / kaydol
 import React, { useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
-import { DL, DN, MN, MS, first, hm, wd, type Lesson } from './data';
+import { DL, DN, MN, MS, first, hm, lessonStarted, wd, type Lesson } from './data';
 import { iso } from './data/dates';
 import { get, go, hhmm, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
@@ -51,6 +51,8 @@ function LessonScr({ p }: SP) {
   const cinfo = { ...info, st: l ? l.st : 'ok', pk: /paket/i.test(pkName), rep };
   const loc = l?.loc ?? (ty.startsWith('Online') ? 'Online' : 'Stüdyo');
   const st = l ? l.st : 'ok';
+  // Başlamış (geçmiş ya da devam eden) derste iptal/erteleme yok; ödenmemişse Ödeme al
+  const started = lessonStarted(d, h0);
   const kv = (t: string, right: React.ReactNode) => <GR style={{ minHeight: 52 }} right={right}><T s={15} lh={1.35} c={C.muted} style={{ flex: 1 }}>{t}</T></GR>;
   return (
     <>
@@ -78,10 +80,14 @@ function LessonScr({ p }: SP) {
           </View>
         </View>
       </Scr>
-      <Foot>
-        <Btn flex k="x" t="İptal et" onPress={() => go('cancel', undefined, cinfo)} />
-        <Btn flex t="Dersi ertele" onPress={() => go('reschedule', undefined, info)} />
-      </Foot>
+      {!started ? (
+        <Foot>
+          <Btn flex k="x" t="İptal et" onPress={() => go('cancel', undefined, cinfo)} />
+          <Btn flex t="Dersi ertele" onPress={() => go('reschedule', undefined, info)} />
+        </Foot>
+      ) : st !== 'ok' ? (
+        <Foot><Btn flex t="Ödeme al" onPress={() => go('payment', undefined, { i: pe.id })} /></Foot>
+      ) : null}
     </>
   );
 }

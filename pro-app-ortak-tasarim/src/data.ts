@@ -12,6 +12,8 @@ export const p2 = (n: number) => String(n).padStart(2, '0');
 export const hm = (x: number) => `${p2(Math.floor(x))}:${p2(Math.round((x % 1) * 60))}`;
 export const addD = (d: Date, n: number) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 export const same = (a: Date, b: Date) => a.toDateString() === b.toDateString();
+// Ders başladı mı (devam eden ders de sayılır): başladıysa iptal ve erteleme yapılamaz
+export const lessonStarted = (d: Date, h: number) => (same(d, TODAY) ? h <= NOW_H : d < TODAY);
 export const wd = (d: Date) => (d.getDay() + 6) % 7;
 export const mon = (d: Date) => addD(d, -wd(d));
 export const first = (n: string) => n.split(' ')[0];
