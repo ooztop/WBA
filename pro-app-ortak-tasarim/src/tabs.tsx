@@ -2,9 +2,10 @@
 import React, { useRef, useState } from 'react';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import { TRA, type Person } from './data';
-import { get, go, openAction, openMenu, openSheet, patchPerson, push, resetData, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { get, go, openAction, openMenu, openSheet, patchPerson, push, set, toast, toastLater, useC, useFrame, useStore } from './store';
 import { copy, LINK } from './device';
 import { acceptReq } from './screens3';
+import { resetDemo, setEmptyMode } from './data/actions';
 import { ff } from './theme';
 import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, T, Tag, Tap, type SV } from './ui';
 
@@ -159,8 +160,8 @@ function acctMenu() {
     // Prototipin üstündeki ayar düğmelerinin (vurgu, tema, boş sayfa) uygulama içi karşılığı
     { label: `Vurgu rengi: ${ACN[next]}`, onPress: () => set({ accent: next }) },
     { label: s.dark ? 'Açık tema' : 'Koyu tema', onPress: () => set({ dark: !s.dark }) },
-    { label: s.emp ? 'Dolu sayfa' : 'Boş sayfa', onPress: () => set({ emp: !s.emp }) },
-    { label: 'Verileri sıfırla', onPress: () => setTimeout(() => openAction('Veriler sıfırlansın mı?', 'Eklediğin dersler, kişiler, paketler ve ayarlar silinir; demo verisi geri gelir.', 'Sıfırla', true, () => { resetData(); toastLater('Veriler sıfırlandı'); }), 200) },
+    { label: s.emp ? 'Dolu sayfa' : 'Boş sayfa', onPress: () => { void setEmptyMode(!s.emp); } },
+    { label: 'Verileri sıfırla', onPress: () => setTimeout(() => openAction('Veriler sıfırlansın mı?', 'Eklediğin dersler, kişiler, paketler ve ayarlar silinir; demo verisi geri gelir.', 'Sıfırla', true, () => { void resetDemo(); toastLater('Veriler sıfırlandı'); }), 200) },
     { label: 'Çıkış yap', danger: true, onPress: () => setTimeout(logout, 200) },
   ]);
 }

@@ -1,6 +1,6 @@
 // Dersler servisi (mock dalı): gün aralığı okuma, ekleme, iptal, taşıma.
 import type { ID, Lesson } from '../models';
-import { addDays } from './dateUtil';
+import { addD as addDays } from '../../data';
 import { fromIso, iso } from '../dates';
 import { newId } from '../mock/db';
 import { copy, db } from './util';

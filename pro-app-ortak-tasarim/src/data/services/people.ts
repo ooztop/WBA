@@ -1,9 +1,8 @@
 // Kişiler servisi (mock dalı).
 import type { ID, Person } from '../models';
+import { initials } from '../../data';
 import { newId } from '../mock/db';
 import { copy, db } from './util';
-
-const initials = (n: string) => n.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toLocaleUpperCase('tr');
 
 export const peopleService = {
   async list(): Promise<Person[]> {

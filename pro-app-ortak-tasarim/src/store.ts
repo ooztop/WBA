@@ -1,11 +1,9 @@
-// Uygulamanın tamamı bellekte çalışır: API ya da veritabanı yok.
+// Ekran durumu (sekme, sayfa yığını, paneller, bildirim) ve servislerden gelen verinin önbelleği.
 import { createContext, useContext, useSyncExternalStore } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { makeMutable, type SharedValue } from 'react-native-reanimated';
 import { colors, type Accent, type Colors } from './theme';
-import { TODAY } from './data';
+import { TODAY, initials } from './data';
 import type { Brk, Debt, ID, Lesson, Off, PaidRow, Person, Pkg, Profile, ReqState } from './data/models';
-import { BREAKS0, COLLECTED0, DEBTS0, ME0, PACKAGES0, PAID0, PEOPLE0, REQS0 } from './data/mock/seed';
 
 export type Route = { key: number; id: string; p: any; prog: SharedValue<number>; closing?: boolean };
 export type SheetR = { key: number; id: string; p: any; closing?: boolean; swap?: boolean };
@@ -16,25 +14,24 @@ export type PickerS = { key: number; kind: 'date'; value: Date; onPick: (d: Date
 export type SlotMenu = { d: number; h: number; title: string; onDay?: () => void };
 export type ToastS = { key: number; msg: string; undo?: string; onUndo?: () => void };
 
-type State = {
+export type State = {
   dark: boolean; accent: Accent; emp: boolean; tab: number; F: Date;
   stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null; picker: PickerS | null;
   people: Person[]; packages: Pkg[]; extra: Lesson[]; cancelled: ID[]; menu: boolean | SlotMenu;
   breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: Profile;
   prefs: Record<string, any>; reqs: ReqState;
+  // Gün başına ders önbelleği (anahtar 'YYYY-MM-DD'), yüklenen günler ve yeniden yükleme sayacı
+  lessons: Record<string, Lesson[]>; loaded: Set<string>; epoch: number;
 };
 
 let state: State = {
   dark: false, accent: 'blue', emp: false, tab: 0, F: new Date(TODAY),
   stack: [], sheets: [], action: null, toast: null, picker: null,
-  people: PEOPLE0, packages: PACKAGES0, extra: [], cancelled: [], menu: false,
-  breaks: BREAKS0,
-  offs: [],
-  debts: DEBTS0,
-  paid: PAID0,
-  collected: COLLECTED0,
-  me: ME0,
-  prefs: {}, reqs: REQS0,
+  people: [], packages: [], extra: [], cancelled: [], menu: false,
+  breaks: [], offs: [], debts: [], paid: [], collected: 0,
+  me: { ad: '', soyad: '', title: '' },
+  prefs: {}, reqs: { b: false, a: false },
+  lessons: {}, loaded: new Set(), epoch: 0,
 };
 const subs = new Set<() => void>();
 const sub = (f: () => void) => { subs.add(f); return () => { subs.delete(f); }; };
@@ -130,8 +127,7 @@ export const personByName = (n: string) => state.people.find(p => p.name === n);
 export function addPerson(name: string, sub = ''): Person {
   const ex = personByName(name);
   if (ex) return ex;
-  const ini = name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toLocaleUpperCase('tr');
-  const p: Person = { id: String(200 + K++), ini, name, sub, tag: ['n', 'Tek ders'], cat: '' };
+  const p: Person = { id: String(200 + K++), ini: initials(name), name, sub, tag: ['n', 'Tek ders'], cat: '' };
   set(s => ({ people: [...s.people, p] }));
   return p;
 }
@@ -166,27 +162,6 @@ export const setPref = (k: string, v: any) => set(s => ({ prefs: { ...s.prefs, [
 export function usePref<T>(k: string, d: T): [T, (v: T) => void] {
   const v = useStore(s => s.prefs[k]);
   return [v === undefined ? d : v, x => setPref(k, x)];
-}
-
-/* ---------- kalıcılık: veriler cihazda saklanır, uygulama kapanıp açılınca geri gelir ---------- */
-const KEY = 'pro-ortak-tasarim-v1';
-const KEEP = ['dark', 'accent', 'people', 'packages', 'extra', 'cancelled', 'breaks', 'offs', 'debts', 'paid', 'collected', 'me', 'prefs', 'reqs'] as const;
-const snap = () => JSON.stringify(Object.fromEntries(KEEP.map(k => [k, (state as any)[k]])));
-const FRESH = snap();
-let saveT: ReturnType<typeof setTimeout> | null = null, lastSaved = '';
-export async function hydrate() {
-  try {
-    const raw = await AsyncStorage.getItem(KEY);
-    if (raw) { const d = JSON.parse(raw); const patch: any = {}; KEEP.forEach(k => { if (d[k] !== undefined) patch[k] = d[k]; }); set(patch); }
-  } catch {}
-  lastSaved = snap();
-  subs.add(() => {
-    if (saveT) clearTimeout(saveT);
-    saveT = setTimeout(() => { const j = snap(); if (j !== lastSaved) { lastSaved = j; AsyncStorage.setItem(KEY, j).catch(() => {}); } }, 400);
-  });
-}
-export function resetData() {
-  set({ ...JSON.parse(FRESH), stack: [], sheets: [], tab: 0, emp: false, F: new Date(TODAY) });
 }
 
 /* ---------- tarih ve saat seçici ---------- */

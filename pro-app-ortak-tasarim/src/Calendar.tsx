@@ -6,13 +6,15 @@ import Animated, { cancelAnimation, Easing, useAnimatedReaction, useAnimatedStyl
 import { scheduleOnRN } from 'react-native-worklets';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Svg, { Defs, Path, Pattern, Rect } from 'react-native-svg';
-import { addD, D1, DL, DN, hm, lessons, MN, mon, MS, NOW_H, p2, same, TODAY, wd, type Lesson } from './data';
+import { addD, D1, DL, DN, hm, MN, mon, MS, NOW_H, p2, same, TODAY, wd, type Lesson } from './data';
 import { iso } from './data/dates';
+import { ensureLessons } from './data/actions';
 import type { ID } from './data/models';
 import { hhmm, openSheet, push, set, useC, useFrame, useStore, type SlotMenu } from './store';
 import type { Colors } from './theme';
 import { Btn, Fic, Icon, Lbl, Rt, T, Tag, type TagK } from './ui';
 
+const NONE: Lesson[] = [];
 const MT = 124, LABY = 100, BANDH = 184, CLIPT = 192, RH = 60, LH = 40, HW = 30;
 const OQ = Easing.out(Easing.poly(4));
 const TAGS: Record<string, [TagK, string]> = { ok: ['s', 'Ödendi'], no: ['d', 'Ödenmedi'], nx: ['a', 'Sıradaki'], w: ['i', 'Bekliyor'] };
@@ -239,7 +241,7 @@ export function Calendar() {
   const fr = useFrame();
   const { W, top, tbh } = fr;
   const H = fr.H - tbh;
-  const F = useStore(s => s.F), emp = useStore(s => s.emp), extra = useStore(s => s.extra), cancelled = useStore(s => s.cancelled), people = useStore(s => s.people), breaks = useStore(s => s.breaks), offs = useStore(s => s.offs), prefs = useStore(s => s.prefs);
+  const F = useStore(s => s.F), emp = useStore(s => s.emp), extra = useStore(s => s.extra), cancelled = useStore(s => s.cancelled), cache = useStore(s => s.lessons), epoch = useStore(s => s.epoch), people = useStore(s => s.people), breaks = useStore(s => s.breaks), offs = useStore(s => s.offs), prefs = useStore(s => s.prefs);
   const P = useSharedValue(0), TS = useSharedValue(84), S = useSharedValue(0), DX = useSharedValue(0), TIO = useSharedValue(1), SX = useSharedValue(0), CO = useSharedValue(1);
   const [mode, setMode] = useState(0);
   const [tmIdx, setTmIdx] = useState(2);
@@ -247,7 +249,15 @@ export function Calendar() {
   const VLH = H - CLIPT - 24, MH = H - MT;
   const TSmax = Math.max(0, 15 * 48 + 6 - (H - CLIPT) + 40);
   const g: Geo = useMemo(() => ({ P, TS, W }), [W]);
-  const L = (d: Date) => lessons(d, emp, extra, cancelled);
+  // Gün dersleri önbellekten gelir; ekranların henüz önbelleğe yazılmayan ekle/iptal işlemleri (Görev 6'ya kadar) üstüne uygulanır
+  const L = React.useCallback((d: Date): Lesson[] => {
+    const k = iso(d), base = cache[k] ?? NONE;
+    if (emp) return NONE;
+    let out = base;
+    if (extra.length) out = out.concat(extra.filter(e => e.date === k)).sort((x, y) => x.h - y.h);
+    if (cancelled.length) out = out.filter(l => !cancelled.includes(l.id));
+    return out;
+  }, [cache, emp, extra, cancelled]);
   const mk = F.getFullYear() * 12 + F.getMonth();
   const lay = useMemo(() => layout(F, W), [mk, W]);
   const rowF = useMemo(() => rowIdx(lay.rows, F), [lay, +F]);
@@ -257,7 +267,15 @@ export function Calendar() {
   const yRowF = MT + rowOf.y - lay.S0 + 8;
   const Smax = Math.max(0, lay.total - MH + 40);
   const inRow = (d: Date) => (d >= rowOf.from && d <= rowOf.to) || same(d, rowOf.from) || same(d, rowOf.to);
-  const count = React.useCallback((d: Date) => Math.min(3, lessons(d, emp, extra, cancelled).length), [emp, extra, cancelled]);
+  const count = React.useCallback((d: Date) => Math.min(3, L(d).length), [L]);
+
+  // Görünür aralığın derslerini yükle: Gün/Hafta'da odak haftası ±2 hafta; Ay'da ay yerleşiminin bütün ayları (F ayı −2 … +4)
+  useEffect(() => {
+    const [from, to] = mode === 2
+      ? [iso(new Date(F.getFullYear(), F.getMonth() - 2, 1)), iso(new Date(F.getFullYear(), F.getMonth() + 5, 0))]
+      : [iso(addD(mon(F), -14)), iso(addD(mon(F), 20))];
+    ensureLessons(from, to).catch(() => {});
+  }, [+F, mode, epoch]);
 
   const ref = useRef({ dragAt: 0, slide: 0, tap: 0 }).current;
   const guard = (fn: () => void) => () => { if (Date.now() - ref.dragAt > 300) fn(); };

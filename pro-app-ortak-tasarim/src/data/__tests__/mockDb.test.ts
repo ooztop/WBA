@@ -59,3 +59,13 @@ test('update cihaza yazar ve load geri okur', async () => {
   await mockDb.load();
   expect(mockDb.data().collected).toBe(777);
 });
+
+test('boş kipte eklenen kişi görünür, demo kişiler görünmez; kapatınca hepsi döner', () => {
+  mockDb.setEmpty(true);
+  mockDb.update(d => ({ ...d, people: [...d.people, { id: 'n1', ini: 'YK', name: 'Yeni Kişi', sub: '', tag: ['n', 'Tek ders'], cat: '' }] }));
+  expect(mockDb.data().people.map(p => p.name)).toEqual(['Yeni Kişi']);
+  mockDb.setEmpty(false);
+  expect(mockDb.data().people).toHaveLength(23);
+  mockDb.setEmpty(true);
+  expect(mockDb.data().people).toHaveLength(0);
+});

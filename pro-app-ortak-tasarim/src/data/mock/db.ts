@@ -106,8 +106,10 @@ let empty = false;
 let saveT: ReturnType<typeof setTimeout> | null = null;
 const baseCache = new Map<string, Lesson[]>();
 
-// Boş sayfa kipinde yalnız kayıt listeleri boşalır; ayarlar dolu kalır
-const blank = (d: MockData): MockData => ({ ...d, people: [], packages: [], extra: [], breaks: [], offs: [], debts: [], paid: [], collected: 0 });
+// Boş sayfa kipinde yalnız kayıt listeleri boşalır; ayarlar dolu kalır.
+// Kip açıkken eklenen kişiler görünür kalır (eski Kişi seç paneli yeni eklenenleri gösterirdi).
+let emptyBase = new Set<ID>();
+const blank = (d: MockData): MockData => ({ ...d, people: d.people.filter(p => !emptyBase.has(p.id)), packages: [], extra: [], breaks: [], offs: [], debts: [], paid: [], collected: 0 });
 
 function scheduleSave() {
   if (saveT) clearTimeout(saveT);
@@ -143,7 +145,10 @@ export const mockDb = {
     empty = false;
     scheduleSave();
   },
-  setEmpty(on: boolean): void { empty = on; },
+  setEmpty(on: boolean): void {
+    if (on && !empty) emptyBase = new Set(cur.people.map(p => p.id));
+    empty = on;
+  },
   lessonsFor(d: Date): Lesson[] {
     if (empty) return [];
     const day = iso(d);

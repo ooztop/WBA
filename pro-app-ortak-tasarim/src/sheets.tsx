@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { DN, MN, MS, TODAY, addD, first, hm, mon, wd, type Lesson } from './data';
+import { DN, MN, MS, TODAY, addD, first, hm, initials, mon, wd, type Lesson } from './data';
 import { iso } from './data/dates';
 import { addPerson, closeSheet, hhmm, nextId, num, pickDate, pickTime, snapLesson, tl, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
 import { EASE, ff } from './theme';
@@ -146,7 +146,7 @@ function EditContact({ p }: SP) {
   const saveC = () => {
     const nm = `${ad.trim()} ${soyad.trim()}`.trim();
     if (!nm) { toast('Önce bir ad yaz'); return; }
-    patchPerson(x.id, { name: nm, ini: nm.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toLocaleUpperCase('tr') });
+    patchPerson(x.id, { name: nm, ini: initials(nm) });
     closeSheet(); toastLater('Değişiklikler kaydedildi');
   };
   const gone = (patch: { arch?: boolean; gone?: boolean }, msg: string) => {
