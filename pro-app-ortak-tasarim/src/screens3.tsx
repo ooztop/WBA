@@ -1,13 +1,13 @@
 // Sayfalar 3: ders detayı, erteleme, iptal, rezervasyon talebi, sonuç ekranları, ödeme al, giriş / kaydol
 import React, { useRef, useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
 import { DL, DN, MN, MS, first, hm, lessonStarted, wd, type Lesson } from './data';
 import { iso } from './data/dates';
 import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
 import { get, go, hhmm, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
-import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, DC, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
+import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
 
 import { openUrl } from './device';
@@ -96,6 +96,31 @@ function LessonScr({ p }: SP) {
 const RS_DAYS: [string, string][] = [['Per', '11'], ['Cum', '12'], ['Cmt', '13'], ['Pzt', '15'], ['Sal', '16'], ['Çar', '17']];
 const RS = [['14:00', '15:10', '16:20'], ['10:00', '11:10', '14:00', '15:10', '18:00', '19:10'], ['11:00', '12:10'], ['10:00', '14:00', '16:20'], ['10:00', '11:10', '13:30'], ['15:10', '17:30']];
 
+// Erteleme: kutusuz gün şeridi (takvimin hafta şeridi gibi) ve çerçevesiz yumuşak saat çipleri
+function DayStrip({ di, onSel }: { di: number; onSel: (i: number) => void }) {
+  const C = useC();
+  return (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      {RS_DAYS.map((d, i) => (
+        <Tap key={i} onPress={() => onSel(i)} sel={i === di} style={{ alignItems: 'center', gap: 4, minWidth: 44 }}>
+          <T s={12} w={700} c={C.muted}>{d[0]}</T>
+          <View style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: i === di ? C.sdark : 'transparent' }}>
+            <T s={17} w={800} c={i === di ? C.onDark : C.ink}>{d[1]}</T>
+          </View>
+        </Tap>
+      ))}
+    </View>
+  );
+}
+function Soft({ t, on, onPress, style }: { t: string; on: boolean; onPress: () => void; style?: StyleProp<ViewStyle> }) {
+  const C = useC();
+  return (
+    <Tap onPress={onPress} sel={on} style={[{ height: 40, borderRadius: 999, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? C.sdark : C.page }, style]}>
+      <T s={14} w={700} c={on ? C.onDark : C.ink}>{t}</T>
+    </Tap>
+  );
+}
+
 function Reschedule({ p }: SP) {
   const C = useC();
   const f = first(p.n || 'Elif');
@@ -123,10 +148,10 @@ function Reschedule({ p }: SP) {
         <View style={{ flex: 1, minWidth: 0 }}>{small('Yeni')}<T s={17} w={800} numberOfLines={1}>{nv}</T></View>
       </View>
       <Blk lbl="Müsait saatlerin" right={<Tap onPress={() => toast('Takvim açılır')} hit={8} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 32 }}><Icon n="calendar" s={16} c={C.accent} /><T s={13} w={800} c={C.accent}>Takvimden seç</T></Tap>}>
-        <View style={{ flexDirection: 'row', gap: 6 }}>{RS_DAYS.map((d, i) => <DC key={i} a={d[0]} b={d[1]} on={i === di} onPress={() => { setDi(i); setSi(0); }} />)}</View>
-        <PChips key={di} items={RS[di]} cols={3} value={si} onChange={i => setSi(i)} />
+        <DayStrip di={di} onSel={i => { setDi(i); setSi(0); }} />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{RS[di].map((t, i) => <Soft key={di + t} t={t} on={i === si} onPress={() => setSi(i)} style={{ width: '30%', flexGrow: 1 }} />)}</View>
       </Blk>
-      <ORow t={`${f}'e bildir`} s="Yeni saati onaylaması istenir" right={<Sw on={tell} onChange={setTell} label={`${f}'e bildir`} />} />
+      <ORow style={{ marginTop: 8 }} t={`${f}'e bildir`} s="Yeni saati onaylaması istenir" right={<Sw on={tell} onChange={setTell} label={`${f}'e bildir`} />} />
       <Sm>Sadece bu ders taşınır; seri ve ödeme aynı kalır.</Sm>
     </Page>
   );
