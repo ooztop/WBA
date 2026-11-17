@@ -131,9 +131,12 @@ function Rules() {
 }
 
 /* ---------- paket satırı: sağa kaydır → temel yap, sola kaydır → sil ---------- */
-export const Pkb = ({ t }: { t: string }) => {
+// Paket kutucuğu: k='soft' açık mavi, k='base' (temel paket) dolu mavi
+export const Pkb = ({ t, k }: { t: string; k?: 'soft' | 'base' }) => {
   const C = useC();
-  return <View style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: C.page, alignItems: 'center', justifyContent: 'center' }}><T s={14} w={800}>{t}</T></View>;
+  const bg = k === 'base' ? C.accent : k === 'soft' ? C.tint : C.page;
+  const fg = k === 'base' ? C.onAccent : k === 'soft' ? C.accentInk : C.ink;
+  return <View style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: bg, alignItems: 'center', justifyContent: 'center' }}><T s={14} w={800} c={fg}>{t}</T></View>;
 };
 function SwipeRow({ pk, onStar, onDel, onOpen }: { pk: Pkg; onStar: () => void; onDel: () => void; onOpen: () => void }) {
   const C = useC();
@@ -165,9 +168,9 @@ function SwipeRow({ pk, onStar, onDel, onOpen }: { pk: Pkg; onStar: () => void; 
       <GestureDetector gesture={pan}>
         <Animated.View style={st}>
           <Tap onPress={() => { if (Date.now() - moved.current > 350) onOpen(); }} style={{ backgroundColor: pk.base ? C.tintSoft : C.card, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 64 }}>
-            <Pkb t={pk.c1} />
+            <Pkb t={pk.c1} k={pk.base ? 'base' : 'soft'} />
             <Rt t={pk.name} s={pk.sub} />
-            <Amt b={pk.price} k={pk.base ? 'a' : undefined} tag={pk.base ? 'Temel' : undefined} />
+            <Amt b={pk.price} bC={pk.base ? C.accent : undefined} k={pk.base ? 'a' : undefined} tag={pk.base ? 'Temel' : undefined} />
           </Tap>
         </Animated.View>
       </GestureDetector>
