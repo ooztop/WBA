@@ -933,8 +933,8 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
         <div class="pchips" role="group" aria-label="Ücretsiz iptal süresi"><button class="chip" aria-pressed="false">2 sa</button><button class="chip on" aria-pressed="true">4 sa</button><button class="chip" aria-pressed="false">24 sa</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
       </div>
       <div class="rule">
-        <div class="rt"><span class="t">Ders başlama kademesi</span><span class="s" style="white-space:normal">Kişiler dersi hangi dakikalarda başlatabilir</span></div>
-        <div class="pchips" role="group" aria-label="Ders başlama kademesi"><button class="chip on" aria-pressed="true">Tam saat</button><button class="chip" aria-pressed="false">15 dk</button><button class="chip" aria-pressed="false">30 dk</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
+        <div class="rt"><span class="t">Ders başlama kademesi</span><span class="s" style="white-space:normal">Dersler her saatin hangi dakikasında başlar</span></div>
+        <div class="pchips" role="group" aria-label="Ders başlama kademesi"><button class="chip on" aria-pressed="true">Tam saat</button><button class="chip" aria-pressed="false">15 geçe</button><button class="chip" aria-pressed="false">30 geçe</button><button class="chip" aria-label="Özel değer"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path></svg></button></div>
       </div>
       <div class="rule">
         <div class="rt"><span class="t">Ders arası mola</span><span class="s" style="white-space:normal">Bir ders bitince sonraki derse kadar zorunlu boşluk</span></div>
@@ -1058,6 +1058,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   <div class="menu" role="menu" aria-label="Ekle">
     <button class="mi" role="menuitem"><span class="fic" style="background:var(--accent);color:#FFFFFF"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"></path></svg></span><span class="rt"><span class="t">Ders ekle</span><span class="s">Kişi, saat ve ücret</span></span></button>
     <button class="mi" role="menuitem"><span class="fic tg-n" style="color:var(--ink)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M9 2h6"></path></svg></span><span class="rt"><span class="t">Mola ekle</span><span class="s">Ara veya kapalı gün</span></span></button>
+    <button class="mi" role="menuitem" data-slotday style="display:none"><span class="fic tg-n" style="color:var(--ink)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span><span class="rt"><span class="t">Günü aç</span><span class="s">Bu günün çizelgesine geç</span></span></button>
   </div>
   <button class="fab" aria-label="Menüyü kapat" style="bottom:100px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
 </div>
@@ -1175,7 +1176,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     <div class="shh">
       <button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
       <h2 class="t3">Kişi seç</h2>
-      <button class="ib p" aria-label="Seçimi onayla"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></button>
+      <button class="ib p" aria-label="Yeni kişi ekle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M15 20a6 6 0 0 0-12 0M19 8v6M16 11h6"></path></svg></button>
     </div>
     <label class="search" style="margin-top:6px;background:var(--surface-page)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input aria-label="Kişi ara" placeholder="Kişi ara"></label>
     <div class="grp" style="padding-top:12px"><span class="lbl">1 kişi seçili</span></div>
@@ -1188,7 +1189,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
       <button class="row" style="min-height:56px"><span class="av" style="width:36px;height:36px;font-size:13px">MK</span><span class="rt"><span class="t">Mert Kaya</span></span><span class="ck"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span></button>
       <button class="row" style="min-height:56px"><span class="av" style="width:36px;height:36px;font-size:13px">SD</span><span class="rt"><span class="t">Selin Demir</span></span><span class="ck"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span></button>
     </div>
-    <button class="btn p ffab"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M15 20a6 6 0 0 0-12 0M19 8v6M16 11h6"></path></svg>Yeni kişi ekle</button>
+    <button class="btn p ffab">Kaydet</button>
   </div>
 </div>
 </section>
@@ -1837,8 +1838,9 @@ function render(st){const P=st.P,e=cl(P),q=cl(P-1),F=st.F,emp=!!st.emp,S=st.S==n
  const inW=week.some(d=>same(d,TODAY)),nv=emp?0:lp(isT?1:0,inW?1:0,e);
  if(emp)c.push(`<div style="position:absolute;left:0;right:0;top:0;bottom:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 40px;gap:8px;opacity:${1-e}"><div class="eic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"></path></svg></div><h3 class="t3">Takvimin boş</h3><p class="body" style="margin:0;color:var(--ink-muted)">İlk dersini ekle, burada görünsün.</p><div class="ebtns"><button class="btn p" data-add="1">Ders ekle</button></div></div>`);
  else{for(let h=7;h<=22;h++)c.push(`<div style="position:absolute;left:4px;width:44px;text-align:right;top:${Y(h)-8}px;font-size:11px;font-weight:700;color:var(--ink-muted);opacity:${((h<8||h>20)?1-e:1)*(Math.abs(h-NOW)<0.5&&nv>0.5?0:1)}">${p2(h)}:00</div><div style="position:absolute;left:56px;right:14px;top:${Y(h)}px;border-top:1px solid var(--divider);opacity:${1-e}"></div>`);
+  [[6.5,10],[18,22.5]].forEach(r=>c.push(`<div style="position:absolute;left:56px;right:14px;top:${Y(r[0])}px;height:${(r[1]-r[0])*hh}px;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--ink) 10%,transparent) 0 1.6px,transparent 1.6px 7px);pointer-events:none;opacity:${cl(1-e*2)}"></div>`));
   const fi=wd(F);week.forEach((d,i)=>c.push(`<div style="position:absolute;left:${cx(i)-.75}px;top:0;width:1.5px;border-radius:1px;height:${e*(1-q)*(H-CLIPT-24)}px;opacity:${Math.min(1,e*1.5)*(1-q)};background:${i==fi?'var(--ink-muted)':'var(--divider)'}"></div>`));
-  if(isT&&e<.5)c.push(`<div style="position:absolute;left:62px;right:14px;top:${Y(12.5)+1}px;height:${hh-3}px;border-radius:12px;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--border) 70%,transparent) 0 1.5px,transparent 1.5px 8px),var(--surface-page);box-shadow:inset 0 0 0 1px var(--divider);display:flex;align-items:center;gap:8px;padding:0 12px;font-size:12.5px;font-weight:700;color:var(--ink-muted);opacity:${1-e*2}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"></path></svg><span style="color:var(--ink)">Öğle molası</span><span style="font-weight:500">12:30 – 13:30</span></div>`);
+  if(isT&&e<.5)c.push(`<div style="position:absolute;left:62px;right:14px;top:${Y(12.5)+1}px;height:${hh-3}px;border-radius:12px;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--ink) 22%,transparent) 0 1.6px,transparent 1.6px 7px),var(--surface-page);box-shadow:inset 0 0 0 1px var(--border);display:flex;align-items:center;padding:0 8px;font-size:12.5px;font-weight:700;color:var(--ink-muted);overflow:hidden;opacity:${1-e*2}"><span style="display:inline-flex;align-items:center;gap:6px;background:var(--surface-page);border-radius:8px;padding:3px 6px;white-space:nowrap"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"></path></svg><span style="color:var(--ink)">Öğle molası</span><span style="font-weight:500">12:30 – 13:30</span></span></div>`);
   week.forEach((d,di)=>lessons(d,emp).forEach((l,li)=>{const det=same(d,F),top=Y(l[0])+1,h=l[1]/60*hh-3,done=d<TODAY||(same(d,TODAY)&&l[0]+l[1]/60<NOW);
    if(det){const left=lp(62,cx(di)-6,e),width=lp(W-14-62,12,e),rad=lp(12,6,e),tg=TAG[l[4]];
     c.push(`<div data-les="${li}" style="position:absolute;left:${left}px;width:${width}px;top:${top}px;height:${h}px;border-radius:${rad}px;background:${l[4]=='nx'?'var(--accent-tint-soft)':'var(--surface-card)'};overflow:hidden;cursor:pointer;opacity:${done?lp(.65,.45,e):1}"><div style="position:absolute;inset:0;background:var(--surface-dark);opacity:${e}"></div><div style="position:absolute;left:10px;right:10px;top:5px;display:flex;justify-content:space-between;gap:8px;opacity:${cl(1-e*3)}"><div style="min-width:0"><div style="font-size:14px;font-weight:700;line-height:1.35;white-space:nowrap">${l[2]}</div><div style="font-size:12px;font-weight:500;color:var(--ink-muted);white-space:nowrap">${hm(l[0])} · ${l[3]} · ${l[1]} dk</div></div><span class="tag ${tg[0]}" style="align-self:flex-start">${tg[1]}</span></div></div>`)}
@@ -1849,7 +1851,7 @@ function render(st){const P=st.P,e=cl(P),q=cl(P-1),F=st.F,emp=!!st.emp,S=st.S==n
  o.push(`<div style="position:absolute;left:0;right:0;top:0;height:${lp(BANDH,H,q)}px;background:var(--surface-dark)"></div>`);
  const away=Math.round(P)==0?!same(F,TODAY):Math.round(P)==1?!week.some(d=>same(d,TODAY)):!(tm.getMonth()==TODAY.getMonth()&&tm.getFullYear()==TODAY.getFullYear());
  o.push(`<div class="lbl" style="position:absolute;left:20px;top:24px;color:var(--on-dark-muted);opacity:${away?0:1};transition:opacity .2s">${q>.5?tm.getFullYear():MN[F.getMonth()]+' '+F.getFullYear()}</div>`);
- o.push(`<button data-gotoday="1" aria-label="Bugüne dön" style="position:absolute;left:10px;top:10px;height:44px;padding:0 10px;border:0;background:none;display:flex;align-items:center;gap:2px;font-size:12px;font-weight:800;letter-spacing:.05em;color:var(--on-dark);opacity:${away?1:0};pointer-events:${away?'auto':'none'};transition:opacity .2s"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke-width:2.6"><path d="M15 18l-6-6 6-6"></path></svg>BUGÜNE DÖN</button>`);
+ o.push(`<button data-gotoday="1" aria-label="Bugüne dön" style="position:absolute;left:10px;top:10px;height:44px;padding:0 10px;border:0;background:none;display:flex;align-items:center;gap:2px;font-size:12px;font-weight:800;letter-spacing:.05em;color:var(--accent);opacity:${away?1:0};pointer-events:${away?'auto':'none'};transition:opacity .2s"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke-width:2.6"><path d="M15 18l-6-6 6-6"></path></svg>BUGÜNE DÖN</button>`);
  o.push(`<div role="group" aria-label="Görünüm" style="position:absolute;right:16px;top:14px;width:168px;height:36px;border-radius:12px;background:var(--surface-dark-2);z-index:5"><div style="position:absolute;top:3px;left:3px;width:54px;height:30px;border-radius:10px;background:var(--surface-card);transform:translateX(${cl(P,0,2)*54}px)"></div>${['Gün','Hafta','Ay'].map((s,i)=>`<button data-seg="${i}" aria-pressed="${Math.abs(P-i)<.5}" style="position:absolute;top:0;left:${3+i*54}px;width:54px;height:36px;border:0;background:none;font-size:13px;font-weight:700;color:${Math.abs(P-i)<.5?'var(--ink)':'var(--on-dark-muted)'}">${s}</button>`).join('')}</div>`);
  T.forEach((t,i)=>o.push(`<div data-today="1" style="position:absolute;left:20px;top:54px;white-space:nowrap;opacity:${cl(1-Math.abs(P-i)*2)};transform:translate(${dx*.25}px,${(P-i)*-6}px);pointer-events:${Math.abs(P-i)<.5?'auto':'none'};cursor:pointer"><div style="font-size:30px;line-height:36px;font-weight:800;letter-spacing:-.02em;color:var(--on-dark)">${t[0]}</div></div>`));
  DN.forEach((d,i)=>o.push(`<div style="position:absolute;top:${LABY}px;left:${cx(i)-20}px;width:40px;text-align:center;font-size:11px;font-weight:700;color:var(--on-dark-muted)">${q>.5?D1[i]:d}</div>`));
@@ -1882,10 +1884,16 @@ function mount(el,opt){opt=opt||{};const st={F:new Date(TODAY),P:0,S:null,TS:84,
    const sg=t.closest('[data-seg]');if(sg){to(+sg.dataset.seg);return}
    if(t.closest('[data-gotoday]')){st.F=new Date(TODAY);st.TS=84;if(st.P>=1.5){const s1=st.S==null?S0(st.F):st.S,t1=S0(st.F);tween(k2=>{st.S=lp(s1,t1,k2);draw()},500)}else draw();return}
    if(t.closest('[data-add]')){opt.onAdd&&opt.onAdd();return}
-   {const p=pt(e);if(st.P>0.5&&st.P<1.5&&p[1]>CLIPT&&p[0]>56&&p[0]<W-14){const i=cl(Math.floor((p[0]-56)/((W-70)/7)),0,6);st.F=addD(mon(st.F),i);draw();to(0);return}}
    const ls=t.closest('[data-les]');if(ls&&st.P<0.5){opt.onLesson&&opt.onLesson();return}
-   const dy=t.closest('[data-day]');if(dy){const [Y_,M_,D_]=dy.dataset.day.split('-').map(Number);st.F=new Date(Y_,M_-1,D_);if(st.P>=1.5){st.S=S0(st.F);draw();to(0)}else draw();return}
-   if(t.closest('[data-today]')){st.F=new Date(TODAY);st.TS=84;if(st.P>=1.5)st.S=S0(st.F);draw()}return}
+   const dy=t.closest('[data-day]');if(dy){const [Y_,M_,D_]=dy.dataset.day.split('-').map(Number);const nd0=new Date(Y_,M_-1,D_),dir0=Math.sign(nd0-st.F);st.F=nd0;if(st.P>=1.5){st.S=S0(st.F);draw();to(0)}else if(st.P<0.5&&dir0){st.dx=dir0*48;draw();tween(k2=>{st.dx=lp(dir0*48,0,k2);draw()},300)}else draw();return}
+   if(t.closest('[data-today]')){st.F=new Date(TODAY);st.TS=84;if(st.P>=1.5)st.S=S0(st.F);draw();return}
+   /* boş saat: o gün ve saat için ders mi mola mı? Haftada derse dokununca o gün açılır */
+   {const p=pt(e);if(st.P<1.5&&p[1]>CLIPT&&!st.emp){const wk=st.P>0.5;let d=st.F,tt;
+     if(wk){const i=Math.floor((p[0]-56)/((W-70)/7));if(i<0||i>6)return;d=addD(mon(st.F),i);tt=(p[1]-CLIPT-8)/30+8;
+       if(lessons(d,false).some(l=>tt>=l[0]&&tt<=l[0]+l[1]/60)){st.F=d;draw();to(0);return}}
+     else tt=(p[1]-CLIPT-8+st.TS)/48+7;
+     const h=cl(Math.floor(tt),7,21);opt.onSlot&&opt.onSlot({d:new Date(d),h,week:wk,openDay(){st.F=new Date(d);draw();to(0)}})}}
+   return}
   if(ax=='y'&&st.P>=1.99){const s=st.S,t=cl(s-vy*320,0,Smax());tween(k2=>{st.S=lp(s,t,k2);draw()},650);return}
   if(ax=='y'&&inTL&&!(TS0<=1&&(b[1]-y0)>0)){const s=st.TS,t=cl(s-vy*320,0,TSmax);tween(k2=>{st.TS=lp(s,t,k2);draw()},600);return}
   if(ax=='y'){let t=Math.round(st.P);if(vy>0.4)t=Math.floor(st.P)+1;if(vy<-0.4)t=Math.ceil(st.P)-1;const r0=Math.round(P0);t=cl(t,r0-1,r0+1);to(cl(t,0,2));return}
@@ -1925,9 +1933,9 @@ function syncTb(){const g=document.getElementById('gtb');if(!g)return;g.style.di
 function A(el,kf,d,ez){return el?[el.animate(kf,{duration:d,easing:ez||EZ,fill:'both'})]:[]}
 const SCRIM0='rgba(18,24,38,0)',SCRIM1='rgba(18,24,38,.45)';
 function inAnim(id,below){const s=SC[id],k=kind(id),ph=s.querySelector('.ph');let L=[];
-  if(k==='page'){L=L.concat(A(s,[{transform:'translateX(100%)',boxShadow:'-14px 0 36px rgba(18,24,38,0)'},{transform:'translateX(0)',boxShadow:'-14px 0 36px rgba(18,24,38,.18)'}],440));
-    if(below)L=L.concat(A(SC[below],[{transform:'translateX(0)',filter:'brightness(1)'},{transform:'translateX(-28%)',filter:'brightness(.88)'}],440))}
-  else if(k==='sheet'){L=L.concat(A(ph,[{backgroundColor:SCRIM0},{backgroundColor:SCRIM1}],320,'ease'),A(s.querySelector('.sh'),[{transform:'translateY(100%)'},{transform:'translateY(0)'}],480))}
+  if(k==='page'){L=L.concat(A(s,[{transform:'translateX(100%)',boxShadow:'-14px 0 36px rgba(18,24,38,0)'},{transform:'translateX(0)',boxShadow:'-14px 0 36px rgba(18,24,38,.18)'}],360));
+    if(below)L=L.concat(A(SC[below],[{transform:'translateX(0)',filter:'brightness(1)'},{transform:'translateX(-28%)',filter:'brightness(.88)'}],360))}
+  else if(k==='sheet'){L=L.concat(A(ph,[{backgroundColor:SCRIM0},{backgroundColor:SCRIM1}],320,'ease'),A(s.querySelector('.sh'),[{transform:'translateY(100%)'},{transform:'translateY(0)'}],380))}
   else{L=L.concat(A(ph,[{backgroundColor:SCRIM0},{backgroundColor:SCRIM1}],240,'ease'),
     A(s.querySelector('.dlg'),[{opacity:0,transform:'translateY(-50%) scale(.9)'},{opacity:1,transform:'translateY(-50%) scale(1)'}],320,'cubic-bezier(.2,1.25,.4,1)'),
     A(s.querySelector('.ass'),[{transform:'translateY(115%)'},{transform:'translateY(0)'}],400),
@@ -1935,9 +1943,9 @@ function inAnim(id,below){const s=SC[id],k=kind(id),ph=s.querySelector('.ph');le
     A(s.querySelector('.fab'),[{transform:'rotate(-90deg)'},{transform:'rotate(0)'}],280))}
   return L}
 function outAnim(id,below){const s=SC[id],k=kind(id),ph=s.querySelector('.ph');let L=[];const EI='cubic-bezier(.4,0,.9,.6)';
-  if(k==='page'){L=L.concat(A(s,[{transform:'translateX(0)',boxShadow:'-14px 0 36px rgba(18,24,38,.18)'},{transform:'translateX(100%)',boxShadow:'-14px 0 36px rgba(18,24,38,0)'}],360));
-    if(below)L=L.concat(A(SC[below],[{transform:'translateX(-28%)',filter:'brightness(.88)'},{transform:'translateX(0)',filter:'brightness(1)'}],360))}
-  else if(k==='sheet'){L=L.concat(A(ph,[{backgroundColor:SCRIM1},{backgroundColor:SCRIM0}],300,'ease'),A(s.querySelector('.sh'),[{transform:'translateY(0)'},{transform:'translateY(100%)'}],320,EI))}
+  if(k==='page'){L=L.concat(A(s,[{transform:'translateX(0)',boxShadow:'-14px 0 36px rgba(18,24,38,.18)'},{transform:'translateX(100%)',boxShadow:'-14px 0 36px rgba(18,24,38,0)'}],300));
+    if(below)L=L.concat(A(SC[below],[{transform:'translateX(-28%)',filter:'brightness(.88)'},{transform:'translateX(0)',filter:'brightness(1)'}],300))}
+  else if(k==='sheet'){L=L.concat(A(ph,[{backgroundColor:SCRIM1},{backgroundColor:SCRIM0}],300,'ease'),A(s.querySelector('.sh'),[{transform:'translateY(0)'},{transform:'translateY(100%)'}],280))}
   else{L=L.concat(A(ph,[{backgroundColor:SCRIM1},{backgroundColor:SCRIM0}],220,'ease'),
     A(s.querySelector('.dlg'),[{opacity:1,transform:'translateY(-50%) scale(1)'},{opacity:0,transform:'translateY(-50%) scale(.95)'}],180,'ease'),
     A(s.querySelector('.ass'),[{transform:'translateY(0)'},{transform:'translateY(115%)'}],260,EI),
@@ -1955,7 +1963,7 @@ function stagger(id){const kids=[...SC[id].querySelectorAll('.form>*,.sfoot>*')]
 function push(id){if(!SC[id]||busy)return;const prev=stack[stack.length-1];stack.push(id);render();scrollTop(id);
   if(PANEL[id]&&prev&&kind(prev)==='sheet'){settle(panelIn(id,prev),render);return}
   if(kind(id)==='sheet'&&prev&&kind(prev)==='sheet'){const s=SC[id];s.classList.add('onsheet');
-    const below=sheetsBelow(stack.length-2);settle(A(s.querySelector('.ph'),[{backgroundColor:SCRIM0},{backgroundColor:'rgba(18,24,38,.2)'}],320,'ease').concat(A(s.querySelector('.sh'),[{transform:'translateY(100%)'},{transform:'translateY(0)'}],480),...below.map(b=>A(SC[b].querySelector('.sh'),[UNSTK,STK],480))),()=>{below.forEach(b=>SC[b].classList.add('stacked'));render()});return}
+    const below=sheetsBelow(stack.length-2);settle(A(s.querySelector('.ph'),[{backgroundColor:SCRIM0},{backgroundColor:'rgba(18,24,38,.2)'}],320,'ease').concat(A(s.querySelector('.sh'),[{transform:'translateY(100%)'},{transform:'translateY(0)'}],380),...below.map(b=>A(SC[b].querySelector('.sh'),[UNSTK,STK],480))),()=>{below.forEach(b=>SC[b].classList.add('stacked'));render()});return}
   const pg=kind(id)==='page'&&prev;if(pg)show(prev,stack.length-1);settle(inAnim(id,pg?prev:null),render)}
 function back(){if(stack.length<2||busy)return;const id=stack.pop(),below=stack[stack.length-1];render();show(id,99);
   if(PANEL[id]&&kind(below)==='sheet'){settle(panelOut(id,below),render);return}
@@ -1966,7 +1974,7 @@ function rep(id){if(!SC[id]||busy)return;const old=stack.pop();stack.push(id);re
   if(kind(old)==='page'&&kind(id)==='page'){show(old,stack.length-1);L=inAnim(id,old)}
   else if(kind(old)==='sheet'&&kind(id)==='sheet'){show(old,stack.length-1);L=A(SC[id].querySelector('.ph'),[{backgroundColor:SCRIM0},{backgroundColor:SCRIM0}],400).concat(stagger(id))}
   else if(kind(old)==='over'&&kind(id)==='sheet'){const o=SC[old];show(old,stack.length-1);
-    L=A(o.querySelector('.ph'),[{backgroundColor:SCRIM1},{backgroundColor:SCRIM1}],200).concat(A(o.querySelector('.menu')||o.querySelector('.ass')||o.querySelector('.dlg'),[{opacity:1},{opacity:0}],160,'ease'),A(o.querySelector('.fab'),[{opacity:1},{opacity:0}],160,'ease'),A(SC[id].querySelector('.ph'),[{backgroundColor:SCRIM0},{backgroundColor:SCRIM0}],60),A(SC[id].querySelector('.sh'),[{transform:'translateY(100%)'},{transform:'translateY(0)'}],480))}
+    L=A(o.querySelector('.ph'),[{backgroundColor:SCRIM1},{backgroundColor:SCRIM1}],200).concat(A(o.querySelector('.menu')||o.querySelector('.ass')||o.querySelector('.dlg'),[{opacity:1},{opacity:0}],160,'ease'),A(o.querySelector('.fab'),[{opacity:1},{opacity:0}],160,'ease'),A(SC[id].querySelector('.ph'),[{backgroundColor:SCRIM0},{backgroundColor:SCRIM0}],60),A(SC[id].querySelector('.sh'),[{transform:'translateY(100%)'},{transform:'translateY(0)'}],380))}
   else if(kind(old)==='over'&&kind(id)==='over'){const o=SC[old];show(old,99);
     L=A(o.querySelector('.ass')||o.querySelector('.dlg')||o.querySelector('.menu'),[{opacity:1},{opacity:0}],160,'ease').concat(A(SC[id].querySelector('.dlg')||SC[id].querySelector('.ass'),[{opacity:0,transform:SC[id].querySelector('.dlg')?'translateY(-50%) scale(.9)':'translateY(40px)'},{opacity:1,transform:SC[id].querySelector('.dlg')?'translateY(-50%) scale(1)':'translateY(0)'}],320,'cubic-bezier(.2,1.25,.4,1)'))}
   else{show(old,99);L=outAnim(old,null).concat(inAnim(id,null))}
@@ -1975,11 +1983,7 @@ function toRoot(){if(stack.length<2||busy)return;const top=stack[stack.length-1]
   settle(outAnim(top,kind(top)==='page'?root:null),()=>{clearStk();render()})}
 function clearStk(){Object.values(SC).forEach(s=>s.classList.remove('stacked','onsheet'))}
 function setTab(t){if(busy)return;clearStk();const was=stack[0],wasLen=stack.length,prevTab=tab;tab=t;stack=[rootId(t)];render();scrollTop(stack[0]);
-  if(was===stack[0])return;
-  if(wasLen===1&&isRoot(was)&&SC[was]){show(was,1);const n=SC[stack[0]];n.style.zIndex=12;const dir=t>prevTab?1:-1;
-    settle(A(n,[{opacity:0,transform:`translateX(${dir*14}px)`},{opacity:1,transform:'translateX(0)'}],260,'cubic-bezier(.25,.8,.25,1)').concat(A(SC[was],[{opacity:1},{opacity:0}],200,'ease')),render);
-    const ic=document.querySelector('#gtb .nv.on .i');if(ic)ic.animate([{transform:'scale(.8)'},{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:320,easing:'ease-out'})}
-  else fadeIn(stack[0])}
+  /* sekmeler animasyonsuz, anında değişir */}
 function toLogin(){stack=['43'];render();fadeIn('43')}
 function scrollTop(id){SC[id].querySelectorAll('.scr,.sh').forEach(x=>x.scrollTop=0)}
 let tt;function toast(m){T.textContent=m;T.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>T.classList.remove('on'),1800)}
@@ -2007,13 +2011,13 @@ const W={
 '16':{'Geri':'back','Paket ekle':'newpk','Tek ders · 60 dk':'push:41','Tek ders · 90 dk':'push:41','8 derslik paket':'push:42','Aylık üyelik':'push:42'},
 '17':{'Geri':'back','*row':'toast:Açılıyor'},
 '18':{'Geri':'back','Hesabımı sil':'delacc','Mert Kaya':'push:39'},
-'19':{'Ay görünümü':'toast:Ay görünümü','Ekle: ders ya da mola':'push:21','*ev':'push:29'},
+'19':{'Ay görünümü':'toast:Ay görünümü','Ekle: ders ya da mola':'fabmenu','*ev':'push:29'},
 '20':{'Ay görünümü':'toast:Ay görünümü','Ders ekle':'push:25'},
-'21':{'Ders ekle':'rep:25','Mola ekle':'rep:28','Menüyü kapat':'back','*bg':'back'},
+'21':{'Ders ekle':'slotles','Mola ekle':'slotbrk','Günü aç':'slotday','Menüyü kapat':'back','*bg':'back'},
 '22':{'Geri':'back','Ders kuralları':'push:15'},
 '24':{'Geri':'back','Kaydet':'back|toast:Mola kaydedildi'},
 '25':{'Geri':'back','Konum':'pickloc','Tekrar':'rpt','Dersi ekle':'ladd'},
-'26':{'Geri':'back','Seçimi onayla':'ppdone','Yeni kişi ekle':'ppnew','*row':'pick'},
+'26':{'Geri':'back','Kaydet':'ppdone','Yeni kişi ekle':'ppnew','*row':'pick'},
 '27':{'Geri':'back','Kişiye özel paket':'newpk42'},
 '28':{'Geri':'back','Molayı ekle':'nbadd','Günü kapat':'nbadd','Sebep':'pickreason','Tekrar':'rpt'},
 '29':{'Geri':'back','Elif Yıldırım':'push:03','İptal et':'push:31','Dersi ertele':'push:30','Kadıköy stüdyo ↗':'toast:Haritalar açılıyor'},
@@ -2070,6 +2074,10 @@ P.addEventListener('click',e=>{
   if(a==='rpt'){const x=el.nextElementSibling&&el.nextElementSibling.classList.contains('rpx')?el.nextElementSibling:s.querySelector('.rpx'),op=x.hidden;if(el.classList.contains('kxb')){const sm=el.querySelector('.s');if(!sm.dataset.off)sm.dataset.off=sm.textContent;sm.textContent=op?'Bu pakete özel · genel ayarı ezer':sm.dataset.off}x.hidden=!op;el.setAttribute('aria-expanded',op);if(op)requestAnimationFrame(()=>{const sh=s.querySelector('.sh'),f=sh.querySelector('.sfoot'),r=x.getBoundingClientRect(),lim=(f?f.getBoundingClientRect().top:sh.getBoundingClientRect().bottom)-16;if(r.bottom>lim)sh.scrollBy({top:r.bottom-lim,behavior:'smooth'})});return}
   if(a==='pickreason'){pickSheet(s,'Sebep',s.dataset.allday?['İzin günü','Tatil','Hastalık','Kişisel','Diğer']:['Öğle arası','Kahve arası','Toplantı','Kişisel','Diğer'],el.querySelector('.lcv'));return}
   if(a==='nbadd'){back();setTimeout(()=>toast(s.dataset.allday?'Gün kapatıldı':'Mola eklendi'),300);return}
+  if(a==='fabmenu'){slotSet(null);push('21');return}
+  if(a==='slotles'){const v=SC['25'].querySelectorAll('.dtv');if(SLOT){DTV=new Date(SLOT.d);v[0].textContent=DTV.getDate()+' '+DTS[DTV.getMonth()]+' '+DTD[(DTV.getDay()+6)%7];v[1].textContent=dtHm(SLOT.h)}else v[1].textContent=dtHm(parseInt(v[1].textContent)||16);rep('25');return}
+  if(a==='slotbrk'){if(SLOT){const d=new Date(SLOT.d),w=(d.getDay()+6)%7,ws=new Date(d);ws.setDate(d.getDate()-w);SC['28'].querySelectorAll('.days7 .dc').forEach((b,i)=>{const x=new Date(ws);x.setDate(ws.getDate()+i);b.querySelector('b').textContent=x.getDate();const on=i===w&&i<6;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});const ins=SC['28'].querySelectorAll('.form>.cols .inp'),p2=n=>String(n).padStart(2,'0');if(ins[0]){ins[0].value=p2(SLOT.h)+':00';ins[1].value=p2(SLOT.h)+':30'}}rep('28');return}
+  if(a==='slotday'){const f=SLOT&&SLOT.openDay;back();f&&setTimeout(f,260);return}
   if(a==='ppdone'){ppApply();back();return}
   if(a==='ppnew'){SC['04'].querySelectorAll('.cols .inp').forEach(i=>i.value='');push('04');return}
   if(a==='nksave'){const ins=s.querySelectorAll('.cols .inp'),n=norm((ins[0]?ins[0].value:'')+' '+(ins[1]?ins[1].value:''));const from=stack[stack.length-2]==='26';if(from&&!n){ins[0]&&ins[0].focus();return}if(from)ppAdd(n);back();setTimeout(()=>toast(from?n.split(' ')[0]+' eklendi ve seçildi':'Kişi eklendi'),300);return}
@@ -2133,7 +2141,9 @@ function ppAdd(n){const ini=n.split(/\s+/).map(w=>w[0]).slice(0,2).join('').toLo
 /* Yeni ders → Tarih: takvimden işaretle · Başlangıç: ders başlama kademesine göre kaydırarak seç */
 const DTD=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'],DTM=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],DTS=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
 let DTV=new Date(2026,8,10);
-function dtStep(){const c=SC['15']&&SC['15'].querySelector('[aria-label="Ders başlama kademesi"] .chip.on');const t=c?norm(c.textContent):'Tam saat';return /^Tam/.test(t)?60:Math.max(5,parseInt(t)||60)}
+/* Ders başlama dakikası: Tam saat → 0, 15 geçe → 16:15, 17:15 … */
+function dtMin(){const c=SC['15']&&SC['15'].querySelector('[aria-label="Ders başlama kademesi"] .chip.on');const t=c?norm(c.textContent):'Tam saat';return /^Tam/.test(t)?0:Math.min(55,Math.max(0,parseInt(t)||0))}
+const dtHm=h=>String(Math.floor(h)).padStart(2,'0')+':'+String(dtMin()).padStart(2,'0');
 function dtPick(s,kind,target){const ph=s.querySelector('.ph'),d=document.createElement('div');d.className='pko';const CH='<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="';
   d.innerHTML='<div class="dtc" role="dialog" aria-label="'+(kind==='date'?'Tarih seç':'Başlangıç saati')+'"><div class="grab"></div><h3 class="t3" style="text-align:center">'+(kind==='date'?'Tarih seç':'Başlangıç saati')+'</h3><div class="dtb"></div><button class="btn p" data-ok>Tamam</button></div>';
   const body=d.querySelector('.dtb');let val;
@@ -2142,8 +2152,8 @@ function dtPick(s,kind,target){const ph=s.querySelector('.ph'),d=document.create
       for(let i=1;i<=nd;i++){const x=new Date(m0.getFullYear(),m0.getMonth(),i),w=(x.getDay()+6)%7;h+='<button data-d="'+i+'" class="'+(w>4?'we ':'')+(x.toDateString()===new Date(2026,8,9).toDateString()?'td ':'')+(x.toDateString()===val.toDateString()?'on':'')+'" aria-label="'+i+' '+DTM[m0.getMonth()]+'"><i>'+i+'</i></button>'}
       body.innerHTML=h+'</div>'};
     draw();body.addEventListener('click',e=>{const m=e.target.closest('[data-m]'),x=e.target.closest('[data-d]');if(m){m0=new Date(m0.getFullYear(),m0.getMonth()+ +m.dataset.m,1);draw()}else if(x){val=new Date(m0.getFullYear(),m0.getMonth(),+x.dataset.d);draw()}})}
-  else{const st=dtStep(),it=[];for(let m=420;m<=1320;m+=st)it.push(String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'));val=norm(target.textContent);let k=Math.max(0,it.indexOf(val));
-    body.innerHTML='<div class="dtw"><div class="dtl">'+it.map((t,i)=>'<button data-t="'+i+'"'+(i===k?' class="on"':'')+'>'+t+'</button>').join('')+'</div></div><div class="sm" style="text-align:center;margin-top:10px">'+(st===60?'Dersler tam saatte başlar':'Dersler '+st+' dakikada bir başlayabilir')+' · Ders kuralları</div>';
+  else{const mn=dtMin(),it=[];for(let h=7;h<=21;h++)it.push(dtHm(h));val=norm(target.textContent);let k=it.indexOf(val);if(k<0)k=Math.max(0,it.findIndex(x=>x.slice(0,2)===val.slice(0,2)));val=it[k];
+    body.innerHTML='<div class="dtw"><div class="dtl">'+it.map((t,i)=>'<button data-t="'+i+'"'+(i===k?' class="on"':'')+'>'+t+'</button>').join('')+'</div></div><div class="sm" style="text-align:center;margin-top:10px">'+(mn===0?'Dersler tam saatte başlar':'Dersler her saat '+mn+' geçe başlar')+' · Ders kuralları</div>';
     const l=body.querySelector('.dtl'),mark=i=>{k=Math.max(0,Math.min(it.length-1,i));val=it[k];l.querySelectorAll('button').forEach((b,j)=>b.classList.toggle('on',j===k))};
     requestAnimationFrame(()=>{l.scrollTop=k*44});l.addEventListener('scroll',()=>mark(Math.round(l.scrollTop/44)));l.addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b)l.scrollTo({top:+b.dataset.t*44,behavior:'smooth'})})}
   ph.appendChild(d);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('on')));
@@ -2206,7 +2216,10 @@ document.querySelectorAll('[data-ac]').forEach(b=>b.onclick=()=>{AC=b.dataset.ac
 document.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{TH=b.dataset.th;document.querySelectorAll('[data-th]').forEach(x=>x.classList.toggle('on',x===b));applyT()});
 const eb=document.querySelector('[data-emp]');eb.onclick=()=>{EMP=!EMP;eb.classList.toggle('on',EMP);eb.setAttribute('aria-pressed',EMP);eb.style.background=EMP?'var(--surface-dark)':'';eb.style.color=EMP?'var(--on-dark)':'';setTab(tab)};
 document.getElementById('gtb').addEventListener('click',e=>{const b=e.target.closest('.nv');if(b)setTab([...b.parentElement.children].indexOf(b))});
-const CAL=window.ProCal&&ProCal.mount(SC['19'].querySelector('.cal'),{onLesson:()=>push('29')});
+/* Boş saate dokununca + menüsüyle aynı kart açılır; panel o gün ve saatle dolu gelir */
+let SLOT=null;
+function slotSet(x){SLOT=x;const m=SC['21'];m.querySelector('[data-slotday]').style.display=x&&x.week?'':'none';m.querySelector('.fab').style.display=x?'none':''}
+const CAL=window.ProCal&&ProCal.mount(SC['19'].querySelector('.cal'),{onLesson:()=>push('29'),onSlot:x=>{slotSet(x);push('21')}});
 const CAL20=window.ProCal&&ProCal.mount(SC['20'].querySelector('.cal'),{emp:true,onAdd:()=>push('25')});
 document.querySelector('[data-reset]').onclick=()=>{CAL&&CAL.reset();setTab(0)};
 document.querySelector('[data-login]').onclick=toLogin;
