@@ -74,7 +74,8 @@ function Frame() {
 export default function App() {
   const [ok] = useFonts({ Manrope_500Medium, Manrope_700Bold, Manrope_800ExtraBold });
   const [ready, setReady] = React.useState(false);
-  useEffect(() => { boot().finally(() => setReady(true)); }, []);
+  // Açılış yüklemesi hata verse de ekran açılır (boş önbellekle); reddedilen söz işlenmemiş kalmaz
+  useEffect(() => { boot().catch(() => {}).finally(() => setReady(true)); }, []);
   if (!ok || !ready) return null;
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

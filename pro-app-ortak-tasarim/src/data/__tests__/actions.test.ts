@@ -4,7 +4,7 @@ import { get, set } from '../../store';
 import { optimistic } from '../actions/optimistic';
 import { boot, reloadAll, setEmptyMode } from '../actions/boot';
 import { ensureLessons } from '../actions/lessons';
-import { lessonsService } from '../services';
+import { lessonsService, peopleService } from '../services';
 import { mockDb } from '../mock/db';
 import type { Person } from '../models';
 
@@ -83,5 +83,19 @@ test('reloadAll önbelleği baştan yükler', async () => {
   await boot();
   set({ people: [] });
   await reloadAll();
+  expect(get().people).toHaveLength(22);
+});
+
+test('hızlı açıp kapatınca eski yükleme sonucu atılır', async () => {
+  await boot();
+  const real = peopleService.list.bind(peopleService);
+  // ilk (boş kip) yükleme geç döner ve boş liste getirir; araya giren Dolu sayfa yüklemesi kazanmalı
+  jest.spyOn(peopleService, 'list').mockImplementationOnce(() => new Promise(res => setTimeout(() => res([]), 50)));
+  const a = setEmptyMode(true);
+  const b = setEmptyMode(false);
+  jest.spyOn(peopleService, 'list').mockImplementation(real);
+  await Promise.all([a, b]);
+  await new Promise(r => setTimeout(r, 80));
+  expect(get().emp).toBe(false);
   expect(get().people).toHaveLength(22);
 });

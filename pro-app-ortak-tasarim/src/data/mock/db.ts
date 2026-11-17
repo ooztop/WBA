@@ -83,6 +83,8 @@ function migrateV1(old: Rec): MockData {
     const m = k.match(/^rule\.(\d)$/);
     if (m && rkeys[+m[1]]) { out.rules[rkeys[+m[1]]] = choice(prefs[k], out.rules[rkeys[+m[1]]]); return; }
     if (k.startsWith('nt.')) { notif[k.slice(3)] = prefs[k] as NotifPrefs[string]; return; }
+    // Ders notu v1'de 'note.dkey|saat' anahtarlıydı; ders kimliğinin joker biçimine (`iso|saat|*`) çevrilir
+    if (k.startsWith('note.')) { rest[`note.${legacyLessonKey(k.slice(5))}`] = prefs[k]; return; }
     if (k.startsWith('les.')) { if (isRec(prefs[k])) meta[legacyLessonKey(k.slice(4))] = prefs[k] as LessonMeta; return; }
     rest[k] = prefs[k];
   });

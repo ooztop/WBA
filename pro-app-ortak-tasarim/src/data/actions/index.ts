@@ -1,4 +1,11 @@
 // Eylemlerin tek giriş noktası: ekranlar yazma ve yükleme işlerini buradan çağırır.
-export { optimistic } from './optimistic';
-export { ensureLessons } from './lessons';
+export { optimistic, afterCall } from './optimistic';
+export { ensureLessons, addLessons, cancelLesson, rescheduleLesson } from './lessons';
+export { addPerson, updatePerson } from './people';
+export { savePackage, removePackage, restorePackage, setBasePackage } from './packages';
+export { saveBreak, removeBreak, toggleBreakDay, addOffs } from './schedule';
+export { collectPayment } from './payments';
+export { acceptRequest, rejectRequest, counterRequest } from './requests';
+export { saveProfile } from './profile';
+export { setPref, usePref, setDark, setAccent, prefsToModels, modelsToPrefs, lessonNoteKey } from './settings';
 export { boot, reloadAll, setEmptyMode, resetDemo } from './boot';

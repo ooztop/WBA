@@ -2,10 +2,10 @@
 import React, { useRef, useState } from 'react';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
 import { TRA, type Person } from './data';
-import { get, go, openAction, openMenu, openSheet, patchPerson, push, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { get, go, openAction, openMenu, openSheet, push, toast, toastLater, useC, useFrame, useStore } from './store';
 import { copy, LINK } from './device';
 import { acceptReq } from './screens3';
-import { resetDemo, setEmptyMode } from './data/actions';
+import { rejectRequest, resetDemo, setAccent, setDark, setEmptyMode, updatePerson } from './data/actions';
 import { ff } from './theme';
 import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, T, Tag, Tap, type SV } from './ui';
 
@@ -71,7 +71,7 @@ function Contacts() {
               <List style={{ paddingRight: 36 }}>
                 {groups[L].map(p => (
                   <Row key={p.id} left={<Av ini={p.ini} />} t={p.name} s={p.sub} onPress={p.arch ? undefined : () => go('contact', undefined, { i: p.id })}
-                    right={p.arch ? <Btn small k="g" t="Geri al" onPress={() => { patchPerson(p.id, { arch: false }); toast('Kişi geri alındı'); }} /> : <Tag k={p.tag[0]} t={p.tag[1]} />} />
+                    right={p.arch ? <Btn small k="g" t="Geri al" onPress={() => { void updatePerson(p.id, { arch: false }); toast('Kişi geri alındı'); }} /> : <Tag k={p.tag[0]} t={p.tag[1]} />} />
                 ))}
               </List>
             </View>
@@ -110,7 +110,7 @@ function Notifs() {
       </>
     );
   const reqs = useStore(s => s.reqs), nReq = (reqs.b ? 1 : 0) + (reqs.a ? 1 : 0);
-  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { set(s => ({ reqs: { ...s.reqs, b: false } })); go('requestRejected', undefined, { n: 'Burak Şahin' }); });
+  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { void rejectRequest('b'); go('requestRejected', undefined, { n: 'Burak Şahin' }); });
   return (
     <>
       <Band lbl="Bildirimler" right={gear}><T2 t={nReq ? `${nReq} talep bekliyor` : 'Bekleyen talep yok'} sub={`Bugün ${1 + nReq} yeni bildirim`} /></Band>
@@ -158,8 +158,8 @@ function acctMenu() {
   openMenu('Hesap', [
     { label: 'Yardım ve destek', onPress: () => setTimeout(() => push('help'), 200) },
     // Prototipin üstündeki ayar düğmelerinin (vurgu, tema, boş sayfa) uygulama içi karşılığı
-    { label: `Vurgu rengi: ${ACN[next]}`, onPress: () => set({ accent: next }) },
-    { label: s.dark ? 'Açık tema' : 'Koyu tema', onPress: () => set({ dark: !s.dark }) },
+    { label: `Vurgu rengi: ${ACN[next]}`, onPress: () => setAccent(next) },
+    { label: s.dark ? 'Açık tema' : 'Koyu tema', onPress: () => setDark(!s.dark) },
     { label: s.emp ? 'Dolu sayfa' : 'Boş sayfa', onPress: () => { void setEmptyMode(!s.emp); } },
     { label: 'Verileri sıfırla', onPress: () => setTimeout(() => openAction('Veriler sıfırlansın mı?', 'Eklediğin dersler, kişiler, paketler ve ayarlar silinir; demo verisi geri gelir.', 'Sıfırla', true, () => { void resetDemo(); toastLater('Veriler sıfırlandı'); }), 200) },
     { label: 'Çıkış yap', danger: true, onPress: () => setTimeout(logout, 200) },

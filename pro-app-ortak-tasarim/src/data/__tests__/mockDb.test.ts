@@ -49,6 +49,11 @@ test('v1 iptal kaydı "dkey|h" ders kimliğiyle eşleşir', async () => {
   await mockDb.load();
   expect(mockDb.lessonsFor(TODAY).map(l => l.h)).toEqual([11.5, 14, 19]);
 });
+test('v1 ders notları joker anahtarla taşınır', async () => {
+  await AsyncStorage.setItem('pro-ortak-tasarim-v1', JSON.stringify({ prefs: { 'note.2026-8-9|9': 'Türev bitti', 'note.2026-8-10|14.5': 'İntegral' } }));
+  await mockDb.load();
+  expect(mockDb.data().uiPrefs).toEqual({ 'note.2026-09-09|9|*': 'Türev bitti', 'note.2026-09-10|14.5|*': 'İntegral' });
+});
 test('update cihaza yazar ve load geri okur', async () => {
   mockDb.update(d => ({ ...d, collected: 777 }));
   jest.advanceTimersByTime(400);

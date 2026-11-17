@@ -5,7 +5,8 @@ import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { DL, DN, type Pkg } from './data';
 import type { ID } from './data/models';
-import { daysText, go, openSheet, set, toast, toastLater, useC, useFrame, usePref, useStore } from './store';
+import { daysText, go, openSheet, toast, toastLater, useC, useFrame, useStore } from './store';
+import { removePackage, setBasePackage, toggleBreakDay, usePref } from './data/actions';
 import { openUrl } from './device';
 import { EASE, ff } from './theme';
 import { Box, Btn, Cols, Empty, FC, Fic, Fld, GCard, GR, IB, Icon, Inote, Lbl, List, NavH, noOutline, PChips, Rt, Scr, Sm, Sw, T, Tag, Tap } from './ui';
@@ -86,7 +87,7 @@ function DayRule({ p }: SP) {
             <Cols style={{ paddingHorizontal: 16 }}><Fld flex label="Başlangıç" v="10:00" pk={`day.${gi}.s`} /><Fld flex label="Bitiş" v={sat ? '14:00' : '18:00'} pk={`day.${gi}.e`} /></Cols>
             <GrpS t="Molalar" s="Bu günde geçerli düzenli molalar" />
             <GCard>
-              {breaks.map(b => <GR key={b.id} t={b.name} s={`${b.start} – ${b.end}`} right={<Sw on={b.days.includes(gi)} onChange={v => set(s => ({ breaks: s.breaks.map(y => (y.id === b.id ? { ...y, days: v ? [...y.days, gi] : y.days.filter(d => d !== gi) } : y)) }))} label={b.name} />} />)}
+              {breaks.map(b => <GR key={b.id} t={b.name} s={`${b.start} – ${b.end}`} right={<Sw on={b.days.includes(gi)} onChange={v => { void toggleBreakDay(b.id, gi, v); }} label={b.name} />} />)}
             </GCard>
             <GrpS t="Kurallar" />
             <GCard>
@@ -177,8 +178,8 @@ function SwipeRow({ pk, onStar, onDel, onOpen }: { pk: Pkg; onStar: () => void; 
 function Pricing() {
   const emp = useStore(s => s.emp);
   const pkgs = useStore(s => s.packages);
-  const star = (id: ID) => { set(s => ({ packages: s.packages.map(p => ({ ...p, base: p.id === id })) })); toast('Temel paket güncellendi'); };
-  const del = (pk: Pkg) => { const prev = pkgs; set(s => ({ packages: s.packages.filter(p => p.id !== pk.id) })); toast(`${pk.name} silindi`, 'Geri al', () => set({ packages: prev })); };
+  const star = (id: ID) => { void setBasePackage(id); };
+  const del = (pk: Pkg) => { void removePackage(pk); };
   const list = (kind: Pkg['kind']) => (
     <List>{pkgs.filter(p => p.kind === kind).map(pk => <SwipeRow key={pk.id} pk={pk} onStar={() => star(pk.id)} onDel={() => del(pk)} onOpen={() => openSheet(kind === 'single' ? 'packageSingle' : 'packageMulti', { id: pk.id })} />)}</List>
   );

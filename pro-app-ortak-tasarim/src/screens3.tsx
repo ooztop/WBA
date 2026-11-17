@@ -3,7 +3,8 @@ import React, { useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { DL, DN, MN, MS, first, hm, wd, type Lesson } from './data';
 import { iso } from './data/dates';
-import { collect, get, go, hhmm, home, openAction, popAll as toRoot, nextId, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
+import { get, go, hhmm, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
+import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
 import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, DC, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
@@ -12,11 +13,7 @@ import { openUrl } from './device';
 
 type SP = { p: any };
 // Burak'ın talebini onayla: 12 Eylül 18:00 dersi takvime eklenir
-export function acceptReq() {
-  const date = iso(new Date(2026, 8, 12));
-  const nl: Lesson = { id: `${date}|18|req`, date, h: 18, dur: 60, pid: '6', type: 'Bireysel', st: 'w' };
-  set(s => ({ reqs: { ...s.reqs, b: false }, extra: s.extra.some(e => e.date === date && e.h === 18) ? s.extra : [...s.extra, nl] }));
-}
+export const acceptReq = () => { void acceptRequest('b'); };
 const OK = (C: ReturnType<typeof useC>) => C.success;
 
 // Beyaz zeminli form sayfası: başlık · form · altta düğme
@@ -75,7 +72,7 @@ function LessonScr({ p }: SP) {
             {kv('Ödeme', st === 'ok' ? <Tag k="s" t="Ödendi" /> : st === 'no' ? <Tap onPress={() => go('payment', undefined, { i: pe.id })}><Tag k="d" t="Ödenmedi" /></Tap> : <Tag k="i" t="Bekliyor" />)}
           </GCard>
           <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, paddingVertical: 12, paddingHorizontal: 14 }}>
-            <Fld label="Ders notu" area v={note} ph="Not ekle" pk={info.lid ? `note.${info.lid}` : undefined} />
+            <Fld label="Ders notu" area v={note} ph="Not ekle" pk={l ? lessonNoteKey(get().prefs, l) : undefined} />
           </View>
         </View>
       </Scr>
@@ -102,9 +99,8 @@ function Reschedule({ p }: SP) {
     if (p.lid && l) {
       // Dersi gerçekten taşı: eski saat takvimden kalkar, yeni saate eklenir
       const nd = new Date(2026, 8, +RS_DAYS[di][1]);
-      const h = hhmm(RS[di][si] ?? RS[di][0], 18);
-      const moved: Lesson = { ...l, id: `${iso(nd)}|${h}|m${nextId()}`, date: iso(nd), h, st: l.st === 'ok' || l.st === 'no' ? l.st : 'w' };
-      set(s => ({ cancelled: [...s.cancelled, p.lid], extra: [...s.extra, moved], F: nd }));
+      void rescheduleLesson(p.lid, { date: iso(nd), h: hhmm(RS[di][si] ?? RS[di][0], 18) });
+      set({ F: nd });
       toRoot();
     } else pop();
     toastLater(tell ? `Yeni saat ${f}'e gönderildi · ${nv}` : `Ders ${nv} saatine taşındı`, 400);
@@ -134,7 +130,7 @@ function Cancel({ p }: SP) {
   const [pay, setPay] = useState('Derse aktar');
   const ask = () =>
     openAction('Ders iptal edilsin mi?', `${f}'e bildirim gider. Bu işlem geri alınamaz.`, 'Dersi iptal et', true, () => {
-      if (p.lid) set(s => ({ cancelled: [...s.cancelled, p.lid] }));
+      if (p.lid) void cancelLesson(p.lid);
       go('cancelled', 'rep', { n, big: p.big, pay });
     });
   return (
@@ -176,7 +172,7 @@ function Request({ p }: SP) {
   const C = useC();
   const x = person(p.c ? '7' : '6'), f = first(x.name);
   const ALT = ['11 Eyl 14:00', '11 Eyl 15:10', '12 Eyl 10:00'];
-  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { set(s => ({ reqs: p.c ? { ...s.reqs, a: false } : { ...s.reqs, b: false } })); go('requestRejected', 'rep', { n: x.name, c: p.c ? 1 : 0 }); });
+  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { void rejectRequest(p.c ? 'a' : 'b'); go('requestRejected', 'rep', { n: x.name, c: p.c ? 1 : 0 }); });
   return (
     <>
       <NavH title="Rezervasyon talebi" />
@@ -206,7 +202,7 @@ function Request({ p }: SP) {
       </Scr>
       <Foot>
         <Btn flex k="x" t="Reddet" onPress={reject} />
-        {p.c ? <Btn flex t="Bu saati öner" onPress={() => { set(s => ({ reqs: { ...s.reqs, a: false } })); pop(); toastLater('Karşı teklif gönderildi'); }} /> : <Btn flex t="Onayla" onPress={() => { acceptReq(); go('requestAccepted', 'rep', { n: x.name }); }} />}
+        {p.c ? <Btn flex t="Bu saati öner" onPress={() => { void counterRequest('a'); pop(); toastLater('Karşı teklif gönderildi'); }} /> : <Btn flex t="Onayla" onPress={() => { acceptReq(); go('requestAccepted', 'rep', { n: x.name }); }} />}
       </Foot>
     </>
   );
@@ -251,7 +247,7 @@ function Payment({ p }: SP) {
   const M = ['Nakit', 'Havale', 'Kart'];
   const idx = sel.map((v, i) => (v ? i : -1)).filter(i => i >= 0), n = idx.length, total = tl(n * 750);
   const pay = () => {
-    collect(x.id, x.name, x.ini, debt ? idx : [], M[mi], n * 750);
+    void collectPayment({ pid: x.id, name: x.name, ini: x.ini, lessonIdx: debt ? idx : [], method: M[mi], amount: n * 750 });
     go('paymentDone', 'rep', { n: x.name, total, m: mi === 1 ? 'Havale / EFT' : M[mi], ls: idx.map(i => { const w = LS[i][0].split(' · ')[0].split(' '); return w.length > 1 ? `${w[0]} ${w[1].slice(0, 3)}` : w[0]; }).join(', '), part: !!debt && n < LS.length });
   };
   return (

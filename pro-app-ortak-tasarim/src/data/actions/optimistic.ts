@@ -17,3 +17,16 @@ export async function optimistic(apply: (s: State) => Partial<State>, call: () =
     return false;
   }
 }
+
+// Sonucu önce servisten beklenen yazmalar (yeni kayıt kimliği sunucudan gelir): çağrı başarılıysa önbellek güncellenir,
+// hata olursa önbellek değişmez, uyarı gösterilir ve null döner.
+export async function afterCall<T>(call: () => Promise<T>, apply: (r: T, s: State) => Partial<State>, fail?: string): Promise<T | null> {
+  try {
+    const r = await call();
+    set(s => apply(r, s));
+    return r;
+  } catch {
+    toast(fail ?? 'Kaydedilemedi. Tekrar dene.');
+    return null;
+  }
+}

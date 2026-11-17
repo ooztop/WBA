@@ -2,7 +2,7 @@
 import { createContext, useContext, useSyncExternalStore } from 'react';
 import { makeMutable, type SharedValue } from 'react-native-reanimated';
 import { colors, type Accent, type Colors } from './theme';
-import { TODAY, initials } from './data';
+import { TODAY } from './data';
 import type { Brk, Debt, ID, Lesson, Off, PaidRow, Person, Pkg, Profile, ReqState } from './data/models';
 
 export type Route = { key: number; id: string; p: any; prog: SharedValue<number>; closing?: boolean };
@@ -17,7 +17,7 @@ export type ToastS = { key: number; msg: string; undo?: string; onUndo?: () => v
 export type State = {
   dark: boolean; accent: Accent; emp: boolean; tab: number; F: Date;
   stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null; picker: PickerS | null;
-  people: Person[]; packages: Pkg[]; extra: Lesson[]; cancelled: ID[]; menu: boolean | SlotMenu;
+  people: Person[]; packages: Pkg[]; menu: boolean | SlotMenu;
   breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: Profile;
   prefs: Record<string, any>; reqs: ReqState;
   // Gün başına ders önbelleği (anahtar 'YYYY-MM-DD'), yüklenen günler ve yeniden yükleme sayacı
@@ -27,7 +27,7 @@ export type State = {
 let state: State = {
   dark: false, accent: 'blue', emp: false, tab: 0, F: new Date(TODAY),
   stack: [], sheets: [], action: null, toast: null, picker: null,
-  people: [], packages: [], extra: [], cancelled: [], menu: false,
+  people: [], packages: [], menu: false,
   breaks: [], offs: [], debts: [], paid: [], collected: 0,
   me: { ad: '', soyad: '', title: '' },
   prefs: {}, reqs: { b: false, a: false },
@@ -122,17 +122,8 @@ export function toast(msg: string, undo?: string, onUndo?: () => void) {
 export const toastLater = (msg: string, ms = 300, undo?: string, onUndo?: () => void) => setTimeout(() => toast(msg, undo, onUndo), ms);
 
 /* ---------- veri ---------- */
-export const person = (id: ID): Person => state.people.find(p => p.id === id) || state.people[(parseInt(id, 10) || 0) % 20] || state.people[0];
+export const person = (id: ID): Person => state.people.find(p => p.id === id) || state.people[0];
 export const personByName = (n: string) => state.people.find(p => p.name === n);
-export function addPerson(name: string, sub = ''): Person {
-  const ex = personByName(name);
-  if (ex) return ex;
-  const p: Person = { id: String(200 + K++), ini: initials(name), name, sub, tag: ['n', 'Tek ders'], cat: '' };
-  set(s => ({ people: [...s.people, p] }));
-  return p;
-}
-export const patchPerson = (id: ID, patch: Partial<Person>) =>
-  set(s => ({ people: s.people.map(p => (p.id === id ? { ...p, ...patch } : p)) }));
 
 /* ---------- yardımcılar ---------- */
 export const nextId = () => K++;
@@ -146,23 +137,7 @@ export const daysText = (d: number[]) => {
   const run = x.every((v, i) => i === 0 || v === x[i - 1] + 1);
   return run && x.length > 2 ? `${DNS[x[0]]} – ${DNS[x[x.length - 1]]}` : x.map(i => DNS[i]).join(', ');
 };
-// Ödeme al: seçilen dersleri borçtan düş, tahsilata ekle
-export function collect(pid: ID, name: string, ini: string, idx: number[], method: string, amount: number) {
-  set(s => {
-    const d = s.debts.find(x => x.pid === pid);
-    const left = d ? d.lessons.filter((_, i) => !idx.includes(i)) : [];
-    const debts = d ? (left.length ? s.debts.map(x => (x.pid === pid ? { ...x, lessons: left } : x)) : s.debts.filter(x => x.pid !== pid)) : s.debts;
-    const people = !left.length ? s.people.map(p => (p.id === pid && p.tag[0] === 'd' ? { ...p, tag: ['n', 'Tek ders'] as [any, string], cat: p.cat.replace('borc', '').trim() } : p)) : s.people;
-    return { debts, people, collected: s.collected + amount, paid: [{ id: `p${K++}`, ini, name, sub: `10 Eyl · ${method} · ${idx.length} ders`, amt: amount }, ...s.paid] };
-  });
-}
-
-/* ---------- ayarlar: ekrandan çıkınca da kalır ---------- */
-export const setPref = (k: string, v: any) => set(s => ({ prefs: { ...s.prefs, [k]: v } }));
-export function usePref<T>(k: string, d: T): [T, (v: T) => void] {
-  const v = useStore(s => s.prefs[k]);
-  return [v === undefined ? d : v, x => setPref(k, x)];
-}
+/* ---------- ayarlar: tercihlerin yazılması data/actions/settings.ts içindedir (setPref, usePref) ---------- */
 
 /* ---------- tarih ve saat seçici ---------- */
 export const pickDate = (value: Date, onPick: (d: Date) => void) => set({ picker: { key: K++, kind: 'date', value, onPick } });

@@ -4,7 +4,8 @@ import { TextInput, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { DN, MN, MS, TODAY, addD, first, hm, initials, mon, wd, type Lesson } from './data';
 import { iso } from './data/dates';
-import { addPerson, closeSheet, hhmm, nextId, num, pickDate, pickTime, snapLesson, tl, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { closeSheet, hhmm, num, pickDate, pickTime, snapLesson, tl, openAction, openSheet, person, personByName, pick, pop, push, repSheet, toast, toastLater, useC, useFrame, useStore } from './store';
+import { addLessons, addOffs, addPerson, removeBreak, removePackage, saveBreak, savePackage, saveProfile, setPref, updatePerson } from './data/actions';
 import { EASE, ff } from './theme';
 import { Av, Blk, Btn, Ck, Cols, DC, Fld, Form, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SFoot, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { Amt } from './screens1';
@@ -114,10 +115,11 @@ function AddContact({ p }: SP) {
   const [ad, setAd] = useState('');
   const [soyad, setSoyad] = useState('');
   const [pk, setPk] = useState(false);
-  const save = () => {
+  const save = async () => {
     const n = `${ad.trim()} ${soyad.trim()}`.trim();
     if (!n) { toast('Önce bir ad yaz'); return; }
-    addPerson(n, 'Yeni kişi');
+    // Kişi önbelleğe girdikten sonra devam edilir (Yeni ders paneli adı önbellekte arar); hata olursa uyarı çıkar ve panel açık kalır
+    try { await addPerson(n, 'Yeni kişi'); } catch { return; }
     p?.onSave?.(n);
     closeSheet();
     toastLater(p?.onSave ? `${first(n)} eklendi ve seçildi` : 'Kişi eklendi');
@@ -139,20 +141,20 @@ function AddContact({ p }: SP) {
 }
 
 function EditContact({ p }: SP) {
-  const x = person(p.i || 0), n = x.name.split(' ');
+  const x = person(p.i || '0'), n = x.name.split(' ');
   const [pk, setPk] = useState(true);
   const [ad, setAd] = useState(n[0]);
   const [soyad, setSoyad] = useState(n.slice(1).join(' '));
   const saveC = () => {
     const nm = `${ad.trim()} ${soyad.trim()}`.trim();
     if (!nm) { toast('Önce bir ad yaz'); return; }
-    patchPerson(x.id, { name: nm, ini: initials(nm) });
+    void updatePerson(x.id, { name: nm, ini: initials(nm) });
     closeSheet(); toastLater('Değişiklikler kaydedildi');
   };
   const gone = (patch: { arch?: boolean; gone?: boolean }, msg: string) => {
-    patchPerson(x.id, patch);
+    void updatePerson(x.id, patch);
     closeSheet(); pop();
-    toastLater(msg, 350, 'Geri al', () => patchPerson(x.id, { arch: false, gone: false }));
+    toastLater(msg, 350, 'Geri al', () => { void updatePerson(x.id, { arch: false, gone: false }); });
   };
   return (
     <Sheet
@@ -182,7 +184,7 @@ function AccountEdit() {
   const C = useC();
   const me0 = useStore(s => s.me);
   const [me, setMe] = useState(me0);
-  const saveMe = () => { set({ me: { ad: me.ad.trim() || me0.ad, soyad: me.soyad.trim(), title: me.title.trim() } }); closeSheet(); toastLater('Değişiklikler kaydedildi'); };
+  const saveMe = () => { void saveProfile({ ad: me.ad.trim() || me0.ad, soyad: me.soyad.trim(), title: me.title.trim() }); closeSheet(); toastLater('Değişiklikler kaydedildi'); };
   return (
     <Sheet title="Hesabı düzenle" foot={<Btn glow t="Kaydet" onPress={saveMe} />} extra={<Btn k="x" t="Hesabı sil" onPress={() => { closeSheet(); setTimeout(() => push('deleteAccount'), 250); }} />}>
       <PhotoRow ini={((me0.ad[0] || '') + (me0.soyad[0] || '')).toLocaleUpperCase('tr')} sub="Profilinde görünür" />
@@ -211,11 +213,10 @@ function BreakNew({ p }: SP) {
   const [days, setDays] = useState(cur?.days ?? [0, 1, 2, 3, 4]);
   const mins = Math.max(0, Math.round((hhmm(end, 0) - hhmm(start, 0)) * 60));
   const save = () => {
-    const b = { id: cur?.id ?? String(nextId()), name: name.trim() || 'Mola', start, end, days };
-    set(s => ({ breaks: cur ? s.breaks.map(x => (x.id === cur.id ? b : x)) : [...s.breaks, b] }));
+    void saveBreak({ ...(cur ? { id: cur.id } : {}), name: name.trim() || 'Mola', start, end, days });
     closeSheet(); toastLater('Mola kaydedildi');
   };
-  const del = () => { set(s => ({ breaks: s.breaks.filter(x => x.id !== cur!.id) })); closeSheet(); toastLater('Mola silindi'); };
+  const del = () => { void removeBreak(cur!.id); closeSheet(); toastLater('Mola silindi'); };
   return (
     <Sheet title="Düzenli mola" gap={20} right={cur ? <IB ic="trash" k="del" label="Molayı sil" onPress={del} /> : undefined} foot={<Btn glow t="Kaydet" onPress={save} />}>
       <Fld label="Mola adı" value={name} onChangeText={setName} />
@@ -250,8 +251,7 @@ function NewBreak({ p }: SP) {
   const opts = all ? ['İzin günü', 'Tatil', 'Hastalık', 'Kişisel', 'Diğer'] : ['Öğle arası', 'Kahve arası', 'Toplantı', 'Kişisel', 'Diğer'];
   const save = () => {
     if (!days.length) { toast('Önce bir gün seç'); return; }
-    const add = days.map(i => ({ id: `o${nextId()}`, date: iso(addD(ws, i)), name: why, start: hhmm(start, 12.5), end: hhmm(end, 13), all: !!all }));
-    set(s => ({ offs: [...s.offs, ...add] }));
+    void addOffs(days.map(i => ({ date: iso(addD(ws, i)), name: why, start: hhmm(start, 12.5), end: hhmm(end, 13), all: !!all })));
     closeSheet(); toastLater(all ? 'Gün kapatıldı' : 'Mola eklendi');
   };
   return (
@@ -289,7 +289,7 @@ function PackageSheet({ multi, p }: { multi: boolean; p: any }) {
   const idx = (arr: string[], v: string) => arr.indexOf(v);
   const del = () =>
     openAction(multi ? 'Bu paket silinsin mi?' : 'Bu ders silinsin mi?', 'Paket tercihlerinden kalkar. Daha önce satın alanların hakları durur.', multi ? 'Paketi sil' : 'Dersi sil', true, () => {
-      if (cur) set(s => ({ packages: s.packages.filter(x => x.id !== cur.id) }));
+      if (cur) void removePackage(cur, true);
       closeSheet(); toastLater(multi ? 'Paket silindi' : 'Ders silindi');
     });
   const save = () => {
@@ -300,7 +300,7 @@ function PackageSheet({ multi, p }: { multi: boolean; p: any }) {
     const pk = multi
       ? { kind: 'multi' as const, c1: `${n}×`, c2: '', name: nm, sub: `ders başı ${tl(pr / n)} · ${val}`, price: tl(pr) }
       : { kind: 'single' as const, c1: `${mins}′`, c2: '', name: nm.includes('dk') ? nm : `${nm} · ${mins} dk`, sub: editing ? cur!.sub : 'Mola yok', price: tl(pr) };
-    set(s => ({ packages: cur ? s.packages.map(x => (x.id === cur.id ? { ...x, ...pk } : x)) : [...s.packages, { id: String(nextId()), ...pk }] }));
+    void savePackage(cur ? { ...pk, id: cur.id } : pk);
     toastLater('Paket kaydedildi');
   };
   return (
@@ -464,7 +464,7 @@ function NewLesson({ p }: SP) {
   const s1 = useSlide(!!sub);
   const who = sel[0] || '';
   const open = (k: 'people' | 'pkgs') => { setLast(k); setSub(k); };
-  const save = () => {
+  const save = async () => {
     const d = date, h = time;
     const pe = personByName(who);
     if (!pe) { toast('Önce bir kişi seç'); return; }
@@ -472,17 +472,17 @@ function NewLesson({ p }: SP) {
     // Tekrar: her hafta 8 ders, her gün 14 gün (pazar hariç); bitiş tarihi yazıldıysa oraya kadar
     const step = rep.v === 2 ? 7 : 1, max = rep.v === 0 ? 1 : rep.v === 2 ? 8 : 14;
     const until = rep.v !== 0 && rep.end.trim() ? parseWhen(rep.end, '').d : null;
-    const add: Lesson[] = [];
+    const add: Omit<Lesson, 'id'>[] = [];
     for (let i = 0, x = d; add.length < (until ? 60 : max) && i < 400; i++, x = addD(d, i * step)) {
       if (until && x > until) break;
       if (rep.v === 1 && x.getDay() === 0) continue;
       const date = iso(x);
-      add.push({ id: `${date}|${h}|n${nextId()}`, date, h, dur: 60, pid: pe.id, type, st: 'w', pk: pk?.name, rep: rep.v, loc });
+      add.push({ date, h, dur: 60, pid: pe.id, type, st: 'w', pk: pk?.name, rep: rep.v, loc });
     }
-    // Not, paket adı, tekrar ve konum ders detayında görünür
-    const meta: Record<string, any> = {};
-    add.forEach(a => { if (note.trim()) meta[`note.${a.id}`] = note.trim(); });
-    set(s => ({ extra: [...s.extra, ...add], F: d, prefs: { ...s.prefs, ...meta } }));
+    // Dersler servise yazılır; not, paket adı, tekrar ve konum ders detayında görünür (not, dönen ders kimliğine bağlanır)
+    const made = await addLessons(add, d);
+    if (!made) return;
+    if (note.trim()) made.forEach(l => setPref(`note.${l.id}`, note.trim()));
     closeSheet();
     toastLater(add.length > 1 ? `${add.length} ders eklendi` : 'Ders eklendi');
   };

@@ -241,7 +241,7 @@ export function Calendar() {
   const fr = useFrame();
   const { W, top, tbh } = fr;
   const H = fr.H - tbh;
-  const F = useStore(s => s.F), emp = useStore(s => s.emp), extra = useStore(s => s.extra), cancelled = useStore(s => s.cancelled), cache = useStore(s => s.lessons), epoch = useStore(s => s.epoch), people = useStore(s => s.people), breaks = useStore(s => s.breaks), offs = useStore(s => s.offs), prefs = useStore(s => s.prefs);
+  const F = useStore(s => s.F), emp = useStore(s => s.emp), cache = useStore(s => s.lessons), epoch = useStore(s => s.epoch), people = useStore(s => s.people), breaks = useStore(s => s.breaks), offs = useStore(s => s.offs), prefs = useStore(s => s.prefs);
   const P = useSharedValue(0), TS = useSharedValue(84), S = useSharedValue(0), DX = useSharedValue(0), TIO = useSharedValue(1), SX = useSharedValue(0), CO = useSharedValue(1);
   const [mode, setMode] = useState(0);
   const [tmIdx, setTmIdx] = useState(2);
@@ -249,15 +249,8 @@ export function Calendar() {
   const VLH = H - CLIPT - 24, MH = H - MT;
   const TSmax = Math.max(0, 15 * 48 + 6 - (H - CLIPT) + 40);
   const g: Geo = useMemo(() => ({ P, TS, W }), [W]);
-  // Gün dersleri önbellekten gelir; ekranların henüz önbelleğe yazılmayan ekle/iptal işlemleri (Görev 6'ya kadar) üstüne uygulanır
-  const L = React.useCallback((d: Date): Lesson[] => {
-    const k = iso(d), base = cache[k] ?? NONE;
-    if (emp) return NONE;
-    let out = base;
-    if (extra.length) out = out.concat(extra.filter(e => e.date === k)).sort((x, y) => x.h - y.h);
-    if (cancelled.length) out = out.filter(l => !cancelled.includes(l.id));
-    return out;
-  }, [cache, emp, extra, cancelled]);
+  // Gün dersleri önbellekten gelir (ekle, iptal, ertele eylemleri önbelleği günceller)
+  const L = React.useCallback((d: Date): Lesson[] => (emp ? NONE : cache[iso(d)] ?? NONE), [cache, emp]);
   const mk = F.getFullYear() * 12 + F.getMonth();
   const lay = useMemo(() => layout(F, W), [mk, W]);
   const rowF = useMemo(() => rowIdx(lay.rows, F), [lay, +F]);

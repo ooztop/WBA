@@ -1,7 +1,8 @@
 // Sayfalar 1: kişi detayı, dokümanlar, bildirim ayarları, profil paylaş, ödemeler
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { go, openMenu, openSheet, person, pick, tl, toast, toastLater, useC, useFrame, usePref, useStore } from './store';
+import { go, openMenu, openSheet, person, pick, tl, toast, toastLater, useC, useFrame, useStore } from './store';
+import { usePref } from './data/actions';
 import { copy, LINK, openUrl, share } from './device';
 import { Av, Band, BandBack, Btn, Cols, Empty, FC, Fic, Fld, Foot, GCard, GR, Grp, IB, Icon, Lbl, List, NavH, Pg, QR, Row, Rt, Scr, Seg, Sm, Stat, Sw, T, Tag, Tap, Val, type TagK } from './ui';
 

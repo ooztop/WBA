@@ -72,6 +72,23 @@ test('paket kaydet, sil, geri yükle', async () => {
   await packagesService.save({ ...p, price: '₺650' });
   expect((await packagesService.list()).find(x => x.id === p.id)?.price).toBe('₺650');
 });
+test('restore paketi özgün sırasına geri koyar', async () => {
+  const ids = (await packagesService.list()).map(p => p.id);
+  const second = (await packagesService.list())[1];
+  await packagesService.remove(second.id);
+  await packagesService.restore(second, 1);
+  expect((await packagesService.list()).map(p => p.id)).toEqual(ids);
+  await packagesService.remove(second.id);
+  await packagesService.restore(second);
+  expect((await packagesService.list()).map(p => p.id).pop()).toBe(second.id);
+});
+test('save base:true diğer temel bayraklarını temizler', async () => {
+  const other = (await packagesService.list()).find(p => !p.base)!;
+  await packagesService.save({ ...other, base: true });
+  expect((await packagesService.list()).filter(p => p.base).map(p => p.id)).toEqual([other.id]);
+  const made = await packagesService.save({ kind: 'single', c1: '60′', c2: '', name: 'Yeni', sub: '', price: '₺1', base: true });
+  expect((await packagesService.list()).filter(p => p.base).map(p => p.id)).toEqual([made.id]);
+});
 test('collect tüm borç ödenince kişiyi borçtan çıkarır', async () => {
   await paymentsService.collect({ pid: '1', lessonIdx: [0, 1], method: 'Nakit', amount: 1500, name: 'Mert Kaya', ini: 'MK' });
   expect((await paymentsService.debts()).some(d => d.pid === '1')).toBe(false);

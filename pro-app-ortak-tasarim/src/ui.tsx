@@ -5,7 +5,8 @@ import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, w
 import Svg, { Path, SvgXml } from 'react-native-svg';
 import { IC, QR_D } from './icons';
 import { EASE, ff } from './theme';
-import { get, pop, setPref, useC, useFrame } from './store';
+import { get, pop, useC, useFrame } from './store';
+import { setPref } from './data/actions';
 
 const saved = (pk: string | undefined) => (pk ? get().prefs[pk] : undefined);
 
