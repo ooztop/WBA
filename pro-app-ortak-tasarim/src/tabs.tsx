@@ -71,7 +71,7 @@ function Contacts() {
               <List style={{ paddingRight: 36 }}>
                 {groups[L].map(p => (
                   <Row key={p.id} left={<Av ini={p.ini} />} t={p.name} s={p.sub} onPress={p.arch ? undefined : () => go('contact', undefined, { i: p.id })}
-                    right={p.arch ? <Btn small k="g" t="Geri al" onPress={() => { void updatePerson(p.id, { arch: false }); toast('Kişi geri alındı'); }} /> : <Tag k={p.tag[0]} t={p.tag[1]} />} />
+                    right={p.arch ? <Btn small k="g" t="Geri al" onPress={() => { void updatePerson(p.id, { arch: false }); toast('Kişi geri alındı'); }} /> : undefined} />
                 ))}
               </List>
             </View>
