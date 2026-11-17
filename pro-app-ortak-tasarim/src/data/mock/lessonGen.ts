@@ -29,5 +29,8 @@ export function baseLessons(d: Date): Lesson[] {
   const past = d < TODAY;
   // Perşembe (yarın) dersleri peşin ödenmiş: ödenmiş ve henüz başlamamış dersi (iptal/iade akışı) denemek için
   const prepaid = same(d, new Date(2026, 8, 10));
-  return hs.map((x, i) => toLesson(day, i, [x, [45, 60, 60, 60][Math.floor(r() * 4)], Math.floor(r() * 8), TYN[Math.floor(r() * 4)], past ? (r() < 0.8 ? 'ok' : 'no') : prepaid ? 'ok' : 'w']));
+  const out = hs.map((x, i) => toLesson(day, i, [x, [45, 60, 60, 60][Math.floor(r() * 4)], Math.floor(r() * 8), TYN[Math.floor(r() * 4)], past ? (r() < 0.8 ? 'ok' : 'no') : prepaid ? 'ok' : 'w']));
+  // Perşembenin ilk dersi paketli: paketli derste iptal (pakete geri ekle / paketten düş) denensin
+  if (prepaid && out[0]) out[0] = { ...out[0], type: 'Bireysel', pk: '8 derslik paket' };
+  return out;
 }

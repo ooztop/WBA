@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { DL, DN, MN, MS, first, hm, lessonStarted, wd, type Lesson } from './data';
 import { iso } from './data/dates';
+import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
 import { get, go, hhmm, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
@@ -132,23 +133,26 @@ function Reschedule({ p }: SP) {
   );
 }
 
-const REASONS = ['Ben iptal ediyorum', 'Kişi gelemiyor', 'Hava / mekân', 'Diğer'];
-const PAY_OPTS = ['İade et', 'Derse aktar', 'İade etme'];
-
 function Cancel({ p }: SP) {
   const C = useC();
   const n = p.n || 'Elif Yıldırım', f = first(n);
   // Demo girişlerinde (p.st yok) eski davranış: ödenmiş, paketli, tekrarlı ders
   const paid = (p.st ?? 'ok') === 'ok', hasPk = p.pk ?? true, rep = p.rep ?? 2;
-  const [why, setWhy] = useState(REASONS[0]);
-  const [pay, setPay] = useState('Derse aktar');
-  const [back, setBack] = useState(true);
+  const l: Lesson | undefined = p.l;
+  const freeH = freeCancelHours(useStore(s => s.prefs['rule.1']));
+  const hoursLeft = l ? hoursUntil(l.date, l.h) : 99;
+  const [why, setWhy] = useState<string>(CANCEL_REASONS[0]);
+  const pol = cancelOptions({ pk: hasPk, paid, reason: why, hoursLeft, freeH });
+  const [choice, setChoice] = useState(pol.def);
+  // Sebep değişince seçim, o sebebin varsayılanına döner
+  const pickWhy = (r: string) => { setWhy(r); setChoice(cancelOptions({ pk: hasPk, paid, reason: r, hoursLeft, freeH }).def); };
   const ask = () =>
     openAction('Ders iptal edilsin mi?', `${f}'e bildirim gider. Bu işlem geri alınamaz.`, 'Dersi iptal et', true, () => {
       if (p.lid) void cancelLesson(p.lid);
-      go('cancelled', 'rep', { n, big: p.big, pay: paid ? pay : null, pkBack: hasPk ? back : null, rep });
+      go('cancelled', 'rep', { n, big: p.big, why, title: pol.title, res: cancelResult[choice], rep });
     });
   const v = (t: string) => <T s={14} w={700} c={C.muted} numberOfLines={1} style={{ flexShrink: 1 }}>{t}</T>;
+  const sub = pol.late ? 'Ücretsiz iptal süresi geçti' : pol.title === 'Ödeme' ? 'Ödendi' : pol.title === 'Ücret' ? 'Henüz ödenmedi' : undefined;
   return (
     <Page title="Dersi iptal et" foot={<Btn k="xf" t="Dersi iptal et" onPress={ask} />}>
       <View style={{ backgroundColor: C.dangerSoft, borderRadius: 16, padding: 14 }}>
@@ -157,11 +161,10 @@ function Cancel({ p }: SP) {
         <Sm>{n} · {p.ty || 'Bireysel · 60 dk'}</Sm>
       </View>
       <InCard>
-        <GR t="Sebep" chev onPress={() => pick('İptal sebebi', REASONS, why, setWhy)} right={v(why)} />
-        {paid
-          ? <GR t="Ödeme" s="Ödendi" chev onPress={() => pick('Ödeme', PAY_OPTS, pay, setPay)} right={v(pay)} />
-          : <GR t="Ödeme" right={v('Alınmadı')} />}
-        {hasPk ? <GR t="Paket hakkı geri verilsin" right={<Sw on={back} onChange={setBack} label="Paket hakkı geri verilsin" />} /> : null}
+        <GR t="Sebep" chev onPress={() => pick('İptal sebebi', [...CANCEL_REASONS], why, pickWhy)} right={v(why)} />
+        <GR chev onPress={() => pick(pol.title, pol.opts, choice, setChoice)} right={v(choice)}>
+          <Rt t={pol.title} s={sub} sC={pol.late ? C.danger : undefined} />
+        </GR>
       </InCard>
       <Fld label={`${f}'e mesaj · isteğe bağlı`} area ph="Bildirimle birlikte gider" />
     </Page>
@@ -177,11 +180,9 @@ function Cancelled({ p }: SP) {
         <Pair><Btn flex k="g" t="Yeni saat öner" onPress={() => go('reschedule', undefined, { n })} /><Btn flex t="Tamam" onPress={pop} /></Pair>
       </Res>
     );
-  const pay = p.pay === undefined ? 'Derse aktar' : p.pay;
-  const payT = pay === null ? 'Alınmamıştı' : pay === 'İade et' ? 'İade edildi' : pay === 'İade etme' ? 'İade edilmedi' : 'Derse aktarıldı';
-  const pkBack = p.pkBack === undefined ? true : p.pkBack;
-  const rows: [string, string, string?][] = [['Ödeme', payT]];
-  if (pkBack !== null) rows.push(['Paket hakkı', pkBack ? 'Geri verildi' : 'Düştü']);
+  const rows: [string, string, string?][] = [];
+  if (p.why) rows.push(['Sebep', p.why]);
+  rows.push([p.title || 'Paket', p.res || 'Pakete geri eklendi']);
   if ((p.rep ?? 2) > 0) rows.push(['Seri', 'Diğer dersler duruyor']);
   rows.push(['Saat', 'Yeniden müsait', OK(C)]);
   return (
