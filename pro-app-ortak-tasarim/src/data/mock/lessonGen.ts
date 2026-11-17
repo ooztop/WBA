@@ -27,5 +27,7 @@ export function baseLessons(d: Date): Lesson[] {
   if (wd(d) === 5) n = Math.min(n, 1);
   const hs = HRS.slice().sort(() => r() - 0.5).slice(0, n).sort((a, b) => a - b);
   const past = d < TODAY;
-  return hs.map((x, i) => toLesson(day, i, [x, [45, 60, 60, 60][Math.floor(r() * 4)], Math.floor(r() * 8), TYN[Math.floor(r() * 4)], past ? (r() < 0.8 ? 'ok' : 'no') : 'w']));
+  // Perşembe (yarın) dersleri peşin ödenmiş: ödenmiş ve henüz başlamamış dersi (iptal/iade akışı) denemek için
+  const prepaid = same(d, new Date(2026, 8, 10));
+  return hs.map((x, i) => toLesson(day, i, [x, [45, 60, 60, 60][Math.floor(r() * 4)], Math.floor(r() * 8), TYN[Math.floor(r() * 4)], past ? (r() < 0.8 ? 'ok' : 'no') : prepaid ? 'ok' : 'w']));
 }
