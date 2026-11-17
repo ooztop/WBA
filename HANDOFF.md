@@ -1,31 +1,90 @@
-# Devir notu: "Tasarımla çalışma ve uygulama planı" oturumundan
+# Devir notu (yeni oturumda önce bunu oku)
 
-Bu dosya, önceki oturumda konuşulanları yeni oturuma aktarmak için yazıldı.
+Son güncelleme: 17 Kasım 2026
 
-## Kullanıcı ve hedef
+## Kullanıcı ve proje
 - Kullanıcı Türkçe konuşuyor; açıklamaları sade Türkçe ile yap.
-- Birden fazla uygulama yapmak istiyor. İlki "Pro App"; tasarımı Claude Design'da hazırlandı
-  (`Pro App - Tasarım Sistemi.dc.html` + `support.js`, ayrıca `README.md` ve `chats/` konuşmaları).
-- Platform (web / mobil) ve teknoloji henüz netleşmedi — kodlamadan önce sor ya da export'taki notlardan çıkar.
+- **Pro App:** serbest çalışan uzmanlar (psikolog, PT, diyetisyen, eğitmen) için uygulama. Arayüz Türkçe.
+  Kurum ve Mekân ekranları kapsam dışı.
+- Mobil: React Native (Expo). Web paneli ayrıca prototip olarak var. Tanıtım sitesi sonra yapılacak.
+- Backend'i **Emre** yazıyor: `EmreTuygan/WBA` reposu, `backend/` (Express + Prisma).
 
-## Repoda hazır olanlar (ooztop/WBA, branch `claude/happy-ramanujan-alnfwy`)
-- `.claude/skills/` altında, orijinal GitHub kaynaklarından kopyalanmış skill'ler:
-  - Superpowers (obra/superpowers): brainstorming, writing-plans, executing-plans, TDD, systematic-debugging vb.
-  - Impeccable (pbakaus/impeccable): `/impeccable init` → PRODUCT.md + DESIGN.md; craft/critique/audit/polish.
-  - Emil Kowalski (emilkowalski/skills): emil-design-eng, animate, review-animations, apple-design, mobile-native, animate-expo…
-  - Vercel web-design-guidelines: yayın öncesi arayüz denetimi.
-  - Kaynak commit'leri ve lisanslar: `.claude/skills/SOURCES.md`, `_licenses/`.
-- `CLAUDE.md`: çalışma kuralları (önce plan → tasarım dili → kod → denetim).
+## Dallar
+- **`main`: bütün güncel iş burada. Bundan sonra burada çalış.**
+  Kullanıcıdan GitHub'da `main`'i varsayılan dal yapması istendi (17 Kasım).
+- `claude/pro-prototip`: `main`'in kaynağı. Artık güncellenmiyor.
+- `claude/happy-ramanujan-alnfwy`: eski varsayılan dal, yalnızca skill'leri içeriyor.
+- `claude/pro-design-system`: eski Expo denemesi (`apps/pro`, 28 Eylül). Kullanıcının kararıyla `main`'e alınmadı.
 
-## Verilen kararlar
-- TikTok'taki "DM us" skill paketleri kullanılmadı; yalnızca orijinal depolardan alındı.
-- Claude-Mem ve Observer kurulmadı (bulut oturumunda gereksiz / kaynağı belirsiz); hafıza için CLAUDE.md kullanılıyor.
-- UI/UX Pro Max, Brandkit, Image-to-Code, Extract Design System kurulmadı (Impeccable ve Claude Design aynı işi görüyor).
-- Kullanıcıya claude.ai eklenti dizininden şunları kurması önerildi: Design (Anthropic), frontend-design (Anthropic),
-  Figma (Figma kullanıyorsa), Backend Design (backend olacaksa). Engineering isteğe bağlı.
+## Klasörler
+| Yol | Ne |
+|---|---|
+| `pro-app-ortak-tasarim/` | **Güncel mobil uygulama** ("Ortak Tasarım", Expo). Veri katmanı burada. README'sini oku. |
+| `pro-app-ortak-tasarim/src/data/README.md` | Hangi konunun hangi backend ucuna bağlanacağını gösteren tablo |
+| `prototip/ortak-tasarim/` | Ortak Tasarım'ın kaynağı: `prototip.html` (tıklanabilir) ve `ortak-tasarim.dc.html` (tuval) |
+| `pro-app/` | Eski Final 2 prototipinin Expo karşılığı (16 Kasım). Ortak Tasarım bunun yerini aldı. |
+| `prototip/app.html` | Mobil prototip Final 2. Durumu `prototip/DEVAM-NOTU.md`'de yazıyor. |
+| `prototip/web.html` | Uzman web paneli prototipi. Durumu `prototip/WEB-DEVAM-NOTU.md`'de yazıyor. |
+| `prototip/TASARIM-SISTEMI-v4.md` | Final 2'nin tasarım kuralları (Instrument Sans, mavi #2F4BD1) |
+| `docs/superpowers/plans/2026-11-17-veri-katmani.md` | Veri katmanı planı. Görev 1–7 yapıldı. |
+| `docs/EMRE-BACKEND-NOTU.md` | Emre'ye yazılan backend notu: istekler ve sorular |
+
+Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
+Tasarım dili bunlardan okunur:
+- claude.ai'daki "Ortak Tasarım Sistemi Wellbeing" artifact'i
+- `pro-app-ortak-tasarim/src/theme.ts`
+
+## Tasarımlar nerede yedekli
+- Claude Design "Wellness" projesi:
+  - "Pro App - Ortak Tasarım (Prototip)"
+  - "Pro App - Final 2"
+  - "Pro App - Web Paneli"
+- claude.ai artifact'leri:
+  - Pro App Önizleme
+  - Pro App
+  - Wellness
+  - Ortak Tasarım Sistemi Wellbeing
+  - Design System
+  - WBA Platform – Product & Backend Requirements
+
+## Zaman çizelgesi
+- **28 Eyl:** Skill'ler (`.claude/skills/`, kaynaklar `SOURCES.md`'de) ve `CLAUDE.md` eklendi.
+- **29 Eyl – 4 Eki:** Mobil prototip geliştirildi: Tasarım Sistemi v3/v4, Final 1, Final 2 (kullanıcının el yazısı notlarından).
+- **5 – 18 Eki:** Web paneli prototipi yapıldı (iskelet B: sol menü + ana alan + sağ detay paneli).
+- **16 Kas:**
+  - Final 2'nin Expo karşılığı (`pro-app/`) yazıldı.
+  - Ardından Ortak Tasarım (`pro-app-ortak-tasarim/`) yazıldı: takvim (Gün/Hafta/Ay), kişiler, paketler, ödemeler, talepler, molalar, erteleme, tekrar. Veriler cihazda saklanıyor.
+- **17 Kas:**
+  - Veri katmanı kuruldu: modeller, mock veritabanı, konu başına servisler, önbellek, iyimser eylemler ve geri alma, testler.
+  - Emre'ye backend notu yazıldı.
+  - Bütün işler `main`'de toplandı.
+
+## Mevcut durum
+- Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
+- Backend'de hazır olan uçlar:
+  - çalışma saatleri (`/availability`)
+  - izin günleri (`/availability/exceptions`)
+  - ders kuralları (`/appointment-defaults`)
+  - kişiler (`/clients`)
+  - tekil ders fiyatları (`/offerings`)
+- Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki.
+- Emre'nin notunun gönderilip gönderilmediği ve cevabı bilinmiyor; kullanıcıya sor.
 
 ## Sıradaki adımlar
-1. Export'taki `README.md` ve `chats/` konuşmalarını oku; belirsizlik varsa kodlamadan önce kullanıcıya sor.
-2. Tasarım sistemini (renk, font, boşluk, bileşenler) çıkarıp `DESIGN.md`'ye işle (`/impeccable init` akışı).
-3. Plan çıkar (Superpowers), onaydan sonra `Pro App - Tasarım Sistemi.dc.html`'i uygula.
-4. Bitince `web-design-guidelines` ve `/impeccable audit` ile denetle.
+1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.
+   - Önce `src/data/api.ts` (`apiFetch`) yazılır.
+   - Sonra hazır olan uçlar için adaptörler yazılır: availability, exceptions, appointment-defaults, clients, offerings.
+   - Ardından `src/data/source.ts`'te o konular `'api'` yapılır.
+   - Ön koşullar:
+     - `EmreTuygan/WBA` reposuna erişim (`add_repo`)
+     - backend'in bu ortamda Docker ile ayağa kaldırılıp uçların denenmesi
+2. **Repo birleştirme kararı:** yeni tasarım, Emre'nin reposundaki `mobile/` klasörünün yerine mi geçecek, yanına mı eklenecek? Bu karar Emre ile verilecek.
+3. **Final 2 notlarından açık kalanlar** (`prototip/DEVAM-NOTU.md`): güne özel ders kuralları ile genel kurallar arasındaki çelişki ve düzenli molada başlangıç/bitiş tarihi.
+4. **Tanıtım sitesi:** henüz başlanmadı.
+
+## Verilen kararlar
+- Skill'ler yalnızca orijinal GitHub depolarından alındı; TikTok'taki "DM us" paketleri kullanılmadı.
+- Claude-Mem, Observer, UI/UX Pro Max, Brandkit kurulmadı. Hafıza için `CLAUDE.md` ve bu dosya kullanılıyor.
+- Takvimde haftanın ilk günü Pazartesi (`0 = Pazartesi … 6 = Pazar`).
+- Web panelinde yalnızca Hafta ve Ay görünümü var; ‹ › ve "Bugün" gezinme düğmeleri yok.
+- Kullanıcı kalabalık ve büyük arayüz sevmiyor; açıklama yazısı ve bilgi notu az olmalı.
