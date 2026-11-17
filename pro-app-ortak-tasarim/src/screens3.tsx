@@ -47,6 +47,8 @@ function LessonScr({ p }: SP) {
   // Paket adı, tekrar ve konum: yeni derste seçilenler; demo derslerinde türe göre
   const pkName = l?.pk ?? (ty.startsWith('Deneme') ? 'Deneme dersi' : pe.tag[1] === 'Paket' || pe.name === 'Elif Yıldırım' ? '8 derslik paket' : pe.tag[1] === 'Üye' ? 'Aylık üyelik' : `Tek ders · ${dur} dk`);
   const rep = l?.rep ?? (ty.startsWith('Deneme') ? 0 : 2);
+  // İptal ekranı ödeme, paket ve seri satırlarını bu dersin gerçek bilgisinden kurar
+  const cinfo = { ...info, st: l ? l.st : 'ok', pk: /paket/i.test(pkName), rep };
   const loc = l?.loc ?? (ty.startsWith('Online') ? 'Online' : 'Stüdyo');
   const st = l ? l.st : 'ok';
   const kv = (t: string, right: React.ReactNode) => <GR style={{ minHeight: 52 }} right={right}><T s={15} lh={1.35} c={C.muted} style={{ flex: 1 }}>{t}</T></GR>;
@@ -77,7 +79,7 @@ function LessonScr({ p }: SP) {
         </View>
       </Scr>
       <Foot>
-        <Btn flex k="x" t="İptal et" onPress={() => go('cancel', undefined, info)} />
+        <Btn flex k="x" t="İptal et" onPress={() => go('cancel', undefined, cinfo)} />
         <Btn flex t="Dersi ertele" onPress={() => go('reschedule', undefined, info)} />
       </Foot>
     </>
@@ -124,28 +126,38 @@ function Reschedule({ p }: SP) {
   );
 }
 
+const REASONS = ['Ben iptal ediyorum', 'Kişi gelemiyor', 'Hava / mekân', 'Diğer'];
+const PAY_OPTS = ['İade et', 'Derse aktar', 'İade etme'];
+
 function Cancel({ p }: SP) {
   const C = useC();
   const n = p.n || 'Elif Yıldırım', f = first(n);
+  // Demo girişlerinde (p.st yok) eski davranış: ödenmiş, paketli, tekrarlı ders
+  const paid = (p.st ?? 'ok') === 'ok', hasPk = p.pk ?? true, rep = p.rep ?? 2;
+  const [why, setWhy] = useState(REASONS[0]);
   const [pay, setPay] = useState('Derse aktar');
+  const [back, setBack] = useState(true);
   const ask = () =>
     openAction('Ders iptal edilsin mi?', `${f}'e bildirim gider. Bu işlem geri alınamaz.`, 'Dersi iptal et', true, () => {
       if (p.lid) void cancelLesson(p.lid);
-      go('cancelled', 'rep', { n, big: p.big, pay });
+      go('cancelled', 'rep', { n, big: p.big, pay: paid ? pay : null, pkBack: hasPk ? back : null, rep });
     });
+  const v = (t: string) => <T s={14} w={700} c={C.muted} numberOfLines={1} style={{ flexShrink: 1 }}>{t}</T>;
   return (
-    <Page title="Dersi iptal et" foot={<Btn k="x" t="Dersi iptal et" onPress={ask} />}>
-      <View style={{ backgroundColor: C.dangerTint, borderRadius: 16, padding: 14 }}>
+    <Page title="Dersi iptal et" foot={<Btn k="xf" t="Dersi iptal et" onPress={ask} />}>
+      <View style={{ backgroundColor: C.dangerSoft, borderRadius: 16, padding: 14 }}>
         <Lbl t="İptal edilecek ders" c={C.danger} />
-        <T s={20} w={800} lh={1.25} style={{ marginTop: 4 }}>{p.when || 'Çar 10 Eyl · 09:00'}</T>
-        <Sm c={C.ink}>{n} · {p.ty || 'Bireysel · 60 dk'}</Sm>
+        <T s={17} w={800} lh={1.3} style={{ marginTop: 4 }}>{p.when || 'Çar 10 Eyl · 09:00'}</T>
+        <Sm>{n} · {p.ty || 'Bireysel · 60 dk'}</Sm>
       </View>
-      <Blk lbl="İptal sebebi"><PChips items={['Ben iptal ediyorum', 'Kişi gelemiyor', 'Hava / mekân', 'Diğer']} cols={2} /></Blk>
-      <Fld label={`${f}'e mesaj (bildirimle gider)`} area ph="Örn. bu haftayı cumaya alalım mı?" />
       <InCard>
-        <GR t="Ödeme" s="₺750 alındı" chev onPress={() => pick('Ödeme', ['İade et', 'Derse aktar', 'İade etme'], pay, setPay)} right={<T s={13} w={700} c={C.muted}>{pay}</T>} />
-        <GR t="Paket hakkı geri verilsin" s="Ders paketten düşmez" right={<Sw init label="Paket hakkı geri verilsin" />} />
+        <GR t="Sebep" chev onPress={() => pick('İptal sebebi', REASONS, why, setWhy)} right={v(why)} />
+        {paid
+          ? <GR t="Ödeme" s="Ödendi" chev onPress={() => pick('Ödeme', PAY_OPTS, pay, setPay)} right={v(pay)} />
+          : <GR t="Ödeme" right={v('Alınmadı')} />}
+        {hasPk ? <GR t="Paket hakkı geri verilsin" right={<Sw on={back} onChange={setBack} label="Paket hakkı geri verilsin" />} /> : null}
       </InCard>
+      <Fld label={`${f}'e mesaj · isteğe bağlı`} area ph="Bildirimle birlikte gider" />
     </Page>
   );
 }
@@ -159,9 +171,15 @@ function Cancelled({ p }: SP) {
         <Pair><Btn flex k="g" t="Yeni saat öner" onPress={() => go('reschedule', undefined, { n })} /><Btn flex t="Tamam" onPress={pop} /></Pair>
       </Res>
     );
-  const payT = p.pay === 'İade et' ? 'İade edildi' : p.pay === 'İade etme' ? 'İade edilmedi' : 'Derse aktarıldı';
+  const pay = p.pay === undefined ? 'Derse aktar' : p.pay;
+  const payT = pay === null ? 'Alınmamıştı' : pay === 'İade et' ? 'İade edildi' : pay === 'İade etme' ? 'İade edilmedi' : 'Derse aktarıldı';
+  const pkBack = p.pkBack === undefined ? true : p.pkBack;
+  const rows: [string, string, string?][] = [['Ödeme', payT]];
+  if (pkBack !== null) rows.push(['Paket hakkı', pkBack ? 'Geri verildi' : 'Düştü']);
+  if ((p.rep ?? 2) > 0) rows.push(['Seri', 'Diğer dersler duruyor']);
+  rows.push(['Saat', 'Yeniden müsait', OK(C)]);
   return (
-    <Res ic="calX" red onBack={toRoot} top={`${n} · ders iptal edildi`} big={p.big || '10 Eyl · 09:00'} strike sub={`Takvimden kaldırıldı, ${f}'e bildirim gitti.`} rows={[['Ödeme', payT], ['Paket hakkı', 'Geri verildi'], ['Seri', 'Diğer 8 ders duruyor'], ['Saat', 'Yeniden müsait', OK(C)]]}>
+    <Res ic="calX" red onBack={toRoot} top={`${n} · ders iptal edildi`} big={p.big || '10 Eyl · 09:00'} strike sub={`Takvimden kaldırıldı, ${f}'e bildirim gitti.`} rows={rows}>
       <Pair><Btn flex k="g" t="Yeni saat öner" onPress={() => go('reschedule', 'rep', { n })} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
     </Res>
   );

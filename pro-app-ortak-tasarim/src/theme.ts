@@ -36,7 +36,9 @@ const AC: Record<Accent, { light: string[]; dark: string[] }> = {
 
 function build(dark: boolean, ac: Accent) {
   const b = dark ? base.dark : base.light, a = AC[ac][dark ? 'dark' : 'light'];
-  return { ...b, accent: a[0], onAccent: a[1], tint: a[2], tintSoft: a[3], accentInk: a[4], dangerLine: alpha(b.danger, 0.22) };
+  return { ...b, accent: a[0], onAccent: a[1], tint: a[2], tintSoft: a[3], accentInk: a[4], dangerLine: alpha(b.danger, 0.22),
+    // Mat pembe zemin (iptal kutusu) ve beyaz yazılı dolu kırmızı düğme; düğme rengi iki temada da aynı (beyaz yazıyla okunur)
+    dangerSoft: mix(b.dangerTint, b.page, 0.5), dangerFill: '#B42318' };
 }
 export type Colors = ReturnType<typeof build>;
 const memo: Record<string, Colors> = {};

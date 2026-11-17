@@ -101,10 +101,10 @@ export function IB({ ic, k = 'g', onPress, label, s = 44, is = 20, style }: { ic
   );
 }
 
-export function Btn({ t, k = 'p', ic, left, small, onPress, style, flex, glow, off }: { t: string; k?: 'p' | 'g' | 'x'; ic?: string; left?: React.ReactNode; small?: boolean; onPress?: () => void; style?: VS; flex?: boolean; glow?: boolean; off?: boolean }) {
+export function Btn({ t, k = 'p', ic, left, small, onPress, style, flex, glow, off }: { t: string; k?: 'p' | 'g' | 'x' | 'xf'; ic?: string; left?: React.ReactNode; small?: boolean; onPress?: () => void; style?: VS; flex?: boolean; glow?: boolean; off?: boolean }) {
   const C = useC();
-  const col = off ? C.muted : k === 'p' ? C.onAccent : k === 'x' ? C.danger : C.ink;
-  const box: ViewStyle = off ? { backgroundColor: C.divider } : k === 'p' ? { backgroundColor: C.accent } : { backgroundColor: C.card, borderWidth: 1.5, borderColor: C.border };
+  const col = off ? C.muted : k === 'p' ? C.onAccent : k === 'xf' ? '#FFFFFF' : k === 'x' ? C.danger : C.ink;
+  const box: ViewStyle = off ? { backgroundColor: C.divider } : k === 'p' ? { backgroundColor: C.accent } : k === 'xf' ? { backgroundColor: C.dangerFill } : { backgroundColor: C.card, borderWidth: 1.5, borderColor: C.border };
   return (
     <Tap
       onPress={off ? undefined : onPress}
