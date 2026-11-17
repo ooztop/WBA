@@ -429,9 +429,9 @@ export function NavH({ title, sub, right, onBack, left }: { title?: string; sub?
 
 // Alt çift düğme çubuğu (.foot)
 export function Foot({ children }: { children: React.ReactNode }) {
-  const C = useC();
   const { bottom } = useFrame();
-  return <View style={{ backgroundColor: C.card, borderTopWidth: 1, borderTopColor: C.divider, paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), flexDirection: 'row', gap: 8 }}>{children}</View>;
+  // Zemin ve üst çizgi yok: düğmeler sayfa zemininin üstünde durur
+  return <View style={{ paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), flexDirection: 'row', gap: 8 }}>{children}</View>;
 }
 export const Pair = ({ children, style }: { children: React.ReactNode; style?: VS }) => <View style={[{ flexDirection: 'row', gap: 8 }, style]}>{children}</View>;
 
