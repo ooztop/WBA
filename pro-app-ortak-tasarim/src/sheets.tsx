@@ -105,7 +105,7 @@ function PhotoRow({ ini, sub }: { ini?: string; sub: string }) {
 function PkgOpts() {
   return (
     <>
-      <Fld label="Seans sayısı" style={{ gap: 8 }}><PChips items={['Tek ders', '4', '8', '12']} init={2} /></Fld>
+      <Fld label="Seans sayısı" style={{ gap: 8 }}><PChips dark items={['Tek ders', '4', '8', '12']} init={2} /></Fld>
       <Cols><Fld flex label="Seans süresi" v="60 dk" /><Fld flex label="Paket ücreti" v="₺5.000" /></Cols>
     </>
   );
@@ -310,9 +310,9 @@ function PackageSheet({ multi, p }: { multi: boolean; p: any }) {
         <Fld flex label={multi ? 'Paket adı' : 'Ders adı'} value={name} onChangeText={setName} />
         <Fld flex label={multi ? 'Ücret / paket' : 'Ücret / ders'} value={price} onChangeText={setPrice} />
       </Cols>
-      {multi ? <Blk lbl="Seans sayısı"><PChips items={SES} init={Math.max(0, idx(SES, ses))} cst="seans" cstInit={idx(SES, ses) < 0 ? `${ses} seans` : undefined} onChange={(_, l) => setSes(l)} /></Blk> : null}
-      <Blk lbl={multi ? 'Seans süresi' : 'Ders süresi'}><PChips items={DUR} init={idx(DUR, dur) < 0 ? (multi ? 1 : 2) : idx(DUR, dur)} cst="dk" cstInit={idx(DUR, dur) < 0 ? dur : undefined} onChange={(_, l) => setDur(l)} /></Blk>
-      {multi ? <Blk lbl="Geçerlilik · paket bu sürede kullanılmalı"><PChips items={VAL} init={1} cst="ay" onChange={(_, l) => setVal(l)} /></Blk> : null}
+      {multi ? <Blk lbl="Seans sayısı"><PChips dark items={SES} init={Math.max(0, idx(SES, ses))} cst="seans" cstInit={idx(SES, ses) < 0 ? `${ses} seans` : undefined} onChange={(_, l) => setSes(l)} /></Blk> : null}
+      <Blk lbl={multi ? 'Seans süresi' : 'Ders süresi'}><PChips dark items={DUR} init={idx(DUR, dur) < 0 ? (multi ? 1 : 2) : idx(DUR, dur)} cst="dk" cstInit={idx(DUR, dur) < 0 ? dur : undefined} onChange={(_, l) => setDur(l)} /></Blk>
+      {multi ? <Blk lbl="Geçerlilik · paket bu sürede kullanılmalı"><PChips dark items={VAL} init={1} cst="ay" onChange={(_, l) => setVal(l)} /></Blk> : null}
       <Blk lbl="Ödeme yöntemi · birden fazla"><Tiles items={PAY} multi init={[0, 1]} /></Blk>
       <InCard>
         {multi ? <GR t="Peşin ödeme" s="Paket başında tamamı alınır" right={<Sw init label="Peşin ödeme" />} /> : null}

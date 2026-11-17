@@ -145,25 +145,28 @@ export function Sw({ init = false, on, onChange, label, pk }: { init?: boolean; 
   );
 }
 
-export function Chip({ t, on, onPress, cn, grid, style, dark = true }: { t?: string; on?: boolean; onPress?: () => void; cn?: string; grid?: boolean; style?: VS; dark?: boolean; children?: React.ReactNode }) {
+// Seçili çip vurgu mavisinde; dark: seçili çip siyah (paket oluşturmadaki seans/süre/geçerlilik seçimleri)
+export function Chip({ t, on, onPress, cn, grid, style, dark = false }: { t?: string; on?: boolean; onPress?: () => void; cn?: string; grid?: boolean; style?: VS; dark?: boolean; children?: React.ReactNode }) {
   const C = useC();
+  const sb = dark ? C.sdark : C.accent, sf = dark ? C.onDark : C.onAccent;
   return (
-    <Tap onPress={onPress} sel={!!on} style={[{ height: grid ? 44 : 36, paddingHorizontal: grid ? 4 : 14, borderRadius: grid ? 12 : 999, borderWidth: 1.5, borderColor: on ? C.accent : C.border, backgroundColor: on ? C.accent : C.card, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }, grid && { flex: 1 }, style]}>
-      <T s={13} w={700} c={on ? C.onAccent : C.ink} numberOfLines={1}>{t}</T>
-      {cn ? <T s={13} w={800} c={on ? C.onAccent : C.muted} style={{ marginLeft: 5 }}>{cn}</T> : null}
+    <Tap onPress={onPress} sel={!!on} style={[{ height: grid ? 44 : 36, paddingHorizontal: grid ? 4 : 14, borderRadius: grid ? 12 : 999, borderWidth: 1.5, borderColor: on ? sb : C.border, backgroundColor: on ? sb : C.card, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }, grid && { flex: 1 }, style]}>
+      <T s={13} w={700} c={on ? sf : C.ink} numberOfLines={1}>{t}</T>
+      {cn ? <T s={13} w={800} c={on ? sf : C.muted} style={{ marginLeft: 5 }}>{cn}</T> : null}
     </Tap>
   );
 }
 
 // Izgara çipler (.pchips): eşit sütun, 44px; cst = ✎ özel değer birimi
-export function PChips({ items, init = 0, value, cols = 4, cst, cstInit, onChange, style, pk }: { items: string[]; init?: number; value?: number; cols?: number; cst?: string; cstInit?: string; onChange?: (i: number, label: string) => void; style?: VS; pk?: string }) {
+export function PChips({ items, init = 0, value, cols = 4, cst, cstInit, onChange, style, pk, dark }: { items: string[]; init?: number; value?: number; cols?: number; cst?: string; cstInit?: string; onChange?: (i: number, label: string) => void; style?: VS; pk?: string; dark?: boolean }) {
   const C = useC();
+  const sb = dark ? C.sdark : C.accent, sf = dark ? C.onDark : C.onAccent;
   const sv = saved(pk);
   const [sel, setSel] = useState<number>(sv ? sv.s : init);
   const [cus, setCus] = useState<string | null>(sv ? sv.c : cstInit ?? null);
   const [ed, setEd] = useState(false);
   const cur = value ?? sel;
-  const cells: React.ReactNode[] = items.map((x, i) => <Chip key={i} grid t={x} on={cus == null && cur === i} onPress={() => { setCus(null); setEd(false); setSel(i); if (pk) setPref(pk, { s: i, c: null }); onChange?.(i, x); }} />);
+  const cells: React.ReactNode[] = items.map((x, i) => <Chip key={i} grid dark={dark} t={x} on={cus == null && cur === i} onPress={() => { setCus(null); setEd(false); setSel(i); if (pk) setPref(pk, { s: i, c: null }); onChange?.(i, x); }} />);
   if (cst)
     cells.push(
       ed ? (
@@ -173,8 +176,8 @@ export function PChips({ items, init = 0, value, cols = 4, cst, cstInit, onChang
             style={[{ textAlign: 'center', fontFamily: ff(700), fontSize: 13, color: C.ink, padding: 0, height: 40 }, noOutline]} />
         </View>
       ) : (
-        <Tap key="c" onPress={() => setEd(true)} label="Özel değer" style={{ flex: 1, height: 44, borderRadius: 12, borderWidth: 1.5, borderColor: cus ? C.accent : C.border, backgroundColor: cus ? C.accent : C.card, alignItems: 'center', justifyContent: 'center' }}>
-          {cus ? <T s={13} w={700} c={C.onAccent}>{cus}</T> : <Icon n="edit" s={18} />}
+        <Tap key="c" onPress={() => setEd(true)} label="Özel değer" style={{ flex: 1, height: 44, borderRadius: 12, borderWidth: 1.5, borderColor: cus ? sb : C.border, backgroundColor: cus ? sb : C.card, alignItems: 'center', justifyContent: 'center' }}>
+          {cus ? <T s={13} w={700} c={sf}>{cus}</T> : <Icon n="edit" s={18} />}
         </Tap>
       ),
     );

@@ -149,6 +149,7 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - **Seçili çipler vurgu mavisinde** (`Chip`, `PChips` ✎ özel değer, erteleme saat çipleri), bütün uygulamada.
   Gün seçimleri (takvim, tarih seçici, erteleme şeridi, mola günleri `DC`) ve onay kutuları siyah kalır:
   takvimde "seçili gün siyah, bugün mavi" kararı var. (v4 kuralı "Seçili çip mavi" ile de uyumlu.)
+  İstisna: paket panelindeki Seans sayısı, Ders/Seans süresi ve Geçerlilik çipleri siyah (`PChips dark`).
 - Bölüm başlıkları (`GrpS`) gri kalır; tek ekranda mavi denendi, beğenilmedi (tutarsız ve "dokunulabilir" gibi duruyor).
 - Paket tercihleri: paket kutucukları açık mavi, temel paket dolu mavi ve fiyatı mavi.
 - Ders kurallarına ikon kutusu eklenmesi denendi, istenmedi.
