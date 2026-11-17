@@ -378,6 +378,7 @@ export function Calendar() {
       if (col < 0 || col > 6) return;
       d = week[col];
     }
+    if (!isFinite(t)) return;
     const h = Math.max(7, Math.min(21, Math.floor(t)));
     // + düğmesinin menüsüyle aynı kart açılır; + düğmesi ise kendi hâlinde kalır
     set({ menu: { d: +d, h, title: `${d.getDate()} ${MN[d.getMonth()]} ${DL[wd(d)]} · ${hm(h)}`, onDay: mode === 1 ? () => pickWeekDay(d) : undefined } });
@@ -416,7 +417,7 @@ export function Calendar() {
                 </Animated.View>
               ) : (
                 <>
-                  {mode < 2 ? <Pressable onPress={e => { const { locationX, locationY } = e.nativeEvent; guard(() => slotTap(locationX, locationY))(); }} accessibilityLabel="Boş saate ders ya da mola ekle" style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0 }} /> : null}
+                  {mode < 2 ? <Pressable onPress={e => { const n = e.nativeEvent as any; const x = n.locationX ?? n.offsetX, y = n.locationY ?? n.offsetY; guard(() => slotTap(x, y))(); }} accessibilityLabel="Boş saate ders ya da mola ekle" style={{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0 }} /> : null}
                   {offRanges.map((r, i) => <OffHours key={i} from={r[0]} to={r[1]} g={g} C={C} />)}
                   {Array.from({ length: 16 }, (_, k) => <Hour key={k} h={7 + k} g={g} C={C} a0={a0} a1={a1} />)}
                   {week.map((_, i) => <VLine key={i} i={i} g={g} col={i === fi ? C.muted : C.divider} VLH={VLH} />)}
