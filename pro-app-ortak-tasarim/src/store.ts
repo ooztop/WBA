@@ -13,13 +13,15 @@ export type Brk = { id: number; name: string; start: string; end: string; days: 
 export type Off = { k: string; name: string; start: number; end: number; all?: boolean };
 export type Debt = { pid: number; lessons: [string, string][]; note: string; late?: boolean; tag: string };
 export type PaidRow = { ini: string; name: string; sub: string; amt: number };
-export type PickerS = { key: number; kind: 'date'; value: Date; onPick: (d: Date) => void } | { key: number; kind: 'time'; value: number; step: number; onPick: (h: number) => void };
+export type PickerS = { key: number; kind: 'date'; value: Date; onPick: (d: Date) => void } | { key: number; kind: 'time'; value: number; min: number; onPick: (h: number) => void };
+// Takvimde boş saate dokununca açılan Ekle menüsü: hangi gün/saat için
+export type SlotMenu = { d: number; h: number; title: string; onDay?: () => void };
 export type ToastS = { key: number; msg: string; undo?: string; onUndo?: () => void };
 
 type State = {
   dark: boolean; accent: Accent; emp: boolean; tab: number; F: Date;
   stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null; picker: PickerS | null;
-  people: Person[]; packages: Pkg[]; extra: Extra[]; cancelled: string[]; menu: boolean;
+  people: Person[]; packages: Pkg[]; extra: Extra[]; cancelled: string[]; menu: boolean | SlotMenu;
   breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: { ad: string; soyad: string; title: string };
   prefs: Record<string, any>; reqs: { b: boolean; a: boolean };
 };
@@ -197,15 +199,18 @@ export function resetData() {
 
 /* ---------- tarih ve saat seçici ---------- */
 export const pickDate = (value: Date, onPick: (d: Date) => void) => set({ picker: { key: K++, kind: 'date', value, onPick } });
-export const pickTime = (value: number, onPick: (h: number) => void) => set({ picker: { key: K++, kind: 'time', value, step: lessonStep(), onPick } });
+export const pickTime = (value: number, onPick: (h: number) => void) => set({ picker: { key: K++, kind: 'time', value, min: lessonMin(), onPick } });
 export const closePicker = () => { if (state.picker) set({ picker: null }); };
-// Ders başlama kademesi (Ders kuralları): Tam saat → 60, 15 dk, 30 dk ya da özel değer
-export function lessonStep(): number {
+// Ders başlama dakikası (Ders kuralları): dersler her saatin bu dakikasında başlar.
+// Tam saat → 0, 15 geçe → 15 (16:15, 17:15 …), 30 geçe → 30 (16:30, 17:30 …) ya da özel değer
+export function lessonMin(): number {
   const r = state.prefs['rule.2'];
-  if (!r) return 60;
-  if (r.c) return Math.max(5, parseInt(r.c, 10) || 60);
-  return [60, 15, 30][r.s] ?? 60;
+  if (!r) return 0;
+  if (r.c) return Math.min(55, Math.max(0, parseInt(r.c, 10) || 0));
+  return [0, 15, 30][r.s] ?? 0;
 }
+// Verilen saati kurala uydur: o saatin başlama dakikası (ör. 14,7 → 14:30)
+export const snapLesson = (h: number) => Math.floor(h) + lessonMin() / 60;
 // Ders bilgisi (paket adı, tekrar, konum): ders anahtarıyla saklanır
 export type LesMeta = { pk?: string; rep?: number; loc?: string };
 export const lesMeta = (lk?: string): LesMeta => (lk && state.prefs[`les.${lk}`]) || {};

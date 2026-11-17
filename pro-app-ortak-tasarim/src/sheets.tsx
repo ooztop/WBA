@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { DN, MN, MS, TODAY, addD, dkey, first, hm, wd, type Lesson } from './data';
-import { addPerson, closeSheet, hhmm, nextId, num, pickDate, pickTime, tl, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
+import { DN, MN, MS, TODAY, addD, dkey, first, hm, mon, wd, type Lesson } from './data';
+import { addPerson, closeSheet, hhmm, nextId, num, pickDate, pickTime, snapLesson, tl, openAction, openSheet, patchPerson, person, personByName, pick, pop, push, repSheet, set, toast, toastLater, useC, useFrame, useStore } from './store';
 import { EASE, ff } from './theme';
 import { Av, Blk, Btn, Ck, Cols, DC, Fld, Form, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SFoot, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { Amt } from './screens1';
@@ -234,18 +234,22 @@ function BreakNew({ p }: SP) {
   );
 }
 
-function NewBreak() {
+function NewBreak({ p }: SP) {
   const C = useC();
+  // Takvimde boş yere dokunarak açıldıysa o günün haftası, o gün ve o saat seçili gelir
+  const d0 = p?.d ? new Date(p.d) : new Date(2026, 8, 9);
+  const ws = mon(d0);
+  const h0 = p?.h != null ? Math.floor(p.h) : null;
   const [all, setAll] = useState(0);
-  const [days, setDays] = useState([2]);
+  const [days, setDays] = useState([wd(d0)]);
   const [why, setWhy] = useState('Öğle arası');
-  const [start, setStart] = useState('12:30');
-  const [end, setEnd] = useState('13:00');
-  const D: [string, string][] = [['Pzt', '7'], ['Sal', '8'], ['Çar', '9'], ['Per', '10'], ['Cum', '11'], ['Cmt', '12'], ['Paz', '13']];
+  const [start, setStart] = useState(h0 != null ? hm(h0) : '12:30');
+  const [end, setEnd] = useState(h0 != null ? hm(h0 + 0.5) : '13:00');
+  const D: [string, string][] = DN.map((n, i) => [n, String(addD(ws, i).getDate())]);
   const opts = all ? ['İzin günü', 'Tatil', 'Hastalık', 'Kişisel', 'Diğer'] : ['Öğle arası', 'Kahve arası', 'Toplantı', 'Kişisel', 'Diğer'];
   const save = () => {
     if (!days.length) { toast('Önce bir gün seç'); return; }
-    const add = days.map(i => ({ k: dkey(new Date(2026, 8, 7 + i)), name: why, start: hhmm(start, 12.5), end: hhmm(end, 13), all: !!all }));
+    const add = days.map(i => ({ k: dkey(addD(ws, i)), name: why, start: hhmm(start, 12.5), end: hhmm(end, 13), all: !!all }));
     set(s => ({ offs: [...s.offs, ...add] }));
     closeSheet(); toastLater(all ? 'Gün kapatıldı' : 'Mola eklendi');
   };
@@ -262,7 +266,7 @@ function NewBreak() {
       <InCard>
         <GR t="Sebep" s="Takvimde bu isimle görünür" chev onPress={() => pick('Sebep', opts, why, setWhy)} right={<T s={13} w={700} c={C.muted}>{why}</T>} />
         <GR t="Sebebi kişiler görsün" s="Kapalıysa sadece dolu görünür" right={<Sw label="Sebebi kişiler görsün" />} />
-        {all ? null : <Repeat init={0} sum0="Tekrarlanmaz" start="9 Eylül" />}
+        {all ? null : <Repeat init={0} sum0="Tekrarlanmaz" start={`${d0.getDate()} ${MN[d0.getMonth()]}`} />}
       </InCard>
     </Sheet>
   );
@@ -351,11 +355,12 @@ function PeoplePanel({ sel, onBack, onDone }: { sel: string[]; onBack: () => voi
   const [q, setQ] = useState('');
   const [fresh, setFresh] = useState<string[]>([]);
   const qq = q.toLocaleLowerCase('tr');
+  const newPerson = () => openSheet('addContact', { onSave: (n: string) => { setFresh(f => [n, ...f]); setOn(o => (o.includes(n) ? o : [...o, n])); } });
   const base = emp ? people.filter(p => fresh.includes(p.name)) : people.filter(p => !p.arch && !p.gone);
   const list = base.slice().sort((a, b) => (fresh.includes(b.name) ? 1 : 0) - (fresh.includes(a.name) ? 1 : 0) || a.name.localeCompare(b.name, 'tr')).filter(p => p.name.toLocaleLowerCase('tr').includes(qq));
   return (
     <View style={{ flex: 1 }}>
-      <SheetH title="Kişi seç" onBack={onBack} right={<IB ic="check" k="p" label="Seçimi onayla" onPress={() => onDone(on)} />} />
+      <SheetH title="Kişi seç" onBack={onBack} right={<IB ic="userPlus" k="p" label="Yeni kişi ekle" onPress={newPerson} />} />
       <View style={{ marginTop: 6, marginHorizontal: 16, height: 48, borderRadius: 12, backgroundColor: C.page, borderWidth: 1.5, borderColor: C.border, flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12 }}>
         <Icon n="search" c={C.muted} />
         <TextInput value={q} onChangeText={setQ} accessibilityLabel="Kişi ara" placeholder="Kişi ara" placeholderTextColor={C.muted} selectionColor={C.accent} style={[{ flex: 1, minWidth: 0, fontFamily: ff(500), fontSize: 15, color: C.ink, padding: 0 }, noOutline]} />
@@ -371,7 +376,7 @@ function PeoplePanel({ sel, onBack, onDone }: { sel: string[]; onBack: () => voi
         </List>
       </Scr>
       <Ffab>
-        <Btn ic="userPlus" t="Yeni kişi ekle" onPress={() => openSheet('addContact', { onSave: (n: string) => { setFresh(f => [n, ...f]); setOn(o => (o.includes(n) ? o : [...o, n])); } })} style={{ boxShadow: C.shFloat }} />
+        <Btn glow t="Kaydet" onPress={() => onDone(on)} />
       </Ffab>
     </View>
   );
@@ -447,8 +452,9 @@ function NewLesson({ p }: SP) {
   const [sel, setSel] = useState<string[]>(p?.n ? [p.n] : emp ? [] : ['Elif Yıldırım']);
   const auto = (n: string[]): PkSel => (n.length === 1 && n[0] === 'Elif Yıldırım' ? PK_OWN : PK_BASE);
   const [pk, setPk] = useState<PkSel | null>(emp ? null : auto(sel));
-  const [date, setDate] = useState(new Date(2026, 8, 10));
-  const [time, setTime] = useState(16);
+  // Takvimde boş yere dokunarak açıldıysa o gün ve saatle başlar
+  const [date, setDate] = useState(p?.d ? new Date(p.d) : new Date(2026, 8, 10));
+  const [time, setTime] = useState(snapLesson(p?.h ?? 16));
   const [note, setNote] = useState('');
   const [loc, setLoc] = useState('Stüdyo');
   const [rep, setRep] = useState({ v: 2, end: '' });

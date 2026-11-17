@@ -119,7 +119,7 @@ function Rules() {
         <View style={{ gap: 8, paddingTop: 8 }}>
           <Rule pk="rule.0" t="Rezervasyon penceresi" s="Dersten en geç kaç saat önce rezervasyon yapılabilir" items={['1 sa', '2 sa', '24 sa']} init={1} cst="sa" />
           <Rule pk="rule.1" t="Ücretsiz iptal süresi" s="Bu süreden sonraki iptallerde ders ücreti alınır" items={['2 sa', '4 sa', '24 sa']} init={1} cst="sa" />
-          <Rule pk="rule.2" t="Ders başlama kademesi" s="Kişiler dersi hangi dakikalarda başlatabilir" items={['Tam saat', '15 dk', '30 dk']} init={0} cst="dk" />
+          <Rule pk="rule.2" t="Ders başlama kademesi" s="Dersler her saatin hangi dakikasında başlar" items={['Tam saat', '15 geçe', '30 geçe']} init={0} cst="geçe" />
           <Rule pk="rule.3" t="Ders arası mola" s="Bir ders bitince sonraki derse kadar zorunlu boşluk" items={['Yok', '10 dk', '15 dk']} init={2} cst="dk" />
         </View>
         <Sm style={{ paddingTop: 14, paddingHorizontal: 20 }}>Paketi olmayan dersler için geçerli. Paketlerin kendi kuralları bunu ezer.</Sm>

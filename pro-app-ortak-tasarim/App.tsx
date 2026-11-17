@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BackHandler, Platform, View, useWindowDimensions } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -8,7 +8,7 @@ import { Manrope_500Medium } from '@expo-google-fonts/manrope/500Medium';
 import { Manrope_700Bold } from '@expo-google-fonts/manrope/700Bold';
 import { Manrope_800ExtraBold } from '@expo-google-fonts/manrope/800ExtraBold';
 import { closeAction, closeSheet, FrameCtx, get, hydrate, pop, set, setTab, useC, useStore, type FrameT } from './src/store';
-import { ActionLayer, FakeStatus, PickerLayer, RootShift, Sheets, Stack, TabBar, TabFade, Toast, useLightStatus } from './src/layers';
+import { ActionLayer, FakeStatus, PickerLayer, RootShift, Sheets, Stack, TabBar, Toast, useLightStatus } from './src/layers';
 import { AddMenu, Calendar } from './src/Calendar';
 import { RootTab } from './src/tabs';
 
@@ -16,6 +16,8 @@ function Shell() {
   const C = useC();
   const tab = useStore(s => s.tab);
   const light = useLightStatus();
+  const seen = useRef(new Set<number>());
+  seen.current.add(tab);
   useEffect(() => {
     // Android geri tuşu: önce pencere, sonra menü, panel, sayfa, en son Takvim sekmesi
     const h = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -33,10 +35,9 @@ function Shell() {
     <View style={[{ flex: 1, backgroundColor: C.page, overflow: 'hidden' }, Platform.OS === 'web' ? ({ userSelect: 'none' } as any) : null]}>
       <StatusBar style={light ? 'light' : 'dark'} />
       <RootShift>
-        <TabFade tab={tab}>
-          <View style={{ flex: 1, display: tab === 0 ? 'flex' : 'none' }}><Calendar /></View>
-          {tab !== 0 ? <RootTab tab={tab} /> : null}
-        </TabFade>
+        {/* Sekmeler animasyonsuz ve anında değişir; bir kez açılan sekme bellekte kalır (yeniden kurulmaz) */}
+        <View style={{ flex: 1, display: tab === 0 ? 'flex' : 'none' }}><Calendar /></View>
+        {[1, 2, 3].map(i => (seen.current.has(i) ? <View key={i} style={{ flex: 1, display: tab === i ? 'flex' : 'none' }}><RootTab tab={i} /></View> : null))}
       </RootShift>
       <TabBar />
       <Stack />

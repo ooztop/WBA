@@ -21,9 +21,9 @@ function StackLayer({ r, above }: { r: Route; above?: SharedValue<number> }) {
   const { W, top } = useFrame();
   const Scr = SCREENS[r.id];
   const prog = r.prog, key = r.key;
-  useEffect(() => { prog.value = withTiming(1, { duration: 440, easing: ease }); }, []);
+  useEffect(() => { prog.value = withTiming(1, { duration: 360, easing: ease }); }, []);
   useEffect(() => {
-    if (r.closing) prog.value = withTiming(0, { duration: 360, easing: ease }, f => { if (f) runOnJS(removeRoute)(key); });
+    if (r.closing) prog.value = withTiming(0, { duration: 300, easing: ease }, f => { if (f) runOnJS(removeRoute)(key); });
   }, [r.closing]);
   const st = useAnimatedStyle(() => ({ transform: [{ translateX: (1 - prog.value) * W - (above ? above.value : 0) * 0.28 * W }] }));
   const dim = useAnimatedStyle(() => ({ opacity: (above ? above.value : 0) * 0.12 }));
@@ -66,20 +66,6 @@ export function RootShift({ children }: { children: React.ReactNode }) {
     </Animated.View>
   );
 }
-// Sekme değişiminde içerik hafifçe kayarak belirir
-export function TabFade({ tab, children }: { tab: number; children: React.ReactNode }) {
-  const v = useSharedValue(1), dir = useSharedValue(1), prev = useRef(tab);
-  useEffect(() => {
-    if (prev.current === tab) return;
-    dir.value = tab > prev.current ? 1 : -1;
-    prev.current = tab;
-    v.value = 0;
-    v.value = withTiming(1, { duration: 260, easing: Easing.bezier(0.25, 0.8, 0.25, 1) });
-  }, [tab]);
-  const st = useAnimatedStyle(() => ({ opacity: v.value, transform: [{ translateX: (1 - v.value) * 14 * dir.value }] }));
-  return <Animated.View style={[{ flex: 1 }, st]}>{children}</Animated.View>;
-}
-
 /* ---------- alt bar ---------- */
 export function TabBar() {
   const C = useC();
@@ -175,12 +161,12 @@ function SheetLayer({ s, depth, above }: { s: SheetR; depth: number; above: bool
   const v = useSharedValue(s.swap ? 1 : 0), u = useSharedValue(0);
   const Sh = SHEETS[s.id];
   const skey = s.key;
-  useEffect(() => { v.value = withTiming(1, { duration: 480, easing: ease }); }, []);
+  useEffect(() => { v.value = withTiming(1, { duration: 380, easing: ease }); }, []);
   useEffect(() => {
-    if (s.closing) v.value = withTiming(0, { duration: 320, easing: Easing.bezier(0.4, 0, 0.9, 0.6) }, f => { if (f) runOnJS(removeSheet)(skey); });
+    if (s.closing) v.value = withTiming(0, { duration: 280, easing: ease }, f => { if (f) runOnJS(removeSheet)(skey); });
   }, [s.closing]);
   // Üstüne başka panel açılınca geri çekilir
-  useEffect(() => { u.value = withTiming(above ? 1 : 0, { duration: above ? 480 : 380, easing: ease }); }, [above]);
+  useEffect(() => { u.value = withTiming(above ? 1 : 0, { duration: 380, easing: ease }); }, [above]);
   const scrim = useAnimatedStyle(() => ({ opacity: v.value }));
   const st = useAnimatedStyle(() => ({ transform: [{ translateY: (1 - v.value) * h - u.value * 6 }, { scale: 1 - u.value * 0.07 }], borderBottomLeftRadius: u.value * 24, borderBottomRightRadius: u.value * 24 }));
   const dim = useAnimatedStyle(() => ({ opacity: u.value * 0.12 }));
@@ -267,13 +253,14 @@ export function ActionLayer() {
 
 /* ---------- tarih ve saat seçici (alttan açılır) ---------- */
 const IH = 44; // saat satırı yüksekliği
-function TimeWheel({ value, step, onChange }: { value: number; step: number; onChange: (h: number) => void }) {
+function TimeWheel({ value, min, onChange }: { value: number; min: number; onChange: (h: number) => void }) {
   const C = useC();
-  const items = React.useMemo(() => { const o: number[] = []; for (let m = 7 * 60; m <= 22 * 60; m += step) o.push(m / 60); return o; }, [step]);
+  // Her saatin aynı dakikası: 07:30, 08:30 …
+  const items = React.useMemo(() => { const o: number[] = []; for (let h = 7; h <= 21; h++) o.push(h + min / 60); return o; }, [min]);
   const start = Math.max(0, items.reduce((b, x, i) => (Math.abs(x - value) < Math.abs(items[b] - value) ? i : b), 0));
   const [idx, setIdx] = useState(start);
   const ref = useRef<React.ComponentRef<typeof ScrollView>>(null);
-  useEffect(() => { const t = setTimeout(() => ref.current?.scrollTo({ y: start * IH, animated: false }), 30); return () => clearTimeout(t); }, []);
+  useEffect(() => { onChange(items[start]); const t = setTimeout(() => ref.current?.scrollTo({ y: start * IH, animated: false }), 30); return () => clearTimeout(t); }, []);
   const pickI = (i: number) => { const k = Math.max(0, Math.min(items.length - 1, i)); if (k !== idx) { setIdx(k); onChange(items[k]); } };
   return (
     <View style={{ height: IH * 5 }}>
@@ -347,8 +334,8 @@ export function PickerLayer() {
       <Animated.View style={[{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: C.card, borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingTop: 8, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), gap: 14 }, st]}>
         <View style={{ alignSelf: 'center', width: 36, height: 5, borderRadius: 999, backgroundColor: C.divider }} />
         <T s={20} w={800} lh={1.25} style={{ textAlign: 'center' }}>{shown.kind === 'date' ? 'Tarih seç' : 'Başlangıç saati'}</T>
-        {shown.kind === 'date' ? <MonthPick key={shown.key} value={val ?? shown.value} onChange={setVal} /> : <TimeWheel key={shown.key} value={shown.value} step={shown.step} onChange={setVal} />}
-        {shown.kind === 'time' ? <T s={13} c={C.muted} style={{ textAlign: 'center' }}>{shown.step === 60 ? 'Dersler tam saatte başlar' : `Dersler ${shown.step} dakikada bir başlayabilir`} · Ders kuralları</T> : null}
+        {shown.kind === 'date' ? <MonthPick key={shown.key} value={val ?? shown.value} onChange={setVal} /> : <TimeWheel key={shown.key} value={shown.value} min={shown.min} onChange={setVal} />}
+        {shown.kind === 'time' ? <T s={13} c={C.muted} style={{ textAlign: 'center' }}>{shown.min === 0 ? 'Dersler tam saatte başlar' : `Dersler her saat ${shown.min} geçe başlar`} · Ders kuralları</T> : null}
         <Btn t="Tamam" onPress={done} />
       </Animated.View>
     </View>
