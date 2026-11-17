@@ -31,10 +31,21 @@ export function prefsToModels(prefs: Prefs): { week: WeekHours; rules: LessonRul
   return { week, rules, notif };
 }
 
+// En sık geçen değer; eşitlikte tercih edilen (varsayılan) değer kazanır
+function mostCommon(xs: string[], prefer: string): string {
+  const n = new Map<string, number>();
+  xs.forEach(x => n.set(x, (n.get(x) ?? 0) + 1));
+  let best = prefer, bestN = n.get(prefer) ?? 0;
+  n.forEach((c, x) => { if (c > bestN) { best = x; bestN = c; } });
+  return best;
+}
+
 // Servis modelleri → ekran tercihleri. Yalnız varsayılandan farklı değerler üretilir (demo verisi için boş), böylece ekranlar bugünkü gibi çalışır.
 export function modelsToPrefs(week: WeekHours, rules: LessonRules, notif: NotifPrefs): Prefs {
   const out: Prefs = {};
-  const bs = week[0].s, be = week[0].e;
+  // Genel saat: günlerin en çok kullandığı değer (eşitlikte varsayılan). Tek günün değişmesi genel saati değiştirmez.
+  const bs = mostCommon(week.map(d => d.s), WEEK0[0].s);
+  const be = mostCommon(week.filter((_, i) => i !== 5).map(d => d.e), WEEK0[0].e);
   if (bs !== WEEK0[0].s) out['wh.s'] = bs;
   if (be !== WEEK0[0].e) out['wh.e'] = be;
   week.forEach((d, i) => {

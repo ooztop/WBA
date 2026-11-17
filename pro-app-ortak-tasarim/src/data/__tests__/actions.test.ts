@@ -99,3 +99,12 @@ test('hızlı açıp kapatınca eski yükleme sonucu atılır', async () => {
   expect(get().emp).toBe(false);
   expect(get().people).toHaveLength(22);
 });
+test('boş kipten dönerken dersler kişilerden önce önbelleğe gelmez (takvim çökmesin)', async () => {
+  await boot();
+  await setEmptyMode(true);
+  let peopleAtRange = -1;
+  const realRange = lessonsService.range.bind(lessonsService);
+  jest.spyOn(lessonsService, 'range').mockImplementation(async (a, b) => { if (peopleAtRange < 0) peopleAtRange = get().people.length; return realRange(a, b); });
+  await setEmptyMode(false);
+  expect(peopleAtRange).toBeGreaterThan(0);
+});

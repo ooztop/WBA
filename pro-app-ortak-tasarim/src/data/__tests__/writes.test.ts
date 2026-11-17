@@ -227,6 +227,14 @@ test('setPref hata verirse önbellek geri alınır', async () => {
   expect(get().prefs['wh.s']).toBeUndefined();
   expect(get().toast?.msg).toBe('Kaydedilemedi. Tekrar dene.');
 });
+test('tek günün saatini değiştirmek genel saati değiştirmez (prefs → modeller → prefs)', () => {
+  const prefs = { 'day.0.s': '11:00' };
+  const { week, rules, notif } = prefsToModels(prefs);
+  expect(modelsToPrefs(week, rules, notif)).toEqual(prefs);
+  const p2 = { 'wh.s': '09:00', 'day.0.s': '11:00', 'day.3.e': '16:00' };
+  const m2 = prefsToModels(p2);
+  expect(modelsToPrefs(m2.week, m2.rules, m2.notif)).toEqual(p2);
+});
 test('prefsToModels ∘ modelsToPrefs kimliktir', () => {
   const week = WEEK0.map(d => ({ ...d }));
   week[0] = { on: true, s: '09:00', e: '17:00' };

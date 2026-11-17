@@ -138,9 +138,9 @@ function Notifs() {
         </List>
         <Grp t="Bu hafta" />
         <List>
-          <Row left={<Fic k="i" ic="card" />} t="Ödeme bekleniyor" s="Mert Kaya · ₺1.500" right={<Ntime t="Pzt" k="d" tag="Ödenmedi" />} onPress={() => go('payment', undefined, { i: 1 })} />
+          <Row left={<Fic k="i" ic="card" />} t="Ödeme bekleniyor" s="Mert Kaya · ₺1.500" right={<Ntime t="Pzt" k="d" tag="Ödenmedi" />} onPress={() => go('payment', undefined, { i: '1' })} />
           <Row left={<Fic k="d" ic="calX" />} t="Ders iptal edildi" s="Selin Demir · 8 Eyl 19:00" right={<Ntime t="Pzt" k="d" tag="İptal" />} onPress={() => go('cancelled', undefined, { n: 'Selin Demir', k: 1 })} />
-          <Row left={<Fic k="a" ic="box" />} t="Paket bitmek üzere" s="Can Öztürk · 2 ders kaldı" right={<Ntime t="Paz" k="a" tag="Yenile" />} onPress={() => go('contact', undefined, { i: 4 })} />
+          <Row left={<Fic k="a" ic="box" />} t="Paket bitmek üzere" s="Can Öztürk · 2 ders kaldı" right={<Ntime t="Paz" k="a" tag="Yenile" />} onPress={() => go('contact', undefined, { i: '4' })} />
         </List>
       </Scr>
     </>

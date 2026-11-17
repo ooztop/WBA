@@ -253,7 +253,7 @@ function DeleteAccount() {
           <>
             <GrpS t="Önce çözülmesi gerekenler" pt={20} />
             <GCard>
-              <GR chev onPress={() => go('payment', undefined, { i: 1 })}>
+              <GR chev onPress={() => go('payment', undefined, { i: '1' })}>
                 <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
                   <T s={15} w={700} lh={1.35}><T s={15} w={700} c={C.danger}>₺1.500</T> bekleyen tahsilat</T>
                   <T s={13} lh={1.4} c={C.muted}>Mert Kaya</T>

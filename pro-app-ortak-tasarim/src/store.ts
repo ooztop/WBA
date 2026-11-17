@@ -122,7 +122,9 @@ export function toast(msg: string, undo?: string, onUndo?: () => void) {
 export const toastLater = (msg: string, ms = 300, undo?: string, onUndo?: () => void) => setTimeout(() => toast(msg, undo, onUndo), ms);
 
 /* ---------- veri ---------- */
-export const person = (id: ID): Person => state.people.find(p => p.id === id) || state.people[0];
+// Bulunamazsa (ör. boş kipte liste boşken) ilk kişi; o da yoksa çökmemek için yer tutucu
+export const person = (id: ID): Person =>
+  state.people.find(p => p.id === id) || state.people[0] || { id, ini: '?', name: 'Kişi', sub: '', tag: ['n', ''], cat: '' };
 export const personByName = (n: string) => state.people.find(p => p.name === n);
 
 /* ---------- yardımcılar ---------- */

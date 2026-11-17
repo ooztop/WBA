@@ -149,7 +149,9 @@ export const mockDb = {
   },
   setEmpty(on: boolean): void {
     if (on && !empty) emptyBase = new Set(cur.people.map(p => p.id));
+    const leaving = empty && !on;
     empty = on;
+    if (leaving) scheduleSave(); // kipteyken atlanan yazma şimdi yapılır
   },
   lessonsFor(d: Date): Lesson[] {
     if (empty) return [];

@@ -401,7 +401,7 @@ export function Calendar() {
     ...breaks.filter(b => b.days.includes(fi)).map(b => ({ from: hhmm(b.start, 12.5), to: hhmm(b.end, 13.5), name: b.name, time: `${b.start} – ${b.end}` })),
     ...offs.filter(o => o.date === iso(F)).map(o => ({ from: o.all ? 9 : o.start, to: o.all ? 18 : o.end, name: o.name, time: o.all ? 'Tüm gün kapalı' : `${hm(o.start)} – ${hm(o.end)}` })),
   ].filter(b => b.to > b.from);
-  const nameOf = (id: ID) => (people.find(p => p.id === id) || people[0]).name;
+  const nameOf = (id: ID) => (people.find(p => p.id === id) || people[0])?.name ?? '';
 
   const band = useAnimatedStyle(() => ({ height: lp(BANDH, H, cl(P.value - 1)) }));
   const thumb = useAnimatedStyle(() => ({ transform: [{ translateX: cl(P.value, 0, 2) * 54 }] }));

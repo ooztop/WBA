@@ -18,3 +18,6 @@ test('ekranlar mock klasörünü import etmez', () => {
     expect([f, /data\/mock/.test(text)]).toEqual([f, false]);
   }
 });
+test('ekranlar kişi kimliğini sayı olarak geçmez (kimlikler string)', () => {
+  for (const f of FILES) expect([f, src(f).match(/\{\s*i:\s*\d/)?.[0]]).toEqual([f, undefined]);
+});

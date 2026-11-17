@@ -74,3 +74,13 @@ test('boş kipte eklenen kişi görünür, demo kişiler görünmez; kapatınca 
   mockDb.setEmpty(true);
   expect(mockDb.data().people).toHaveLength(0);
 });
+test('boş kipten çıkınca kipteyken yapılan değişiklik cihaza yazılır', async () => {
+  mockDb.setEmpty(true);
+  mockDb.update(d => ({ ...d, me: { ...d.me, title: 'Kipte değişti' } }));
+  jest.advanceTimersByTime(400);
+  mockDb.setEmpty(false);
+  jest.advanceTimersByTime(400);
+  await Promise.resolve();
+  const raw = await AsyncStorage.getItem('pro-ortak-tasarim-v2');
+  expect(JSON.parse(raw ?? '{}').me?.title).toBe('Kipte değişti');
+});

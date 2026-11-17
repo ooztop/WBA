@@ -204,7 +204,7 @@ function Payments() {
     <>
       <Band
         left={<BandBack />}
-        right={<IB ic="plus" k="p" label="Ödeme kaydet" onPress={() => go('payment', undefined, { i: 1 })} />}>
+        right={<IB ic="plus" k="p" label="Ödeme kaydet" onPress={() => go('payment', undefined, { i: '1' })} />}>
         <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, top: useFrame().top + 8, height: 56, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
           {mb('chevL', 'Önceki ay: Ağustos', 'Ağustos 2026')}
           <T s={15} w={800} c={C.onDark}>Eylül 2026</T>

@@ -29,7 +29,9 @@ async function loadLists(epoch: number) {
 export async function reloadAll(): Promise<void> {
   resetInflight();
   set(s => ({ lessons: {}, loaded: new Set<string>(), epoch: s.epoch + 1 }));
-  await Promise.all([loadLists(get().epoch), loadWindow()]);
+  // Önce listeler (kişiler), sonra dersler: takvim bir dersi gösterirken kişisi önbellekte olsun
+  await loadLists(get().epoch);
+  await loadWindow();
 }
 
 // Uygulama açılışı: cihazdaki kaydı yükle, listeleri ve bugünün çevresindeki dersleri önbelleğe al
