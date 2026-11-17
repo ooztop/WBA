@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
 import { DL, DN, MN, MS, first, hm, lessonStarted, wd, type Lesson } from './data';
 import { iso } from './data/dates';
+import { stripDays, type SlotDay } from './data/reschedule';
 import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
 import { get, go, hhmm, home, pickDate, pickTime, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
@@ -93,15 +94,16 @@ function LessonScr({ p }: SP) {
   );
 }
 
-const RS_DAYS: [string, string][] = [['Per', '11'], ['Cum', '12'], ['Cmt', '13'], ['Pzt', '15'], ['Sal', '16'], ['Çar', '17']];
+// Demo müsait günler: bugünden sonraki 6 açık gün (Pazar kapalı); gün adı tarihten hesaplanır
+const RS_DATES = [10, 11, 12, 14, 15, 16];
 const RS = [['14:00', '15:10', '16:20'], ['10:00', '11:10', '14:00', '15:10', '18:00', '19:10'], ['11:00', '12:10'], ['10:00', '14:00', '16:20'], ['10:00', '11:10', '13:30'], ['15:10', '17:30']];
 
 // Erteleme: kutusuz gün şeridi (takvimin hafta şeridi gibi) ve çerçevesiz yumuşak saat çipleri
-function DayStrip({ di, onSel }: { di: number; onSel: (i: number) => void }) {
+function DayStrip({ days, di, onSel }: { days: Date[]; di: number; onSel: (i: number) => void }) {
   const C = useC();
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-      {RS_DAYS.map((d, i) => (
+      {days.map((x, i) => [DN[wd(x)], String(x.getDate())]).map((d, i) => (
         <Tap key={i} onPress={() => onSel(i)} sel={i === di} style={{ alignItems: 'center', gap: 4, minWidth: 44 }}>
           <T s={12} w={700} c={C.muted}>{d[0]}</T>
           <View style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: i === di ? C.sdark : 'transparent' }}>
@@ -129,8 +131,20 @@ function Reschedule({ p }: SP) {
   const [tell, setTell] = useState(true);
   // Takvimden seçilen gün ve saat; seçilince şeritteki hazır saatlerin yerine geçer
   const [cus, setCus] = useState<{ d: Date; h: number } | null>(null);
-  const tgt = cus ?? { d: new Date(2026, 8, +RS_DAYS[di][1]), h: hhmm(RS[di][si] ?? RS[di][0], 18) };
-  const nv = cus ? `${DN[wd(cus.d)]} ${cus.d.getDate()} · ${hm(cus.h)}` : `${RS_DAYS[di][0]} ${RS_DAYS[di][1]} · ${RS[di][si] ?? RS[di][0]}`;
+  const base: SlotDay[] = RS_DATES.map((n, i) => ({ d: new Date(2026, 8, n), times: RS[i] }));
+  // Takvimden seçilen gün/saat şeridin içine yerleşir ve orada seçili görünür
+  const { days, sel } = stripDays(base, cus);
+  const sd = sel ? sel.di : di, st = sel ? sel.si : si;
+  const tgt = cus ?? { d: base[di].d, h: hhmm(base[di].times[si] ?? base[di].times[0], 18) };
+  const nv = `${DN[wd(tgt.d)]} ${tgt.d.getDate()} · ${hm(tgt.h)}`;
+  // Şeritten gün/saat seçmek takvim seçimini bırakır (takvimden gelen gün ya da saat değilse)
+  const baseIdx = (d: Date) => base.findIndex(x => x.d.toDateString() === d.toDateString());
+  const onDay = (i: number) => { const bi = baseIdx(days[i].d); if (bi < 0) return; setCus(null); setDi(bi); setSi(0); };
+  const onTime = (t: string) => {
+    const bi = baseIdx(days[sd].d), k = bi < 0 ? -1 : base[bi].times.indexOf(t);
+    if (k < 0) return;
+    setCus(null); setDi(bi); setSi(k);
+  };
   const fromCal = () =>
     pickDate(tgt.d, d =>
       // Tarih seçici kapanınca saat seçici açılır
@@ -158,9 +172,8 @@ function Reschedule({ p }: SP) {
         <View style={{ flex: 1, minWidth: 0 }}>{small('Yeni')}<T s={17} w={800} numberOfLines={1}>{nv}</T></View>
       </View>
       <Blk lbl="Müsait saatlerin" right={<Tap onPress={fromCal} hit={8} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 32 }}><Icon n="calendar" s={16} c={C.accent} /><T s={13} w={800} c={C.accent}>Takvimden seç</T></Tap>}>
-        <DayStrip di={cus ? -1 : di} onSel={i => { setCus(null); setDi(i); setSi(0); }} />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{RS[di].map((t, i) => <Soft key={di + t} t={t} on={!cus && i === si} onPress={() => { setCus(null); setSi(i); }} style={{ width: '30%', flexGrow: 1 }} />)}</View>
-        {cus ? <Soft t={`${cus.d.getDate()} ${MS[cus.d.getMonth()]} ${DN[wd(cus.d)]} · ${hm(cus.h)}`} on onPress={fromCal} /> : null}
+        <DayStrip days={days.map(x => x.d)} di={sd} onSel={onDay} />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{days[sd].times.map((t, i) => <Soft key={sd + t} t={t} on={i === st} onPress={() => onTime(t)} style={{ width: '30%', flexGrow: 1, maxWidth: '32%' }} />)}</View>
       </Blk>
       <ORow style={{ marginTop: 8 }} t={`${f}'e bildir`} s="Yeni saati onaylaması istenir" right={<Sw on={tell} onChange={setTell} label={`${f}'e bildir`} />} />
       <Sm>Sadece bu ders taşınır; seri ve ödeme aynı kalır.</Sm>
