@@ -55,6 +55,17 @@ html,body{margin:0;-webkit-font-smoothing:antialiased}
 .btn.p{background:var(--accent);color:var(--on-accent)}
 .btn.g{background:var(--surface-card);border:1.5px solid var(--border);color:var(--ink)}
 .btn.x{background:var(--surface-card);border:1.5px solid var(--border);color:var(--danger)}
+.btn.xf{background:#B42318;border:0;color:#FFFFFF}
+.dsoft{background:color-mix(in srgb,var(--danger-tint) 50%,var(--surface-page))}
+.blkh{display:flex;align-items:center;justify-content:space-between}
+.lnk.tcal{display:flex;align-items:center;gap:4px;min-height:32px;font-size:13px;color:var(--accent)}
+.days6.strip{display:flex;justify-content:space-between}
+.strip .dc{height:auto;min-width:44px;border:0;background:none;gap:4px;font-size:12px;color:var(--ink-muted)}
+.strip .dc b{width:40px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.strip .dc.on{background:none;color:var(--ink-muted)}
+.strip .dc.on b{background:var(--surface-dark);color:var(--on-dark)}
+.softs .chip{height:40px;border:0;border-radius:999px;background:var(--surface-page);font-size:14px}
+.softs .chip.on{background:var(--surface-dark);color:var(--on-dark)}
 .btn.small{height:44px;border-radius:12px;font-size:14px;padding:0 14px}
 .search{margin:16px 16px 0;height:48px;border-radius:12px;background:var(--surface-card);border:1.5px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--ink-muted)}
 .search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:15px;font-weight:500;color:var(--ink)}
@@ -112,7 +123,7 @@ html,body{margin:0;-webkit-font-smoothing:antialiased}
 .db small{font-size:10px;font-weight:800;letter-spacing:.05em;color:var(--ink-muted);margin-top:2px}
 .amt{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
 .amt b{font-size:15px;font-weight:800}
-.foot{flex:none;background:var(--surface-card);border-top:1px solid var(--divider);padding:12px 16px 30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.foot{flex:none;padding:12px 16px 30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .ph.sheet{background:var(--scrim)}
 .ph.sheet .sb{color:#FFFFFF}
 .sh{flex:1;background:var(--surface-card);border-radius:24px 24px 0 0;margin-top:10px;display:flex;flex-direction:column;overflow:hidden}
@@ -253,7 +264,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
 .dc.sm.on{color:var(--on-dark)}
 .pchips.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .pchips.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.onbox{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr);align-items:center;background:var(--surface-page);border-radius:16px;padding:14px}
+.onbox{display:grid;grid-template-columns:minmax(0,max-content) 20px max-content;column-gap:10px;justify-content:start;align-items:center;background:var(--surface-page);border-radius:16px;padding:14px}
 .onbox small{display:block;font-size:12px;font-weight:800;letter-spacing:.05em;color:var(--ink-muted);text-transform:uppercase;margin-bottom:2px}
 .quote{background:var(--surface-page);border-radius:12px;padding:12px 14px;font-size:14px;font-weight:500;line-height:1.5}
 .warnb{background:var(--danger-tint);color:var(--danger);border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
@@ -415,21 +426,21 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     </div>
     <div class="grp ix"><span class="lbl">A</span></div>
     <div class="list ix">
-      <button class="row"><span class="av">AK</span><span class="rt"><span class="t">Ayşe Koç</span><span class="s">Tam zamanlı üyelik</span></span><span class="tag tg-s">Üye</span></button>
+      <button class="row"><span class="av">AK</span><span class="rt"><span class="t">Ayşe Koç</span><span class="s">Tam zamanlı üyelik</span></span></button>
     </div>
     <div class="grp ix"><span class="lbl">B</span></div>
     <div class="list ix">
-      <button class="row"><span class="av">BA</span><span class="rt"><span class="t">Berk Aksoy</span><span class="s">Son ders: 2 Eyl</span></span><span class="tag tg-n">Tek ders</span></button>
-      <button class="row"><span class="av">BŞ</span><span class="rt"><span class="t">Burak Şahin</span><span class="s">Sonraki: 20 Eyl · 10:30</span></span><span class="tag tg-n">Tek ders</span></button>
+      <button class="row"><span class="av">BA</span><span class="rt"><span class="t">Berk Aksoy</span><span class="s">Son ders: 2 Eyl</span></span></button>
+      <button class="row"><span class="av">BŞ</span><span class="rt"><span class="t">Burak Şahin</span><span class="s">Sonraki: 20 Eyl · 10:30</span></span></button>
     </div>
     <div class="grp ix"><span class="lbl">C</span></div>
     <div class="list ix">
-      <button class="row"><span class="av">CÖ</span><span class="rt"><span class="t">Can Öztürk</span><span class="s">8 derslik paket · 2 kaldı</span></span><span class="tag tg-a">Paket</span></button>
-      <button class="row"><span class="av">CY</span><span class="rt"><span class="t">Cansu Yılmaz</span><span class="s">Son ders: 29 Ağu</span></span><span class="tag tg-n">Tek ders</span></button>
+      <button class="row"><span class="av">CÖ</span><span class="rt"><span class="t">Can Öztürk</span><span class="s">8 derslik paket · 2 kaldı</span></span></button>
+      <button class="row"><span class="av">CY</span><span class="rt"><span class="t">Cansu Yılmaz</span><span class="s">Son ders: 29 Ağu</span></span></button>
     </div>
     <div class="grp ix"><span class="lbl">Ç</span></div>
     <div class="list ix">
-      <button class="row"><span class="av">ÇE</span><span class="rt"><span class="t">Çağla Er</span><span class="s">Son ders: 21 Ağu</span></span><span class="tag tg-n">Tek ders</span></button>
+      <button class="row"><span class="av">ÇE</span><span class="rt"><span class="t">Çağla Er</span><span class="s">Son ders: 21 Ağu</span></span></button>
     </div>
   </div>
 
@@ -1270,7 +1281,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
       <span class="lbl">Bireysel · 60 dk</span>
       <span style="width:44px"></span>
     </div>
-    <h2 class="t2">9 Eylül Çarşamba</h2>
+    <h2 class="t2">10 Eylül Perşembe</h2>
     <div class="sm" style="margin-top:4px;font-size:15px;color:var(--on-dark)">09:00 – 10:00</div>
     <span style="display:inline-flex;align-items:center;gap:6px;margin-top:12px;background:var(--surface-dark-2);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><path d="M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 0 1-3 3H3"></path></svg>Her hafta tekrarlanır</span>
   </div>
@@ -1299,16 +1310,15 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   </div>
   <div class="form" style="gap:18px;flex:1">
     <div class="onbox">
-      <div><small>Eski</small><span style="font-size:15px;font-weight:700;color:var(--ink-muted);text-decoration:line-through">Çar 10 Eyl · 09:00</span></div>
+      <div style="min-width:0"><small>Eski</small><span style="display:block;font-size:15px;font-weight:700;color:var(--ink-muted);text-decoration:line-through;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Per 10 Eyl · 09:00</span></div>
       <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--ink-muted)"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-      <div><small>Yeni</small><span style="font-size:17px;font-weight:800">Cum 12 · 18:00</span></div>
+      <div><small>Yeni</small><span style="font-size:17px;font-weight:800;white-space:nowrap">Cum 11 Eyl · 18:00</span></div>
     </div>
-    <div class="blk"><span class="lbl">Müsait saatlerin</span>
-      <div class="days6" role="group" aria-label="Gün"><button class="dc">Per<b>11</b></button><button class="dc on" aria-pressed="true">Cum<b>12</b></button><button class="dc">Cmt<b>13</b></button><button class="dc">Pzt<b>15</b></button><button class="dc">Sal<b>16</b></button><button class="dc">Çar<b>17</b></button></div>
-      <div class="pchips g3" role="group" aria-label="Saat"><button class="chip">10:00</button><button class="chip">11:10</button><button class="chip">14:00</button><button class="chip">15:10</button><button class="chip on" aria-pressed="true">18:00</button><button class="chip">19:10</button></div>
-      <button class="lnk" style="display:flex;align-items:center;gap:6px;min-height:44px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Takvimden başka saat seç</button>
+    <div class="blk"><div class="blkh"><span class="lbl">Müsait saatlerin</span><button class="lnk tcal"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Takvimden seç</button></div>
+      <div class="days6 strip" role="group" aria-label="Gün"><button class="dc">Per<b>10</b></button><button class="dc on" aria-pressed="true">Cum<b>11</b></button><button class="dc">Cmt<b>12</b></button><button class="dc">Pzt<b>14</b></button><button class="dc">Sal<b>15</b></button><button class="dc">Çar<b>16</b></button></div>
+      <div class="pchips g3 softs" role="group" aria-label="Saat"><button class="chip">10:00</button><button class="chip">11:10</button><button class="chip">14:00</button><button class="chip">15:10</button><button class="chip on" aria-pressed="true">18:00</button><button class="chip">19:10</button></div>
     </div>
-    <div class="orow"><div class="rt"><span class="t">Elif'e bildir</span><span class="s">Yeni saati onaylaması istenir</span></div><button class="sw on" role="switch" aria-checked="true" aria-label="Elif'e bildir"></button></div>
+    <div class="orow" style="margin-top:8px"><div class="rt"><span class="t">Elif'e bildir</span><span class="s">Yeni saati onaylaması istenir</span></div><button class="sw on" role="switch" aria-checked="true" aria-label="Elif'e bildir"></button></div>
     <span class="sm">Sadece bu ders taşınır; seri ve ödeme aynı kalır.</span>
   </div>
   <div class="sfoot"><button class="btn p">Ertelemeyi onayla</button></div>
@@ -1323,21 +1333,18 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     <span></span>
   </div>
   <div class="form" style="gap:18px;flex:1">
-    <div style="background:var(--danger-tint);border-radius:16px;padding:14px">
+    <div class="dsoft" style="border-radius:16px;padding:14px">
       <span class="lbl" style="color:var(--danger)">İptal edilecek ders</span>
-      <div class="t3" style="margin-top:4px">Çar 10 Eyl · 09:00</div>
-      <div class="sm" style="color:var(--ink)">Elif Yıldırım · Bireysel · 60 dk</div>
+      <div class="t3" style="margin-top:4px">Per 10 Eyl · 09:00</div>
+      <div class="sm">Elif Yıldırım · Bireysel · 60 dk</div>
     </div>
-    <div class="blk"><span class="lbl">İptal sebebi</span>
-      <div class="pchips g2" role="group" aria-label="İptal sebebi"><button class="chip on" aria-pressed="true">Ben iptal ediyorum</button><button class="chip">Kişi gelemiyor</button><button class="chip">Hava / mekân</button><button class="chip">Diğer</button></div>
-    </div>
-    <label class="fld">Elif'e mesaj (bildirimle gider)<textarea class="inp" placeholder="Örn. bu haftayı cumaya alalım mı?"></textarea></label>
     <div class="gcard" style="margin:0;border:1.5px solid var(--border)">
-      <button class="gr grb"><span class="rt"><span class="t">Ödeme</span><span class="s">₺750 alındı</span></span><span class="sm" style="font-weight:700">Derse aktar</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      <div class="gr"><span class="rt"><span class="t">Paket hakkı geri verilsin</span><span class="s">Ders paketten düşmez</span></span><button class="sw on" role="switch" aria-checked="true" aria-label="Paket hakkı geri verilsin"></button></div>
+      <button class="gr grb"><span class="rt"><span class="t">Sebep</span></span><span class="sm" style="font-weight:700">Ben iptal ediyorum</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr grb"><span class="rt"><span class="t">Paket</span></span><span class="sm" style="font-weight:700">Pakete geri ekle</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
     </div>
+    <label class="fld">Elif'e mesaj · isteğe bağlı<textarea class="inp" placeholder="Bildirimle birlikte gider"></textarea></label>
   </div>
-  <div class="sfoot"><button class="btn x">Dersi iptal et</button></div>
+  <div class="sfoot"><button class="btn xf">Dersi iptal et</button></div>
 </div>
 </section>
 <section class="scrn k-page" data-id="32" data-kind="page" aria-label="Ders iptal edildi">
@@ -1350,9 +1357,9 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     <div class="resbig x">10 Eyl · 09:00</div>
     <span class="sm" style="font-size:14px">Takvimden kaldırıldı, Elif'e bildirim gitti.</span>
     <div class="kv">
-      <div class="kvr"><span>Ödeme</span><span>Derse aktarıldı</span></div>
-      <div class="kvr"><span>Paket hakkı</span><span>Geri verildi</span></div>
-      <div class="kvr"><span>Seri</span><span>Diğer 8 ders duruyor</span></div>
+      <div class="kvr"><span>Sebep</span><span>Ben iptal ediyorum</span></div>
+      <div class="kvr"><span>Paket</span><span>Pakete geri eklendi</span></div>
+      <div class="kvr"><span>Seri</span><span>Diğer dersler duruyor</span></div>
       <div class="kvr"><span>Saat</span><span style="color:var(--success)">Yeniden müsait</span></div>
     </div>
   </div>
@@ -2021,8 +2028,8 @@ const W={
 '27':{'Geri':'back','Kişiye özel paket':'newpk42'},
 '28':{'Geri':'back','Molayı ekle':'nbadd','Günü kapat':'nbadd','Sebep':'pickreason','Tekrar':'rpt'},
 '29':{'Geri':'back','Elif Yıldırım':'push:03','İptal et':'push:31','Dersi ertele':'push:30','Kadıköy stüdyo ↗':'toast:Haritalar açılıyor'},
-'30':{'Geri':'back','Ertelemeyi onayla':'rsdone','Takvimden başka saat seç':'toast:Takvim açılır'},
-'31':{'Geri':'back','Dersi iptal et':'cask','Ödeme':'cpay'},
+'30':{'Geri':'back','Ertelemeyi onayla':'rsdone','Takvimden seç':'toast:Takvim açılır'},
+'31':{'Geri':'back','Dersi iptal et':'cask','Sebep':'creason','Paket':'cpk'},
 '32':{'Geri':'root','Tamam':'root','Yeni saat öner':'rep:30'},
 '33':{'Geri':'back','Reddet':'push:54','Onayla':'rep:35','Başka saat öner':'push:30'},
 '34':{'Geri':'back','Reddet':'push:54','Bu saati öner':'back|toast:Karşı teklif gönderildi'},
@@ -2086,7 +2093,8 @@ P.addEventListener('click',e=>{
   if(a==='newpk42'){pkMode(true);push('42');return}
   if(a==='pksave42'){if(stack[stack.length-2]==='27'){pkCustom();back();setTimeout(()=>{back();setTimeout(()=>toast('Özel paket oluşturuldu'),350)},420)}else{back();setTimeout(()=>toast('Paket kaydedildi'),300)}return}
   if(a==='pkdel'){const d=id==='41';confirmDlg(s,d?'Bu ders silinsin mi?':'Bu paket silinsin mi?','Paket tercihlerinden kalkar. Daha önce satın alanların hakları durur.',d?'Dersi sil':'Paketi sil',()=>{back();setTimeout(()=>toast(d?'Ders silindi':'Paket silindi'),300)});return}
-  if(a==='cpay'){pickSheet(s,'Ödeme',['İade et','Derse aktar','İade etme'],el.querySelector('.sm'));return}
+  if(a==='creason'){pickSheet(s,'İptal sebebi',['Ben iptal ediyorum','Kişi gelemiyor','Hava / mekân'],el.querySelector('.sm'));return}
+  if(a==='cpk'){pickSheet(s,'Paket',['Pakete geri ekle','Paketten düş'],el.querySelector('.sm'));return}
   if(a==='cask'){confirmDlg(s,'Ders iptal edilsin mi?',"Elif'e bildirim gider. Bu işlem geri alınamaz.",'Dersi iptal et',()=>{cnSync(s);rep('32')});return}
   if(a==='rsdone'){const nv=rsNew(s),on=(s.querySelector('.sw')||{}).classList?.contains('on');back();setTimeout(()=>toast(on?'Yeni saat Elif\'e gönderildi · '+nv:'Ders '+nv+' saatine taşındı'),300);return}
   if(a==='pw'){const i=s.querySelector('#lg-pw');i.type=i.type==='password'?'text':'password';return}
@@ -2114,13 +2122,13 @@ function pickSheet(s,title,opts,target){const ph=s.querySelector('.ph');const cu
   d.addEventListener('click',e=>{e.stopPropagation();const b=e.target.closest('[data-v]');if(b&&target){target.textContent=b.dataset.v;if(b.dataset.v==='Adres')setTimeout(()=>toast('Adres gir'),300)}if(b||e.target.closest('[data-x]')||e.target===d)close()})}
 /* Dersi ertele: gün seçilince o günün müsait saatleri gelir, Yeni güncellenir */
 const RS=[['14:00','15:10','16:20'],['10:00','11:10','14:00','15:10','18:00','19:10'],['11:00','12:10'],['10:00','14:00','16:20'],['10:00','11:10','13:30'],['15:10','17:30']];
-function rsNew(s){const d=s.querySelector('.days6 .dc.on'),c=s.querySelector('.pchips .chip.on');if(!d||!c)return '';const v=norm(d.firstChild.textContent)+' '+norm(d.querySelector('b').textContent)+' · '+norm(c.textContent);const y=s.querySelectorAll('.onbox>div')[1];const sp=y&&y.querySelector('span');if(sp&&sp.textContent!==v){sp.textContent=v;sp.animate([{opacity:.3,transform:'translateY(3px)'},{opacity:1,transform:'none'}],{duration:240,easing:'ease-out'})}return v}
+function rsNew(s){const d=s.querySelector('.days6 .dc.on'),c=s.querySelector('.pchips .chip.on');if(!d||!c)return '';const v=norm(d.firstChild.textContent)+' '+norm(d.querySelector('b').textContent)+' Eyl · '+norm(c.textContent);const y=s.querySelectorAll('.onbox>div')[1];const sp=y&&y.querySelector('span');if(sp&&sp.textContent!==v){sp.textContent=v;sp.animate([{opacity:.3,transform:'translateY(3px)'},{opacity:1,transform:'none'}],{duration:240,easing:'ease-out'})}return v}
 /* onay penceresi */
 function confirmDlg(s,title,msg,ok,fn){const ph=s.querySelector('.ph');const d=document.createElement('div');d.className='pko dlgo';d.innerHTML='<div class="dlg" role="alertdialog" aria-label="'+title+'"><h3 class="t3">'+title+'</h3><p class="body" style="margin:0;color:var(--ink-muted)">'+msg+'</p><div class="pair"><button class="btn g" data-x>Vazgeç</button><button class="btn x" data-ok>'+ok+'</button></div></div>';
   ph.appendChild(d);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('on')));const close=()=>{d.classList.remove('on');setTimeout(()=>d.remove(),300)};
   d.addEventListener('click',e=>{e.stopPropagation();if(e.target.closest('[data-ok]')){close();setTimeout(fn,180)}else if(e.target.closest('[data-x]')||e.target===d)close()})}
 /* iptal seçimleri sonuç ekranına yansır */
-function cnSync(s){const pv=norm((s.querySelector('.grb .sm')||{}).textContent),pk=(s.querySelector('.gcard .sw')||{classList:{contains:()=>true}}).classList.contains('on');const r=SC['32'].querySelectorAll('.kvr>span:last-child');if(r[0])r[0].textContent={'İade et':'₺750 iade edildi','Derse aktar':'Derse aktarıldı','İade etme':'İade edilmedi'}[pv]||pv;if(r[1])r[1].textContent=pk?'Geri verildi':'Paketten düştü'}
+function cnSync(s){const v=[...s.querySelectorAll('.grb .sm')].map(x=>norm(x.textContent));const r=SC['32'].querySelectorAll('.kvr>span:last-child');if(r[0])r[0].textContent=v[0]||'';if(r[1])r[1].textContent={'Pakete geri ekle':'Pakete geri eklendi','Paketten düş':'Paketten düştü'}[v[1]]||v[1]||''}
 /* Yeni ders: Kişi seç → Kişiler satırı */
 const AVC=['var(--accent-tint)','var(--info-tint)','var(--success-tint)','var(--danger-tint)'];
 function ppApply(){const sel=[...SC['26'].querySelectorAll('.list .row')].filter(r=>r.querySelector('.ck.on')).map(r=>({n:norm(r.querySelector('.t').textContent),i:norm(r.querySelector('.av').textContent)}));

@@ -47,8 +47,12 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Wellness henüz güncellenmedi:** 17 Kasım'da kodda yapılan tasarım değişiklikleri (aşağıda "17 Kas · tasarım turu")
-Wellness tuvaline ve prototipine işlenmedi. Kullanıcıya soruldu, cevap bekleniyor.
+**17 Kas · tasarım turu Wellness'a işlendi** (Wellness sürüm 74). Repodaki kopyalar da aynı:
+- İptal ve erteleme ekranları, iptal sonucu, alt çubuk ve kişiler listesi güncellendi.
+- Ders detayı örneği gelecekteki bir derse çevrildi (10 Eylül Perşembe). Tuvale ayrıca "29b Geçmiş ders" çizimi eklendi: yalnızca "Ödeme al".
+- Prototipte "Takvimden seç" yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
+- Tuvalin çalışma ortamı (support.js) bu bulut ortamında unpkg.com'a erişemediği için yerelde renksiz görünür.
+  Kontrol için `<script src="./support.js">` satırı çıkarılmış bir kopya açılıp düzen kontrol edilebilir.
 
 ## Tıklanabilir önizleme: "Pro App Önizleme" artifact'i
 **https://claude.ai/artifact/K2nhCwHFhxXKNP6jfkxu47**
