@@ -15,10 +15,10 @@ import { Amt } from './screens1';
 type SP = { p: any };
 
 // Etiket + açıklama (.grp içinde .lbl ve .sm)
-export const GrpS = ({ t, s, pt = 18, right, pb = 6 }: { t: string; s?: string; pt?: number; right?: React.ReactNode; pb?: number }) => (
+export const GrpS = ({ t, s, pt = 18, right, pb = 6, c }: { t: string; s?: string; pt?: number; right?: React.ReactNode; pb?: number; c?: string }) => (
   <View style={{ paddingTop: pt, paddingHorizontal: 16, paddingBottom: pb, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
     <View style={{ flex: 1 }}>
-      <Lbl t={t} />
+      <Lbl t={t} c={c} />
       {s ? <Sm style={{ marginTop: 2 }}>{s}</Sm> : null}
     </View>
     {right}
@@ -176,6 +176,7 @@ function SwipeRow({ pk, onStar, onDel, onOpen }: { pk: Pkg; onStar: () => void; 
 }
 
 function Pricing() {
+  const C = useC();
   const emp = useStore(s => s.emp);
   const pkgs = useStore(s => s.packages);
   const star = (id: ID) => { void setBasePackage(id); };
@@ -191,9 +192,9 @@ function Pricing() {
         <Empty ic="tag" t="Henüz paket yok" sub="Tek ders ya da çoklu paket oluştur. Ders eklerken ücret otomatik gelsin."><Btn t="Paket oluştur" onPress={add} /></Empty>
       ) : (
         <Scr>
-          <GrpS t="Tekil ders" s="Tek seanslık dersler" pt={8} />
+          <GrpS t="Tekil ders" s="Tek seanslık dersler" pt={8} c={C.accent} />
           {list('single')}
-          <GrpS t="Çoklu paket" s="Birden fazla seans, tek ödeme" pt={20} />
+          <GrpS t="Çoklu paket" s="Birden fazla seans, tek ödeme" pt={20} c={C.accent} />
           {list('multi')}
           <Inote t="Sağa kaydır: temel yap · Sola kaydır: sil" style={{ marginTop: 20 }} />
         </Scr>
