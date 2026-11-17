@@ -21,7 +21,7 @@ Son güncelleme: 17 Kasım 2026
 |---|---|
 | `pro-app-ortak-tasarim/` | **Güncel mobil uygulama** ("Ortak Tasarım", Expo). Veri katmanı burada. README'sini oku. |
 | `pro-app-ortak-tasarim/src/data/README.md` | Hangi konunun hangi backend ucuna bağlanacağını gösteren tablo |
-| `prototip/ortak-tasarim/` | Ortak Tasarım'ın kaynağı: `prototip.html` (tıklanabilir) ve `ortak-tasarim.dc.html` (tuval) |
+| `prototip/ortak-tasarim/` | Wellness artifact'indeki Ortak Tasarım sayfalarının kopyası: `prototip.html` (tıklanabilir) ve `ortak-tasarim.dc.html` (tuval) |
 | `pro-app/` | Eski Final 2 prototipinin Expo karşılığı (16 Kasım). Ortak Tasarım bunun yerini aldı. |
 | `prototip/app.html` | Mobil prototip Final 2. Durumu `prototip/DEVAM-NOTU.md`'de yazıyor. |
 | `prototip/web.html` | Uzman web paneli prototipi. Durumu `prototip/WEB-DEVAM-NOTU.md`'de yazıyor. |
@@ -29,23 +29,30 @@ Son güncelleme: 17 Kasım 2026
 | `docs/superpowers/plans/2026-11-17-veri-katmani.md` | Veri katmanı planı. Görev 1–7 yapıldı. |
 | `docs/EMRE-BACKEND-NOTU.md` | Emre'ye yazılan backend notu: istekler ve sorular |
 
-Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
-Tasarım dili bunlardan okunur:
-- claude.ai'daki "Ortak Tasarım Sistemi Wellbeing" artifact'i
-- `pro-app-ortak-tasarim/src/theme.ts`
+## Asıl tasarım kaynağı: "Wellness" artifact'i
+**https://claude.ai/artifact/UZCaeJcrvg4NQoAKfoaM5M**
+Kullanıcı 17 Kasım'da bunu "asıl kaynağımız" olarak belirledi. Claude Design projesi 12 Kasım'da buraya taşındı.
+Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/` dosyaları bu sayfaların kopyasıdır.
 
-## Tasarımlar nerede yedekli
-- Claude Design "Wellness" projesi:
-  - "Pro App - Ortak Tasarım (Prototip)"
-  - "Pro App - Final 2"
-  - "Pro App - Web Paneli"
-- claude.ai artifact'leri:
-  - Pro App Önizleme
-  - Pro App
-  - Wellness
-  - Ortak Tasarım Sistemi Wellbeing
-  - Design System
-  - WBA Platform – Product & Backend Requirements
+- Sayfa listesi artifact'te `project/compat.json` dosyasında. Sayfaları Artifact aracının `read` eylemine `path` vererek oku.
+- Mobil için esas sayfalar:
+  - "Pro App - Ortak Tasarım": `project/Kişiler - Ortak Tasarım.dc.html`, tuval.
+    Repodaki kopyası `prototip/ortak-tasarim/ortak-tasarim.dc.html`.
+  - "Pro App - Ortak Tasarım (Prototip)": `project/Pro App - Prototip.html`.
+    Repodaki kopyası `prototip/ortak-tasarim/prototip.html`.
+  - 17 Kasım'da ikisinin de repodaki kopyayla birebir aynı olduğu doğrulandı.
+- Web: "Pro App - Web Paneli v3" (`project/Pro App - Web Paneli v3.dc.html`).
+  Repodaki `prototip/web-v3.dc.html` bundan **farklı**; web'e dönülünce artifact'teki sürüm esas alınır.
+- Diğer sayfalar (Final, Web Paneli v1/v2, Eski Tasarım, Eski Kurum Ekranları) eski hâller; sadece referans.
+- Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
+  Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
+
+Diğer artifact'ler (claude.ai, yardımcı):
+- Pro App Önizleme
+- Pro App
+- Ortak Tasarım Sistemi Wellbeing
+- Design System
+- WBA Platform – Product & Backend Requirements
 
 ## Zaman çizelgesi
 - **28 Eyl:** Skill'ler (`.claude/skills/`, kaynaklar `SOURCES.md`'de) ve `CLAUDE.md` eklendi.
@@ -68,7 +75,7 @@ Tasarım dili bunlardan okunur:
   - kişiler (`/clients`)
   - tekil ders fiyatları (`/offerings`)
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki.
-- Emre'nin notunun gönderilip gönderilmediği ve cevabı bilinmiyor; kullanıcıya sor.
+- Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
 
 ## Sıradaki adımlar
 1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.

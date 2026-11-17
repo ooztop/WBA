@@ -4,6 +4,7 @@
 - Yeni bir özellik ya da ekran: önce plan (Superpowers `brainstorming` → `writing-plans`), onaydan sonra kod.
 - Tasarım dili: `/impeccable init` ile oluşan `PRODUCT.md` ve `DESIGN.md` esas alınır; tasarım kararları oradan okunur.
 - Tasarımlar Claude Design'da hazırlanır; onaylanan tasarım koda aktarılır.
+- Asıl tasarım kaynağı: "Wellness" artifact'i (https://claude.ai/artifact/UZCaeJcrvg4NQoAKfoaM5M). Güncel durum ve sıradaki adımlar: `HANDOFF.md`.
 
 ## Web sitesi akışı ve skill'ler
 1. Yön ve görsel kimlik: `frontend-design`, `impeccable` (shape/craft), `design-system`
