@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Platform, Pressable, ScrollView, Text, TextInput, View, type StyleProp, type TextProps, type TextStyle, type ViewStyle, type TextInputProps } from 'react-native';
 import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import Svg, { Path, SvgXml } from 'react-native-svg';
+import Svg, { Defs, LinearGradient, Path, Rect, Stop, SvgXml } from 'react-native-svg';
 import { IC, QR_D } from './icons';
 import { EASE, ff } from './theme';
 import { get, pop, useC, useFrame } from './store';
@@ -430,11 +430,30 @@ export function NavH({ title, sub, right, onBack, left }: { title?: string; sub?
   );
 }
 
+// Alt düğme alanının üstündeki yumuşak geçiş: kaydırılan içerik düğmeye yaklaştıkça zemin rengine karışır
+export function FadeTop({ c, h = 28 }: { c: string; h?: number }) {
+  const id = `fade${c.replace(/[^0-9a-zA-Z]/g, '')}`;
+  return (
+    <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: -h, height: h }}>
+      <Svg width="100%" height="100%">
+        <Defs>
+          <LinearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0" stopColor={c} stopOpacity={0} />
+            <Stop offset="1" stopColor={c} stopOpacity={1} />
+          </LinearGradient>
+        </Defs>
+        <Rect width="100%" height="100%" fill={`url(#${id})`} />
+      </Svg>
+    </View>
+  );
+}
+
 // Alt çift düğme çubuğu (.foot)
 export function Foot({ children }: { children: React.ReactNode }) {
+  const C = useC();
   const { bottom } = useFrame();
-  // Zemin ve üst çizgi yok: düğmeler sayfa zemininin üstünde durur
-  return <View style={{ paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), flexDirection: 'row', gap: 8 }}>{children}</View>;
+  // Üst çizgi yok; düğme alanı sayfa zemininde, üstünde yumuşak geçiş
+  return <View style={{ backgroundColor: C.page, paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), flexDirection: 'row', gap: 8 }}><FadeTop c={C.page} />{children}</View>;
 }
 export const Pair = ({ children, style }: { children: React.ReactNode; style?: VS }) => <View style={[{ flexDirection: 'row', gap: 8 }, style]}>{children}</View>;
 
@@ -454,7 +473,7 @@ export function SFoot({ children }: { children: React.ReactNode }) {
   const C = useC();
   const { bottom } = useFrame();
   return (
-    <View pointerEvents="box-none" style={{ paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), gap: 8, backgroundColor: C.card }}>{children}</View>
+    <View pointerEvents="box-none" style={{ paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), gap: 8, backgroundColor: C.card }}><FadeTop c={C.card} />{children}</View>
   );
 }
 // Çerçeveli seçenek kutusu (.oc) ve satırı (.orow)
