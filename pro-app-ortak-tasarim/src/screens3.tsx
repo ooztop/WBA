@@ -7,7 +7,7 @@ import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUnti
 import { get, go, hhmm, home, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
-import { Apple, Av, Band, BandBack, Blk, Btn, Chip, Ck, Cols, DC, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
+import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Cols, DC, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
 
 import { openUrl } from './device';
@@ -114,22 +114,20 @@ function Reschedule({ p }: SP) {
     } else pop();
     toastLater(tell ? `Yeni saat ${f}'e gönderildi · ${nv}` : `Ders ${nv} saatine taşındı`, 400);
   };
-  const newT = `${RS_DAYS[di][0]} ${RS_DAYS[di][1]}, ${RS[di][si] ?? RS[di][0]}`;
+  const small = (t: string) => <T s={12} w={800} ls={0.05} c={C.muted} style={{ textTransform: 'uppercase', marginBottom: 2 }}>{t}</T>;
   return (
-    <Page title="Dersi ertele" foot={<Btn t={`Ertele · ${newT}`} onPress={ok} />}>
-      <View style={{ backgroundColor: C.page, borderRadius: 16, padding: 14 }}>
-        <Lbl t="Ertelenecek ders" />
-        <T s={17} w={800} lh={1.3} style={{ marginTop: 4 }}>{p.when || 'Çar 10 Eyl · 09:00'}</T>
-        <Sm>{p.n || 'Elif Yıldırım'} · {p.ty || 'Bireysel · 60 dk'}</Sm>
+    <Page title="Dersi ertele" foot={<Btn t="Ertelemeyi onayla" onPress={ok} />}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: C.page, borderRadius: 16, padding: 14 }}>
+        <View style={{ flex: 1, minWidth: 0 }}>{small('Eski')}<T s={15} w={700} c={C.muted} style={{ textDecorationLine: 'line-through' }} numberOfLines={1}>{p.when || 'Çar 10 Eyl · 09:00'}</T></View>
+        <View style={{ width: 28 }}><Icon n="arrowR" c={C.muted} /></View>
+        <View style={{ flex: 1, minWidth: 0 }}>{small('Yeni')}<T s={17} w={800} numberOfLines={1}>{nv}</T></View>
       </View>
-      <Blk lbl="Yeni saat" right={<Tap onPress={() => toast('Takvim açılır')} hit={8} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 32 }}><Icon n="calendar" s={16} c={C.info} /><T s={13} w={800} c={C.info}>Takvimden seç</T></Tap>}>
+      <Blk lbl="Müsait saatlerin" right={<Tap onPress={() => toast('Takvim açılır')} hit={8} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 32 }}><Icon n="calendar" s={16} c={C.accent} /><T s={13} w={800} c={C.accent}>Takvimden seç</T></Tap>}>
         <View style={{ flexDirection: 'row', gap: 6 }}>{RS_DAYS.map((d, i) => <DC key={i} a={d[0]} b={d[1]} on={i === di} onPress={() => { setDi(i); setSi(0); }} />)}</View>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{RS[di].map((t, i) => <Chip key={di + t} t={t} on={i === si} onPress={() => setSi(i)} style={{ width: '30%', flexGrow: 1 }} />)}</View>
+        <PChips key={di} items={RS[di]} cols={3} value={si} onChange={i => setSi(i)} />
       </Blk>
-      <InCard>
-        <GR t={`${f}'e bildir`} s="Yeni saati onaylaması istenir" right={<Sw on={tell} onChange={setTell} label={`${f}'e bildir`} />} />
-      </InCard>
-      <Sm style={{ marginTop: -8 }}>Sadece bu ders taşınır; seri ve ödeme aynı kalır.</Sm>
+      <ORow t={`${f}'e bildir`} s="Yeni saati onaylaması istenir" right={<Sw on={tell} onChange={setTell} label={`${f}'e bildir`} />} />
+      <Sm>Sadece bu ders taşınır; seri ve ödeme aynı kalır.</Sm>
     </Page>
   );
 }
