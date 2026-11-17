@@ -430,30 +430,37 @@ export function NavH({ title, sub, right, onBack, left }: { title?: string; sub?
   );
 }
 
-// Alt düğme alanının üstündeki yumuşak geçiş: kaydırılan içerik düğmeye yaklaştıkça zemin rengine karışır
-export function FadeTop({ c, h = 28 }: { c: string; h?: number }) {
-  const id = `fade${c.replace(/[^0-9a-zA-Z]/g, '')}`;
+// Yüzen alt düğme alanı (prototipteki .sh>.sfoot): içerik altından akar, üstte zemin rengine yumuşak geçiş.
+// Geçiş: 0 px şeffaf → 22 px %85 → 34 px tam zemin. onH ile yüksekliğini bildirir; kaydırma alanı bu kadar alt boşluk bırakır.
+export function FloatFoot({ children, bg, onH }: { children: React.ReactNode; bg: string; onH: (h: number) => void }) {
+  const { bottom } = useFrame();
+  const id = `ff${bg.replace(/[^0-9a-zA-Z]/g, '')}`;
   return (
-    <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: -h, height: h }}>
-      <Svg width="100%" height="100%">
-        <Defs>
-          <LinearGradient id={id} x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={c} stopOpacity={0} />
-            <Stop offset="1" stopColor={c} stopOpacity={1} />
-          </LinearGradient>
-        </Defs>
-        <Rect width="100%" height="100%" fill={`url(#${id})`} />
-      </Svg>
+    <View pointerEvents="box-none" onLayout={e => onH(e.nativeEvent.layout.height)}
+      style={{ position: 'absolute', left: 0, right: 0, bottom: 0, paddingTop: 30, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), gap: 8 }}>
+      <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}>
+        <Svg width="100%" height={34}>
+          <Defs>
+            <LinearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+              <Stop offset="0" stopColor={bg} stopOpacity={0} />
+              <Stop offset="0.647" stopColor={bg} stopOpacity={0.85} />
+              <Stop offset="1" stopColor={bg} stopOpacity={1} />
+            </LinearGradient>
+          </Defs>
+          <Rect width="100%" height={34} fill={`url(#${id})`} />
+        </Svg>
+        <View style={{ flex: 1, backgroundColor: bg }} />
+      </View>
+      {children}
     </View>
   );
 }
 
 // Alt çift düğme çubuğu (.foot)
 export function Foot({ children }: { children: React.ReactNode }) {
-  const C = useC();
   const { bottom } = useFrame();
-  // Üst çizgi yok; düğme alanı sayfa zemininde, üstünde yumuşak geçiş
-  return <View style={{ backgroundColor: C.page, paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), flexDirection: 'row', gap: 8 }}><FadeTop c={C.page} />{children}</View>;
+  // Zemin ve üst çizgi yok: düğmeler sayfa zemininin üstünde durur
+  return <View style={{ paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), flexDirection: 'row', gap: 8 }}>{children}</View>;
 }
 export const Pair = ({ children, style }: { children: React.ReactNode; style?: VS }) => <View style={[{ flexDirection: 'row', gap: 8 }, style]}>{children}</View>;
 
@@ -468,14 +475,6 @@ export function SheetH({ title, onBack, right }: { title: string; onBack: () => 
   );
 }
 export const Form = ({ children, gap = 16, style }: { children: React.ReactNode; gap?: number; style?: VS }) => <View style={[{ paddingTop: 8, paddingHorizontal: 16, gap }, style]}>{children}</View>;
-// Panelin altına yapışık ana düğme alanı (.sfoot)
-export function SFoot({ children }: { children: React.ReactNode }) {
-  const C = useC();
-  const { bottom } = useFrame();
-  return (
-    <View pointerEvents="box-none" style={{ paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), gap: 8, backgroundColor: C.card }}><FadeTop c={C.card} />{children}</View>
-  );
-}
 // Çerçeveli seçenek kutusu (.oc) ve satırı (.orow)
 export function OC({ children }: { children: React.ReactNode }) {
   const C = useC();

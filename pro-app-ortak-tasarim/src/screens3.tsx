@@ -8,7 +8,7 @@ import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUnti
 import { get, go, hhmm, home, pickDate, pickTime, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
-import { Apple, Av, Band, BandBack, Blk, Btn, Ck, FadeTop, Cols, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
+import { Apple, Av, Band, BandBack, Blk, Btn, Ck, FloatFoot, Cols, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
 
 import { openUrl } from './device';
@@ -21,12 +21,12 @@ const OK = (C: ReturnType<typeof useC>) => C.success;
 // Beyaz zeminli form sayfası: başlık · form · altta düğme
 function Page({ title, children, foot, gap = 18 }: { title: string; children: React.ReactNode; foot: React.ReactNode; gap?: number }) {
   const C = useC();
-  const { bottom } = useFrame();
+  const [fh, setFh] = useState(0);
   return (
     <View style={{ flex: 1, backgroundColor: C.card }}>
       <NavH title={title} />
-      <Scr pb={16}><View style={{ paddingTop: 8, paddingHorizontal: 16, gap }}>{children}</View></Scr>
-      <View style={{ paddingTop: 12, paddingHorizontal: 16, paddingBottom: Math.max(30, bottom + 8), gap: 8, backgroundColor: C.card }}><FadeTop c={C.card} />{foot}</View>
+      <Scr pb={16 + Math.max(0, fh - 30)}><View style={{ paddingTop: 8, paddingHorizontal: 16, gap }}>{children}</View></Scr>
+      <FloatFoot bg={C.card} onH={setFh}>{foot}</FloatFoot>
     </View>
   );
 }

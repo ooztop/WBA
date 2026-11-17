@@ -7,7 +7,7 @@ import { iso } from './data/dates';
 import { closeSheet, hhmm, num, pickDate, pickTime, snapLesson, tl, openAction, openSheet, person, personByName, pick, pop, push, repSheet, toast, toastLater, useC, useFrame, useStore } from './store';
 import { addLessons, addOffs, addPerson, removeBreak, removePackage, saveBreak, savePackage, saveProfile, setPref, updatePerson } from './data/actions';
 import { EASE, ff } from './theme';
-import { Av, Blk, Btn, Ck, Cols, DC, Fld, Form, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SFoot, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
+import { Av, Blk, Btn, Ck, Cols, DC, Fld, FloatFoot, Form, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { Amt } from './screens1';
 import { GrpS, Pkb } from './screens2';
 
@@ -16,14 +16,16 @@ const ease = Easing.bezier(...EASE);
 
 // Panel iskeleti: başlık · kaydırılan form · altta yapışık ana düğme
 function Sheet({ title, right, children, foot, extra, gap = 16, onBack }: { title: string; right?: React.ReactNode; children: React.ReactNode; foot?: React.ReactNode; extra?: React.ReactNode; gap?: number; onBack?: () => void }) {
+  const C = useC();
+  const [fh, setFh] = useState(0);
   return (
     <View style={{ flex: 1 }}>
       <SheetH title={title} onBack={onBack ?? closeSheet} right={right} />
-      <Scr pb={16}>
+      <Scr pb={16 + (foot ? Math.max(0, fh - 30) : 0)}>
         <Form gap={gap}>{children}</Form>
         {extra ? <View style={{ gap: 8, paddingTop: 8, paddingHorizontal: 16 }}>{extra}</View> : null}
       </Scr>
-      {foot ? <SFoot>{foot}</SFoot> : null}
+      {foot ? <FloatFoot bg={C.card} onH={setFh}>{foot}</FloatFoot> : null}
     </View>
   );
 }
