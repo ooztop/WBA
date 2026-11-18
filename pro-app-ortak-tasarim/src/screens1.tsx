@@ -1,10 +1,14 @@
-// Sayfalar 1: kişi detayı, dokümanlar, bildirim ayarları, profil paylaş, ödemeler
+// Sayfalar 1: kişi detayı, dokümanlar (dosya önizleme, not), bildirim ayarları, profil paylaş, ödemeler
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { go, openMenu, openSheet, person, pick, tl, toast, toastLater, useC, useFrame, useStore } from './store';
-import { usePref } from './data/actions';
+import { go, openAction, openMenu, openSheet, person, pick, pop, tl, toast, toastLater, useC, useFrame, useStore } from './store';
+import { TODAY } from './data';
+import { iso } from './data/dates';
+import { docLine, longDate, noteTitle, splitDocs } from './data/docs';
+import type { Doc } from './data/models';
+import { addDoc, removeDoc, saveDoc, usePref } from './data/actions';
 import { copy, LINK, openUrl, share } from './device';
-import { Av, Band, BandBack, Btn, Cols, Empty, FC, Fic, Fld, Foot, GCard, GR, Grp, IB, Icon, Lbl, List, NavH, Pg, QR, Row, Rt, Scr, Seg, Sm, Stat, Sw, T, Tag, Tap, Val, type TagK } from './ui';
+import { Av, Band, BandBack, Btn, Cols, Empty, FC, Fic, Fld, FloatFoot, Foot, Inp, GCard, GR, Grp, IB, Icon, Lbl, List, NavH, Pg, QR, Row, Rt, Scr, Seg, Sm, Stat, Sw, T, Tag, Tap, Val, type TagK } from './ui';
 
 type SP = { p: any };
 
@@ -103,33 +107,119 @@ function Contact({ p }: SP) {
   );
 }
 
+// Dokümanlar: kişinin dosyaları ve ders notları (veri katmanından)
+function addMenu(pid: string) {
+  const today = iso(TODAY);
+  openMenu('Doküman ekle', [
+    // Dosya ve kamera telefon izni ister; prototipte örnek bir dosya eklenir
+    { label: 'Dosya seç', onPress: () => { void addDoc({ pid, kind: 'pdf', name: 'Yeni belge.pdf', date: today, size: '320 KB' }).then(d => d && toastLater('Dosya eklendi')); } },
+    { label: 'Fotoğraf çek', onPress: () => { void addDoc({ pid, kind: 'image', name: 'Fotoğraf.jpg', date: today, size: '1,8 MB' }).then(d => d && toastLater('Fotoğraf eklendi')); } },
+    { label: 'Not yaz', onPress: () => setTimeout(() => go('docNote', undefined, { pid }), 200) },
+  ]);
+}
+const fileIc = (d: Doc): [TagK, string] => (d.signed ? ['s', 'fileCheck'] : d.kind === 'image' ? ['i', 'image'] : ['d', 'file']);
+
 function Docs({ p }: SP) {
   const C = useC();
-  const emp = useStore(s => s.emp);
-  const x = person(p.i || '0');
-  const add = () => toast('Dosya seç · Fotoğraf çek · Not yaz');
-  const open = () => toast('Dosya açılıyor');
+  const pid = String(p.i || '0');
+  const x = person(pid);
+  const all = useStore(s => s.docs);
+  const { files, notes } = splitDocs(all, pid);
+  const add = () => addMenu(pid);
   return (
     <>
       <NavH title={x.name} sub="Dokümanlar" right={<IB ic="plus" k="p" label="Doküman ekle" onPress={add} />} />
-      {emp ? (
+      {files.length + notes.length === 0 ? (
         <Empty ic="folder" t="Henüz doküman yok" sub={`${x.name.split(' ')[0]} ile ilgili dosyalar ve notlar burada toplanır.`}><Btn t="Doküman ekle" onPress={add} /></Empty>
       ) : (
         <Scr>
-          <Grp t="Dosyalar · 3" style={{ paddingTop: 12 }} />
-          <List>
-            <Row left={<Fic k="d" ic="file" />} t="Beslenme programı.pdf" s="1,2 MB · 28 Ağu" chev onPress={open} />
-            <Row left={<Fic k="i" ic="image" />} t="Ölçüm sonuçları.jpg" s="840 KB · 20 Ağu" chev onPress={open} />
-            <Row left={<Fic k="s" ic="fileCheck" />} t="Onam formu.pdf" s="13 Ağu" right={<Tag k="s" t="İmzalı" />} onPress={open} />
-          </List>
-          <Grp t="Ders notları · 2" style={{ paddingTop: 20 }} />
-          <List>
-            <Row left={<Fic k="n" ic="note" c={C.ink} />} t="3 Eylül dersi" s="Konu tekrarı yapıldı, ödev verildi" chev onPress={open} />
-            <Row left={<Fic k="n" ic="note" c={C.ink} />} t="27 Ağustos dersi" s="Hedefler belirlendi" chev onPress={open} />
-          </List>
+          {files.length ? (
+            <>
+              <Grp t={`Dosyalar · ${files.length}`} style={{ paddingTop: 12 }} />
+              <List>
+                {files.map(d => { const [k, ic] = fileIc(d); return (
+                  <Row key={d.id} left={<Fic k={k} ic={ic} />} t={d.name} s={docLine(d)} right={d.signed ? <Tag k="s" t="İmzalı" /> : undefined} chev={!d.signed} onPress={() => go('docFile', undefined, { id: d.id })} />
+                ); })}
+              </List>
+            </>
+          ) : null}
+          {notes.length ? (
+            <>
+              <Grp t={`Ders notları · ${notes.length}`} style={{ paddingTop: files.length ? 20 : 12 }} />
+              <List>
+                {notes.map(d => <Row key={d.id} left={<Fic k="n" ic="note" c={C.ink} />} t={d.name} s={docLine(d)} chev onPress={() => go('docNote', undefined, { id: d.id })} />)}
+              </List>
+            </>
+          ) : null}
         </Scr>
       )}
     </>
+  );
+}
+
+// Dosya önizleme: demo görünüm (gerçek dosya API ile gelir), bilgiler, Paylaş · Sil
+function DocFile({ p }: SP) {
+  const C = useC();
+  const d = useStore(s => s.docs.find(x => x.id === p.id));
+  if (!d) return <NavH title="Dosya" />;
+  const del = () => openAction('Dosya silinsin mi?', 'Bu işlem geri alınamaz.', 'Dosyayı sil', true, () => { void removeDoc(d.id); pop(); toastLater('Dosya silindi'); });
+  const line = (w: string) => <View style={{ height: 6, width: w as any, borderRadius: 3, backgroundColor: C.divider }} />;
+  return (
+    <>
+      <NavH title={d.name} />
+      <Scr>
+        <View style={{ marginTop: 4, marginHorizontal: 16, borderRadius: 16, backgroundColor: C.card, overflow: 'hidden', aspectRatio: d.kind === 'image' ? 4 / 3 : 3 / 4, alignItems: 'center', justifyContent: 'center' }}
+          accessibilityLabel={`${d.name} önizlemesi`}>
+          {d.kind === 'image' ? (
+            <View style={{ alignSelf: 'stretch', flex: 1, backgroundColor: C.infoTint, alignItems: 'center', justifyContent: 'center' }}><Icon n="image" s={48} c={C.info} /></View>
+          ) : (
+            <View style={{ alignSelf: 'stretch', flex: 1, padding: 28, gap: 12 }}>
+              <View style={{ height: 10, width: '55%', borderRadius: 3, backgroundColor: C.border }} />
+              {line('100%')}{line('92%')}{line('96%')}{line('70%')}
+              <View style={{ height: 14 }} />
+              {line('100%')}{line('88%')}{line('94%')}{line('60%')}
+              {d.signed ? <View style={{ marginTop: 'auto', alignSelf: 'flex-end' }}><Tag k="s" t="İmzalı" /></View> : null}
+            </View>
+          )}
+        </View>
+        <GCard style={{ marginTop: 16 }}>
+          <GR t="Eklenme" right={<T s={13} w={700} c={C.muted}>{longDate(d.date)}</T>} />
+          {d.size ? <GR t="Boyut" right={<T s={13} w={700} c={C.muted}>{d.size}</T>} /> : null}
+        </GCard>
+      </Scr>
+      <Foot>
+        <Btn flex k="g" ic="share" t="Paylaş" onPress={() => share(d.name)} />
+        <Btn flex k="x" ic="trash" t="Sil" onPress={del} />
+      </Foot>
+    </>
+  );
+}
+
+// Ders notu: var olanı düzenle ya da yeni not yaz (p.pid)
+function DocNote({ p }: SP) {
+  const C = useC();
+  const d = useStore(s => (p.id ? s.docs.find(x => x.id === p.id) : undefined));
+  const [text, setText] = useState(d?.text ?? '');
+  const [fh, setFh] = useState(0);
+  const isNew = !p.id;
+  const title = d?.name ?? noteTitle(iso(TODAY));
+  const ok = isNew ? text.trim().length > 0 : text !== (d?.text ?? '');
+  const save = async () => {
+    if (isNew) { const r = await addDoc({ pid: String(p.pid), kind: 'note', name: title, date: iso(TODAY), text: text.trim() }); if (!r) return; }
+    else if (!(await saveDoc(d!.id, { text }))) return;
+    pop(); toastLater('Not kaydedildi');
+  };
+  const del = () => d && openAction('Not silinsin mi?', 'Bu işlem geri alınamaz.', 'Notu sil', true, () => { void removeDoc(d.id); pop(); toastLater('Not silindi'); });
+  return (
+    <View style={{ flex: 1, backgroundColor: C.card }}>
+      <NavH title={title} right={isNew ? undefined : <IB ic="trash" k="del" label="Notu sil" onPress={del} />} />
+      <Scr pb={16 + Math.max(0, fh - 30)}>
+        <View style={{ paddingTop: 8, paddingHorizontal: 16 }}>
+          <Inp area value={text} onChangeText={setText} ph="Bu derste neler yapıldı?" accessibilityLabel="Not" style={{ height: 240 }} autoFocus={isNew} />
+        </View>
+      </Scr>
+      <FloatFoot bg={C.card} onH={setFh}><Btn glow t="Kaydet" off={!ok} onPress={save} /></FloatFoot>
+    </View>
   );
 }
 
@@ -237,5 +327,5 @@ function Payments() {
   );
 }
 
-export const S1: Record<string, React.ComponentType<SP>> = { contact: Contact, docs: Docs, notifPrefs: NotifPrefs, share: Share, payments: Payments };
+export const S1: Record<string, React.ComponentType<SP>> = { contact: Contact, docs: Docs, docFile: DocFile, docNote: DocNote, notifPrefs: NotifPrefs, share: Share, payments: Payments };
 export const BAND1 = ['contact', 'payments'];

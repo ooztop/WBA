@@ -4,7 +4,8 @@ import { get, set } from '../../store';
 import { optimistic } from '../actions/optimistic';
 import { boot, reloadAll, setEmptyMode } from '../actions/boot';
 import { ensureLessons } from '../actions/lessons';
-import { lessonsService, peopleService } from '../services';
+import { docsService, lessonsService, peopleService } from '../services';
+import { addDoc, removeDoc, saveDoc } from '../actions/docs';
 import { mockDb } from '../mock/db';
 import type { Person } from '../models';
 
@@ -107,4 +108,16 @@ test('boş kipten dönerken dersler kişilerden önce önbelleğe gelmez (takvim
   jest.spyOn(lessonsService, 'range').mockImplementation(async (a, b) => { if (peopleAtRange < 0) peopleAtRange = get().people.length; return realRange(a, b); });
   await setEmptyMode(false);
   expect(peopleAtRange).toBeGreaterThan(0);
+});
+
+test('doküman ekle / kaydet / sil önbelleği ve servisi birlikte günceller', async () => {
+  set({ docs: [] });
+  const d = await addDoc({ pid: '0', kind: 'note', name: '9 Eylül notu', date: '2026-09-09', text: '' });
+  expect(get().docs.map(x => x.id)).toEqual([d!.id]);
+  await saveDoc(d!.id, { text: 'Merhaba' });
+  expect(get().docs[0].text).toBe('Merhaba');
+  expect((await docsService.list()).find(x => x.id === d!.id)?.text).toBe('Merhaba');
+  await removeDoc(d!.id);
+  expect(get().docs).toEqual([]);
+  expect((await docsService.list()).some(x => x.id === d!.id)).toBe(false);
 });

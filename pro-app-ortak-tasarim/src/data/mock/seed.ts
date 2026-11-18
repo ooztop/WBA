@@ -1,5 +1,5 @@
 // Demo verisi: bugünkü PEOPLE0, PACKAGES0 ve store'daki başlangıç değerleri; hafta saatleri ve ders kuralları varsayılanları.
-import type { Brk, Debt, LessonRules, Notif, NotifPrefs, PaidRow, Person, Pkg, Profile, Req, TagKind, WeekHours } from '../models';
+import type { Brk, Debt, Doc, LessonRules, Notif, NotifPrefs, PaidRow, Person, Pkg, Profile, Req, TagKind, WeekHours } from '../models';
 
 const RAW: [string, string, string, [TagKind, string], string][] = [
   ['EY', 'Elif Yıldırım', 'Sonraki: 17 Eyl · 09:00', ['i', 'Aylık'], 'hafta'], ['MK', 'Mert Kaya', 'Sonraki: 18 Eyl · 11:30', ['d', '₺1.500 borç'], 'borc hafta'],
@@ -76,3 +76,12 @@ export const RULES0: LessonRules = {
 };
 
 export const NOTIF0: NotifPrefs = {};
+
+// Her etkin kişiye aynı demo dokümanları: 3 dosya, 2 ders notu
+export const DOCS0: Doc[] = PEOPLE0.filter(p => !p.arch).flatMap(p => [
+  { id: `d${p.id}-1`, pid: p.id, kind: 'pdf', name: 'Beslenme programı.pdf', date: '2026-08-28', size: '1,2 MB' },
+  { id: `d${p.id}-2`, pid: p.id, kind: 'image', name: 'Ölçüm sonuçları.jpg', date: '2026-08-20', size: '840 KB' },
+  { id: `d${p.id}-3`, pid: p.id, kind: 'pdf', name: 'Onam formu.pdf', date: '2026-08-13', signed: true },
+  { id: `d${p.id}-4`, pid: p.id, kind: 'note', name: '3 Eylül dersi', date: '2026-09-03', text: 'Konu tekrarı yapıldı, ödev verildi.' },
+  { id: `d${p.id}-5`, pid: p.id, kind: 'note', name: '27 Ağustos dersi', date: '2026-08-27', text: 'Hedefler belirlendi.' },
+] as Doc[]);

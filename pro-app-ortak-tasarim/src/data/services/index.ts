@@ -10,3 +10,4 @@ export { requestsService } from './requests';
 export { notifsService } from './notifs';
 export { profileService } from './profile';
 export { supportService } from './support';
+export { docsService } from './docs';

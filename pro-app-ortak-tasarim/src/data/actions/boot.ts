@@ -4,7 +4,7 @@ import type { Accent } from '../../theme';
 import { get, set } from '../../store';
 import { iso } from '../dates';
 import { mockDb } from '../mock/db';
-import { notifPrefsService, notifsService, packagesService, paymentsService, peopleService, profileService, requestsService, rulesService, scheduleService } from '../services';
+import { docsService, notifPrefsService, notifsService, packagesService, paymentsService, peopleService, profileService, requestsService, rulesService, scheduleService } from '../services';
 import { ensureLessons, resetInflight } from './lessons';
 import { modelsToPrefs } from './settings';
 
@@ -17,12 +17,12 @@ async function loadWindow() {
 
 // epoch: yükleme başladığındaki sayaç; araya yeniden yükleme girdiyse eski sonuç atılır
 async function loadLists(epoch: number) {
-  const [people, packages, breaks, offs, debts, paid, collected, me, reqs, notifs] = await Promise.all([
+  const [people, packages, breaks, offs, debts, paid, collected, me, reqs, notifs, docs] = await Promise.all([
     peopleService.list(), packagesService.list(), scheduleService.listBreaks(), scheduleService.listOffs(),
-    paymentsService.debts(), paymentsService.paid(), paymentsService.collected(), profileService.get(), requestsService.list(), notifsService.list(),
+    paymentsService.debts(), paymentsService.paid(), paymentsService.collected(), profileService.get(), requestsService.list(), notifsService.list(), docsService.list(),
   ]);
   if (get().epoch !== epoch) return;
-  set({ people, packages, breaks, offs, debts, paid, collected, me, reqs, notifs });
+  set({ people, packages, breaks, offs, debts, paid, collected, me, reqs, notifs, docs });
 }
 
 // Boş sayfa ve Verileri sıfırla sonrası: ders önbelleğini boşaltıp her şeyi yeniden yükler
