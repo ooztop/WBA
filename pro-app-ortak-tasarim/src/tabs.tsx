@@ -5,11 +5,11 @@ import { TRA, first, type Person } from './data';
 import { get, go, openAction, openMenu, openSheet, person, push, toast, toastLater, useC, useFrame, useStore } from './store';
 import { copy, LINK } from './device';
 import { acceptReq, rejectReq, reqWhen } from './screens3';
-import { markAllNotifsRead, markNotifsRead, resetDemo, setAccent, setDark, setEmptyMode, updatePerson } from './data/actions';
+import { markNotifsRead, resetDemo, setAccent, setDark, setEmptyMode, updatePerson } from './data/actions';
 import { buildFeed, inFilter, notifTime, unreadCount, type FeedItem, type NotifFilter } from './data/notifs';
 import type { Notif, NotifKind } from './data/models';
 import { ff } from './theme';
-import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Inote, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, SwipeAct, T, Tag, Tap, type SV } from './ui';
+import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, SwipeAct, T, Tag, Tap, type SV } from './ui';
 
 const T2 = ({ t, sub }: { t: string; sub?: string }) => {
   const C = useC();
@@ -124,7 +124,7 @@ function openNotif(n: Notif) {
 function NRow({ n, indent }: { n: Notif; indent?: boolean }) {
   return <Row left={<Fic k={NK[n.kind].k} ic={NK[n.kind].ic} />} t={NK[n.kind].t} s={`${person(n.pid).name} · ${n.sub}`} right={<Ntime t={notifTime(n.at)} k={NK[n.kind].k} tag={NK[n.kind].tag} />} onPress={() => openNotif(n)} style={indent ? { marginLeft: 20 } : undefined} />;
 }
-// Tek bildirim ya da benzerlerin grubu: grup dokununca açılır, içindekiler tek tek görünür
+// Tek bildirim ya da benzerlerin grubu. Grup tek kart: dokununca kartın içinde kişiler sade satırlar olarak açılır.
 function NItem({ it }: { it: FeedItem }) {
   const C = useC();
   const [open, setOpen] = useState(false);
@@ -132,12 +132,20 @@ function NItem({ it }: { it: FeedItem }) {
   const top = it.list[0];
   const names = it.list.map(n => first(person(n.pid).name)).join(', ');
   return (
-    <>
-      <Row left={<Fic k={NK[it.kind].k} ic={NK[it.kind].ic} />} t={NK[it.kind].g(it.list.length)} s={names}
+    <View style={{ backgroundColor: C.card, borderRadius: 12, overflow: 'hidden' }}>
+      <Row left={<Fic k={NK[it.kind].k} ic={NK[it.kind].ic} />} t={NK[it.kind].g(it.list.length)} s={open ? undefined : names}
         right={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Ntime t={notifTime(top.at)} k={NK[it.kind].k} tag={NK[it.kind].tag} /><View style={{ transform: [{ rotate: open ? '-90deg' : '90deg' }] }}><Icon n="chevR" s={18} c={C.muted} /></View></View>}
         onPress={() => setOpen(o => !o)} />
-      {open ? it.list.map(n => <NRow key={n.id} n={n} indent />) : null}
-    </>
+      {open ? it.list.map(n => (
+        <Tap key={n.id} onPress={() => openNotif(n)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginLeft: 68, paddingRight: 14, paddingVertical: 11, minHeight: 48, borderTopWidth: 1, borderTopColor: C.divider }}>
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <T s={14} w={700} numberOfLines={1}>{person(n.pid).name}</T>
+            <T s={13} c={C.muted} numberOfLines={1}>{n.sub}</T>
+          </View>
+          <T s={12} w={700} c={C.muted}>{notifTime(n.at)}</T>
+        </Tap>
+      )) : null}
+    </View>
   );
 }
 
@@ -165,7 +173,6 @@ function Notifs() {
   const cnt = (k: NotifFilter) => notifs.filter(n => !n.read && inFilter(n.kind, k)).length;
   const FILTERS: [string, NotifFilter, number][] = [['Tümü', 'all', 0], ['Talepler', 'req', rq.length], ['Ödemeler', 'pay', cnt('pay')], ['İptaller', 'cancel', cnt('cancel')]];
   const nothing = !showReqs && !feed.sections.length && !feed.seen.length;
-  const allRead = unread ? <Tap onPress={() => { void markAllNotifsRead(); }} hit={8}><T s={13} w={800} c={C.accent}>Tümünü okundu say</T></Tap> : undefined;
   return (
     <>
       <Band lbl="Bildirimler" right={gear}><T2 t={rq.length ? `${rq.length} talep bekliyor` : 'Bekleyen talep yok'} sub={unread ? `${unread} okunmamış bildirim` : 'Hepsi okundu'} /></Band>
@@ -202,15 +209,14 @@ function Notifs() {
                   </SwipeAct>
                 ))}
               </List>
-              <Inote t="Sağa kaydır: onayla · Sola kaydır: reddet" style={{ marginTop: 8 }} />
               </>
             ) : null}
           </>
         ) : null}
         {f === 'req' && !rq.length ? <Sm style={{ textAlign: 'center', paddingTop: 32 }}>Bekleyen talep yok</Sm> : null}
-        {feed.sections.map((sec, i) => (
+        {feed.sections.map(sec => (
           <View key={sec.label}>
-            <Grp t={sec.label} right={i === 0 ? allRead : undefined} />
+            <Grp t={sec.label} />
             <List>{sec.items.map(it => <NItem key={it.key} it={it} />)}</List>
           </View>
         ))}
