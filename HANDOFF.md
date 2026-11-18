@@ -61,7 +61,8 @@ Prototip ile uygulama arasındaki bilinen farklar:
 - "Takvimden seç" prototipte yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
 - Ödeme sonucu ekranı (40) prototipte sabit örnek gösterir.
 - SSS cevapları prototipte tek sayfada (56) dokunulan soruya göre doldurulur.
-- Dokümanlar prototipte sabit: her dosya aynı önizlemeyi (59, PDF) açar; silme ve kaydetme yalnız bildirim gösterir. Makbuz (62) sabit örnek.
+- Dokümanlar prototipte sabit: her dosya aynı önizlemeyi (59, PDF) açar; silme ve kaydetme yalnız bildirim gösterir.
+- Makbuz (62) açıldığı kayda göre doldurulur (`RC` tablosu: Ödeme alındı, ders detayı, Ödemeler satırları); ders detayından açılış prototipte denenmedi.
 
 Ortak Tasarım sayfasının çalışma ortamı (support.js) bu bulut ortamında unpkg.com'a erişemediği için yerelde renksiz görünür.
 Kontrol için `<script src="./support.js">` satırı çıkarılmış bir kopya açılıp düzen kontrol edilebilir.
@@ -173,6 +174,9 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
   ve aynı saatli günlerin tek satırda toplanması. Kullanıcı yalnız saat seçiciyi istedi; bunlar sonraya kalabilir.
 - Kullanım koşullarının gerçek metni (şu an örnek; `src/data/help.ts` `TERMS`, prototipte 57, Ortak Tasarım sayfasında 17c).
 - Sık sorulanların cevapları uygulamanın bugünkü davranışına göre yazıldı; kullanıcı gözden geçirecek.
+- Ortak Tasarım sayfasındaki 06a–06d (Dokümanlar), 40a (Makbuz), 43a–43c (Şifremi unuttum) çizimlerine kullanıcı henüz bakmadı.
+- Demo verisi tutarsızlığı: Elif'in paket ödemesi kayıtlı değil (makbuz örnek tarih / yöntemle açılıyor);
+  Can Öztürk'ün "8 derslik paket" ödemesi ₺2.500, paketin fiyatı ₺5.400. API'ye geçince gerçek kayıtlar gelecek.
 
 ## Sıradaki adımlar
 1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.
@@ -187,6 +191,10 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 4. **Tanıtım sitesi:** henüz başlanmadı.
 
 ## Verilen kararlar
+- **Makbuz (18 Kasım):** altta yalnız "Paylaş" (telefonun paylaşım menüsü WhatsApp'ı da içerir; ayrı WhatsApp düğmesi istenmedi).
+  Ödenmiş derste makbuz "Ödendi" satırından açılır; paketli derste paketin satın alındığı ödeme gösterilir, tek derste dersin kendisi.
+- **"Tuval" deme:** kullanıcıya Wellness'taki ekran çizimlerinden "Ortak Tasarım sayfası" diye söz et.
+- **Yeni ekran / akış:** önce kısa tasarım sohbette, kullanıcı "evet" deyince kod; bitince ekran görüntüsü, önizleme, Wellness (prototip + Ortak Tasarım sayfası), HANDOFF ve `main`.
 - Skill'ler yalnızca orijinal GitHub depolarından alındı; TikTok'taki "DM us" paketleri kullanılmadı.
 - Claude-Mem, Observer, UI/UX Pro Max, Brandkit kurulmadı. Hafıza için `CLAUDE.md` ve bu dosya kullanılıyor.
 - Takvimde haftanın ilk günü Pazartesi (`0 = Pazartesi … 6 = Pazar`).
