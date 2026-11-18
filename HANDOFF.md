@@ -22,7 +22,7 @@ Son güncelleme: 18 Kasım 2026
 |---|---|
 | `pro-app-ortak-tasarim/` | **Güncel mobil uygulama** ("Ortak Tasarım", Expo). Veri katmanı burada. README'sini oku. |
 | `pro-app-ortak-tasarim/src/data/README.md` | Hangi konunun hangi backend ucuna bağlanacağını gösteren tablo |
-| `prototip/ortak-tasarim/` | Wellness artifact'indeki Ortak Tasarım sayfalarının kopyası: `prototip.html` (tıklanabilir) ve `ortak-tasarim.dc.html` (tuval) |
+| `prototip/ortak-tasarim/` | Wellness artifact'indeki Ortak Tasarım sayfalarının kopyası: `prototip.html` (tıklanabilir) ve `ortak-tasarim.dc.html` (Ortak Tasarım sayfası: bütün ekranlar yan yana) |
 | `pro-app/` | Eski Final 2 prototipinin Expo karşılığı (16 Kasım). Ortak Tasarım bunun yerini aldı. |
 | `prototip/app.html` | Mobil prototip Final 2. Durumu `prototip/DEVAM-NOTU.md`'de yazıyor. |
 | `prototip/web.html` | Uzman web paneli prototipi. Durumu `prototip/WEB-DEVAM-NOTU.md`'de yazıyor. |
@@ -40,7 +40,8 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
   Tek çağrı: `url`, `root` = içinde `project/` olan geçici klasör, `file_path` = `<root>/project/compat.json`,
   `files` = yalnız değişen sayfalar (ör. `{"project/Pro App - Prototip.html": "project/Pro App - Prototip.html"}`).
 - Mobil için esas sayfalar:
-  - "Pro App - Ortak Tasarım": `project/Kişiler - Ortak Tasarım.dc.html`, tuval.
+  - "Pro App - Ortak Tasarım": `project/Kişiler - Ortak Tasarım.dc.html`. Bütün ekranlar numaralı çizimler olarak yan yana.
+    Kullanıcıya bundan "Ortak Tasarım sayfası" diye söz et; "tuval" deme (kullanıcı isteği, 18 Kasım).
     Repodaki kopyası `prototip/ortak-tasarim/ortak-tasarim.dc.html`.
   - "Pro App - Ortak Tasarım (Prototip)": `project/Pro App - Prototip.html`.
     Repodaki kopyası `prototip/ortak-tasarim/prototip.html`.
@@ -56,12 +57,12 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları).
 
 Prototip ile uygulama arasındaki bilinen farklar:
-- Ders detayı örneği gelecekteki bir ders (10 Eylül Perşembe). Tuvalde ayrıca "29b Geçmiş ders" çizimi var: yalnızca "Ödeme al".
+- Ders detayı örneği gelecekteki bir ders (10 Eylül Perşembe). Ortak Tasarım sayfasında ayrıca "29b Geçmiş ders" çizimi var: yalnızca "Ödeme al".
 - "Takvimden seç" prototipte yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
 - Ödeme sonucu ekranı (40) prototipte sabit örnek gösterir.
 - SSS cevapları prototipte tek sayfada (56) dokunulan soruya göre doldurulur.
 
-Tuvalin çalışma ortamı (support.js) bu bulut ortamında unpkg.com'a erişemediği için yerelde renksiz görünür.
+Ortak Tasarım sayfasının çalışma ortamı (support.js) bu bulut ortamında unpkg.com'a erişemediği için yerelde renksiz görünür.
 Kontrol için `<script src="./support.js">` satırı çıkarılmış bir kopya açılıp düzen kontrol edilebilir.
 
 ## Tıklanabilir önizleme: "Pro App Önizleme" artifact'i
@@ -158,9 +159,9 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - Sağında gri değer yazısı olan diğer satırlar da (iptal ekranındaki Sebep vb.) Hesabım'daki gibi mavi olsun mu?
 - Takvim ayarlarım için önerilen ama seçilmeyenler: yaklaşan izin günlerinin listesi (izinler şu an görülemiyor / silinemiyor)
   ve aynı saatli günlerin tek satırda toplanması. Kullanıcı yalnız saat seçiciyi istedi; bunlar sonraya kalabilir.
-- Kullanım koşullarının gerçek metni (şu an örnek; `src/data/help.ts` `TERMS`, prototipte 57, tuvalde 17c).
+- Kullanım koşullarının gerçek metni (şu an örnek; `src/data/help.ts` `TERMS`, prototipte 57, Ortak Tasarım sayfasında 17c).
 - Sık sorulanların cevapları uygulamanın bugünkü davranışına göre yazıldı; kullanıcı gözden geçirecek.
-- Tuvaldeki 17a–17c çizimleri bu ortamda yalnız renksiz görülebildi; kullanıcının Wellness'ta bakması istendi.
+- Ortak Tasarım sayfasındaki 17a–17c çizimleri bu ortamda yalnız renksiz görülebildi; kullanıcının Wellness'ta bakması istendi.
 
 ## Sıradaki adımlar
 1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.
