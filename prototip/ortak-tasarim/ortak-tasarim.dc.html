@@ -599,6 +599,80 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
 
 <div class="board">
 
+<!-- ============ 06a. DOKÜMAN EKLE ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>06a</span>Doküman ekle<small>+ menüsü</small></figcaption>
+<div class="ph sheet">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div class="ass" role="menu" aria-label="Doküman ekle">
+    <div class="asg">
+      <div class="ast">Doküman ekle</div>
+      <button class="asb" role="menuitem" style="border-top:1px solid var(--divider)">Dosya seç</button>
+      <button class="asb" role="menuitem">Fotoğraf çek</button>
+      <button class="asb" role="menuitem">Not yaz</button>
+    </div>
+    <div class="asg"><button class="asb" style="font-weight:800">Vazgeç</button></div>
+  </div>
+</div>
+</figure>
+
+<!-- ============ 06b. DOSYA ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>06b</span>Dosya<small>dosyaya dokununca</small></figcaption>
+<div class="ph">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div class="navh">
+    <button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <div class="ttl"><b>Beslenme programı.pdf</b></div>
+    <span></span>
+  </div>
+  <div class="scr">
+    <div aria-label="Beslenme programı.pdf önizlemesi" style="margin:4px 16px 0;border-radius:16px;background:var(--surface-card);aspect-ratio:3/4;padding:28px;display:flex;flex-direction:column;gap:12px">
+      <i style="display:block;height:10px;width:55%;border-radius:3px;background:var(--border)"></i><i style="display:block;height:6px;width:100%;border-radius:3px;background:var(--divider)"></i><i style="display:block;height:6px;width:92%;border-radius:3px;background:var(--divider)"></i><i style="display:block;height:6px;width:96%;border-radius:3px;background:var(--divider)"></i><i style="display:block;height:6px;width:70%;border-radius:3px;background:var(--divider)"></i><i style="display:block;height:14px"></i><i style="display:block;height:6px;width:100%;border-radius:3px;background:var(--divider)"></i><i style="display:block;height:6px;width:88%;border-radius:3px;background:var(--divider)"></i><i style="display:block;height:6px;width:94%;border-radius:3px;background:var(--divider)"></i><i style="display:block;height:6px;width:60%;border-radius:3px;background:var(--divider)"></i>
+    </div>
+    <div class="gcard" style="margin-top:16px">
+      <div class="gr"><span class="rt"><span class="t">Eklenme</span></span><span class="sm" style="font-weight:700">28 Ağustos 2026</span></div>
+      <div class="gr"><span class="rt"><span class="t">Boyut</span></span><span class="sm" style="font-weight:700">1,2 MB</span></div>
+    </div>
+  </div>
+  <div class="sfoot pair" style="display:grid;padding-top:12px"><button class="btn g"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg>Paylaş</button><button class="btn x"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>Sil</button></div>
+</div>
+</figure>
+
+<!-- ============ 06c. DERS NOTU ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>06c</span>Ders notu<small>nota dokununca</small></figcaption>
+<div class="ph" style="background:var(--surface-card)">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div class="navh">
+    <button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <div class="ttl"><b>3 Eylül dersi</b></div>
+    <button class="ib del" aria-label="Notu sil"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
+  </div>
+  <div class="form" style="flex:1">
+    <textarea class="inp nt" aria-label="Not" placeholder="Bu derste neler yapıldı?" style="height:240px">Konu tekrarı yapıldı, ödev verildi.</textarea>
+  </div>
+  <div class="sfoot" style="padding-top:12px"><button class="btn p off ntb">Kaydet</button></div>
+</div>
+</figure>
+
+<!-- ============ 06d. YENİ NOT ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>06d</span>Yeni not<small>Not yaz</small></figcaption>
+<div class="ph" style="background:var(--surface-card)">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div class="navh">
+    <button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <div class="ttl"><b>9 Eylül notu</b></div>
+    <span></span>
+  </div>
+  <div class="form" style="flex:1">
+    <textarea class="inp nt" aria-label="Not" placeholder="Bu derste neler yapıldı?" style="height:240px"></textarea>
+  </div>
+  <div class="sfoot" style="padding-top:12px"><button class="btn p off ntb">Kaydet</button></div>
+</div>
+</figure>
+
 <!-- ============ 7. BİLDİRİMLER ============ -->
 <figure class="fig">
 <figcaption class="cap"><span>07</span>Bildirimler<small>ana sekme</small></figcaption>
@@ -1747,6 +1821,28 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
 </div>
 </figure>
 
+<!-- ============ 40a. MAKBUZ ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>40a</span>Makbuz<small>Makbuzu gör</small></figcaption>
+<div class="ph">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div class="navh">
+    <button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <div class="ttl"><b>Makbuz</b></div>
+    <span></span>
+  </div>
+  <div class="scr">
+    <div style="margin:4px 16px 0;padding:20px;border-radius:16px;background:var(--surface-card)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div style="display:flex;flex-direction:column;gap:2px"><b style="font-size:17px;font-weight:800">Deniz Arslan</b><span class="sm">Özel ders · Matematik</span></div><span class="tag tg-s">Ödendi</span></div>
+      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Kişi</span><b>Mert Kaya</b></div><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Tarih</span><b>9 Eylül 2026</b></div><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Ödeme</span><b>Havale / EFT</b></div></div>
+      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><div style="display:flex;flex-direction:column;gap:2px"><b>9 Eylül · 16:00</b><span class="sm">Bireysel · 60 dk</span></div><b>₺750</b></div>
+      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:15px;font-weight:800">Alınan</b><b style="font-size:28px;font-weight:800">₺750</b></div>
+    </div>
+  </div>
+  <div class="sfoot pair" style="display:grid;padding-top:12px"><button class="btn g"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg>Paylaş</button><button class="btn p">WhatsApp'tan gönder</button></div>
+</div>
+</figure>
+
 <!-- ============ 41. TEKİL DERS ============ -->
 <figure class="fig">
 <figcaption class="cap"><span>41</span>Tekil ders<small>tam uzunluk (kaydırmalı)</small></figcaption>
@@ -1870,6 +1966,59 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
     <button class="btn g">Apple ile devam et</button>
   </div>
   <div class="sm" style="text-align:center;padding:0 0 34px;font-size:14px">Hesabın yok mu? <button class="lnk" style="font-size:14px">Kaydol</button></div>
+</div>
+</figure>
+
+<!-- ============ 43a. ŞİFREMİ UNUTTUM · E-POSTA ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>43a</span>Şifremi unuttum · E-posta<small>girişten</small></figcaption>
+<div class="ph" style="background:var(--surface-card)">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div style="display:flex;align-items:center;gap:16px;padding:4px 20px 0 16px"><button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button><div class="steps" aria-label="Adım 1 / 3" style="grid-template-columns:repeat(3,minmax(0,1fr))"><i class="d"></i><i></i><i></i></div></div>
+  <div class="step">
+    <span class="sic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
+    <h2 class="t1">Şifreni sıfırla</h2>
+    <p class="body" style="margin:0 0 12px;color:var(--ink-muted)">Hesabının e-posta adresine bir kod göndereceğiz.</p>
+    <label class="fld">E-posta<input class="inp" inputmode="email" value="deniz@ornek.com"></label>
+    <button class="btn p" style="margin-top:12px">Kod gönder</button>
+  </div>
+</div>
+</figure>
+
+<!-- ============ 43b. ŞİFREMİ UNUTTUM · KOD ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>43b</span>Şifremi unuttum · Kod</figcaption>
+<div class="ph" style="background:var(--surface-card)">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div style="display:flex;align-items:center;gap:16px;padding:4px 20px 0 16px"><button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button><div class="steps" aria-label="Adım 2 / 3" style="grid-template-columns:repeat(3,minmax(0,1fr))"><i class="d"></i><i class="d"></i><i></i></div></div>
+  <div class="step">
+    <span class="sic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
+    <h2 class="t1">Mailini kontrol et</h2>
+    <p class="body" style="margin:0 0 12px;color:var(--ink-muted)"><b style="color:var(--ink)">deniz@ornek.com</b> adresine 6 haneli bir kod gönderdik.</p>
+    <div class="code" role="group" aria-label="Doğrulama kodu"><span class="cd">4</span><span class="cd">8</span><span class="cd">2</span><span class="cd">1</span><span class="cd">7</span><span class="cd f"></span></div>
+    <button class="btn p" style="margin-top:12px">Doğrula</button>
+    <button class="lnk" style="align-self:center;min-height:44px">Kodu tekrar gönder</button>
+  </div>
+</div>
+</figure>
+
+<!-- ============ 43c. ŞİFREMİ UNUTTUM · YENİ ŞİFRE ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>43c</span>Şifremi unuttum · Yeni şifre<small>sonunda girişe döner</small></figcaption>
+<div class="ph" style="background:var(--surface-card)">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div style="display:flex;align-items:center;gap:16px;padding:4px 20px 0 16px"><button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button><div class="steps" aria-label="Adım 3 / 3" style="grid-template-columns:repeat(3,minmax(0,1fr))"><i class="d"></i><i class="d"></i><i class="d"></i></div></div>
+  <div class="step">
+    <span class="sic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span>
+    <h2 class="t1">Yeni şifre</h2>
+    <p class="body" style="margin:0 0 12px;color:var(--ink-muted)">En az 8 karakter olsun.</p>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <label class="fld">Yeni şifre<input class="inp pw1" type="password" placeholder="En az 8 karakter"></label>
+      <label class="fld">Yeni şifre (tekrar)<input class="inp pw2" type="password" placeholder="Aynı şifreyi yaz"></label>
+      <span class="pwm" style="font-size:13px;font-weight:700;color:var(--danger)" hidden></span>
+    </div>
+    <button class="btn p off pwb" style="margin-top:12px">Şifreyi kaydet</button>
+  </div>
 </div>
 </figure>
 

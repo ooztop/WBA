@@ -52,15 +52,16 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 79 (18 Kasım, Yardım ve destek uçları).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 80 (18 Kasım, Dokümanlar, Makbuz, Şifremi unuttum).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
-Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları).
+Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları), 80 (06a–06d Dokümanlar, 40a Makbuz, 43a–43c Şifremi unuttum).
 
 Prototip ile uygulama arasındaki bilinen farklar:
 - Ders detayı örneği gelecekteki bir ders (10 Eylül Perşembe). Ortak Tasarım sayfasında ayrıca "29b Geçmiş ders" çizimi var: yalnızca "Ödeme al".
 - "Takvimden seç" prototipte yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
 - Ödeme sonucu ekranı (40) prototipte sabit örnek gösterir.
 - SSS cevapları prototipte tek sayfada (56) dokunulan soruya göre doldurulur.
+- Dokümanlar prototipte sabit: her dosya aynı önizlemeyi (59, PDF) açar; silme ve kaydetme yalnız bildirim gösterir. Makbuz (62) sabit örnek.
 
 Ortak Tasarım sayfasının çalışma ortamı (support.js) bu bulut ortamında unpkg.com'a erişemediği için yerelde renksiz görünür.
 Kontrol için `<script src="./support.js">` satırı çıkarılmış bir kopya açılıp düzen kontrol edilebilir.
@@ -134,7 +135,14 @@ Diğer artifact'ler (claude.ai, yardımcı):
     backend'de mesajlaşma yok). SSS her soru kendi sayfasında, altta ilgili ekrana bağlantı ve "Destek ekibine yaz". Kullanım koşulları
     başlıklı düz metin; **metin örnek**, gerçeği kullanıcıdan / hukukçudan gelecek. İçerik `src/data/help.ts`, destek mesajı
     veri katmanında yeni `support` konusu (mock), testli.
-  - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77, 78, 79). Kullanıcı 17a–17c çizimlerine Wellness'ta baktı, düzgün.
+  - **Dokümanlar:** dosyaya dokununca önizleme (demo görünüm, eklenme / boyut, Paylaş, onaylı Sil); ders notuna dokununca
+    düzenlenebilir not (değişmeden Kaydet pasif, onaylı Sil); "+" menüsü Dosya seç / Fotoğraf çek (telefon izni gerektiği için
+    şimdilik örnek dosya ekler) / Not yaz. Dokümanlar veri katmanında yeni `docs` konusu (mock, her etkin kişiye aynı demo 3 dosya + 2 not), testli.
+  - **Makbuz** (Ödeme alındı › Makbuzu gör): ödeme alda seçilen dersler, alınan tutar, yöntem; kısmi ödemede "Kısmi ödeme" etiketi,
+    ders toplamı ve kalan borç; Paylaş / WhatsApp'tan gönder. `src/data/receipt.ts`, testli.
+  - **Şifremi unuttum:** e-posta → kod → yeni şifre (en az 8 karakter, iki kutu aynı; `src/data/password.ts`, testli);
+    sonunda giriş ekranına dönülür, "Şifren yenilendi". Kaydol adımlarıyla aynı görünüm (3 adım).
+  - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77–80). Kullanıcı 17a–17c çizimlerine Wellness'ta baktı, düzgün.
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -144,13 +152,15 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - ders kuralları (`/appointment-defaults`)
   - kişiler (`/clients`)
   - tekil ders fiyatları (`/offerings`)
-- Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki, destek mesajları.
+- Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki (şifre sıfırlama dahil), destek mesajları, dokümanlar (dosya yükleme).
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
-- Testler: `npm test` ile 121 test geçiyor; `npx tsc --noEmit` temiz.
+- Testler: `npm test` ile 137 test geçiyor; `npx tsc --noEmit` temiz.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
   API'ye geçince gerçek saate bağlanmalı.
 
 Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
+- Telefon özelliği isteyenler hâlâ yalnız bildirim gösteriyor: Fotoğraf ekle / değiştir, Rehberden seç, NFC ile paylaş,
+  Dokümanlar'da Dosya seç / Fotoğraf çek (örnek dosya ekliyor). Gerçek telefonda galeri, rehber, NFC izinleriyle yapılmalı.
 - Üyelik (Aylık üyelik) derslerinin iptalinde ne çıksın? Şu an paketsiz tek ders gibi davranıyor.
 - Kişiler listesinde isim altındaki "Tam zamanlı üyelik" / "8 derslik paket · 2 kaldı" yazıları ve "Üyeler" filtresi kalsın mı?
 - Ders detayındaki "Kadıköy stüdyo ↗" gibi bağlantılar da koyu lacivert yerine vurgu mavisi olsun mu?
