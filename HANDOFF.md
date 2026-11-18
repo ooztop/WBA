@@ -12,6 +12,7 @@ Son güncelleme: 18 Kasım 2026
 ## Dallar
 - **`main`: bütün güncel iş burada. Bundan sonra burada çalış.**
   Kullanıcıdan GitHub'da `main`'i varsayılan dal yapması istendi (17 Kasım).
+  Oturum kendine `claude/...` adlı bir dal açsa da iş `main`'e işlenip gönderilir; o dallar eski kalır.
 - `claude/pro-prototip`: `main`'in kaynağı. Artık güncellenmiyor.
 - `claude/happy-ramanujan-alnfwy`: eski varsayılan dal, yalnızca skill'leri içeriyor.
 - `claude/pro-design-system`: eski Expo denemesi (`apps/pro`, 28 Eylül). Kullanıcının kararıyla `main`'e alınmadı.
@@ -40,7 +41,6 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
     Repodaki kopyası `prototip/ortak-tasarim/ortak-tasarim.dc.html`.
   - "Pro App - Ortak Tasarım (Prototip)": `project/Pro App - Prototip.html`.
     Repodaki kopyası `prototip/ortak-tasarim/prototip.html`.
-  - 17 Kasım'da ikisinin de repodaki kopyayla birebir aynı olduğu doğrulandı.
 - Web: "Pro App - Web Paneli v3" (`project/Pro App - Web Paneli v3.dc.html`).
   Repodaki `prototip/web-v3.dc.html` bundan **farklı**; web'e dönülünce artifact'teki sürüm esas alınır.
 - Diğer sayfalar (Final, Web Paneli v1/v2, Eski Tasarım, Eski Kurum Ekranları) eski hâller; sadece referans.
@@ -48,12 +48,17 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**17 Kas · tasarım turu Wellness'a işlendi** (sürüm 74; mavi çipler ve paket vurguları sürüm 75; 18 Kasım bildirimler, çakışan talebin kaldırılması, tam alfabe harf dizini, Hesabım mavi değerler, Takvim ayarlarım sürüm 77). Repodaki kopyalar da aynı:
-- İptal ve erteleme ekranları, iptal sonucu, alt çubuk ve kişiler listesi güncellendi.
-- Ders detayı örneği gelecekteki bir derse çevrildi (10 Eylül Perşembe). Tuvale ayrıca "29b Geçmiş ders" çizimi eklendi: yalnızca "Ödeme al".
-- Prototipte "Takvimden seç" yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
-- Tuvalin çalışma ortamı (support.js) bu bulut ortamında unpkg.com'a erişemediği için yerelde renksiz görünür.
-  Kontrol için `<script src="./support.js">` satırı çıkarılmış bir kopya açılıp düzen kontrol edilebilir.
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 78 (18 Kasım, Ödeme al ve Ödemeler).
+18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
+Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler).
+
+Prototip ile uygulama arasındaki bilinen farklar:
+- Ders detayı örneği gelecekteki bir ders (10 Eylül Perşembe). Tuvalde ayrıca "29b Geçmiş ders" çizimi var: yalnızca "Ödeme al".
+- "Takvimden seç" prototipte yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
+- Ödeme sonucu ekranı (40) prototipte sabit örnek gösterir.
+
+Tuvalin çalışma ortamı (support.js) bu bulut ortamında unpkg.com'a erişemediği için yerelde renksiz görünür.
+Kontrol için `<script src="./support.js">` satırı çıkarılmış bir kopya açılıp düzen kontrol edilebilir.
 
 ## Tıklanabilir önizleme: "Pro App Önizleme" artifact'i
 **https://claude.ai/artifact/K2nhCwHFhxXKNP6jfkxu47**
@@ -104,25 +109,22 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - **Kişiler listesi:** Sağdaki Üye / Tek ders / Paket etiketleri kaldırıldı.
   - **Demo verisi:** Perşembe 10 Eylül dersleri ödenmiş; o günün ilk dersi (Can, 12:00) paketli.
     Erteleme şeridindeki gün adları düzeltildi; Pazar (kapalı) listeden çıktı.
-  - **Paket tercihleri:** paket kutucukları açık mavi, temel paket dolu mavi ve fiyatı mavi.
-  - **Seçili çipler mavi** (bütün uygulama); paket panelindeki seans / süre / geçerlilik çipleri siyah.
+  - Paket tercihleri vurguları ve seçili çiplerin mavi olması ("Verilen kararlar"da).
   - **Alt düğme alanı yüzüyor** (`FloatFoot`, prototipteki gibi): içerik altından akıp silikleşir, en altta kesilmez.
 - **18 Kas:**
   - Çakışan rezervasyon talebi uygulamadan ve veriden kaldırıldı.
-  - **Bildirimler yeniden yapıldı** (ayrıntı "Verilen kararlar"da): bildirimler ve birden çok talep veri katmanına taşındı,
-    filtreler, kaydırmalı talep satırları, avatarlı grup kartı, Görülenler; etiket ve okunmadı noktası yok; "Paket bitmek üzere" turuncu
-    (temaya uyarı rengi `warn` / `warnTint`, etiket türü `w`).
+  - **Bildirimler yeniden yapıldı** (ayrıntı "Verilen kararlar"da). Bildirimler ve birden çok talep veri katmanına taşındı.
+    "Paket bitmek üzere" turuncu: temaya uyarı rengi `warn` / `warnTint`, etiket türü `w`.
   - **Kişiler:** harf dizini Final'deki gibi (tam alfabe, liste alanında dikey ortada, 10 pt, vurgu mavisi).
   - **Hesabım:** satır sağındaki değerler ("10:00 – 18:00", "4 paket") mavi.
   - **Takvim ayarlarım:** mola "+" düğmesi mavi; varsayılandan farklı gün (Cmt) mavi, "Özel" etiketi yok;
     çalışma saatleri saat seçiciyle (`PickBox` ortak bileşen), başlangıç bitişten önce olmalı.
-  - Hepsi Wellness'a işlendi (sürüm 77).
   - **Ödeme al:** açıldığı ders seçili gelir, kişinin diğer borç dersleri seçimsiz altında; fiyat Paket tercihlerindeki
     tek ders fiyatından (`src/data/price.ts`, testli). "Alınan tutar" kutusu yerine "Tutarı değiştir"; eksikse "₺X borç olarak kalır",
     eksik ödemede borç ve dersler olduğu gibi kalır. Ödenen ders takvimde "Ödendi" olur. Ödemeler ekranındaki "+" kaldırıldı.
   - **Ödemeler:** ay seçici sağ üstte ince çerçeveli "Eylül 2026 ⌄" düğmesi, dokununca ay listesi (kapsüllü ve oklu hâller beğenilmedi).
     Liste henüz aya göre süzülmüyor (demo verisi aylara ayrılmamış).
-  - Ödeme al ve Ödemeler değişiklikleri Wellness'a işlendi (sürüm 78). Prototipte sonuç ekranı (40) sabit örnek gösterir.
+  - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77 ve 78).
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
