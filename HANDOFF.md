@@ -134,7 +134,7 @@ Diğer artifact'ler (claude.ai, yardımcı):
     backend'de mesajlaşma yok). SSS her soru kendi sayfasında, altta ilgili ekrana bağlantı ve "Destek ekibine yaz". Kullanım koşulları
     başlıklı düz metin; **metin örnek**, gerçeği kullanıcıdan / hukukçudan gelecek. İçerik `src/data/help.ts`, destek mesajı
     veri katmanında yeni `support` konusu (mock), testli.
-  - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77, 78, 79).
+  - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77, 78, 79). Kullanıcı 17a–17c çizimlerine Wellness'ta baktı, düzgün.
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -161,7 +161,6 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
   ve aynı saatli günlerin tek satırda toplanması. Kullanıcı yalnız saat seçiciyi istedi; bunlar sonraya kalabilir.
 - Kullanım koşullarının gerçek metni (şu an örnek; `src/data/help.ts` `TERMS`, prototipte 57, Ortak Tasarım sayfasında 17c).
 - Sık sorulanların cevapları uygulamanın bugünkü davranışına göre yazıldı; kullanıcı gözden geçirecek.
-- Ortak Tasarım sayfasındaki 17a–17c çizimleri bu ortamda yalnız renksiz görülebildi; kullanıcının Wellness'ta bakması istendi.
 
 ## Sıradaki adımlar
 1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.
