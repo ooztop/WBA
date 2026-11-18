@@ -5,6 +5,7 @@ import { DL, DN, MN, MS, first, hm, lessonStarted, wd, type Lesson } from './dat
 import type { Req } from './data/models';
 import { fromIso, iso } from './data/dates';
 import { stripDays, type SlotDay } from './data/reschedule';
+import { durOf, lessonPrice } from './data/price';
 import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
 import { get, go, hhmm, home, pickDate, pickTime, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
@@ -84,7 +85,7 @@ function LessonScr({ p }: SP) {
           <GCard>
             {kv('Ders', <T s={15} w={800} numberOfLines={1}>{pkName}</T>)}
             {kv('Konum', loc === 'Online' ? <T s={14} w={700}>Online görüşme</T> : loc === 'Adres' ? <T s={14} w={700}>Kişinin adresi</T> : <Lnk s={14} t="Kadıköy stüdyo ↗" onPress={() => openUrl('https://maps.apple.com/?q=Kad%C4%B1k%C3%B6y', 'Haritalar açılıyor')} />)}
-            {kv('Ödeme', st === 'ok' ? <Tag k="s" t="Ödendi" /> : st === 'no' ? <Tap onPress={() => go('payment', undefined, { i: pe.id })}><Tag k="d" t="Ödenmedi" /></Tap> : <Tag k="i" t="Bekliyor" />)}
+            {kv('Ödeme', st === 'ok' ? <Tag k="s" t="Ödendi" /> : st === 'no' ? <Tap onPress={() => go('payment', undefined, { i: pe.id, l })}><Tag k="d" t="Ödenmedi" /></Tap> : <Tag k="i" t="Bekliyor" />)}
           </GCard>
           <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, paddingVertical: 12, paddingHorizontal: 14 }}>
             <Fld label="Ders notu" area v={note} ph="Not ekle" pk={l ? lessonNoteKey(get().prefs, l) : undefined} />
@@ -97,7 +98,7 @@ function LessonScr({ p }: SP) {
           <Btn flex t="Dersi ertele" onPress={() => go('reschedule', undefined, info)} />
         </Foot>
       ) : st !== 'ok' ? (
-        <Foot><Btn flex t="Ödeme al" onPress={() => go('payment', undefined, { i: pe.id })} /></Foot>
+        <Foot><Btn flex t="Ödeme al" onPress={() => go('payment', undefined, { i: pe.id, l })} /></Foot>
       ) : null}
     </>
   );
@@ -308,34 +309,67 @@ function RsAccepted({ p }: SP) {
 
 
 /* ================= ödeme ================= */
+// Ödeme al: hangi dersten açıldıysa o ders seçili gelir; kişinin diğer ödenmemiş dersleri altında seçimsiz durur.
+// Borç listesinden açılınca bütün borç dersleri seçili gelir. Fiyat Paket tercihlerindeki tek ders fiyatından.
+type PayItem = { key: string; when: string; what: string; amt: number; lid?: string; debtIdx?: number };
 function Payment({ p }: SP) {
   const C = useC();
   const x = person(p.i ?? '1');
   const debt = useStore(s => s.debts).find(d => d.pid === x.id);
-  // Borç kaydı yoksa (ör. tek dersten gelindi) tek derslik ödeme
-  const [LS] = useState<[string, string][]>(debt ? debt.lessons.map((x): [string, string] => [x.when, x.what]) : [['Bu ders', 'Bireysel · 60 dk']]);
-  const [late] = useState(!!debt?.late);
-  const [sel, setSel] = useState(LS.map(() => true));
+  const pkgs = useStore(s => s.packages);
+  const [items] = useState<PayItem[]>(() => {
+    const out: PayItem[] = [];
+    const l: Lesson | undefined = p.l;
+    if (l) {
+      const d = fromIso(l.date);
+      out.push({ key: l.id, when: `${d.getDate()} ${MN[d.getMonth()]} · ${hm(l.h)}`, what: `${l.type} · ${l.dur} dk`, amt: lessonPrice(l.dur, pkgs), lid: l.id });
+    }
+    (debt?.lessons ?? []).forEach((dl, k) => {
+      if (l && dl.lessonId === l.id) { out[0].debtIdx = k; return; }
+      out.push({ key: `d${k}`, when: dl.when, what: dl.what, amt: lessonPrice(durOf(dl.what), pkgs), lid: dl.lessonId, debtIdx: k });
+    });
+    if (!out.length) out.push({ key: 'x', when: 'Bu ders', what: 'Bireysel · 60 dk', amt: lessonPrice(60, pkgs) });
+    return out;
+  });
+  const [sel, setSel] = useState(() => items.map((_, i) => (p.l ? i === 0 : true)));
   const [mi, setMi] = useState(1);
+  const [custom, setCustom] = useState<number | null>(null);
+  const [edit, setEdit] = useState(false);
   const M = ['Nakit', 'Havale', 'Kart'];
-  const idx = sel.map((v, i) => (v ? i : -1)).filter(i => i >= 0), n = idx.length, total = tl(n * 750);
+  const chosen = items.filter((_, i) => sel[i]);
+  const sum = chosen.reduce((a, it) => a + it.amt, 0);
+  const amt = custom == null ? sum : Math.min(custom, sum);
+  const part = amt < sum;
+  // Seçilmeyen borç dersi varsa borç kapanmaz
+  const rest = items.some((it, i) => !sel[i] && it.debtIdx != null);
+  const toggle = (i: number) => { setSel(sel.map((v, j) => (j === i ? !v : v))); setCustom(null); setEdit(false); };
   const pay = () => {
-    void collectPayment({ pid: x.id, name: x.name, ini: x.ini, lessonIdx: debt ? idx : [], method: M[mi], amount: n * 750 });
-    go('paymentDone', 'rep', { n: x.name, total, m: mi === 1 ? 'Havale / EFT' : M[mi], ls: idx.map(i => { const w = LS[i][0].split(' · ')[0].split(' '); return w.length > 1 ? `${w[0]} ${w[1].slice(0, 3)}` : w[0]; }).join(', '), part: !!debt && n < LS.length });
+    void collectPayment({
+      pid: x.id, name: x.name, ini: x.ini, method: M[mi], amount: amt, part,
+      lessonIdx: chosen.filter(it => it.debtIdx != null).map(it => it.debtIdx as number),
+      lessonIds: chosen.filter(it => it.lid && it.debtIdx == null).map(it => it.lid as string),
+    });
+    go('paymentDone', 'rep', { n: x.name, total: tl(amt), m: mi === 1 ? 'Havale / EFT' : M[mi], ls: chosen.map(it => { const w = it.when.split(' · ')[0].split(' '); return w.length > 1 ? `${w[0]} ${w[1].slice(0, 3)}` : w[0]; }).join(', '), part, rest });
   };
   return (
-    <Page title="Ödeme al" gap={16} foot={<Btn t={`${total} tahsil et`} off={n === 0} onPress={pay} />}>
+    <Page title="Ödeme al" gap={16} foot={<Btn t={`${tl(amt)} tahsil et`} off={amt <= 0} onPress={pay} />}>
       <View style={{ alignItems: 'center', gap: 4, marginTop: -8 }}>
         <Av ini={x.ini} s={40} />
-        <T s={14} lh={1.45} c={C.muted}>{x.name} · {n} ders</T>
-        <T s={36} w={800} lh={1.1}>{total}</T>
-        {late ? <Tag k="d" t="6 gün gecikmiş" /> : <Tag k="i" t="Bekliyor" />}
+        <T s={14} lh={1.45} c={C.muted}>{x.name} · {chosen.length} ders</T>
+        <T s={36} w={800} lh={1.1}>{tl(amt)}</T>
+        {debt?.late ? <Tag k="d" t="6 gün gecikmiş" /> : <Tag k="i" t="Bekliyor" />}
+        {sum > 0 && !edit ? <Lnk s={14} t="Tutarı değiştir" onPress={() => setEdit(true)} /> : null}
+        {edit ? (
+          <View style={{ alignSelf: 'stretch', marginTop: 6 }}>
+            <Inp autoFocus keyboardType="number-pad" ph={tl(sum)} v={custom == null ? '' : String(custom)} onChangeText={v => { const n = parseInt(v.replace(/[^\d]/g, ''), 10); setCustom(Number.isFinite(n) ? n : null); }} />
+          </View>
+        ) : null}
+        {part ? <T s={13} w={700} c={C.danger} style={{ marginTop: 2 }}>{tl(sum - amt)} borç olarak kalır</T> : null}
       </View>
       <Blk lbl="Dersler" gap={6}>
-        {LS.map((l, i) => <Row key={i} left={<Ck on={sel[i]} />} t={l[0]} s={l[1]} right={<T s={15} w={800}>₺750</T>} onPress={() => setSel(sel.map((v, j) => (j === i ? !v : v)))} style={{ backgroundColor: C.page, minHeight: 56 }} />)}
+        {items.map((it, i) => <Row key={it.key} left={<Ck on={sel[i]} />} t={it.when} s={it.what} right={<T s={15} w={800}>{tl(it.amt)}</T>} onPress={() => toggle(i)} style={{ backgroundColor: C.page, minHeight: 56 }} />)}
       </Blk>
       <Blk lbl="Ödeme yöntemi" gap={6}><Tiles items={[['cash', 'Nakit'], ['bank', 'Havale'], ['card2', 'Kart']]} value={mi} onChange={setMi} /></Blk>
-      <Fld key={total} label="Alınan tutar (kısmi ödeme için değiştir)" v={total} />
       <ORow t="Makbuz gönder" s="WhatsApp ile PDF" right={<Sw init label="Makbuz gönder" />} />
     </Page>
   );
@@ -343,7 +377,7 @@ function Payment({ p }: SP) {
 function PaymentDone({ p }: SP) {
   const C = useC();
   return (
-    <Res ic="check" onBack={toRoot} top={`${p.n || 'Mert Kaya'} · ödeme alındı`} big={p.total || '₺1.500'} sub={p.part ? "Kalan borç duruyor, kişi kartı güncellendi." : "Borç kapandı, kişi kartı güncellendi."} rows={[['Yöntem', p.m || 'Havale / EFT'], ['Dersler', p.ls || '27 Ağu, 3 Eyl'], ['Tarih', '10 Eyl · 14:32'], ['Makbuz', 'WhatsApp ile gönderildi', OK(C)]]}>
+    <Res ic="check" onBack={toRoot} top={`${p.n || 'Mert Kaya'} · ödeme alındı`} big={p.total || '₺1.500'} sub={p.part ? 'Kalan borç duruyor, kişi kartı güncellendi.' : p.rest ? 'Ödeme alındı, diğer borçlar duruyor.' : 'Borç kapandı, kişi kartı güncellendi.'} rows={[['Yöntem', p.m || 'Havale / EFT'], ['Dersler', p.ls || '27 Ağu, 3 Eyl'], ['Tarih', '10 Eyl · 14:32'], ['Makbuz', 'WhatsApp ile gönderildi', OK(C)]]}>
       <Pair><Btn flex k="g" t="Makbuzu gör" onPress={() => toast('Makbuz açılıyor')} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
     </Res>
   );

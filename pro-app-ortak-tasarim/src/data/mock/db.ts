@@ -5,7 +5,7 @@ import { iso, legacyKeyToIso } from '../dates';
 import { baseLessons } from './lessonGen';
 import { BREAKS0, COLLECTED0, DEBTS0, ME0, NOTIF0, NOTIFS0, PAID0, PACKAGES0, PEOPLE0, REQS0, RULES0, WEEK0 } from './seed';
 
-type LessonMeta = { pk?: string; rep?: number; loc?: string };
+type LessonMeta = { pk?: string; rep?: number; loc?: string; st?: Lesson['st'] };
 
 export type MockData = {
   people: Person[]; packages: Pkg[]; extra: Lesson[]; cancelled: ID[]; breaks: Brk[]; offs: Off[];

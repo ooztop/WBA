@@ -117,6 +117,10 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - **Takvim ayarlarım:** mola "+" düğmesi mavi; varsayılandan farklı gün (Cmt) mavi, "Özel" etiketi yok;
     çalışma saatleri saat seçiciyle (`PickBox` ortak bileşen), başlangıç bitişten önce olmalı.
   - Hepsi Wellness'a işlendi (sürüm 77).
+  - **Ödeme al:** açıldığı ders seçili gelir, kişinin diğer borç dersleri seçimsiz altında; fiyat Paket tercihlerindeki
+    tek ders fiyatından (`src/data/price.ts`, testli). "Alınan tutar" kutusu yerine "Tutarı değiştir"; eksikse "₺X borç olarak kalır",
+    eksik ödemede borç ve dersler olduğu gibi kalır. Ödenen ders takvimde "Ödendi" olur. Ödemeler ekranındaki "+" kaldırıldı.
+    (Wellness'a henüz işlenmedi.)
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -128,14 +132,13 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - tekil ders fiyatları (`/offerings`)
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki.
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
-- Testler: `npm test` ile 110 test geçiyor; `npx tsc --noEmit` temiz.
+- Testler: `npm test` ile 115 test geçiyor; `npx tsc --noEmit` temiz.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
   API'ye geçince gerçek saate bağlanmalı.
 
 Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - Üyelik (Aylık üyelik) derslerinin iptalinde ne çıksın? Şu an paketsiz tek ders gibi davranıyor.
 - Kişiler listesinde isim altındaki "Tam zamanlı üyelik" / "8 derslik paket · 2 kaldı" yazıları ve "Üyeler" filtresi kalsın mı?
-- Ödeme al ekranı, açıldığı dersi listede seçili göstersin mi? (Şu an demo derslerini listeliyor.)
 - Ders detayındaki "Kadıköy stüdyo ↗" gibi bağlantılar da koyu lacivert yerine vurgu mavisi olsun mu?
 - Henüz yapılmamış derslerde demo ders notu ("Türev konusunu bitirdik…") dolu geliyor; kaldırılsın mı?
 - Kişiler listesi Final'deki gibi renkli avatarlı (mavi / mor / yeşil / turuncu) ve düz satırlı olsun mu? (Şimdilik yalnız harf dizini alındı.)

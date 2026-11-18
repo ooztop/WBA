@@ -101,6 +101,21 @@ test('collect kısmi ödemede borç kalır', async () => {
   expect((await paymentsService.debts()).find(d => d.pid === '1')?.lessons).toHaveLength(1);
   expect((await peopleService.list()).find(p => p.id === '1')?.tag[0]).toBe('d');
 });
+test('collect seçilen dersi ödendi yapar (ders detayından gelinen ders)', async () => {
+  const id = '2026-09-09|11.5|1'; // bugünkü Mert Kaya dersi (ödenmedi)
+  expect((await lessonsService.range('2026-09-09', '2026-09-09'))['2026-09-09'].find(l => l.id === id)?.st).toBe('no');
+  await paymentsService.collect({ pid: '1', lessonIdx: [], lessonIds: [id], method: 'Kart', amount: 750, name: 'Mert Kaya', ini: 'MK' });
+  expect((await lessonsService.range('2026-09-09', '2026-09-09'))['2026-09-09'].find(l => l.id === id)?.st).toBe('ok');
+  expect((await paymentsService.paid())[0]).toMatchObject({ amt: 750, sub: '10 Eyl · Kart · 1 ders' });
+});
+test('collect eksik tutarda (part) borç ve dersler olduğu gibi kalır, tahsilat yazılır', async () => {
+  const id = '2026-09-09|11.5|1';
+  await paymentsService.collect({ pid: '1', lessonIdx: [0, 1], lessonIds: [id], method: 'Nakit', amount: 1000, name: 'Mert Kaya', ini: 'MK', part: true });
+  expect((await paymentsService.debts()).find(d => d.pid === '1')?.lessons).toHaveLength(2);
+  expect((await lessonsService.range('2026-09-09', '2026-09-09'))['2026-09-09'].find(l => l.id === id)?.st).toBe('no');
+  expect(await paymentsService.collected()).toBe(13400);
+  expect((await paymentsService.paid())[0]).toMatchObject({ amt: 1000, sub: '10 Eyl · Nakit · kısmi ödeme' });
+});
 test('demo: üç bekleyen talep', async () => {
   expect((await requestsService.list()).map(r => r.id)).toEqual(['r1', 'r2', 'r3']);
 });
