@@ -199,17 +199,18 @@ function Payments() {
   const emp = useStore(s => s.emp);
   const debts = useStore(s => s.debts), paid = useStore(s => s.paid), collected = useStore(s => s.collected);
   const wait = debts.reduce((n, d) => n + d.lessons.length * 750, 0);
-  const mb = (ic: string, label: string, msg: string) => <IB ic={ic} k="dkq" s={40} label={label} onPress={() => toast(msg)} />;
+  const mb = (ic: string, label: string, msg: string) => <IB ic={ic} k="dkq" s={36} is={18} label={label} onPress={() => toast(msg)} />;
+  // Ay seçici sağ üstte, takvimdeki Gün/Hafta/Ay seçicisi gibi koyu kapsül içinde
+  const month = (
+    <View style={{ flexDirection: 'row', alignItems: 'center', height: 44, borderRadius: 999, backgroundColor: C.sdark2, paddingHorizontal: 4 }}>
+      {mb('chevL', 'Önceki ay: Ağustos', 'Ağustos 2026')}
+      <T s={14} w={800} c={C.onDark} style={{ paddingHorizontal: 2 }}>Eylül 2026</T>
+      {mb('chevR', 'Sonraki ay: Ekim', 'Ekim 2026')}
+    </View>
+  );
   return (
     <>
-      <Band
-        left={<BandBack />}
-        right={<View style={{ width: 44 }} />}>
-        <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, top: useFrame().top + 8, height: 56, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-          {mb('chevL', 'Önceki ay: Ağustos', 'Ağustos 2026')}
-          <T s={15} w={800} c={C.onDark}>Eylül 2026</T>
-          {mb('chevR', 'Sonraki ay: Ekim', 'Ekim 2026')}
-        </View>
+      <Band left={<BandBack />} right={month}>
         <T s={24} w={800} lh={1.15} c={C.onDark}>{emp || !debts.length ? 'Bekleyen ödeme yok' : `${debts.length} ödeme bekliyor`}</T>
         <View style={{ flexDirection: 'row', gap: 8, marginTop: 16 }}>
           <Stat b={emp ? '₺0' : tl(collected)} t="tahsil edildi" />
