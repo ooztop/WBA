@@ -48,14 +48,15 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 78 (18 Kasım, Ödeme al ve Ödemeler).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 79 (18 Kasım, Yardım ve destek uçları).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
-Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler).
+Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları).
 
 Prototip ile uygulama arasındaki bilinen farklar:
 - Ders detayı örneği gelecekteki bir ders (10 Eylül Perşembe). Tuvalde ayrıca "29b Geçmiş ders" çizimi var: yalnızca "Ödeme al".
 - "Takvimden seç" prototipte yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
 - Ödeme sonucu ekranı (40) prototipte sabit örnek gösterir.
+- SSS cevapları prototipte tek sayfada (56) dokunulan soruya göre doldurulur.
 
 Tuvalin çalışma ortamı (support.js) bu bulut ortamında unpkg.com'a erişemediği için yerelde renksiz görünür.
 Kontrol için `<script src="./support.js">` satırı çıkarılmış bir kopya açılıp düzen kontrol edilebilir.
@@ -124,7 +125,12 @@ Diğer artifact'ler (claude.ai, yardımcı):
     eksik ödemede borç ve dersler olduğu gibi kalır. Ödenen ders takvimde "Ödendi" olur. Ödemeler ekranındaki "+" kaldırıldı.
   - **Ödemeler:** ay seçici sağ üstte ince çerçeveli "Eylül 2026 ⌄" düğmesi, dokununca ay listesi (kapsüllü ve oklu hâller beğenilmedi).
     Liste henüz aya göre süzülmüyor (demo verisi aylara ayrılmamış).
-  - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77 ve 78).
+  - **Yardım ve destek uçları:** "Destek ekibine yaz" tek seferlik form (konu çipleri Ödeme / Takvim / Hesap / Diğer, mesaj;
+    boşken Gönder pasif; gönderince geri döner, "Mesajın iletildi. Yanıt e-postana gelir."). Sohbet ekranı değil (kullanıcı kararı:
+    backend'de mesajlaşma yok). SSS her soru kendi sayfasında, altta ilgili ekrana bağlantı ve "Destek ekibine yaz". Kullanım koşulları
+    başlıklı düz metin; **metin örnek**, gerçeği kullanıcıdan / hukukçudan gelecek. İçerik `src/data/help.ts`, destek mesajı
+    veri katmanında yeni `support` konusu (mock), testli.
+  - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77, 78, 79).
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -134,9 +140,9 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - ders kuralları (`/appointment-defaults`)
   - kişiler (`/clients`)
   - tekil ders fiyatları (`/offerings`)
-- Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki.
+- Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki, destek mesajları.
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
-- Testler: `npm test` ile 115 test geçiyor; `npx tsc --noEmit` temiz.
+- Testler: `npm test` ile 121 test geçiyor; `npx tsc --noEmit` temiz.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
   API'ye geçince gerçek saate bağlanmalı.
 
