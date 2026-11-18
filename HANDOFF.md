@@ -36,6 +36,9 @@ Kullanıcı 17 Kasım'da bunu "asıl kaynağımız" olarak belirledi. Claude Des
 Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/` dosyaları bu sayfaların kopyasıdır.
 
 - Sayfa listesi artifact'te `project/compat.json` dosyasında. Sayfaları Artifact aracının `read` eylemine `path` vererek oku.
+- Yayınlama: önce artifact'i `read` ile oku (path vermeden), `compat.json`'u da oku ve olduğu gibi bırak.
+  Tek çağrı: `url`, `root` = içinde `project/` olan geçici klasör, `file_path` = `<root>/project/compat.json`,
+  `files` = yalnız değişen sayfalar (ör. `{"project/Pro App - Prototip.html": "project/Pro App - Prototip.html"}`).
 - Mobil için esas sayfalar:
   - "Pro App - Ortak Tasarım": `project/Kişiler - Ortak Tasarım.dc.html`, tuval.
     Repodaki kopyası `prototip/ortak-tasarim/ortak-tasarim.dc.html`.
@@ -155,6 +158,9 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - Sağında gri değer yazısı olan diğer satırlar da (iptal ekranındaki Sebep vb.) Hesabım'daki gibi mavi olsun mu?
 - Takvim ayarlarım için önerilen ama seçilmeyenler: yaklaşan izin günlerinin listesi (izinler şu an görülemiyor / silinemiyor)
   ve aynı saatli günlerin tek satırda toplanması. Kullanıcı yalnız saat seçiciyi istedi; bunlar sonraya kalabilir.
+- Kullanım koşullarının gerçek metni (şu an örnek; `src/data/help.ts` `TERMS`, prototipte 57, tuvalde 17c).
+- Sık sorulanların cevapları uygulamanın bugünkü davranışına göre yazıldı; kullanıcı gözden geçirecek.
+- Tuvaldeki 17a–17c çizimleri bu ortamda yalnız renksiz görülebildi; kullanıcının Wellness'ta bakması istendi.
 
 ## Sıradaki adımlar
 1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.
