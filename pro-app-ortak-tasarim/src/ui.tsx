@@ -623,9 +623,9 @@ export function Inote({ t, style }: { t: string; style?: VS }) {
     </View>
   );
 }
-export function Steps({ n }: { n: number }) {
+export function Steps({ n, total = 5 }: { n: number; total?: number }) {
   const C = useC();
-  return <View style={{ flexDirection: 'row', gap: 4, flex: 1 }}>{[1, 2, 3, 4, 5].map(i => <View key={i} style={{ flex: 1, height: 6, borderRadius: 999, backgroundColor: i <= n ? C.accent : C.divider }} />)}</View>;
+  return <View style={{ flexDirection: 'row', gap: 4, flex: 1 }}>{Array.from({ length: total }, (_, k) => k + 1).map(i => <View key={i} style={{ flex: 1, height: 6, borderRadius: 999, backgroundColor: i <= n ? C.accent : C.divider }} />)}</View>;
 }
 // İlerleme parçaları (.pg)
 export function Pg({ total, left }: { total: number; left: number }) {

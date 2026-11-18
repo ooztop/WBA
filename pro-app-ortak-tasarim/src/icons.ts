@@ -49,6 +49,7 @@ export const IC: Record<string, [string, number]> = {
   bank: ['<path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/>', 0],
   card2: ['<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>', 0],
   layers: ['<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>', 0],
+  lock: ['<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>', 0],
   mail: ['<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>', 0],
   mobile: ['<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>', 0],
   chatDots: ['<path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke-width="3"/>', 0],

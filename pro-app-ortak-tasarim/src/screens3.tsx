@@ -1,4 +1,4 @@
-// Sayfalar 3: ders detayı, erteleme, iptal, rezervasyon talebi, sonuç ekranları, ödeme al, giriş / kaydol
+// Sayfalar 3: ders detayı, erteleme, iptal, rezervasyon talebi, sonuç ekranları, ödeme al, makbuz, giriş / kaydol, şifremi unuttum
 import React, { useRef, useState } from 'react';
 import { TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
 import { DL, DN, MN, MS, first, hm, lessonStarted, wd, type Lesson } from './data';
@@ -6,14 +6,18 @@ import type { Req } from './data/models';
 import { fromIso, iso } from './data/dates';
 import { stripDays, type SlotDay } from './data/reschedule';
 import { durOf, lessonPrice } from './data/price';
+import { passwordIssue } from './data/password';
+import { receiptSums, receiptText, type Receipt as ReceiptT } from './data/receipt';
+import { longDate } from './data/docs';
+import { TODAY } from './data';
 import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
-import { get, go, hhmm, home, pickDate, pickTime, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
+import { get, go, hhmm, home, pickDate, pickTime, openAction, popAll as toRoot, removeRoute, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
 import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Empty, FloatFoot, Cols, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
 
-import { openUrl } from './device';
+import { openUrl, share } from './device';
 
 type SP = { p: any };
 // Rezervasyon talebi yardımcıları (Bildirimler ve talep ekranı ortak kullanır)
@@ -349,7 +353,7 @@ function Payment({ p }: SP) {
       lessonIdx: chosen.filter(it => it.debtIdx != null).map(it => it.debtIdx as number),
       lessonIds: chosen.filter(it => it.lid && it.debtIdx == null).map(it => it.lid as string),
     });
-    go('paymentDone', 'rep', { n: x.name, total: tl(amt), m: mi === 1 ? 'Havale / EFT' : M[mi], ls: chosen.map(it => { const w = it.when.split(' · ')[0].split(' '); return w.length > 1 ? `${w[0]} ${w[1].slice(0, 3)}` : w[0]; }).join(', '), part, rest });
+    go('paymentDone', 'rep', { n: x.name, total: tl(amt), m: mi === 1 ? 'Havale / EFT' : M[mi], ls: chosen.map(it => { const w = it.when.split(' · ')[0].split(' '); return w.length > 1 ? `${w[0]} ${w[1].slice(0, 3)}` : w[0]; }).join(', '), part, rest, lines: chosen.map(it => ({ when: it.when, what: it.what, amt: it.amt })), paid: amt });
   };
   return (
     <Page title="Ödeme al" gap={16} foot={<Btn t={`${tl(amt)} tahsil et`} off={amt <= 0} onPress={pay} />}>
@@ -378,8 +382,58 @@ function PaymentDone({ p }: SP) {
   const C = useC();
   return (
     <Res ic="check" onBack={toRoot} top={`${p.n || 'Mert Kaya'} · ödeme alındı`} big={p.total || '₺1.500'} sub={p.part ? 'Kalan borç duruyor, kişi kartı güncellendi.' : p.rest ? 'Ödeme alındı, diğer borçlar duruyor.' : 'Borç kapandı, kişi kartı güncellendi.'} rows={[['Yöntem', p.m || 'Havale / EFT'], ['Dersler', p.ls || '27 Ağu, 3 Eyl'], ['Tarih', '10 Eyl · 14:32'], ['Makbuz', 'WhatsApp ile gönderildi', OK(C)]]}>
-      <Pair><Btn flex k="g" t="Makbuzu gör" onPress={() => toast('Makbuz açılıyor')} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
+      <Pair><Btn flex k="g" t="Makbuzu gör" onPress={() => go('receipt', undefined, p)} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
     </Res>
+  );
+}
+
+// Makbuz: ödeme al ekranında seçilen dersler, alınan tutar ve yöntem; WhatsApp ya da paylaşım menüsüyle gönderilir
+function Receipt({ p }: SP) {
+  const C = useC();
+  const me = useStore(s => s.me);
+  const r: ReceiptT = {
+    from: `${me.ad} ${me.soyad}`.trim() || 'Deniz Arslan', title: me.title, to: p.n || 'Mert Kaya', date: iso(TODAY), method: p.m || 'Nakit',
+    lines: p.lines?.length ? p.lines : [{ when: '3 Eylül · 16:00', what: 'Bireysel · 60 dk', amt: 750 }, { when: '5 Eylül · 16:00', what: 'Bireysel · 60 dk', amt: 750 }],
+    paid: typeof p.paid === 'number' ? p.paid : 1500,
+  };
+  const { sum, rest } = receiptSums(r);
+  const txt = receiptText(r);
+  const kv = (k: string, v: string) => (
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 12 }}><T s={14} c={C.muted}>{k}</T><T s={14} w={700}>{v}</T></View>
+  );
+  const hr = <View style={{ height: 1, backgroundColor: C.divider, marginVertical: 16 }} />;
+  return (
+    <>
+      <NavH title="Makbuz" />
+      <Scr>
+        <View style={{ marginTop: 4, marginHorizontal: 16, padding: 20, borderRadius: 16, backgroundColor: C.card }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+            <View style={{ flex: 1, gap: 2 }}><T s={17} w={800}>{r.from}</T>{r.title ? <Sm>{r.title}</Sm> : null}</View>
+            {rest > 0 ? <Tag k="i" t="Kısmi ödeme" /> : <Tag k="s" t="Ödendi" />}
+          </View>
+          {hr}
+          <View style={{ gap: 10 }}>{kv('Kişi', r.to)}{kv('Tarih', longDate(r.date))}{kv('Ödeme', r.method)}</View>
+          {hr}
+          <View style={{ gap: 12 }}>
+            {r.lines.map((l, i) => (
+              <View key={i} style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 12 }}>
+                <View style={{ flex: 1, gap: 2 }}><T s={14} w={700}>{l.when}</T><Sm>{l.what}</Sm></View>
+                <T s={14} w={700}>{tl(l.amt)}</T>
+              </View>
+            ))}
+          </View>
+          {hr}
+          {rest > 0 ? <View style={{ gap: 10, marginBottom: 12 }}>{kv('Ders toplamı', tl(sum))}{kv('Kalan borç', tl(rest))}</View> : null}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' }}>
+            <T s={15} w={800}>Alınan</T><T s={28} w={800}>{tl(r.paid)}</T>
+          </View>
+        </View>
+      </Scr>
+      <Foot>
+        <Btn flex k="g" ic="share" t="Paylaş" onPress={() => share(txt)} />
+        <Btn flex t="WhatsApp'tan gönder" onPress={() => openUrl(`https://wa.me/?text=${encodeURIComponent(txt)}`, 'WhatsApp açılıyor')} />
+      </Foot>
+    </>
   );
 }
 
@@ -421,7 +475,7 @@ function Login() {
           <Inp v="sifre1234" secureTextEntry={hide} style={{ flex: 1 }} accessibilityLabel="Şifre" />
           <IB ic={hide ? 'eye' : 'eyeOff'} s={52} label="Şifreyi göster" onPress={() => setHide(!hide)} />
         </View>
-        <View style={{ alignSelf: 'flex-end', minHeight: 32, justifyContent: 'center' }}><Lnk s={13} t="Şifremi unuttum" onPress={() => toast('Sıfırlama bağlantısı gönderildi')} /></View>
+        <View style={{ alignSelf: 'flex-end', minHeight: 32, justifyContent: 'center' }}><Lnk s={13} t="Şifremi unuttum" onPress={() => go('pwMail')} /></View>
       </Fld>
       <Btn t="Giriş yap" onPress={home} />
       <Or />
@@ -463,19 +517,19 @@ function Code() {
     </View>
   );
 }
-function Step({ n, ic, t, sub, bold, bt, onNext, children, again }: { n: number; ic: string; t: string; sub: string; bold?: string; bt: string; onNext: () => void; children: React.ReactNode; again?: boolean }) {
+function Step({ n, total, ic, t, sub, bold, bt, onNext, children, again, off }: { n: number; total?: number; ic: string; t: string; sub: string; bold?: string; bt: string; onNext: () => void; children: React.ReactNode; again?: boolean; off?: boolean }) {
   const C = useC();
   const { top } = useFrame();
   return (
     <View style={{ flex: 1, backgroundColor: C.card, paddingTop: top }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, paddingTop: 4, paddingRight: 20, paddingLeft: 16 }}><IB ic="chevL" label="Geri" onPress={pop} /><Steps n={n} /></View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, paddingTop: 4, paddingRight: 20, paddingLeft: 16 }}><IB ic="chevL" label="Geri" onPress={pop} /><Steps n={n} total={total} /></View>
       <Scr>
         <View style={{ paddingTop: 28, paddingHorizontal: 24, gap: 8 }}>
           <View style={{ width: 56, height: 56, borderRadius: 16, backgroundColor: C.tint, alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}><Icon n={ic} s={26} c={C.accentInk} /></View>
           <T s={28} w={800} lh={1.2}>{t}</T>
           <T s={15} lh={1.5} c={C.muted} style={{ marginBottom: 12 }}>{bold ? <T s={15} w={800}>{bold}</T> : null}{sub}</T>
           {children}
-          <Btn t={bt} onPress={onNext} style={{ marginTop: 12 }} />
+          <Btn t={bt} onPress={onNext} off={off} style={{ marginTop: 12 }} />
           {again ? <View style={{ alignSelf: 'center', minHeight: 44, justifyContent: 'center' }}><Lnk t="Kodu tekrar gönder" onPress={() => toast('Kod tekrar gönderildi')} /></View> : null}
         </View>
       </Scr>
@@ -486,6 +540,30 @@ const SuMail = () => <Step n={1} ic="mail" t="E-posta adresin" sub="Giriş ve bi
 const SuMailCode = () => <Step n={2} ic="mail" t="Mailini kontrol et" bold="deniz@ornek.com" sub=" adresine 6 haneli bir kod gönderdik." bt="Doğrula" onNext={() => go('suPhone')} again><Code /></Step>;
 const SuPhone = () => <Step n={3} ic="mobile" t="Telefon numaran" sub="Ders hatırlatmaları ve güvenlik için." bt="Kod gönder" onNext={() => go('suPhoneCode')}><Fld label="Telefon"><Tel ph="5•• ••• •• ••" v="532 384 41 12" /></Fld></Step>;
 const SuPhoneCode = () => <Step n={4} ic="chatDots" t="SMS kodunu gir" bold="+90 532 384 41 12" sub=" numarasına 6 haneli bir kod gönderdik." bt="Doğrula" onNext={() => go('suJob')} again><Code /></Step>;
+// Şifremi unuttum: e-posta → kod → yeni şifre; sonunda giriş ekranına dönülür
+const PwMail = () => <Step n={1} total={3} ic="mail" t="Şifreni sıfırla" sub="Hesabının e-posta adresine bir kod göndereceğiz." bt="Kod gönder" onNext={() => go('pwCode')}><Fld label="E-posta" ph="ornek@mail.com" v="deniz@ornek.com" keyboardType="email-address" autoCapitalize="none" /></Step>;
+const PwCode = () => <Step n={2} total={3} ic="mail" t="Mailini kontrol et" bold="deniz@ornek.com" sub=" adresine 6 haneli bir kod gönderdik." bt="Doğrula" onNext={() => go('pwNew')} again><Code /></Step>;
+function PwNew() {
+  const C = useC();
+  const [pw, setPw] = useState('');
+  const [again, setAgain] = useState('');
+  const { ok, msg } = passwordIssue(pw, again);
+  const done = () => {
+    // Araya giren adımlar (e-posta, kod) yığından çıkar, son adım kapanınca giriş ekranı görünür
+    get().stack.filter(r => r.id === 'pwMail' || r.id === 'pwCode').forEach(r => removeRoute(r.key));
+    pop();
+    toastLater('Şifren yenilendi');
+  };
+  return (
+    <Step n={3} total={3} ic="lock" t="Yeni şifre" sub="En az 8 karakter olsun." bt="Şifreyi kaydet" onNext={done} off={!ok}>
+      <View style={{ gap: 12 }}>
+        <Fld label="Yeni şifre" value={pw} onChangeText={setPw} secureTextEntry ph="En az 8 karakter" />
+        <Fld label="Yeni şifre (tekrar)" value={again} onChangeText={setAgain} secureTextEntry ph="Aynı şifreyi yaz" />
+        {msg ? <T s={13} w={700} c={C.danger}>{msg}</T> : null}
+      </View>
+    </Step>
+  );
+}
 const SuJob = () => (
   <Step n={5} ic="briefcase" t="Ne iş yapıyorsun?" sub="Uygulamayı sana göre hazırlayalım." bt="Başla" onNext={() => { home(); toastLater('Hesabın hazır', 200); }}>
     <Tiles cols={2} items={[['chatHeart', 'Psikolog'], ['nutrition', 'Diyetisyen'], ['dumbbell', 'Antrenör'], ['gradcap', 'Eğitmen'], ['yoga', 'Yoga / pilates'], ['dots3', 'Diğer']]} />
@@ -494,6 +572,6 @@ const SuJob = () => (
 
 export const S3: Record<string, React.ComponentType<SP>> = {
   lesson: LessonScr, reschedule: Reschedule, cancel: Cancel, cancelled: Cancelled, request: Request, requestAccepted: RequestAccepted, requestRejected: RequestRejected, rsAccepted: RsAccepted,
-  payment: Payment, paymentDone: PaymentDone, login: Login, signup: Signup, suMail: SuMail, suMailCode: SuMailCode, suPhone: SuPhone, suPhoneCode: SuPhoneCode, suJob: SuJob,
+  payment: Payment, paymentDone: PaymentDone, receipt: Receipt, login: Login, signup: Signup, suMail: SuMail, suMailCode: SuMailCode, suPhone: SuPhone, suPhoneCode: SuPhoneCode, suJob: SuJob, pwMail: PwMail, pwCode: PwCode, pwNew: PwNew,
 };
 export const BAND3 = ['lesson'];
