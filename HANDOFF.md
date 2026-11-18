@@ -1,6 +1,6 @@
 # Devir notu (yeni oturumda önce bunu oku)
 
-Son güncelleme: 17 Kasım 2026
+Son güncelleme: 18 Kasım 2026
 
 ## Kullanıcı ve proje
 - Kullanıcı Türkçe konuşuyor; açıklamaları sade Türkçe ile yap.
@@ -44,6 +44,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Web: "Pro App - Web Paneli v3" (`project/Pro App - Web Paneli v3.dc.html`).
   Repodaki `prototip/web-v3.dc.html` bundan **farklı**; web'e dönülünce artifact'teki sürüm esas alınır.
 - Diğer sayfalar (Final, Web Paneli v1/v2, Eski Tasarım, Eski Kurum Ekranları) eski hâller; sadece referans.
+  Kullanıcı bazen bunlardan örnek gösterir: Kişiler harf dizini "Pro App - Final"den alındı (18 Kasım).
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
@@ -103,6 +104,19 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - **Kişiler listesi:** Sağdaki Üye / Tek ders / Paket etiketleri kaldırıldı.
   - **Demo verisi:** Perşembe 10 Eylül dersleri ödenmiş; o günün ilk dersi (Can, 12:00) paketli.
     Erteleme şeridindeki gün adları düzeltildi; Pazar (kapalı) listeden çıktı.
+  - **Paket tercihleri:** paket kutucukları açık mavi, temel paket dolu mavi ve fiyatı mavi.
+  - **Seçili çipler mavi** (bütün uygulama); paket panelindeki seans / süre / geçerlilik çipleri siyah.
+  - **Alt düğme alanı yüzüyor** (`FloatFoot`, prototipteki gibi): içerik altından akıp silikleşir, en altta kesilmez.
+- **18 Kas:**
+  - Çakışan rezervasyon talebi uygulamadan ve veriden kaldırıldı.
+  - **Bildirimler yeniden yapıldı** (ayrıntı "Verilen kararlar"da): bildirimler ve birden çok talep veri katmanına taşındı,
+    filtreler, kaydırmalı talep satırları, avatarlı grup kartı, Görülenler; etiket ve okunmadı noktası yok; "Paket bitmek üzere" turuncu
+    (temaya uyarı rengi `warn` / `warnTint`, etiket türü `w`).
+  - **Kişiler:** harf dizini Final'deki gibi (tam alfabe, liste alanında dikey ortada, 10 pt, vurgu mavisi).
+  - **Hesabım:** satır sağındaki değerler ("10:00 – 18:00", "4 paket") mavi.
+  - **Takvim ayarlarım:** mola "+" düğmesi mavi; varsayılandan farklı gün (Cmt) mavi, "Özel" etiketi yok;
+    çalışma saatleri saat seçiciyle (`PickBox` ortak bileşen), başlangıç bitişten önce olmalı.
+  - Hepsi Wellness'a işlendi (sürüm 77).
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -114,7 +128,7 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - tekil ders fiyatları (`/offerings`)
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki.
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
-- Testler: `npm test` ile 97 test geçiyor; `npx tsc --noEmit` temiz.
+- Testler: `npm test` ile 110 test geçiyor; `npx tsc --noEmit` temiz.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
   API'ye geçince gerçek saate bağlanmalı.
 
@@ -124,6 +138,10 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - Ödeme al ekranı, açıldığı dersi listede seçili göstersin mi? (Şu an demo derslerini listeliyor.)
 - Ders detayındaki "Kadıköy stüdyo ↗" gibi bağlantılar da koyu lacivert yerine vurgu mavisi olsun mu?
 - Henüz yapılmamış derslerde demo ders notu ("Türev konusunu bitirdik…") dolu geliyor; kaldırılsın mı?
+- Kişiler listesi Final'deki gibi renkli avatarlı (mavi / mor / yeşil / turuncu) ve düz satırlı olsun mu? (Şimdilik yalnız harf dizini alındı.)
+- Sağında gri değer yazısı olan diğer satırlar da (iptal ekranındaki Sebep vb.) Hesabım'daki gibi mavi olsun mu?
+- Takvim ayarlarım için önerilen ama seçilmeyenler: yaklaşan izin günlerinin listesi (izinler şu an görülemiyor / silinemiyor)
+  ve aynı saatli günlerin tek satırda toplanması. Kullanıcı yalnız saat seçiciyi istedi; bunlar sonraya kalabilir.
 
 ## Sıradaki adımlar
 1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.
@@ -153,6 +171,10 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - Bölüm başlıkları (`GrpS`) gri kalır; tek ekranda mavi denendi, beğenilmedi (tutarsız ve "dokunulabilir" gibi duruyor).
 - Paket tercihleri: paket kutucukları açık mavi, temel paket dolu mavi ve fiyatı mavi.
 - Ders kurallarına ikon kutusu eklenmesi denendi, istenmedi.
+- Takvim ayarlarım: açıklama yazıları ("Her gün için varsayılan…", "Özel ayar için güne dokun") ve mola satırları
+  olduğu gibi kalsın (sadeleştirme taslağı istenmedi); saat seçicinin altındaki "Dersler tam saatte başlar" yazısı da kalsın.
+- Hesabım satırlarının sağındaki değerler mavi.
+- Turuncu yalnız uyarı için (şimdilik "Paket bitmek üzere"); kırmızı ödeme bekleniyor / iptal.
 - **Çakışan rezervasyon talebi yok** (kullanıcı kararı, 18 Kasım): uygulamadan ve veriden kaldırıldı.
 - **Bildirimler (18 Kasım):**
   - Talepler: en acil (yanıt için en az süre kalan) büyük kart; diğerleri kaydırmalı satır (sağa: onayla, sola: reddet; `SwipeAct`, paket satırlarıyla aynı). Birden çok talep (`Req[]`).
