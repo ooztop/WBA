@@ -28,6 +28,7 @@ function CalendarPrefs() {
   const emp = useStore(s => s.emp);
   const breaks = useStore(s => s.breaks);
   const prefs = useStore(s => s.prefs);
+  const DEF = `${prefs['wh.s'] ?? '10:00'} – ${prefs['wh.e'] ?? '18:00'}`;
   const H = [0, 1, 2, 3, 4, 5, 6].map(i => ((prefs[`day.${i}.on`] ?? i !== 6) ? `${prefs[`day.${i}.s`] ?? prefs['wh.s'] ?? '10:00'} – ${prefs[`day.${i}.e`] ?? (i === 5 ? '14:00' : prefs['wh.e'] ?? '18:00')}` : null));
   return (
     <>
@@ -38,7 +39,7 @@ function CalendarPrefs() {
           <Sm>Her gün için varsayılan. Günlere özel ayar aşağıda.</Sm>
           <Cols><Fld flex label="Başlangıç" v="10:00" pk="wh.s" /><Fld flex label="Bitiş" v="18:00" pk="wh.e" /></Cols>
         </View>
-        <GrpS t="Düzenli molalar" pb={4} right={<IB ic="plus" s={36} label="Mola ekle" onPress={() => openSheet('breakNew')} />} />
+        <GrpS t="Düzenli molalar" pb={4} right={<IB ic="plus" k="p" s={36} label="Mola ekle" onPress={() => openSheet('breakNew')} />} />
         {emp || !breaks.length ? (
           <View style={{ marginHorizontal: 16, padding: 14, borderRadius: 16, borderWidth: 1.5, borderStyle: 'dashed', borderColor: C.border }}><Sm style={{ textAlign: 'center' }}>Düzenli mola yok. + ile ekleyebilirsin.</Sm></View>
         ) : (
@@ -48,15 +49,19 @@ function CalendarPrefs() {
         )}
         <GrpS t="Günler" s="Özel ayar için güne dokun" />
         <GCard>
-          {DN.map((g, i) => (
-            <GR key={i} chev onPress={() => go('dayRule', undefined, { g: i })} style={i === 5 ? undefined : { minHeight: 52 }} right={i === 5 ? <Tag k="a" t="Özel" /> : null}>
+          {DN.map((g, i) => {
+            // Varsayılandan farklı gün (saat ya da gün kuralı) mavi; varsayılanla aynı olanlar gri; kapalı gün soluk
+            const own = !!H[i] && (H[i] !== DEF || i === 5);
+            return (
+            <GR key={i} chev onPress={() => go('dayRule', undefined, { g: i })} style={i === 5 ? undefined : { minHeight: 52 }}>
               <T s={15} w={800} c={H[i] ? C.ink : C.muted} style={{ width: 40 }}>{g}</T>
               <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
-                <T s={15} lh={1.35} c={H[i] ? C.ink : C.muted}>{H[i] || 'Kapalı'}</T>
+                <T s={15} w={own ? 700 : 500} lh={1.35} c={own ? C.accent : C.muted}>{H[i] || 'Kapalı'}</T>
                 {i === 5 ? <T s={13} lh={1.4} c={C.muted} numberOfLines={1}>10 geçe başlar · akşam arası yok</T> : null}
               </View>
             </GR>
-          ))}
+            );
+          })}
         </GCard>
       </Scr>
     </>
