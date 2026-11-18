@@ -22,4 +22,6 @@ export type Req = { id: ID; pid: ID; date: string; h: number; dur: number; type:
 // Bildirim: at = 'YYYY-MM-DDTHH:mm'; sub = kişi adından sonra gelen kısa açıklama
 export type NotifKind = 'payDue' | 'pkgLow' | 'paid' | 'cancel' | 'rsOk' | 'added';
 export type Notif = { id: ID; kind: NotifKind; pid: ID; at: string; sub: string; read: boolean };
-export type Topic = 'people' | 'lessons' | 'packages' | 'schedule' | 'rules' | 'notifPrefs' | 'payments' | 'requests' | 'profile' | 'notifs';
+export type Topic = 'people' | 'lessons' | 'packages' | 'schedule' | 'rules' | 'notifPrefs' | 'payments' | 'requests' | 'profile' | 'notifs' | 'support';
+// Destek ekibine gönderilen mesaj
+export type SupportMsg = { id: ID; topic: string; text: string; at: string };

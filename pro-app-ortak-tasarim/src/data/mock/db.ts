@@ -1,6 +1,6 @@
 // Bellek içi mock veritabanı: demo verisi, cihazda (AsyncStorage) saklama ve eski v1 kaydından taşıma.
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Brk, Choice, Debt, ID, Lesson, LessonRules, Notif, NotifPrefs, Off, PaidRow, Person, Pkg, Profile, Req, WeekHours } from '../models';
+import type { Brk, Choice, Debt, ID, Lesson, LessonRules, Notif, NotifPrefs, Off, PaidRow, Person, Pkg, Profile, Req, SupportMsg, WeekHours } from '../models';
 import { iso, legacyKeyToIso } from '../dates';
 import { baseLessons } from './lessonGen';
 import { BREAKS0, COLLECTED0, DEBTS0, ME0, NOTIF0, NOTIFS0, PAID0, PACKAGES0, PEOPLE0, REQS0, RULES0, WEEK0 } from './seed';
@@ -10,7 +10,7 @@ type LessonMeta = { pk?: string; rep?: number; loc?: string; st?: Lesson['st'] }
 export type MockData = {
   people: Person[]; packages: Pkg[]; extra: Lesson[]; cancelled: ID[]; breaks: Brk[]; offs: Off[];
   debts: Debt[]; paid: PaidRow[]; collected: number; me: Profile; week: WeekHours; rules: LessonRules;
-  notif: NotifPrefs; reqs: Req[]; notifs: Notif[]; lessonMeta: Record<ID, LessonMeta>;
+  notif: NotifPrefs; reqs: Req[]; notifs: Notif[]; support: SupportMsg[]; lessonMeta: Record<ID, LessonMeta>;
   // v1'den taşınan, week/rules/notif/lessonMeta'ya girmeyen ekran tercihleri (Görev 5'te store'a geri verilir)
   uiPrefs: Record<string, unknown>;
 };
@@ -24,7 +24,7 @@ const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v)) as T;
 const seed = (): MockData => clone({
   people: PEOPLE0, packages: PACKAGES0, extra: [], cancelled: [], breaks: BREAKS0, offs: [],
   debts: DEBTS0, paid: PAID0, collected: COLLECTED0, me: ME0, week: WEEK0, rules: RULES0,
-  notif: NOTIF0, reqs: REQS0, notifs: NOTIFS0, lessonMeta: {}, uiPrefs: {},
+  notif: NOTIF0, reqs: REQS0, notifs: NOTIFS0, support: [], lessonMeta: {}, uiPrefs: {},
 });
 
 /* ---------- v1 kaydını taşıma ---------- */

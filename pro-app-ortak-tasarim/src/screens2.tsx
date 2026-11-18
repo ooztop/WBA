@@ -1,13 +1,14 @@
-// Sayfalar 2: takvim ayarları, gün sayfası, ders kuralları, paket tercihleri, yardım, hesabı sil
+// Sayfalar 2: takvim ayarları, gün sayfası, ders kuralları, paket tercihleri, yardım (destek formu, SSS, koşullar), hesabı sil
 import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { DL, DN, hm, type Pkg } from './data';
 import type { ID } from './data/models';
-import { daysText, go, hhmm, openSheet, pickTime, toast, toastLater, useC, useFrame, useStore } from './store';
-import { removePackage, setBasePackage, toggleBreakDay, usePref } from './data/actions';
+import { daysText, go, hhmm, openSheet, pickTime, pop, toast, toastLater, useC, useFrame, useStore } from './store';
+import { removePackage, sendSupport, setBasePackage, toggleBreakDay, usePref } from './data/actions';
+import { canSend, FAQ, faqById, SUPPORT_TOPICS, TERMS } from './data/help';
 import { openUrl } from './device';
 import { ff } from './theme';
-import { Box, Btn, Cols, Empty, FC, Fic, Fld, GCard, GR, IB, Icon, Inote, Lbl, List, NavH, noOutline, PChips, PickBox, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
+import { Box, Btn, Chip, Cols, Empty, FC, Fic, FloatFoot, Fld, GCard, GR, IB, Icon, Inote, Inp, Lbl, List, Lnk, NavH, noOutline, PChips, PickBox, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
 import { Amt } from './screens1';
 
 type SP = { p: any };
@@ -187,7 +188,6 @@ function Pricing() {
 
 function Help() {
   const C = useC();
-  const open = () => toast('Açılıyor');
   return (
     <>
       <NavH title="Yardım ve destek" />
@@ -198,19 +198,93 @@ function Help() {
         </View>
         <GrpS t="Bize ulaş" pt={16} />
         <GCard>
-          <GR left={<Fic k="n" ic="chat" c={C.ink} />} t="Destek ekibine yaz" s="Uygulama içi mesaj" chev onPress={open} />
+          <GR left={<Fic k="n" ic="chat" c={C.ink} />} t="Destek ekibine yaz" s="Uygulama içi mesaj" chev onPress={() => go('support')} />
           <GR left={<Fic k="n" ic="phone" c={C.ink} />} t="WhatsApp'tan sor" s="Hafta içi 09:00 – 19:00" chev onPress={() => openUrl('https://wa.me/908500000000', 'WhatsApp açılıyor')} />
         </GCard>
         <GrpS t="Sık sorulanlar" />
         <GCard>
-          {['Her kişiye farklı fiyat nasıl veririm?', 'Fiyatı güncellersem kişilere bildirim gider mi?', 'İptal kurallarını nasıl değiştiririm?', 'Ödemeyi elle kaydetmek nasıl çalışır?'].map(q => (
-            <GR key={q} chev onPress={open}><T s={15} w={700} lh={1.35} style={{ flex: 1 }}>{q}</T></GR>
+          {FAQ.map(f => (
+            <GR key={f.id} chev onPress={() => go('faq', undefined, { id: f.id })}><T s={15} w={700} lh={1.35} style={{ flex: 1 }}>{f.q}</T></GR>
           ))}
         </GCard>
         <GCard style={{ marginTop: 18 }}>
           <GR t="Uygulama sürümü" right={<T s={13} w={700} c={C.muted}>2.4.1</T>} />
-          <GR t="Kullanım koşulları" chev onPress={open} />
+          <GR t="Kullanım koşulları" chev onPress={() => go('terms')} />
         </GCard>
+      </Scr>
+    </>
+  );
+}
+
+// Destek ekibine yaz: konu çipleri + mesaj; mesaj boşken Gönder pasif
+function Support() {
+  const C = useC();
+  const [topic, setTopic] = useState<string | null>(null);
+  const [text, setText] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [fh, setFh] = useState(0);
+  const send = async () => {
+    setBusy(true);
+    const ok = await sendSupport(topic ?? 'Diğer', text);
+    setBusy(false);
+    if (ok) { pop(); toastLater('Mesajın iletildi. Yanıt e-postana gelir.'); }
+  };
+  return (
+    <View style={{ flex: 1, backgroundColor: C.card }}>
+      <NavH title="Destek ekibine yaz" />
+      <Scr pb={16 + Math.max(0, fh - 30)}>
+        <View style={{ paddingTop: 8, paddingHorizontal: 16, gap: 18 }}>
+          <Fld label="Konu">
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+              {SUPPORT_TOPICS.map(t => <Chip key={t} t={t} on={topic === t} onPress={() => setTopic(topic === t ? null : t)} />)}
+            </View>
+          </Fld>
+          <Fld label="Mesaj">
+            <Inp area value={text} onChangeText={setText} ph="Ne konuda yardım istiyorsun?" style={{ height: 160 }} />
+          </Fld>
+        </View>
+      </Scr>
+      <FloatFoot bg={C.card} onH={setFh}><Btn glow t="Gönder" off={!canSend(text) || busy} onPress={send} /></FloatFoot>
+    </View>
+  );
+}
+
+// Sık sorulan bir sorunun cevabı; altta ilgili ekrana bağlantı ve destek satırı
+function FaqPage({ p }: SP) {
+  const C = useC();
+  const f = faqById(p?.id) ?? FAQ[0];
+  return (
+    <>
+      <NavH title="Sık sorulanlar" />
+      <Scr>
+        <View style={{ paddingTop: 8, paddingHorizontal: 22, gap: 12 }}>
+          <T s={22} w={800} lh={1.25}>{f.q}</T>
+          {f.a.map(x => <T key={x} s={15} w={500} lh={1.5} c={C.ink}>{x}</T>)}
+          {f.link ? <View style={{ alignSelf: 'flex-start', marginTop: 2 }}><Lnk t={`${f.link.t} ›`} onPress={() => go(f.link!.to)} /></View> : null}
+        </View>
+        <GCard style={{ marginTop: 28 }}>
+          <GR left={<Fic k="n" ic="chat" c={C.ink} />} t="Destek ekibine yaz" s="Cevap işe yaramadı mı?" chev onPress={() => go('support')} />
+        </GCard>
+      </Scr>
+    </>
+  );
+}
+
+// Kullanım koşulları: başlıklı düz metin
+function Terms() {
+  const C = useC();
+  return (
+    <>
+      <NavH title="Kullanım koşulları" />
+      <Scr>
+        <View style={{ paddingTop: 8, paddingHorizontal: 22, gap: 22 }}>
+          {TERMS.map(s => (
+            <View key={s.h} style={{ gap: 8 }}>
+              <T s={17} w={800} lh={1.3}>{s.h}</T>
+              {s.p.map(x => <T key={x} s={15} w={500} lh={1.5} c={C.ink}>{x}</T>)}
+            </View>
+          ))}
+        </View>
       </Scr>
     </>
   );
@@ -260,4 +334,4 @@ function DeleteAccount() {
   );
 }
 
-export const S2: Record<string, React.ComponentType<SP>> = { calendarPrefs: CalendarPrefs, dayRule: DayRule, rules: Rules, pricing: Pricing, help: Help, deleteAccount: DeleteAccount };
+export const S2: Record<string, React.ComponentType<SP>> = { calendarPrefs: CalendarPrefs, dayRule: DayRule, rules: Rules, pricing: Pricing, help: Help, support: Support, faq: FaqPage, terms: Terms, deleteAccount: DeleteAccount };

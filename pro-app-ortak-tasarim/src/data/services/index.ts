@@ -9,3 +9,4 @@ export { paymentsService } from './payments';
 export { requestsService } from './requests';
 export { notifsService } from './notifs';
 export { profileService } from './profile';
+export { supportService } from './support';
