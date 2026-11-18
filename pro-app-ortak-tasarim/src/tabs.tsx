@@ -81,12 +81,18 @@ function Contacts() {
           {vis.length ? null : <Sm style={{ textAlign: 'center', paddingTop: 40 }}>Bu filtrede kişi yok.</Sm>}
         </Scr>
         {letters.length > 1 ? (
-          <View accessibilityLabel="Harf dizini" style={{ position: 'absolute', right: 2, top: 8, alignItems: 'center' }}>
-            {letters.map(L => (
-              <Pressable key={L} onPress={() => sc.current?.scrollTo({ y: ys[L] ?? 0, animated: true })} hitSlop={{ left: 6, right: 2 }} accessibilityLabel={`${L} harfine git`}>
-                <T s={11} w={800} lh={1.3} c={C.info} style={{ paddingVertical: 2, paddingHorizontal: 8 }}>{L}</T>
-              </Pressable>
-            ))}
+          // Final prototipindeki gibi: alfabenin tamamı, liste alanında dikey ortada, sıkı (10 pt / 13 px).
+          // Kişisi olmayan harf sonraki (yoksa önceki) dolu harfe götürür.
+          <View accessibilityLabel="Harf dizini" style={{ position: 'absolute', right: 1, top: 0, bottom: tbh, alignItems: 'center', justifyContent: 'center' }}>
+            {TRA.map(L => {
+              const i = TRA.indexOf(L);
+              const go2 = letters.find(x => TRA.indexOf(x) >= i) ?? letters[letters.length - 1];
+              return (
+                <Pressable key={L} onPress={() => sc.current?.scrollTo({ y: ys[go2] ?? 0, animated: true })} hitSlop={{ left: 10, right: 2, top: 1, bottom: 1 }} accessibilityLabel={`${L} harfine git`}>
+                  <T s={10} w={700} c={C.accent} style={{ lineHeight: 13, paddingHorizontal: 4 }}>{L}</T>
+                </Pressable>
+              );
+            })}
           </View>
         ) : null}
       </View>
