@@ -137,7 +137,9 @@ function NItem({ it }: { it: FeedItem }) {
         right={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Ntime t={notifTime(top.at)} k={NK[it.kind].k} tag={NK[it.kind].tag} /><View style={{ transform: [{ rotate: open ? '-90deg' : '90deg' }] }}><Icon n="chevR" s={18} c={C.muted} /></View></View>}
         onPress={() => setOpen(o => !o)} />
       {open ? it.list.map(n => (
-        <Tap key={n.id} onPress={() => openNotif(n)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginLeft: 68, paddingRight: 14, paddingVertical: 11, minHeight: 48, borderTopWidth: 1, borderTopColor: C.divider }}>
+        <Tap key={n.id} onPress={() => openNotif(n)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginLeft: 12, paddingRight: 14, paddingVertical: 10, minHeight: 60, borderTopWidth: 1, borderTopColor: C.divider }}>
+          {/* Avatar, üstteki ikonla aynı sütunda (44 px) */}
+          <View style={{ width: 44, alignItems: 'center' }}><Av ini={person(n.pid).ini} s={38} /></View>
           <View style={{ flex: 1, minWidth: 0 }}>
             <T s={14} w={700} numberOfLines={1}>{person(n.pid).name}</T>
             <T s={13} c={C.muted} numberOfLines={1}>{n.sub}</T>
