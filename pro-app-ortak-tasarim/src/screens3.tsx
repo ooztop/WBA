@@ -387,7 +387,7 @@ function PaymentDone({ p }: SP) {
   );
 }
 
-// Makbuz: ödeme al ekranında seçilen dersler, alınan tutar ve yöntem; WhatsApp ya da paylaşım menüsüyle gönderilir
+// Makbuz: ödeme al ekranında seçilen dersler, alınan tutar ve yöntem; paylaşım menüsüyle gönderilir
 function Receipt({ p }: SP) {
   const C = useC();
   const me = useStore(s => s.me);
@@ -430,8 +430,7 @@ function Receipt({ p }: SP) {
         </View>
       </Scr>
       <Foot>
-        <Btn flex k="g" ic="share" t="Paylaş" onPress={() => share(txt)} />
-        <Btn flex t="WhatsApp'tan gönder" onPress={() => openUrl(`https://wa.me/?text=${encodeURIComponent(txt)}`, 'WhatsApp açılıyor')} />
+        <Btn flex ic="share" t="Paylaş" onPress={() => share(txt)} />
       </Foot>
     </>
   );

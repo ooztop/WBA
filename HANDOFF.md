@@ -52,7 +52,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 80 (18 Kasım, Dokümanlar, Makbuz, Şifremi unuttum).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 81 (18 Kasım, Makbuzda yalnız Paylaş).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
 Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları), 80 (06a–06d Dokümanlar, 40a Makbuz, 43a–43c Şifremi unuttum).
 
@@ -139,7 +139,7 @@ Diğer artifact'ler (claude.ai, yardımcı):
     düzenlenebilir not (değişmeden Kaydet pasif, onaylı Sil); "+" menüsü Dosya seç / Fotoğraf çek (telefon izni gerektiği için
     şimdilik örnek dosya ekler) / Not yaz. Dokümanlar veri katmanında yeni `docs` konusu (mock, her etkin kişiye aynı demo 3 dosya + 2 not), testli.
   - **Makbuz** (Ödeme alındı › Makbuzu gör): ödeme alda seçilen dersler, alınan tutar, yöntem; kısmi ödemede "Kısmi ödeme" etiketi,
-    ders toplamı ve kalan borç; Paylaş / WhatsApp'tan gönder. `src/data/receipt.ts`, testli.
+    ders toplamı ve kalan borç; altta yalnız "Paylaş" (kullanıcı isteği: WhatsApp düğmesi kaldırıldı). `src/data/receipt.ts`, testli.
   - **Şifremi unuttum:** e-posta → kod → yeni şifre (en az 8 karakter, iki kutu aynı; `src/data/password.ts`, testli);
     sonunda giriş ekranına dönülür, "Şifren yenilendi". Kaydol adımlarıyla aynı görünüm (3 adım).
   - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77–80). Kullanıcı 17a–17c çizimlerine Wellness'ta baktı, düzgün.
