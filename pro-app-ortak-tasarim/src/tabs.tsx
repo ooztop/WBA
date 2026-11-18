@@ -95,19 +95,20 @@ function Contacts() {
 }
 
 /* ---------- Bildirimler ---------- */
-const Ntime = ({ t, k, tag }: { t: string; k: 'a' | 'i' | 's' | 'd' | 'n'; tag: string }) => {
+// Bildirimin sağında yalnız zaman (etiket yok)
+const Ntime = ({ t }: { t: string }) => {
   const C = useC();
-  return <View style={{ alignItems: 'flex-end', gap: 4 }}><T s={12} w={700} c={C.muted}>{t}</T><Tag k={k} t={tag} /></View>;
+  return <T s={12} w={700} c={C.muted}>{t}</T>;
 };
 
-// Bildirim türlerinin görünümü: ikon, renk, etiket, tek ve grup başlığı
-const NK: Record<NotifKind, { ic: string; k: 'a' | 'i' | 's' | 'd' | 'n'; tag: string; t: string; g: (n: number) => string }> = {
-  payDue: { ic: 'card', k: 'd', tag: 'Ödenmedi', t: 'Ödeme bekleniyor', g: n => `${n} ödeme bekleniyor` },
-  pkgLow: { ic: 'box', k: 'a', tag: 'Yenile', t: 'Paket bitmek üzere', g: n => `${n} paket bitmek üzere` },
-  paid: { ic: 'cash', k: 's', tag: 'Ödendi', t: 'Ödeme alındı', g: n => `${n} ödeme alındı` },
-  cancel: { ic: 'calX', k: 'd', tag: 'İptal', t: 'Ders iptal edildi', g: n => `${n} ders iptal edildi` },
-  rsOk: { ic: 'calCheck', k: 's', tag: 'Onaylandı', t: 'Yeni saat onaylandı', g: n => `${n} yeni saat onaylandı` },
-  added: { ic: 'calPlus', k: 'i', tag: 'Yeni', t: 'Ders eklendi', g: n => `${n} ders eklendi` },
+// Bildirim türlerinin görünümü: ikon, renk, tek ve grup başlığı
+const NK: Record<NotifKind, { ic: string; k: 'a' | 'i' | 's' | 'd' | 'n'; t: string; g: (n: number) => string }> = {
+  payDue: { ic: 'card', k: 'd', t: 'Ödeme bekleniyor', g: n => `${n} ödeme bekleniyor` },
+  pkgLow: { ic: 'box', k: 'a', t: 'Paket bitmek üzere', g: n => `${n} paket bitmek üzere` },
+  paid: { ic: 'cash', k: 's', t: 'Ödeme alındı', g: n => `${n} ödeme alındı` },
+  cancel: { ic: 'calX', k: 'd', t: 'Ders iptal edildi', g: n => `${n} ders iptal edildi` },
+  rsOk: { ic: 'calCheck', k: 's', t: 'Yeni saat onaylandı', g: n => `${n} yeni saat onaylandı` },
+  added: { ic: 'calPlus', k: 'i', t: 'Ders eklendi', g: n => `${n} ders eklendi` },
 };
 
 // Bildirime dokununca okundu sayılır ve ilgili ekran açılır
@@ -122,7 +123,7 @@ function openNotif(n: Notif) {
 }
 
 function NRow({ n, indent }: { n: Notif; indent?: boolean }) {
-  return <Row left={<Fic k={NK[n.kind].k} ic={NK[n.kind].ic} />} t={NK[n.kind].t} s={`${person(n.pid).name} · ${n.sub}`} right={<Ntime t={notifTime(n.at)} k={NK[n.kind].k} tag={NK[n.kind].tag} />} onPress={() => openNotif(n)} style={indent ? { marginLeft: 20 } : undefined} />;
+  return <Row left={<Fic k={NK[n.kind].k} ic={NK[n.kind].ic} />} t={NK[n.kind].t} s={`${person(n.pid).name} · ${n.sub}`} right={<Ntime t={notifTime(n.at)} />} onPress={() => openNotif(n)} style={indent ? { marginLeft: 20 } : undefined} />;
 }
 // Tek bildirim ya da benzerlerin grubu. Grup tek kart: dokununca kartın içinde kişiler sade satırlar olarak açılır.
 function NItem({ it }: { it: FeedItem }) {
@@ -134,7 +135,7 @@ function NItem({ it }: { it: FeedItem }) {
   return (
     <View style={{ backgroundColor: C.card, borderRadius: 12, overflow: 'hidden' }}>
       <Row left={<Fic k={NK[it.kind].k} ic={NK[it.kind].ic} />} t={NK[it.kind].g(it.list.length)} s={open ? undefined : names}
-        right={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Ntime t={notifTime(top.at)} k={NK[it.kind].k} tag={NK[it.kind].tag} /><View style={{ transform: [{ rotate: open ? '-90deg' : '90deg' }] }}><Icon n="chevR" s={18} c={C.muted} /></View></View>}
+        right={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Ntime t={notifTime(top.at)} /><View style={{ transform: [{ rotate: open ? '-90deg' : '90deg' }] }}><Icon n="chevR" s={18} c={C.muted} /></View></View>}
         onPress={() => setOpen(o => !o)} />
       {open ? it.list.map(n => (
         <Tap key={n.id} onPress={() => openNotif(n)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginLeft: 12, paddingRight: 14, paddingVertical: 10, minHeight: 60, borderTopWidth: 1, borderTopColor: C.divider }}>

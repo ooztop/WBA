@@ -156,7 +156,7 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - **Çakışan rezervasyon talebi yok** (kullanıcı kararı, 18 Kasım): uygulamadan ve veriden kaldırıldı.
 - **Bildirimler (18 Kasım):**
   - Talepler: en acil (yanıt için en az süre kalan) büyük kart; diğerleri kaydırmalı satır (sağa: onayla, sola: reddet; `SwipeAct`, paket satırlarıyla aynı). Birden çok talep (`Req[]`).
-  - Filtre çipleri (Tümü · Talepler · Ödemeler · İptaller). İstenmeyenler: ikon köşesindeki okunmadı noktası, "Tümünü okundu say", kaydırma ipucu notu.
+  - Filtre çipleri (Tümü · Talepler · Ödemeler · İptaller). İstenmeyenler: ikon köşesindeki okunmadı noktası, "Tümünü okundu say", kaydırma ipucu notu, sağdaki durum etiketleri (İptal, Yenile, Ödendi…); sağda yalnız zaman.
   - Aynı gün grubunda aynı türden 2+ bildirim tek kart ("3 ödeme alındı"); dokununca kişiler aynı kartın içinde sade satırlar olarak açılır (ayrı kartlar istenmedi).
   - Okunmuş bilgi bildirimleri kapalı "Görülenler"e iner; işlem bekleyenler (ödeme bekleniyor, paket bitmek üzere) ve talepler hiç gizlenmez.
   - Önceliğe göre ayrıştırma yok; liste tarihe göre (Bugün, Dün, Bu hafta, Daha önce).
