@@ -1,7 +1,7 @@
 // Servis testleri: mock dalı üzerinden konu başına okuma/yazma davranışı.
 import { mockDb } from '../mock/db';
 import { DATA_SOURCE } from '../source';
-import { lessonsService, packagesService, paymentsService, peopleService, profileService, requestsService, rulesService, scheduleService, notifPrefsService } from '../services';
+import { lessonsService, packagesService, paymentsService, peopleService, profileService, requestsService, rulesService, scheduleService, notifPrefsService, notifsService } from '../services';
 
 beforeEach(() => {
   jest.useFakeTimers();
@@ -101,16 +101,32 @@ test('collect kısmi ödemede borç kalır', async () => {
   expect((await paymentsService.debts()).find(d => d.pid === '1')?.lessons).toHaveLength(1);
   expect((await peopleService.list()).find(p => p.id === '1')?.tag[0]).toBe('d');
 });
-test('accept iki kez çağrılınca tek ders ekler', async () => {
-  await requestsService.accept('b');
-  await requestsService.accept('b');
+test('demo: üç bekleyen talep', async () => {
+  expect((await requestsService.list()).map(r => r.id)).toEqual(['r1', 'r2', 'r3']);
+});
+test('accept talebi listeden düşürür; iki kez çağrılınca tek ders ekler', async () => {
+  await requestsService.accept('r1');
+  await requestsService.accept('r1');
   const r = await lessonsService.range('2026-09-12', '2026-09-12');
   expect(r['2026-09-12'].filter(l => l.h === 18 && l.pid === '6')).toHaveLength(1);
-  expect((await requestsService.get()).b).toBe(false);
+  expect((await requestsService.list()).map(x => x.id)).toEqual(['r2', 'r3']);
 });
-test('reject talebi kapatır', async () => {
-  await requestsService.reject('b');
-  expect(await requestsService.get()).toEqual({ b: false });
+test('accept talebin kendi gün ve saatine ders ekler', async () => {
+  await requestsService.accept('r2');
+  const r = await lessonsService.range('2026-09-11', '2026-09-11');
+  expect(r['2026-09-11'].some(l => l.h === 10 && l.pid === '2' && l.type === 'Online')).toBe(true);
+});
+test('reject talebi listeden düşürür', async () => {
+  await requestsService.reject('r3');
+  expect((await requestsService.list()).map(x => x.id)).toEqual(['r1', 'r2']);
+});
+test('bildirimler: okundu işaretleme ve hepsini okundu sayma', async () => {
+  const before = await notifsService.list();
+  expect(before.some(n => !n.read)).toBe(true);
+  await notifsService.markRead(['n1']);
+  expect((await notifsService.list()).find(n => n.id === 'n1')?.read).toBe(true);
+  await notifsService.markAllRead();
+  expect((await notifsService.list()).every(n => n.read)).toBe(true);
 });
 test('takvim, kural, bildirim ve profil kaydı', async () => {
   const w = await scheduleService.getWeek();

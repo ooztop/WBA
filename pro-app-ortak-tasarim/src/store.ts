@@ -3,7 +3,7 @@ import { createContext, useContext, useSyncExternalStore } from 'react';
 import { makeMutable, type SharedValue } from 'react-native-reanimated';
 import { colors, type Accent, type Colors } from './theme';
 import { TODAY } from './data';
-import type { Brk, Debt, ID, Lesson, Off, PaidRow, Person, Pkg, Profile, ReqState } from './data/models';
+import type { Brk, Debt, ID, Lesson, Notif, Off, PaidRow, Person, Pkg, Profile, Req } from './data/models';
 
 export type Route = { key: number; id: string; p: any; prog: SharedValue<number>; closing?: boolean };
 export type SheetR = { key: number; id: string; p: any; closing?: boolean; swap?: boolean };
@@ -19,7 +19,7 @@ export type State = {
   stack: Route[]; sheets: SheetR[]; action: ActionS | null; toast: ToastS | null; picker: PickerS | null;
   people: Person[]; packages: Pkg[]; menu: boolean | SlotMenu;
   breaks: Brk[]; offs: Off[]; debts: Debt[]; paid: PaidRow[]; collected: number; me: Profile;
-  prefs: Record<string, any>; reqs: ReqState;
+  prefs: Record<string, any>; reqs: Req[]; notifs: Notif[];
   // Gün başına ders önbelleği (anahtar 'YYYY-MM-DD'), yüklenen günler ve yeniden yükleme sayacı
   lessons: Record<string, Lesson[]>; loaded: Set<string>; epoch: number;
 };
@@ -30,7 +30,7 @@ let state: State = {
   people: [], packages: [], menu: false,
   breaks: [], offs: [], debts: [], paid: [], collected: 0,
   me: { ad: '', soyad: '', title: '' },
-  prefs: {}, reqs: { b: false },
+  prefs: {}, reqs: [], notifs: [],
   lessons: {}, loaded: new Set(), epoch: 0,
 };
 const subs = new Set<() => void>();

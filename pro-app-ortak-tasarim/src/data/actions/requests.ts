@@ -1,18 +1,20 @@
 // Talep eylemleri: rezervasyon taleplerini onayla, reddet.
-import type { ReqState } from '../models';
+import type { ID } from '../models';
 import { requestsService } from '../services';
 import { optimistic } from './optimistic';
 import { refreshDay } from './lessons';
+import { get } from '../../store';
 
-const close = (id: keyof ReqState) => (s: { reqs: ReqState }) => ({ reqs: { ...s.reqs, [id]: false } });
+const drop = (id: ID) => (s: { reqs: { id: ID }[] }) => ({ reqs: s.reqs.filter(r => r.id !== id) }) as never;
 
-// Burak'ın talebi onaylanınca 12 Eylül 18:00 dersi servis tarafında eklenir; günün önbelleği tazelenir
-export function acceptRequest(id: 'b'): Promise<boolean> {
-  return optimistic(close(id), async () => {
+// Onaylanan talebin dersi servis tarafında eklenir; o günün önbelleği tazelenir
+export function acceptRequest(id: ID): Promise<boolean> {
+  const r = get().reqs.find(x => x.id === id);
+  return optimistic(drop(id), async () => {
     await requestsService.accept(id);
-    await refreshDay('2026-09-12').catch(() => {}); // tazeleme hatası onayı geri aldırmaz
+    if (r) await refreshDay(r.date).catch(() => {}); // tazeleme hatası onayı geri aldırmaz
   });
 }
-export function rejectRequest(id: 'b'): Promise<boolean> {
-  return optimistic(close(id), () => requestsService.reject(id));
+export function rejectRequest(id: ID): Promise<boolean> {
+  return optimistic(drop(id), () => requestsService.reject(id));
 }

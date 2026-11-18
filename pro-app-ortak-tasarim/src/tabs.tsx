@@ -1,11 +1,13 @@
 // Sekme kökleri: Kişiler, Bildirimler, Hesabım (Takvim ayrı dosyada)
 import React, { useRef, useState } from 'react';
 import { Pressable, ScrollView, TextInput, View } from 'react-native';
-import { TRA, type Person } from './data';
-import { get, go, openAction, openMenu, openSheet, push, toast, toastLater, useC, useFrame, useStore } from './store';
+import { TRA, first, type Person } from './data';
+import { get, go, openAction, openMenu, openSheet, person, push, toast, toastLater, useC, useFrame, useStore } from './store';
 import { copy, LINK } from './device';
-import { acceptReq } from './screens3';
-import { rejectRequest, resetDemo, setAccent, setDark, setEmptyMode, updatePerson } from './data/actions';
+import { acceptReq, rejectReq, reqWhen } from './screens3';
+import { markAllNotifsRead, markNotifsRead, resetDemo, setAccent, setDark, setEmptyMode, updatePerson } from './data/actions';
+import { buildFeed, inFilter, notifTime, unreadCount, type FeedItem, type NotifFilter } from './data/notifs';
+import type { Notif, NotifKind } from './data/models';
 import { ff } from './theme';
 import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, T, Tag, Tap, type SV } from './ui';
 
@@ -97,50 +99,135 @@ const Ntime = ({ t, k, tag }: { t: string; k: 'a' | 'i' | 's' | 'd' | 'n'; tag: 
   const C = useC();
   return <View style={{ alignItems: 'flex-end', gap: 4 }}><T s={12} w={700} c={C.muted}>{t}</T><Tag k={k} t={tag} /></View>;
 };
+
+// Bildirim türlerinin görünümü: ikon, renk, etiket, tek ve grup başlığı
+const NK: Record<NotifKind, { ic: string; k: 'a' | 'i' | 's' | 'd' | 'n'; tag: string; t: string; g: (n: number) => string }> = {
+  payDue: { ic: 'card', k: 'd', tag: 'Ödenmedi', t: 'Ödeme bekleniyor', g: n => `${n} ödeme bekleniyor` },
+  pkgLow: { ic: 'box', k: 'a', tag: 'Yenile', t: 'Paket bitmek üzere', g: n => `${n} paket bitmek üzere` },
+  paid: { ic: 'cash', k: 's', tag: 'Ödendi', t: 'Ödeme alındı', g: n => `${n} ödeme alındı` },
+  cancel: { ic: 'calX', k: 'd', tag: 'İptal', t: 'Ders iptal edildi', g: n => `${n} ders iptal edildi` },
+  rsOk: { ic: 'calCheck', k: 's', tag: 'Onaylandı', t: 'Yeni saat onaylandı', g: n => `${n} yeni saat onaylandı` },
+  added: { ic: 'calPlus', k: 'i', tag: 'Yeni', t: 'Ders eklendi', g: n => `${n} ders eklendi` },
+};
+
+// Bildirime dokununca okundu sayılır ve ilgili ekran açılır
+function openNotif(n: Notif) {
+  void markNotifsRead([n.id]);
+  const name = person(n.pid).name;
+  if (n.kind === 'payDue') go('payment', undefined, { i: n.pid });
+  else if (n.kind === 'pkgLow' || n.kind === 'added') go('contact', undefined, { i: n.pid });
+  else if (n.kind === 'paid') go('payments');
+  else if (n.kind === 'cancel') go('cancelled', undefined, { n: name, k: 1 });
+  else go('rsAccepted', undefined, { n: name });
+}
+
+// Okunmamış bildirimde ikonun köşesinde vurgu noktası
+function NIcon({ kind, unread }: { kind: NotifKind; unread: boolean }) {
+  const C = useC();
+  return (
+    <View>
+      <Fic k={NK[kind].k} ic={NK[kind].ic} />
+      {unread ? <View accessibilityLabel="Okunmadı" style={{ position: 'absolute', top: -3, right: -3, width: 12, height: 12, borderRadius: 6, backgroundColor: C.accent, borderWidth: 2, borderColor: C.card }} /> : null}
+    </View>
+  );
+}
+function NRow({ n, indent }: { n: Notif; indent?: boolean }) {
+  return <Row left={<NIcon kind={n.kind} unread={!n.read} />} t={NK[n.kind].t} s={`${person(n.pid).name} · ${n.sub}`} right={<Ntime t={notifTime(n.at)} k={NK[n.kind].k} tag={NK[n.kind].tag} />} onPress={() => openNotif(n)} style={indent ? { marginLeft: 20 } : undefined} />;
+}
+// Tek bildirim ya da benzerlerin grubu: grup dokununca açılır, içindekiler tek tek görünür
+function NItem({ it }: { it: FeedItem }) {
+  const C = useC();
+  const [open, setOpen] = useState(false);
+  if (it.list.length === 1) return <NRow n={it.list[0]} />;
+  const top = it.list[0], unread = it.list.some(n => !n.read);
+  const names = it.list.map(n => first(person(n.pid).name)).join(', ');
+  return (
+    <>
+      <Row left={<NIcon kind={it.kind} unread={unread} />} t={NK[it.kind].g(it.list.length)} s={names}
+        right={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Ntime t={notifTime(top.at)} k={NK[it.kind].k} tag={NK[it.kind].tag} /><View style={{ transform: [{ rotate: open ? '-90deg' : '90deg' }] }}><Icon n="chevR" s={18} c={C.muted} /></View></View>}
+        onPress={() => setOpen(o => !o)} />
+      {open ? it.list.map(n => <NRow key={n.id} n={n} indent />) : null}
+    </>
+  );
+}
+
 function Notifs() {
   const C = useC();
   const { tbh } = useFrame();
   const emp = useStore(s => s.emp);
+  const reqs = useStore(s => s.reqs);
+  const notifs = useStore(s => s.notifs);
+  const [f, setF] = useState<NotifFilter>('all');
+  const [seenOpen, setSeenOpen] = useState(false);
   const gear = <IB ic="settings" k="dk" label="Bildirim ayarları" onPress={() => go('notifPrefs')} />;
-  if (emp)
+  if (emp || (!reqs.length && !notifs.length))
     return (
       <>
         <Band lbl="Bildirimler" right={gear}><T2 t="Yeni bildirim yok" sub="Bekleyen talep ya da ödeme yok" /></Band>
         <Empty ic="bell" t="Bildirim yok" sub="Rezervasyon talepleri, ödemeler ve iptaller burada görünür." style={{ paddingBottom: tbh + 24 }} />
       </>
     );
-  const reqs = useStore(s => s.reqs), nReq = reqs.b ? 1 : 0;
-  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { void rejectRequest('b'); go('requestRejected', undefined, { n: 'Burak Şahin' }); });
+  const unread = unreadCount(notifs);
+  const feed = buildFeed(notifs, f);
+  // En acil talep (yanıt için en az süre kalan) büyük kartta, diğerleri satır
+  const rq = [...reqs].sort((a, b) => a.left - b.left);
+  const showReqs = (f === 'all' || f === 'req') && rq.length > 0;
+  const cnt = (k: NotifFilter) => notifs.filter(n => !n.read && inFilter(n.kind, k)).length;
+  const FILTERS: [string, NotifFilter, number][] = [['Tümü', 'all', 0], ['Talepler', 'req', rq.length], ['Ödemeler', 'pay', cnt('pay')], ['İptaller', 'cancel', cnt('cancel')]];
+  const nothing = !showReqs && !feed.sections.length && !feed.seen.length;
+  const allRead = unread ? <Tap onPress={() => { void markAllNotifsRead(); }} hit={8}><T s={13} w={800} c={C.accent}>Tümünü okundu say</T></Tap> : undefined;
   return (
     <>
-      <Band lbl="Bildirimler" right={gear}><T2 t={nReq ? `${nReq} talep bekliyor` : 'Bekleyen talep yok'} sub={`Bugün ${1 + nReq} yeni bildirim`} /></Band>
+      <Band lbl="Bildirimler" right={gear}><T2 t={rq.length ? `${rq.length} talep bekliyor` : 'Bekleyen talep yok'} sub={unread ? `${unread} okunmamış bildirim` : 'Hepsi okundu'} /></Band>
+      <View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6, paddingTop: 12, paddingHorizontal: 16, paddingBottom: 4 }}>
+          {FILTERS.map(x => <Chip key={x[1]} t={x[0]} cn={x[2] ? String(x[2]) : undefined} on={f === x[1]} onPress={() => setF(x[1])} />)}
+        </ScrollView>
+      </View>
       <Scr pb={tbh + 24}>
-        {reqs.b ? (
-        <FC>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}><Lbl t="Yeni talep" /><T s={13} w={800} c={C.accentInk}>22 sa kaldı</T></View>
-          <Tap onPress={() => go('request', undefined, {})} style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
-            <Av ini="BŞ" lg />
-            <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
-              <T s={22} w={800} lh={1.2} numberOfLines={1}>Burak Şahin</T>
-              <T s={14} lh={1.45} c={C.muted} numberOfLines={1}>12 Eyl · 18:00 · Bireysel 60 dk</T>
-            </View>
-          </Tap>
-          <View style={{ flexDirection: 'row', gap: 8 }}>
-            <Btn k="x" t="Reddet" onPress={reject} style={{ width: 112, paddingHorizontal: 8 }} />
-            <Btn flex t="Onayla" onPress={() => { acceptReq(); go('requestAccepted', undefined, { n: 'Burak Şahin' }); }} />
-          </View>
-        </FC>
+        {showReqs ? (
+          <>
+            <FC>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}><Lbl t="Yeni talep" /><T s={13} w={800} c={C.accentInk}>{rq[0].left} sa kaldı</T></View>
+              <Tap onPress={() => go('request', undefined, { id: rq[0].id })} style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+                <Av ini={person(rq[0].pid).ini} lg />
+                <View style={{ flex: 1, minWidth: 0, gap: 2 }}>
+                  <T s={22} w={800} lh={1.2} numberOfLines={1}>{person(rq[0].pid).name}</T>
+                  <T s={14} lh={1.45} c={C.muted} numberOfLines={1}>{reqWhen(rq[0])} · {rq[0].type} {rq[0].dur} dk</T>
+                </View>
+              </Tap>
+              <View style={{ flexDirection: 'row', gap: 8 }}>
+                <Btn k="x" t="Reddet" onPress={() => rejectReq(rq[0])} style={{ width: 112, paddingHorizontal: 8 }} />
+                <Btn flex t="Onayla" onPress={() => acceptReq(rq[0])} />
+              </View>
+            </FC>
+            {rq.length > 1 ? (
+              <List style={{ paddingTop: 8 }}>
+                {rq.slice(1).map(r => (
+                  <Row key={r.id} left={<Av ini={person(r.pid).ini} />} t={person(r.pid).name} s={`${reqWhen(r)} · ${r.left} sa kaldı`} onPress={() => go('request', undefined, { id: r.id })}
+                    right={<View style={{ flexDirection: 'row', gap: 8 }}><IB ic="close" k="g" s={40} is={18} label={`${person(r.pid).name} talebini reddet`} onPress={() => rejectReq(r)} /><IB ic="check" k="p" s={40} is={18} label={`${person(r.pid).name} talebini onayla`} onPress={() => acceptReq(r)} /></View>} />
+                ))}
+              </List>
+            ) : null}
+          </>
         ) : null}
-        <Grp t="Bugün" />
-        <List>
-          <Row left={<Fic k="s" ic="calCheck" />} t="Yeni saat onaylandı" s="Elif Yıldırım · 12 Eyl 18:00" right={<Ntime t="3 sa" k="s" tag="Onaylandı" />} onPress={() => go('rsAccepted', undefined, { n: 'Elif Yıldırım' })} />
-        </List>
-        <Grp t="Bu hafta" />
-        <List>
-          <Row left={<Fic k="i" ic="card" />} t="Ödeme bekleniyor" s="Mert Kaya · ₺1.500" right={<Ntime t="Pzt" k="d" tag="Ödenmedi" />} onPress={() => go('payment', undefined, { i: '1' })} />
-          <Row left={<Fic k="d" ic="calX" />} t="Ders iptal edildi" s="Selin Demir · 8 Eyl 19:00" right={<Ntime t="Pzt" k="d" tag="İptal" />} onPress={() => go('cancelled', undefined, { n: 'Selin Demir', k: 1 })} />
-          <Row left={<Fic k="a" ic="box" />} t="Paket bitmek üzere" s="Can Öztürk · 2 ders kaldı" right={<Ntime t="Paz" k="a" tag="Yenile" />} onPress={() => go('contact', undefined, { i: '4' })} />
-        </List>
+        {f === 'req' && !rq.length ? <Sm style={{ textAlign: 'center', paddingTop: 32 }}>Bekleyen talep yok</Sm> : null}
+        {feed.sections.map((sec, i) => (
+          <View key={sec.label}>
+            <Grp t={sec.label} right={i === 0 ? allRead : undefined} />
+            <List>{sec.items.map(it => <NItem key={it.key} it={it} />)}</List>
+          </View>
+        ))}
+        {feed.seen.length ? (
+          <>
+            <Tap onPress={() => setSeenOpen(o => !o)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 18, paddingHorizontal: 16, paddingBottom: 6, minHeight: 44 }}>
+              <Lbl t={`Görülenler · ${feed.seen.reduce((a, it) => a + it.list.length, 0)}`} />
+              <View style={{ transform: [{ rotate: seenOpen ? '-90deg' : '90deg' }] }}><Icon n="chevR" s={18} c={C.muted} /></View>
+            </Tap>
+            {seenOpen ? <List>{feed.seen.map(it => <NItem key={it.key} it={it} />)}</List> : null}
+          </>
+        ) : null}
+        {nothing && f !== 'req' ? <Sm style={{ textAlign: 'center', paddingTop: 32 }}>Burada bildirim yok</Sm> : null}
       </Scr>
     </>
   );

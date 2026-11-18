@@ -27,9 +27,10 @@ Backend: `EmreTuygan/WBA` reposundaki `backend/` (Express + Prisma), taban yol `
 | Molalar (isimli) | `scheduleService.listBreaks / saveBreak` | — | Backend'de yok |
 | Dersler | `lessonsService` | — (tablolar var, API yok) | Backend'de yok |
 | Ödemeler | `paymentsService` | — | Backend'de yok |
-| Rezervasyon talepleri | `requestsService` | — | Backend'de yok |
+| Rezervasyon talepleri | `requestsService.list / accept / reject` (birden çok talep) | — | Backend'de yok |
 | Profil | `profileService` | — | Backend'de yok |
 | Bildirim ayarları | `notifPrefsService` | — | Backend'de yok |
+| Bildirimler | `notifsService.list / markRead / markAllRead` | — | Backend'de yok (akış kuralları: `src/data/notifs.ts`) |
 
 Şu an her konu `mock`.
 

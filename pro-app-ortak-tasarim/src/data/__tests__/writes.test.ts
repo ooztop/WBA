@@ -2,11 +2,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { get, set } from '../../store';
 import {
-  acceptRequest, addLessons, addOffs, addPerson, boot, cancelLesson, collectPayment, modelsToPrefs, prefsToModels, lessonNoteKey,
+  acceptRequest, addLessons, markAllNotifsRead, markNotifsRead, addOffs, addPerson, boot, cancelLesson, collectPayment, modelsToPrefs, prefsToModels, lessonNoteKey,
   reloadAll, rejectRequest, removeBreak, removePackage, rescheduleLesson, restorePackage, saveBreak, savePackage, saveProfile, setBasePackage,
   setDark, setPref, toggleBreakDay, updatePerson,
 } from '../actions';
-import { lessonsService, packagesService, paymentsService, peopleService, requestsService, scheduleService } from '../services';
+import { lessonsService, notifsService, packagesService, paymentsService, peopleService, requestsService, scheduleService } from '../services';
 import { mockDb } from '../mock/db';
 import { RULES0, WEEK0 } from '../mock/seed';
 import type { NotifPrefs } from '../models';
@@ -133,23 +133,37 @@ test('rescheduleLesson eski saati kaldırır, yeni saate ekler', async () => {
 });
 
 /* ---------- talepler ---------- */
-test('acceptRequest b: talep kapanır, 12 Eylül 18:00 dersi takvime girer', async () => {
-  await acceptRequest('b');
-  expect(get().reqs.b).toBe(false);
+test('acceptRequest: talep listeden düşer, 12 Eylül 18:00 dersi takvime girer', async () => {
+  await acceptRequest('r1');
+  expect(get().reqs.some(r => r.id === 'r1')).toBe(false);
   expect(get().lessons['2026-09-12'].some(l => l.h === 18 && l.pid === '6')).toBe(true);
   await reloadAll();
-  expect(get().reqs.b).toBe(false);
+  expect(get().reqs.some(r => r.id === 'r1')).toBe(false);
   expect(get().lessons['2026-09-12'].some(l => l.h === 18 && l.pid === '6')).toBe(true);
 });
-test('rejectRequest talebi kapatır, servise yazar', async () => {
-  await rejectRequest('b');
-  expect(get().reqs).toEqual({ b: false });
-  expect(await requestsService.get()).toEqual({ b: false });
+test('rejectRequest talebi listeden düşürür, servise yazar', async () => {
+  await rejectRequest('r2');
+  expect(get().reqs.map(r => r.id)).toEqual(['r1', 'r3']);
+  expect((await requestsService.list()).map(r => r.id)).toEqual(['r1', 'r3']);
 });
-test('hata olursa talep durumu geri alınır', async () => {
+test('hata olursa talep geri gelir', async () => {
   jest.spyOn(requestsService, 'reject').mockRejectedValueOnce(new Error('ağ'));
-  await rejectRequest('b');
-  expect(get().reqs.b).toBe(true);
+  await rejectRequest('r1');
+  expect(get().reqs.some(r => r.id === 'r1')).toBe(true);
+});
+
+/* ---------- bildirimler ---------- */
+test('markNotifsRead seçilenleri okundu yapar, servise yazar', async () => {
+  await markNotifsRead(['n2', 'n3']);
+  expect(get().notifs.filter(n => ['n2', 'n3'].includes(n.id)).every(n => n.read)).toBe(true);
+  expect((await notifsService.list()).find(n => n.id === 'n2')?.read).toBe(true);
+});
+test('markAllNotifsRead hepsini okundu yapar; hata olursa geri alınır', async () => {
+  jest.spyOn(notifsService, 'markAllRead').mockRejectedValueOnce(new Error('ağ'));
+  await markAllNotifsRead();
+  expect(get().notifs.some(n => !n.read)).toBe(true);
+  await markAllNotifsRead();
+  expect(get().notifs.every(n => n.read)).toBe(true);
 });
 
 /* ---------- molalar, izinler ---------- */

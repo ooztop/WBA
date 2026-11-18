@@ -7,4 +7,5 @@ export { rulesService } from './rules';
 export { notifPrefsService } from './notifPrefs';
 export { paymentsService } from './payments';
 export { requestsService } from './requests';
+export { notifsService } from './notifs';
 export { profileService } from './profile';

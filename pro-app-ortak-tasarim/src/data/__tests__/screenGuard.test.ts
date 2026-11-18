@@ -6,7 +6,7 @@ const FILES = ['Calendar', 'screens1', 'screens2', 'screens3', 'sheets', 'tabs',
 const src = (f: string) => fs.readFileSync(`src/${f}.tsx`, 'utf8');
 
 test('ekranlar veri alanına set() ile yazmaz', () => {
-  const bad = /set\(\s*(s\s*=>\s*\(\s*)?\{\s*(people|packages|lessons|extra|cancelled|breaks|offs|debts|paid|collected|me|reqs|prefs|dark|accent)\s*:/;
+  const bad = /set\(\s*(s\s*=>\s*\(\s*)?\{\s*(people|packages|lessons|extra|cancelled|breaks|offs|debts|paid|collected|me|reqs|notifs|prefs|dark|accent)\s*:/;
   for (const f of FILES) expect([f, src(f).match(bad)?.[0]]).toEqual([f, undefined]);
 });
 test('ekranlar store içindeki kaldırılmış yazma yardımcılarını kullanmaz', () => {

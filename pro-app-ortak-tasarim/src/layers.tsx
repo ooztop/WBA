@@ -72,7 +72,7 @@ export function TabBar() {
   const { tbh, framed, W } = useFrame();
   const tab = useStore(s => s.tab);
   const emp = useStore(s => s.emp);
-  const nReq = useStore(s => (s.reqs.b ? 1 : 0));
+  const nReq = useStore(s => s.reqs.length + s.notifs.filter(n => !n.read).length); // bekleyen talep + okunmamış bildirim
   const first = useStore(s => s.stack[0]);
   const p = first?.prog;
   const st = useAnimatedStyle(() => ({ transform: [{ translateY: (p ? p.value : 0) * tbh * 1.12 }] }));

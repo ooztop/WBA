@@ -1,16 +1,16 @@
 // Bellek içi mock veritabanı: demo verisi, cihazda (AsyncStorage) saklama ve eski v1 kaydından taşıma.
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Brk, Choice, Debt, ID, Lesson, LessonRules, NotifPrefs, Off, PaidRow, Person, Pkg, Profile, ReqState, WeekHours } from '../models';
+import type { Brk, Choice, Debt, ID, Lesson, LessonRules, Notif, NotifPrefs, Off, PaidRow, Person, Pkg, Profile, Req, WeekHours } from '../models';
 import { iso, legacyKeyToIso } from '../dates';
 import { baseLessons } from './lessonGen';
-import { BREAKS0, COLLECTED0, DEBTS0, ME0, NOTIF0, PAID0, PACKAGES0, PEOPLE0, REQS0, RULES0, WEEK0 } from './seed';
+import { BREAKS0, COLLECTED0, DEBTS0, ME0, NOTIF0, NOTIFS0, PAID0, PACKAGES0, PEOPLE0, REQS0, RULES0, WEEK0 } from './seed';
 
 type LessonMeta = { pk?: string; rep?: number; loc?: string };
 
 export type MockData = {
   people: Person[]; packages: Pkg[]; extra: Lesson[]; cancelled: ID[]; breaks: Brk[]; offs: Off[];
   debts: Debt[]; paid: PaidRow[]; collected: number; me: Profile; week: WeekHours; rules: LessonRules;
-  notif: NotifPrefs; reqs: ReqState; lessonMeta: Record<ID, LessonMeta>;
+  notif: NotifPrefs; reqs: Req[]; notifs: Notif[]; lessonMeta: Record<ID, LessonMeta>;
   // v1'den taşınan, week/rules/notif/lessonMeta'ya girmeyen ekran tercihleri (Görev 5'te store'a geri verilir)
   uiPrefs: Record<string, unknown>;
 };
@@ -24,7 +24,7 @@ const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v)) as T;
 const seed = (): MockData => clone({
   people: PEOPLE0, packages: PACKAGES0, extra: [], cancelled: [], breaks: BREAKS0, offs: [],
   debts: DEBTS0, paid: PAID0, collected: COLLECTED0, me: ME0, week: WEEK0, rules: RULES0,
-  notif: NOTIF0, reqs: REQS0, lessonMeta: {}, uiPrefs: {},
+  notif: NOTIF0, reqs: REQS0, notifs: NOTIFS0, lessonMeta: {}, uiPrefs: {},
 });
 
 /* ---------- v1 kaydını taşıma ---------- */
@@ -33,6 +33,15 @@ const isRec = (v: unknown): v is Rec => typeof v === 'object' && v !== null && !
 const arr = (v: unknown): unknown[] => (Array.isArray(v) ? v : []);
 const str = (v: unknown, d: string) => (typeof v === 'string' ? v : d);
 const num = (v: unknown, d: number) => (typeof v === 'number' ? v : d);
+
+// v2 kaydı: eksik alanlar demo verisinden gelir. Eski biçimde talepler { b: boolean } idi:
+// Burak'ın talebi kapatıldıysa (b: false) listeden düşer, bildirimler yoksa demo bildirimleri gelir.
+function fromV2(saved: Rec): MockData {
+  const out = { ...seed(), ...(saved as Partial<MockData>) };
+  if (!Array.isArray(saved.reqs)) out.reqs = seed().reqs.filter(r => !(isRec(saved.reqs) && saved.reqs.b === false && r.id === 'r1'));
+  if (!Array.isArray(saved.notifs)) out.notifs = seed().notifs;
+  return out;
+}
 
 // Eski dkey ('2026-8-9') anahtarlı kaydı 'YYYY-MM-DD'ye çevirir; dersin saatini `${iso}|${h}|*` önekiyle eşler
 function legacyLessonKey(k: string): string {
@@ -62,7 +71,7 @@ function migrateV1(old: Rec): MockData {
   }
   if (typeof old.collected === 'number') out.collected = old.collected;
   if (isRec(old.me)) out.me = { ad: str(old.me.ad, ''), soyad: str(old.me.soyad, ''), title: str(old.me.title, '') };
-  if (isRec(old.reqs)) out.reqs = { b: !!old.reqs.b };
+  if (isRec(old.reqs) && old.reqs.b === false) out.reqs = out.reqs.filter(r => r.id !== 'r1');
 
   // [saat, süre, kişi, tür, durum] + gün anahtarı → Lesson
   out.extra = arr(old.extra).filter(isRec).flatMap((e, n) => {
@@ -111,7 +120,7 @@ const baseCache = new Map<string, Lesson[]>();
 // Boş sayfa kipinde yalnız kayıt listeleri boşalır; ayarlar dolu kalır.
 // Kip açıkken eklenen kişiler görünür kalır (eski Kişi seç paneli yeni eklenenleri gösterirdi).
 let emptyBase = new Set<ID>();
-const blank = (d: MockData): MockData => ({ ...d, people: d.people.filter(p => !emptyBase.has(p.id)), packages: [], extra: [], breaks: [], offs: [], debts: [], paid: [], collected: 0 });
+const blank = (d: MockData): MockData => ({ ...d, people: d.people.filter(p => !emptyBase.has(p.id)), packages: [], extra: [], breaks: [], offs: [], debts: [], paid: [], collected: 0, reqs: [], notifs: [] });
 
 function scheduleSave() {
   if (saveT) clearTimeout(saveT);
@@ -133,7 +142,7 @@ export const mockDb = {
   async load(): Promise<void> {
     try {
       const v2 = await AsyncStorage.getItem(KEY_V2);
-      if (v2) { cur = { ...seed(), ...(JSON.parse(v2) as Partial<MockData>) }; return; }
+      if (v2) { cur = fromV2(JSON.parse(v2) as Rec); return; }
       const v1 = await AsyncStorage.getItem(KEY_V1);
       if (v1) {
         const old: unknown = JSON.parse(v1);

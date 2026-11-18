@@ -1,5 +1,5 @@
 // Demo verisi: bugünkü PEOPLE0, PACKAGES0 ve store'daki başlangıç değerleri; hafta saatleri ve ders kuralları varsayılanları.
-import type { Brk, Debt, LessonRules, NotifPrefs, PaidRow, Person, Pkg, Profile, ReqState, TagKind, WeekHours } from '../models';
+import type { Brk, Debt, LessonRules, Notif, NotifPrefs, PaidRow, Person, Pkg, Profile, Req, TagKind, WeekHours } from '../models';
 
 const RAW: [string, string, string, [TagKind, string], string][] = [
   ['EY', 'Elif Yıldırım', 'Sonraki: 17 Eyl · 09:00', ['i', 'Aylık'], 'hafta'], ['MK', 'Mert Kaya', 'Sonraki: 18 Eyl · 11:30', ['d', '₺1.500 borç'], 'borc hafta'],
@@ -42,7 +42,30 @@ export const PAID0: PaidRow[] = [
 
 export const COLLECTED0 = 12400;
 export const ME0: Profile = { ad: 'Deniz', soyad: 'Arslan', title: 'Özel ders · Matematik' };
-export const REQS0: ReqState = { b: true };
+// Bekleyen rezervasyon talepleri (kişi kimlikleri PEOPLE0 sırası: 2 Deniz, 6 Burak, 9 Cansu)
+export const REQS0: Req[] = [
+  { id: 'r1', pid: '6', date: '2026-09-12', h: 18, dur: 60, type: 'Bireysel', price: '₺750', left: 22, note: 'Sınavım var, mümkünse konu tekrarına ağırlık verebilir miyiz?' },
+  { id: 'r2', pid: '2', date: '2026-09-11', h: 10, dur: 60, type: 'Online', price: '₺750', left: 20 },
+  { id: 'r3', pid: '9', date: '2026-09-14', h: 9, dur: 60, type: 'Bireysel', price: '₺750', left: 9 },
+];
+
+// Bildirimler (bugün 9 Eylül 12:36). Okunmuş bilgi bildirimleri "Görülenler"e iner; ödeme bekleniyor / paket bitmek üzere hep görünür.
+const NT: [string, Notif['kind'], string, string, string, boolean][] = [
+  ['n1', 'rsOk', '0', '2026-09-09T09:24', '12 Eyl 18:00', false],
+  ['n2', 'paid', '3', '2026-09-09T11:05', '₺750 · Havale', false],
+  ['n3', 'paid', '4', '2026-09-09T11:40', '₺5.400 · 8 derslik paket', false],
+  ['n4', 'paid', '5', '2026-09-09T12:10', '₺750 · Kart', false],
+  ['n5', 'cancel', '5', '2026-09-08T19:10', '8 Eyl 19:00', true],
+  ['n6', 'added', '11', '2026-09-08T16:00', '21 Eyl 12:00 · Bireysel', true],
+  ['n7', 'payDue', '1', '2026-09-07T10:00', '₺1.500 · 2 ders', true],
+  ['n8', 'cancel', '9', '2026-09-07T08:30', '10 Eyl 14:00', false],
+  ['n9', 'pkgLow', '4', '2026-09-06T18:00', '2 ders kaldı', false],
+  ['n10', 'rsOk', '2', '2026-09-03T15:20', '5 Eyl 10:00', true],
+  ['n11', 'paid', '7', '2026-09-02T10:00', '₺7.200 · Aylık üyelik', true],
+  ['n12', 'paid', '0', '2026-09-01T09:30', '₺5.400 · 8 derslik paket', true],
+  ['n13', 'added', '6', '2026-09-01T14:00', '20 Eyl 10:30 · Bireysel', true],
+];
+export const NOTIFS0: Notif[] = NT.map(([id, kind, pid, at, sub, read]) => ({ id, kind, pid, at, sub, read }));
 
 // Çalışma saatleri varsayılanı: hafta içi 10:00–18:00, Cumartesi 10:00–14:00, Pazar kapalı (0 = Pazartesi)
 export const WEEK0: WeekHours = [0, 1, 2, 3, 4, 5, 6].map(i => ({ on: i !== 6, s: '10:00', e: i === 5 ? '14:00' : '18:00' }));

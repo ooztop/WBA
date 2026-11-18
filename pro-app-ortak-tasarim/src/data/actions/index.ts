@@ -6,6 +6,7 @@ export { savePackage, removePackage, restorePackage, setBasePackage } from './pa
 export { saveBreak, removeBreak, toggleBreakDay, addOffs } from './schedule';
 export { collectPayment } from './payments';
 export { acceptRequest, rejectRequest } from './requests';
+export { markAllNotifsRead, markNotifsRead } from './notifs';
 export { saveProfile } from './profile';
 export { setPref, usePref, setDark, setAccent, prefsToModels, modelsToPrefs, lessonNoteKey } from './settings';
 export { boot, reloadAll, setEmptyMode, resetDemo } from './boot';

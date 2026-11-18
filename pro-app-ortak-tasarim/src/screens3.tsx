@@ -2,20 +2,29 @@
 import React, { useRef, useState } from 'react';
 import { TextInput, View, type StyleProp, type ViewStyle } from 'react-native';
 import { DL, DN, MN, MS, first, hm, lessonStarted, wd, type Lesson } from './data';
-import { iso } from './data/dates';
+import type { Req } from './data/models';
+import { fromIso, iso } from './data/dates';
 import { stripDays, type SlotDay } from './data/reschedule';
 import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
 import { get, go, hhmm, home, pickDate, pickTime, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
 import { acceptRequest, cancelLesson, collectPayment, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
-import { Apple, Av, Band, BandBack, Blk, Btn, Ck, FloatFoot, Cols, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
+import { Apple, Av, Band, BandBack, Blk, Btn, Ck, Empty, FloatFoot, Cols, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
 
 import { openUrl } from './device';
 
 type SP = { p: any };
-// Burak'ın talebini onayla: 12 Eylül 18:00 dersi takvime eklenir
-export const acceptReq = () => { void acceptRequest('b'); };
+// Rezervasyon talebi yardımcıları (Bildirimler ve talep ekranı ortak kullanır)
+export const reqDate = (r: Req) => fromIso(r.date);
+export const reqWhen = (r: Req) => { const d = reqDate(r); return `${d.getDate()} ${MS[d.getMonth()]} ${DN[wd(d)]} · ${hm(r.h)}`; };
+const reqBig = (r: Req) => { const d = reqDate(r); return `${d.getDate()} ${MS[d.getMonth()]} · ${hm(r.h)}`; };
+const reqInfo = (r: Req) => ({ n: person(r.pid).name, big: reqBig(r), date: r.date, h: r.h, dur: r.dur, type: r.type, price: r.price });
+// Onayla: talep listeden düşer, ders takvime eklenir. Reddet: onay penceresinden sonra listeden düşer.
+export function acceptReq(r: Req, mode?: 'rep') { void acceptRequest(r.id); go('requestAccepted', mode, reqInfo(r)); }
+export function rejectReq(r: Req, mode?: 'rep') {
+  openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { void rejectRequest(r.id); go('requestRejected', mode, reqInfo(r)); });
+}
 const OK = (C: ReturnType<typeof useC>) => C.success;
 
 // Beyaz zeminli form sayfası: başlık · form · altta düğme
@@ -244,37 +253,37 @@ function Cancelled({ p }: SP) {
 /* ================= rezervasyon talebi ================= */
 function Request({ p }: SP) {
   const C = useC();
-  const x = person('6'), f = first(x.name);
-  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { void rejectRequest('b'); go('requestRejected', 'rep', { n: x.name }); });
+  const r = useStore(s => s.reqs.find(x => x.id === p.id));
+  if (!r) return <><NavH title="Rezervasyon talebi" /><Empty ic="bell" t="Talep yanıtlandı" sub="Bu talep artık beklemiyor." /></>;
+  const x = person(r.pid), f = first(x.name);
   return (
     <>
       <NavH title="Rezervasyon talebi" />
       <Scr>
         <FC style={{ marginTop: 4 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <View style={{ flex: 1, minWidth: 0, flexDirection: 'row', gap: 12, alignItems: 'center' }}><Av ini={x.ini} /><Rt t={x.name} s="Tek ders · 3 ders geçmişi" /></View>
-            <T s={13} w={800} c={C.accentInk}>22 sa kaldı</T>
+            <View style={{ flex: 1, minWidth: 0, flexDirection: 'row', gap: 12, alignItems: 'center' }}><Av ini={x.ini} /><Rt t={x.name} s={x.sub} /></View>
+            <T s={13} w={800} c={C.accentInk}>{r.left} sa kaldı</T>
           </View>
-          <T s={24} w={800} lh={1.15}>12 Eyl Cum · 18:00</T>
-          <Sm style={{ marginTop: -6 }}>Bireysel · 60 dk · Kadıköy stüdyo</Sm>
+          <T s={24} w={800} lh={1.15}>{reqWhen(r)}</T>
+          <Sm style={{ marginTop: -6 }}>{r.type} · {r.dur} dk · Kadıköy stüdyo</Sm>
         </FC>
-        <GCard style={{ marginTop: 14 }}><GR t="Ücret" s="Ön ödeme alındı" right={<T s={15} w={800}>₺750</T>} /></GCard>
-        <GrpS t="Kişinin notu" pt={16} />
-        <View style={{ marginHorizontal: 16, backgroundColor: C.card, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14 }}><T s={14} lh={1.5}>Sınavım var, mümkünse konu tekrarına ağırlık verebilir miyiz?</T></View>
-        <GCard style={{ marginTop: 14 }}><GR t="Başka saat öner" s={`${f}'a farklı bir saat gönder`} chev onPress={() => go('reschedule', undefined, { n: x.name, when: 'Cum 12 Eyl · 18:00' })} /></GCard>
+        <GCard style={{ marginTop: 14 }}><GR t="Ücret" s="Ön ödeme alındı" right={<T s={15} w={800}>{r.price}</T>} /></GCard>
+        {r.note ? <><GrpS t="Kişinin notu" pt={16} /><View style={{ marginHorizontal: 16, backgroundColor: C.card, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14 }}><T s={14} lh={1.5}>{r.note}</T></View></> : null}
+        <GCard style={{ marginTop: 14 }}><GR t="Başka saat öner" s={`${f}'a farklı bir saat gönder`} chev onPress={() => go('reschedule', undefined, { n: x.name, when: reqWhen(r) })} /></GCard>
       </Scr>
       <Foot>
-        <Btn flex k="x" t="Reddet" onPress={reject} />
-        <Btn flex t="Onayla" onPress={() => { acceptReq(); go('requestAccepted', 'rep', { n: x.name }); }} />
+        <Btn flex k="x" t="Reddet" onPress={() => rejectReq(r, 'rep')} />
+        <Btn flex t="Onayla" onPress={() => acceptReq(r, 'rep')} />
       </Foot>
     </>
   );
 }
 const RequestAccepted = ({ p }: SP) => {
-  const n = p.n || 'Burak Şahin';
+  const n = p.n || 'Burak Şahin', h = p.h ?? 18, dur = p.dur ?? 60;
   return (
-    <Res ic="check" onBack={toRoot} top={`${n} · rezervasyon onaylandı`} big="12 Eyl · 18:00" sub={`Takvimine eklendi, ${first(n)}'a bildirim gitti.`} rows={[['Ders', 'Bireysel · 60 dk'], ['Yer', 'Kadıköy stüdyo'], ['Ücret', '₺750 ön ödeme alındı'], ['Takvim', '18:00 – 19:00 dolu']]}>
-      <Pair><Btn flex k="g" t="Takvimde gör" onPress={() => { set({ F: new Date(2026, 8, 12) }); home(); }} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
+    <Res ic="check" onBack={toRoot} top={`${n} · rezervasyon onaylandı`} big={p.big || '12 Eyl · 18:00'} sub={`Takvimine eklendi, ${first(n)}'a bildirim gitti.`} rows={[['Ders', `${p.type || 'Bireysel'} · ${dur} dk`], ['Yer', 'Kadıköy stüdyo'], ['Ücret', `${p.price || '₺750'} ön ödeme alındı`], ['Takvim', `${hm(h)} – ${hm(h + dur / 60)} dolu`]]}>
+      <Pair><Btn flex k="g" t="Takvimde gör" onPress={() => { set({ F: p.date ? fromIso(p.date) : new Date(2026, 8, 12) }); home(); }} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
     </Res>
   );
 };
@@ -282,7 +291,7 @@ function RequestRejected({ p }: SP) {
   const C = useC();
   const n = p.n || 'Burak Şahin';
   return (
-    <Res ic="close" red onBack={toRoot} top={`${n} · talep reddedildi`} big="12 Eyl · 18:00" strike sub={`${first(n)}'a nazik bir ret bildirimi gitti.`} rows={[['Ders', 'Bireysel · 60 dk'], ['Ücret', '₺750 iade edildi'], ['Saat', 'Müsait kaldı', OK(C)]]}>
+    <Res ic="close" red onBack={toRoot} top={`${n} · talep reddedildi`} big={p.big || '12 Eyl · 18:00'} strike sub={`${first(n)}'a nazik bir ret bildirimi gitti.`} rows={[['Ders', `${p.type || 'Bireysel'} · ${p.dur ?? 60} dk`], ['Ücret', `${p.price || '₺750'} iade edildi`], ['Saat', 'Müsait kaldı', OK(C)]]}>
       <Pair><Btn flex k="g" t="Başka saat öner" onPress={() => go('reschedule', 'rep', { n })} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
     </Res>
   );
@@ -296,6 +305,7 @@ function RsAccepted({ p }: SP) {
     </Res>
   );
 }
+
 
 /* ================= ödeme ================= */
 function Payment({ p }: SP) {
