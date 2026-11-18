@@ -5,6 +5,7 @@ import { go, openAction, openMenu, openSheet, person, pick, pop, tl, toast, toas
 import { TODAY } from './data';
 import { iso } from './data/dates';
 import { docLine, longDate, noteTitle, splitDocs } from './data/docs';
+import { paidRowReceipt } from './data/receipt';
 import type { Doc } from './data/models';
 import { addDoc, removeDoc, saveDoc, usePref } from './data/actions';
 import { copy, LINK, openUrl, share } from './device';
@@ -288,6 +289,7 @@ function Payments() {
   const C = useC();
   const emp = useStore(s => s.emp);
   const debts = useStore(s => s.debts), paid = useStore(s => s.paid), collected = useStore(s => s.collected);
+  const me = useStore(s => s.me);
   const [mon, setMon] = useState('Eylül 2026');
   const wait = debts.reduce((n, d) => n + d.lessons.length * 750, 0);
   // Ay seçici: sağ üstte ince çerçeveli sade düğme; dokununca ay listesi açılır (demo: liste aya göre süzülmez)
@@ -320,7 +322,7 @@ function Payments() {
             </>
           ) : null}
           <Grp t={`Tahsil edilen · ${paid.length}`} style={{ paddingTop: 18 }} />
-          <List>{paid.map((r, i) => <Row key={i} left={<Av ini={r.ini} />} t={r.name} s={r.sub} right={<Amt b={tl(r.amt)} />} />)}</List>
+          <List>{paid.map((r, i) => <Row key={i} left={<Av ini={r.ini} />} t={r.name} s={r.sub} right={<Amt b={tl(r.amt)} />} onPress={() => go('receipt', undefined, { r: paidRowReceipt(r, { from: `${me.ad} ${me.soyad}`.trim(), title: me.title }) })} />)}</List>
         </Scr>
       )}
     </>

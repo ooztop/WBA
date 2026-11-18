@@ -7,7 +7,7 @@ import { fromIso, iso } from './data/dates';
 import { stripDays, type SlotDay } from './data/reschedule';
 import { durOf, lessonPrice } from './data/price';
 import { passwordIssue } from './data/password';
-import { receiptSums, receiptText, type Receipt as ReceiptT } from './data/receipt';
+import { lessonReceipt, receiptSums, receiptText, type Receipt as ReceiptT } from './data/receipt';
 import { longDate } from './data/docs';
 import { TODAY } from './data';
 import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
@@ -69,7 +69,10 @@ function LessonScr({ p }: SP) {
   const st = l ? l.st : 'ok';
   // Başlamış (geçmiş ya da devam eden) derste iptal/erteleme yok; ödenmemişse Ödeme al
   const started = lessonStarted(d, h0);
-  const kv = (t: string, right: React.ReactNode) => <GR style={{ minHeight: 52 }} right={right}><T s={15} lh={1.35} c={C.muted} style={{ flex: 1 }}>{t}</T></GR>;
+  const kv = (t: string, right: React.ReactNode, onPress?: () => void) => <GR style={{ minHeight: 52 }} right={right} chev={!!onPress} onPress={onPress}><T s={15} lh={1.35} c={C.muted} style={{ flex: 1 }}>{t}</T></GR>;
+  const me = useStore(s => s.me), pkgs = useStore(s => s.packages), paidRows = useStore(s => s.paid);
+  // Ödenmiş derste makbuz: paketli derste paketin ödemesi, tek derste dersin kendisi
+  const receipt = () => l && go('receipt', undefined, { r: lessonReceipt(l, pe.name, pkName, pkgs, paidRows, { from: `${me.ad} ${me.soyad}`.trim(), title: me.title }) });
   return (
     <>
       <Band left={<BandBack />} right={<View style={{ width: 44 }} />}>
@@ -89,7 +92,7 @@ function LessonScr({ p }: SP) {
           <GCard>
             {kv('Ders', <T s={15} w={800} numberOfLines={1}>{pkName}</T>)}
             {kv('Konum', loc === 'Online' ? <T s={14} w={700}>Online görüşme</T> : loc === 'Adres' ? <T s={14} w={700}>Kişinin adresi</T> : <Lnk s={14} t="Kadıköy stüdyo ↗" onPress={() => openUrl('https://maps.apple.com/?q=Kad%C4%B1k%C3%B6y', 'Haritalar açılıyor')} />)}
-            {kv('Ödeme', st === 'ok' ? <Tag k="s" t="Ödendi" /> : st === 'no' ? <Tap onPress={() => go('payment', undefined, { i: pe.id, l })}><Tag k="d" t="Ödenmedi" /></Tap> : <Tag k="i" t="Bekliyor" />)}
+            {kv('Ödeme', st === 'ok' ? <Tag k="s" t="Ödendi" /> : st === 'no' ? <Tap onPress={() => go('payment', undefined, { i: pe.id, l })}><Tag k="d" t="Ödenmedi" /></Tap> : <Tag k="i" t="Bekliyor" />, st === 'ok' && l ? receipt : undefined)}
           </GCard>
           <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, paddingVertical: 12, paddingHorizontal: 14 }}>
             <Fld label="Ders notu" area v={note} ph="Not ekle" pk={l ? lessonNoteKey(get().prefs, l) : undefined} />
@@ -391,7 +394,7 @@ function PaymentDone({ p }: SP) {
 function Receipt({ p }: SP) {
   const C = useC();
   const me = useStore(s => s.me);
-  const r: ReceiptT = {
+  const r: ReceiptT = p.r ?? {
     from: `${me.ad} ${me.soyad}`.trim() || 'Deniz Arslan', title: me.title, to: p.n || 'Mert Kaya', date: iso(TODAY), method: p.m || 'Nakit',
     lines: p.lines?.length ? p.lines : [{ when: '3 Eylül · 16:00', what: 'Bireysel · 60 dk', amt: 750 }, { when: '5 Eylül · 16:00', what: 'Bireysel · 60 dk', amt: 750 }],
     paid: typeof p.paid === 'number' ? p.paid : 1500,
