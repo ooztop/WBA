@@ -744,9 +744,9 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   <div class="scr">
     <div style="margin:4px 16px 0;padding:20px;border-radius:16px;background:var(--surface-card)">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div style="display:flex;flex-direction:column;gap:2px"><b style="font-size:17px;font-weight:800">Deniz Arslan</b><span class="sm">Özel ders · Matematik</span></div><span class="tag tg-s">Ödendi</span></div>
-      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Kişi</span><b>Mert Kaya</b></div><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Tarih</span><b>9 Eylül 2026</b></div><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Ödeme</span><b>Havale / EFT</b></div></div>
-      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><div style="display:flex;flex-direction:column;gap:2px"><b>9 Eylül · 16:00</b><span class="sm">Bireysel · 60 dk</span></div><b>₺750</b></div>
-      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:15px;font-weight:800">Alınan</b><b style="font-size:28px;font-weight:800">₺750</b></div>
+      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div style="display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Kişi</span><b class="rc-to">Mert Kaya</b></div><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Tarih</span><b class="rc-date">9 Eylül 2026</b></div><div style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><span style="color:var(--ink-muted)">Ödeme</span><b class="rc-m">Havale / EFT</b></div></div>
+      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div class="rc-l" style="display:flex;justify-content:space-between;gap:12px;font-size:14px"><div style="display:flex;flex-direction:column;gap:2px"><b class="rc-w">9 Eylül · 16:00</b><span class="sm rc-what">Bireysel · 60 dk</span></div><b class="rc-a">₺750</b></div>
+      <hr style="border:0;height:1px;background:var(--divider);margin:16px 0"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:15px;font-weight:800">Alınan</b><b class="rc-paid" style="font-size:28px;font-weight:800">₺750</b></div>
     </div>
   </div>
   <div class="sfoot" style="padding-top:12px"><button class="btn p"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"></path></svg>Paylaş</button></div>
@@ -1503,7 +1503,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     <div class="gcard">
       <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ders</span></span><b>8 derslik paket</b></div>
       <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Konum</span></span><button class="lnk" style="font-size:14px">Kadıköy stüdyo ↗</button></div>
-      <div class="gr" style="min-height:52px"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ödeme</span></span><span class="tag tg-s">Ödendi</span></div>
+      <button class="gr grb" style="min-height:52px" aria-label="Ödeme: Ödendi, makbuzu gör"><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Ödeme</span></span><span class="tag tg-s">Ödendi</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
     </div>
     <div class="gcard" style="padding:12px 14px"><label class="fld">Ders notu<textarea class="inp" style="height:84px">Türev konusunu bitirdik, önümüzdeki hafta integral testi yapılacak.</textarea></label></div>
   </div>
@@ -2210,7 +2210,7 @@ const W={
 '10':{'Diğer: Yardım ve destek, Çıkış yap':'push:50','Hesabı düzenle':'push:11','Bağlantıyı kopyala':'toast:Bağlantı kopyalandı','NFC ile paylaş':'toast:Telefonu yaklaştır','Profilini paylaş':'push:12','Ödemeler':'push:13','Takvim ayarlarım':'push:14','Ders kuralları':'push:15','Paket tercihleri':'push:16'},
 '11':{'Geri':'back','Kaydet':'back|toast:Değişiklikler kaydedildi','Hesabı sil':'push:18','Fotoğrafı değiştir':'toast:Fotoğraf seç'},
 '12':{'Geri':'back','NFC':'toast:Telefonu yaklaştır','Paylaş':'toast:Paylaşım menüsü','Bağlantıyı kopyala: pro.app/denizarslan':'toast:Bağlantı kopyalandı'},
-'13':{'Geri':'back','Mert Kaya':'push:39','Burak Şahin':'push:39','Ay: Eylül 2026':'toast:Ay listesi açılır'},
+'13':{'Geri':'back','Mert Kaya':'push:39','Burak Şahin':'push:39','Zeynep Aydın':'rcpt:ZA','Elif Yıldırım':'rcpt:EY','Can Öztürk':'rcpt:CO','Selin Demir':'rcpt:SD','Ay: Eylül 2026':'toast:Ay listesi açılır'},
 '14':{'Geri':'back','Mola ekle':'push:24','Başlangıç: 10:00':'toast:Saat seçici açılır','Bitiş: 18:00':'toast:Saat seçici açılır','Öğle molası':'push:24','Akşam arası':'push:24','*dname':'push:22'},
 '15':{'Geri':'back','Özel değer':'toast:Özel değer gir'},
 '16':{'Geri':'back','Paket ekle':'newpk','Tek ders · 60 dk':'push:41','Tek ders · 90 dk':'push:41','8 derslik paket':'push:42','Aylık üyelik':'push:42'},
@@ -2228,7 +2228,7 @@ const W={
 '26':{'Geri':'back','Kaydet':'ppdone','Yeni kişi ekle':'ppnew','*row':'pick'},
 '27':{'Geri':'back','Kişiye özel paket':'newpk42'},
 '28':{'Geri':'back','Molayı ekle':'nbadd','Günü kapat':'nbadd','Sebep':'pickreason','Tekrar':'rpt'},
-'29':{'Geri':'back','Elif Yıldırım':'push:03','İptal et':'push:31','Dersi ertele':'push:30','Kadıköy stüdyo ↗':'toast:Haritalar açılıyor'},
+'29':{'Geri':'back','Elif Yıldırım':'push:03','Ödeme: Ödendi, makbuzu gör':'rcpt:EP','İptal et':'push:31','Dersi ertele':'push:30','Kadıköy stüdyo ↗':'toast:Haritalar açılıyor'},
 '30':{'Geri':'back','Ertelemeyi onayla':'rsdone','Takvimden seç':'toast:Takvim açılır'},
 '31':{'Geri':'back','Dersi iptal et':'cask','Sebep':'creason','Paket':'cpk'},
 '32':{'Geri':'root','Tamam':'root','Yeni saat öner':'rep:30'},
@@ -2238,7 +2238,7 @@ const W={
 '37':{'Geri':'back','Tamam':'back','Takvimde gör':'tab:0'},
 '38':{'Geri':'back','Tamam':'back','Yeni saat öner':'push:30'},
 '39':{'Geri':'back','Tutarı değiştir':'ptut','*row':'checkrow'},
-'40':{'Geri':'root','Tamam':'root','Makbuzu gör':'push:62'},
+'40':{'Geri':'root','Tamam':'root','Makbuzu gör':'rcpt:MK'},
 '41':{'Geri':'back','Kaydet':'back|toast:Paket kaydedildi','Bu dersi sil':'pkdel','Çoklu paket':'rep:42','Ders kuralları':'rpt'},
 '42':{'Geri':'back','Kaydet':'pksave42','Tekil ders':'rep:41','Bu paketi sil':'pkdel','Ders kuralları':'rpt'},
 '43':{'Giriş yap':'tab:0','Apple ile devam et':'tab:0','Kaydol':'push:44','Şifremi unuttum':'push:63','Şifreyi göster':'pw'},
@@ -2302,6 +2302,7 @@ P.addEventListener('click',e=>{
   if(a&&a.startsWith('push:menuCall')){toast('Ara · WhatsApp\'tan yaz · Numarayı kopyala');return}
   if(a==='ptut'){el.hidden=true;const w=s.querySelector('.ptin');w.hidden=false;w.querySelector('input').focus();return}
   if(id==='39'&&el.classList.contains('ptb')){run('rep:40');return}
+  if(a&&a.startsWith('rcpt:')){rcFill(a.slice(5));push('62');return}
   if(a==='docdel'){confirmDlg(s,'Dosya silinsin mi?','Bu işlem geri alınamaz.','Dosyayı sil',()=>{back();setTimeout(()=>toast('Dosya silindi'),300)});return}
   if(a==='notedel'){confirmDlg(s,'Not silinsin mi?','Bu işlem geri alınamaz.','Notu sil',()=>{back();setTimeout(()=>toast('Not silindi'),300)});return}
   if(a==='notesave'){if(el.classList.contains('off'))return;back();setTimeout(()=>{noteReset(s);toast('Not kaydedildi')},300);return}
@@ -2332,6 +2333,14 @@ function paySum(s,reset){const tl=n=>'₺'+String(n).replace(/\B(?=(\d{3})+(?!\d
   s.querySelector('.pn').textContent='Mert Kaya · '+n+' ders';s.querySelector('.pbig').textContent=tl(amt);const b=s.querySelector('.ptb');b.textContent=tl(amt)+' tahsil et';b.classList.toggle('off',amt<=0);
   const k=s.querySelector('.pkal');k.hidden=!(amt<sum);k.textContent=tl(sum-amt)+' borç olarak kalır'}
 (()=>{const s=SC['39'];if(!s)return;const i=s.querySelector('.ptin input');if(i)i.addEventListener('input',()=>paySum(s,false))})();
+/* Makbuz: açıldığı kayda göre doldurulur (kişi, tarih, yöntem, satır, tutar) */
+const RC={MK:['Mert Kaya','9 Eylül 2026','Havale / EFT','9 Eylül · 16:00','Bireysel · 60 dk','₺750'],
+EP:['Elif Yıldırım','2 Eylül 2026','Havale / EFT','2 Eylül','8 derslik paket','₺5.400'],
+ZA:['Zeynep Aydın','10 Eylül 2026','Havale','10 Eylül','aylık üyelik','₺5.400'],
+EY:['Elif Yıldırım','8 Eylül 2026','Nakit','8 Eylül','4 ders','₺3.000'],
+CO:['Can Öztürk','5 Eylül 2026','Havale','5 Eylül','8 derslik paket','₺2.500'],
+SD:['Selin Demir','3 Eylül 2026','Kart','3 Eylül','2 ders','₺1.500']};
+function rcFill(k){const r=RC[k]||RC.MK,s=SC['62'];['rc-to','rc-date','rc-m','rc-w','rc-what','rc-a'].forEach((c,i)=>{s.querySelector('.'+c).textContent=r[i]});s.querySelector('.rc-paid').textContent=r[5]}
 /* Dokümanlar: not değişmeden (yeni notta boşken) Kaydet pasif */
 function noteReset(s){const t=s.querySelector('textarea.nt');t.value=t.defaultValue;s.querySelector('.ntb').classList.add('off')}
 ['60','61'].forEach(k=>{const s=SC[k];if(!s)return;const t=s.querySelector('textarea.nt');t.addEventListener('input',()=>s.querySelector('.ntb').classList.toggle('off',k==='61'?!t.value.trim():t.value===t.defaultValue))});

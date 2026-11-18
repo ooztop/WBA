@@ -52,7 +52,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 81 (18 Kasım, Makbuzda yalnız Paylaş).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 82 (18 Kasım, makbuz ders detayından ve Ödemeler'den açılır).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
 Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları), 80 (06a–06d Dokümanlar, 40a Makbuz, 43a–43c Şifremi unuttum).
 
@@ -139,7 +139,9 @@ Diğer artifact'ler (claude.ai, yardımcı):
     düzenlenebilir not (değişmeden Kaydet pasif, onaylı Sil); "+" menüsü Dosya seç / Fotoğraf çek (telefon izni gerektiği için
     şimdilik örnek dosya ekler) / Not yaz. Dokümanlar veri katmanında yeni `docs` konusu (mock, her etkin kişiye aynı demo 3 dosya + 2 not), testli.
   - **Makbuz** (Ödeme alındı › Makbuzu gör): ödeme alda seçilen dersler, alınan tutar, yöntem; kısmi ödemede "Kısmi ödeme" etiketi,
-    ders toplamı ve kalan borç; altta yalnız "Paylaş" (kullanıcı isteği: WhatsApp düğmesi kaldırıldı). `src/data/receipt.ts`, testli.
+    ders toplamı ve kalan borç; altta yalnız "Paylaş" (kullanıcı isteği: WhatsApp düğmesi kaldırıldı).
+    Makbuz ayrıca ders detayındaki "Ödendi" satırından (paketli derste paketin satın alındığı ödeme, tek derste dersin kendisi;
+    `lessonReceipt`) ve Ödemeler › Tahsil edilen satırlarından (`paidRowReceipt`) açılır. `src/data/receipt.ts`, testli.
   - **Şifremi unuttum:** e-posta → kod → yeni şifre (en az 8 karakter, iki kutu aynı; `src/data/password.ts`, testli);
     sonunda giriş ekranına dönülür, "Şifren yenilendi". Kaydol adımlarıyla aynı görünüm (3 adım).
   - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77–80). Kullanıcı 17a–17c çizimlerine Wellness'ta baktı, düzgün.
@@ -154,7 +156,7 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - tekil ders fiyatları (`/offerings`)
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki (şifre sıfırlama dahil), destek mesajları, dokümanlar (dosya yükleme).
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
-- Testler: `npm test` ile 137 test geçiyor; `npx tsc --noEmit` temiz.
+- Testler: `npm test` ile 141 test geçiyor; `npx tsc --noEmit` temiz.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
   API'ye geçince gerçek saate bağlanmalı.
 
