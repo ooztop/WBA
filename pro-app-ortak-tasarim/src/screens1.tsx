@@ -198,15 +198,15 @@ function Payments() {
   const C = useC();
   const emp = useStore(s => s.emp);
   const debts = useStore(s => s.debts), paid = useStore(s => s.paid), collected = useStore(s => s.collected);
+  const [mon, setMon] = useState('Eylül 2026');
   const wait = debts.reduce((n, d) => n + d.lessons.length * 750, 0);
-  const mb = (ic: string, label: string, msg: string) => <IB ic={ic} k="dkq" s={36} is={18} label={label} onPress={() => toast(msg)} />;
-  // Ay seçici sağ üstte, takvimdeki Gün/Hafta/Ay seçicisi gibi koyu kapsül içinde
+  // Ay seçici: sağ üstte ince çerçeveli sade düğme; dokununca ay listesi açılır (demo: liste aya göre süzülmez)
+  const MONTHS = ['Temmuz 2026', 'Ağustos 2026', 'Eylül 2026'];
   const month = (
-    <View style={{ flexDirection: 'row', alignItems: 'center', height: 44, borderRadius: 999, backgroundColor: C.sdark2, paddingHorizontal: 4 }}>
-      {mb('chevL', 'Önceki ay: Ağustos', 'Ağustos 2026')}
-      <T s={14} w={800} c={C.onDark} style={{ paddingHorizontal: 2 }}>Eylül 2026</T>
-      {mb('chevR', 'Sonraki ay: Ekim', 'Ekim 2026')}
-    </View>
+    <Tap onPress={() => pick('Ay', MONTHS, mon, setMon)} label={`Ay: ${mon}`} style={{ flexDirection: 'row', alignItems: 'center', gap: 6, height: 40, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1.5, borderColor: C.sdark2 }}>
+      <T s={14} w={800} c={C.onDark}>{mon}</T>
+      <View style={{ transform: [{ rotate: '90deg' }] }}><Icon n="chevR" s={16} c={C.onDarkMuted} /></View>
+    </Tap>
   );
   return (
     <>
