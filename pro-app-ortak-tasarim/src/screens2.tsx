@@ -1,13 +1,13 @@
 // Sayfalar 2: takvim ayarları, gün sayfası, ders kuralları, paket tercihleri, yardım, hesabı sil
 import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
-import { DL, DN, type Pkg } from './data';
+import { DL, DN, hm, type Pkg } from './data';
 import type { ID } from './data/models';
-import { daysText, go, openSheet, toast, toastLater, useC, useFrame, useStore } from './store';
+import { daysText, go, hhmm, openSheet, pickTime, toast, toastLater, useC, useFrame, useStore } from './store';
 import { removePackage, setBasePackage, toggleBreakDay, usePref } from './data/actions';
 import { openUrl } from './device';
 import { ff } from './theme';
-import { Box, Btn, Cols, Empty, FC, Fic, Fld, GCard, GR, IB, Icon, Inote, Lbl, List, NavH, noOutline, PChips, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
+import { Box, Btn, Cols, Empty, FC, Fic, Fld, GCard, GR, IB, Icon, Inote, Lbl, List, NavH, noOutline, PChips, PickBox, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
 import { Amt } from './screens1';
 
 type SP = { p: any };
@@ -29,6 +29,9 @@ function CalendarPrefs() {
   const breaks = useStore(s => s.breaks);
   const prefs = useStore(s => s.prefs);
   const DEF = `${prefs['wh.s'] ?? '10:00'} – ${prefs['wh.e'] ?? '18:00'}`;
+  // Çalışma saatleri saat seçiciyle (elle yazılmaz); başlangıç bitişten önce olmalı
+  const [ws, setWs] = usePref('wh.s', '10:00');
+  const [we, setWe] = usePref('wh.e', '18:00');
   const H = [0, 1, 2, 3, 4, 5, 6].map(i => ((prefs[`day.${i}.on`] ?? i !== 6) ? `${prefs[`day.${i}.s`] ?? prefs['wh.s'] ?? '10:00'} – ${prefs[`day.${i}.e`] ?? (i === 5 ? '14:00' : prefs['wh.e'] ?? '18:00')}` : null));
   return (
     <>
@@ -37,7 +40,10 @@ function CalendarPrefs() {
         <GrpS t="Çalışma saatleri" pt={8} />
         <View style={{ backgroundColor: C.card, borderRadius: 16, marginHorizontal: 16, paddingTop: 12, paddingHorizontal: 14, paddingBottom: 14, gap: 10 }}>
           <Sm>Her gün için varsayılan. Günlere özel ayar aşağıda.</Sm>
-          <Cols><Fld flex label="Başlangıç" v="10:00" pk="wh.s" /><Fld flex label="Bitiş" v="18:00" pk="wh.e" /></Cols>
+          <Cols>
+            <PickBox label="Başlangıç" ic="clock" v={ws} onPress={() => pickTime(hhmm(ws, 10), h => { if (h >= hhmm(we, 18)) { toast('Başlangıç, bitişten önce olmalı'); return; } setWs(hm(h)); })} />
+            <PickBox label="Bitiş" ic="clock" v={we} onPress={() => pickTime(hhmm(we, 18), h => { if (h <= hhmm(ws, 10)) { toast('Bitiş, başlangıçtan sonra olmalı'); return; } setWe(hm(h)); })} />
+          </Cols>
         </View>
         <GrpS t="Düzenli molalar" pb={4} right={<IB ic="plus" k="p" s={36} label="Mola ekle" onPress={() => openSheet('breakNew')} />} />
         {emp || !breaks.length ? (

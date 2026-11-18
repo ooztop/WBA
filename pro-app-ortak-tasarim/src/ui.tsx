@@ -431,6 +431,20 @@ export function NavH({ title, sub, right, onBack, left }: { title?: string; sub?
   );
 }
 
+// Seçici kutusu: dokununca tarih/saat seçici açılır (yeni ders, takvim ayarları)
+export function PickBox({ label, v, ic, onPress }: { label: string; v: string; ic: string; onPress: () => void }) {
+  const C = useC();
+  return (
+    <View style={{ flex: 1, minWidth: 0, gap: 6 }}>
+      <T s={13} w={700} c={C.muted}>{label}</T>
+      <Tap onPress={onPress} label={`${label}: ${v}`} style={{ height: 52, borderRadius: 12, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+        <T s={16} w={700} numberOfLines={1}>{v}</T>
+        <Icon n={ic} s={18} c={C.muted} />
+      </Tap>
+    </View>
+  );
+}
+
 // Kaydırılan satır: sağa kaydır → onRight (vurgu rengi), sola kaydır → onLeft (kırmızı).
 // Dokunma, kaydırmadan hemen sonra gelirse yok sayılır.
 export function SwipeAct({ children, onRight, onLeft, onPress, rightLabel, leftLabel, bg }: { children: React.ReactNode; onRight: () => void; onLeft: () => void; onPress: () => void; rightLabel: string; leftLabel: string; bg?: string }) {

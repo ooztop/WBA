@@ -7,7 +7,7 @@ import { iso } from './data/dates';
 import { closeSheet, hhmm, num, pickDate, pickTime, snapLesson, tl, openAction, openSheet, person, personByName, pick, pop, push, repSheet, toast, toastLater, useC, useFrame, useStore } from './store';
 import { addLessons, addOffs, addPerson, removeBreak, removePackage, saveBreak, savePackage, saveProfile, setPref, updatePerson } from './data/actions';
 import { EASE, ff } from './theme';
-import { Av, Blk, Btn, Ck, Cols, DC, Fld, FloatFoot, Form, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
+import { Av, Blk, Btn, Ck, Cols, DC, Fld, FloatFoot, Form, PickBox, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { Amt } from './screens1';
 import { GrpS, Pkb } from './screens2';
 
@@ -425,18 +425,6 @@ function PkgPanel({ cur, who, onBack, onSel, onNew }: { cur: PkSel | null; who: 
 }
 
 // Dokununca seçici açan alan (giriş kutusu görünümünde)
-function PickBox({ label, v, ic, onPress }: { label: string; v: string; ic: string; onPress: () => void }) {
-  const C = useC();
-  return (
-    <View style={{ flex: 1, minWidth: 0, gap: 6 }}>
-      <T s={13} w={700} c={C.muted}>{label}</T>
-      <Tap onPress={onPress} label={`${label}: ${v}`} style={{ height: 52, borderRadius: 12, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
-        <T s={16} w={700} numberOfLines={1}>{v}</T>
-        <Icon n={ic} s={18} c={C.muted} />
-      </Tap>
-    </View>
-  );
-}
 
 function parseWhen(date: string, time: string): { d: Date; h: number } {
   const day = parseInt(date, 10);
