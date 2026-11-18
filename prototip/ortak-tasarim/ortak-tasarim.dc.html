@@ -204,6 +204,10 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
 .btn.off{background:var(--divider);color:var(--ink-muted);border:0;cursor:default}
 .mon{display:flex;align-items:center;justify-content:center;gap:2px;font-size:15px;font-weight:800}
 .mon .ib{width:40px;height:40px;background:transparent}
+.monb{display:flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--surface-dark-2);background:none;color:var(--on-dark);font-size:14px;font-weight:800}
+.ptut{font-size:14px;margin-top:2px}
+.pkal{font-size:13px;font-weight:700;color:var(--danger);margin-top:2px}
+
 .pkl .pkb{background:var(--accent-tint);color:var(--accent-ink)}
 .pkl .row:has(.tag.tg-a) .pkb{background:var(--accent);color:var(--on-accent)}
 .pkl .row:has(.tag.tg-a) .amt b{color:var(--accent)}
@@ -849,12 +853,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
     <div class="sb" style="padding:0 10px"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
     <div class="bandtop">
       <button class="ib dk" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-      <div class="mon">
-        <button class="ib dk" aria-label="Önceki ay: Ağustos"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-        <span>Eylül 2026</span>
-        <button class="ib dk" aria-label="Sonraki ay: Ekim"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      </div>
-      <button class="ib p" aria-label="Ödeme kaydet"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+      <button class="monb" aria-label="Ay: Eylül 2026">Eylül 2026<svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;transform:rotate(90deg);color:var(--on-dark-muted)"><path d="M9 6l6 6-6 6"></path></svg></button>
     </div>
     <h2 class="t2">2 ödeme bekliyor</h2>
     <div class="stats two">
@@ -1638,13 +1637,17 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
   <div class="form" style="gap:16px;flex:1;padding-top:0">
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px">
       <span class="av" style="width:40px;height:40px;font-size:14px">MK</span>
-      <span class="sm" style="font-size:14px">Mert Kaya · 2 ders</span>
-      <span style="font-size:36px;line-height:1.1;font-weight:800">₺1.500</span>
+      <span class="sm pn" style="font-size:14px">Mert Kaya · 1 ders</span>
+      <span class="pbig" style="font-size:36px;line-height:1.1;font-weight:800">₺750</span>
       <span class="tag tg-d">6 gün gecikmiş</span>
+      <button class="lnk ptut">Tutarı değiştir</button>
+      <div class="ptin" style="align-self:stretch;margin-top:6px" hidden><input class="inp" inputmode="numeric" placeholder="₺750" aria-label="Alınan tutar"></div>
+      <span class="pkal" hidden></span>
     </div>
     <div class="blk" style="gap:6px"><span class="lbl">Dersler</span>
-      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="true"><span class="ck on"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">27 Ağustos · 09:00</span><span class="s">Bireysel · 60 dk</span></span><b>₺750</b></button>
-      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="true"><span class="ck on"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">3 Eylül · 09:00</span><span class="s">Bireysel · 60 dk</span></span><b>₺750</b></button>
+      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="true"><span class="ck on"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">9 Eylül · 11:30</span><span class="s">Grup · 3 kişi · 60 dk</span></span><b>₺750</b></button>
+      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="false"><span class="ck"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">27 Ağustos · 09:00</span><span class="s">Bireysel · 60 dk</span></span><b>₺750</b></button>
+      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="false"><span class="ck"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">3 Eylül · 09:00</span><span class="s">Bireysel · 60 dk</span></span><b>₺750</b></button>
     </div>
     <div class="blk" style="gap:6px"><span class="lbl">Ödeme yöntemi</span>
       <div class="tiles" role="group" aria-label="Ödeme yöntemi">
@@ -1653,10 +1656,9 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
         <button class="tile" style="min-height:64px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M2 10h20M6 15h4"></path></svg>Kart</button>
       </div>
     </div>
-    <label class="fld">Alınan tutar (kısmi ödeme için değiştir)<input class="inp" defaultValue="₺1.500"></label>
     <div class="orow"><div class="rt"><span class="t">Makbuz gönder</span><span class="s">WhatsApp ile PDF</span></div><button class="sw on" role="switch" aria-checked="true" aria-label="Makbuz gönder"></button></div>
   </div>
-  <div class="sfoot" style="padding-top:12px"><button class="btn p">₺1.500 tahsil et</button></div>
+  <div class="sfoot" style="padding-top:12px"><button class="btn p ptb">₺750 tahsil et</button></div>
 </div>
 </figure>
 
@@ -1669,11 +1671,11 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
   <div class="res">
     <div class="resi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></div>
     <span class="sm" style="font-size:14px">Mert Kaya · ödeme alındı</span>
-    <div class="resbig">₺1.500</div>
-    <span class="sm" style="font-size:14px">Borç kapandı, kişi kartı güncellendi.</span>
+    <div class="resbig">₺750</div>
+    <span class="sm" style="font-size:14px">Ödeme alındı, diğer borçlar duruyor.</span>
     <div class="kv">
       <div class="kvr"><span>Yöntem</span><span>Havale / EFT</span></div>
-      <div class="kvr"><span>Dersler</span><span>27 Ağu, 3 Eyl</span></div>
+      <div class="kvr"><span>Dersler</span><span>9 Eyl</span></div>
       <div class="kvr"><span>Tarih</span><span>10 Eyl · 14:32</span></div>
       <div class="kvr"><span>Makbuz</span><span style="color:var(--success)">WhatsApp ile gönderildi</span></div>
     </div>

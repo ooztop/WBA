@@ -200,6 +200,10 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4}
 .btn.off{background:var(--divider);color:var(--ink-muted);border:0;cursor:default}
 .mon{display:flex;align-items:center;justify-content:center;gap:2px;font-size:15px;font-weight:800}
 .mon .ib{width:40px;height:40px;background:transparent}
+.monb{display:flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--surface-dark-2);background:none;color:var(--on-dark);font-size:14px;font-weight:800}
+.ptut{font-size:14px;margin-top:2px}
+.pkal{font-size:13px;font-weight:700;color:var(--danger);margin-top:2px}
+
 .pkl .pkb{background:var(--accent-tint);color:var(--accent-ink)}
 .pkl .row:has(.tag.tg-a) .pkb{background:var(--accent);color:var(--on-accent)}
 .pkl .row:has(.tag.tg-a) .amt b{color:var(--accent)}
@@ -892,12 +896,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     <div class="sb" style="padding:0 10px"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
     <div class="bandtop">
       <button class="ib dk" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-      <div class="mon">
-        <button class="ib dk" aria-label="Önceki ay: Ağustos"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-        <span>Eylül 2026</span>
-        <button class="ib dk" aria-label="Sonraki ay: Ekim"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      </div>
-      <button class="ib p" aria-label="Ödeme kaydet"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button>
+      <button class="monb" aria-label="Ay: Eylül 2026">Eylül 2026<svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;transform:rotate(90deg);color:var(--on-dark-muted)"><path d="M9 6l6 6-6 6"></path></svg></button>
     </div>
     <h2 class="t2">2 ödeme bekliyor</h2>
     <div class="stats two">
@@ -1513,13 +1512,17 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   <div class="form" style="gap:16px;flex:1;padding-top:0">
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px">
       <span class="av" style="width:40px;height:40px;font-size:14px">MK</span>
-      <span class="sm" style="font-size:14px">Mert Kaya · 2 ders</span>
-      <span style="font-size:36px;line-height:1.1;font-weight:800">₺1.500</span>
+      <span class="sm pn" style="font-size:14px">Mert Kaya · 1 ders</span>
+      <span class="pbig" style="font-size:36px;line-height:1.1;font-weight:800">₺750</span>
       <span class="tag tg-d">6 gün gecikmiş</span>
+      <button class="lnk ptut">Tutarı değiştir</button>
+      <div class="ptin" style="align-self:stretch;margin-top:6px" hidden><input class="inp" inputmode="numeric" placeholder="₺750" aria-label="Alınan tutar"></div>
+      <span class="pkal" hidden></span>
     </div>
     <div class="blk" style="gap:6px"><span class="lbl">Dersler</span>
-      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="true"><span class="ck on"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">27 Ağustos · 09:00</span><span class="s">Bireysel · 60 dk</span></span><b>₺750</b></button>
-      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="true"><span class="ck on"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">3 Eylül · 09:00</span><span class="s">Bireysel · 60 dk</span></span><b>₺750</b></button>
+      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="true"><span class="ck on"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">9 Eylül · 11:30</span><span class="s">Grup · 3 kişi · 60 dk</span></span><b>₺750</b></button>
+      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="false"><span class="ck"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">27 Ağustos · 09:00</span><span class="s">Bireysel · 60 dk</span></span><b>₺750</b></button>
+      <button class="row" style="background:var(--surface-page);min-height:56px" aria-pressed="false"><span class="ck"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></span><span class="rt"><span class="t">3 Eylül · 09:00</span><span class="s">Bireysel · 60 dk</span></span><b>₺750</b></button>
     </div>
     <div class="blk" style="gap:6px"><span class="lbl">Ödeme yöntemi</span>
       <div class="tiles" role="group" aria-label="Ödeme yöntemi">
@@ -1528,10 +1531,9 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
         <button class="tile" style="min-height:64px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M2 10h20M6 15h4"></path></svg>Kart</button>
       </div>
     </div>
-    <label class="fld">Alınan tutar (kısmi ödeme için değiştir)<input class="inp" value="₺1.500"></label>
     <div class="orow"><div class="rt"><span class="t">Makbuz gönder</span><span class="s">WhatsApp ile PDF</span></div><button class="sw on" role="switch" aria-checked="true" aria-label="Makbuz gönder"></button></div>
   </div>
-  <div class="sfoot" style="padding-top:12px"><button class="btn p">₺1.500 tahsil et</button></div>
+  <div class="sfoot" style="padding-top:12px"><button class="btn p ptb">₺750 tahsil et</button></div>
 </div>
 </section>
 <section class="scrn k-page" data-id="40" data-kind="page" aria-label="Ödeme alındı">
@@ -1541,11 +1543,11 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   <div class="res">
     <div class="resi"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></div>
     <span class="sm" style="font-size:14px">Mert Kaya · ödeme alındı</span>
-    <div class="resbig">₺1.500</div>
-    <span class="sm" style="font-size:14px">Borç kapandı, kişi kartı güncellendi.</span>
+    <div class="resbig">₺750</div>
+    <span class="sm" style="font-size:14px">Ödeme alındı, diğer borçlar duruyor.</span>
     <div class="kv">
       <div class="kvr"><span>Yöntem</span><span>Havale / EFT</span></div>
-      <div class="kvr"><span>Dersler</span><span>27 Ağu, 3 Eyl</span></div>
+      <div class="kvr"><span>Dersler</span><span>9 Eyl</span></div>
       <div class="kvr"><span>Tarih</span><span>10 Eyl · 14:32</span></div>
       <div class="kvr"><span>Makbuz</span><span style="color:var(--success)">WhatsApp ile gönderildi</span></div>
     </div>
@@ -2021,7 +2023,7 @@ const W={
 '10':{'Diğer: Yardım ve destek, Çıkış yap':'push:50','Hesabı düzenle':'push:11','Bağlantıyı kopyala':'toast:Bağlantı kopyalandı','NFC ile paylaş':'toast:Telefonu yaklaştır','Profilini paylaş':'push:12','Ödemeler':'push:13','Takvim ayarlarım':'push:14','Ders kuralları':'push:15','Paket tercihleri':'push:16'},
 '11':{'Geri':'back','Kaydet':'back|toast:Değişiklikler kaydedildi','Hesabı sil':'push:18','Fotoğrafı değiştir':'toast:Fotoğraf seç'},
 '12':{'Geri':'back','NFC':'toast:Telefonu yaklaştır','Paylaş':'toast:Paylaşım menüsü','Bağlantıyı kopyala: pro.app/denizarslan':'toast:Bağlantı kopyalandı'},
-'13':{'Geri':'back','Ödeme kaydet':'push:39','Mert Kaya':'push:39','Burak Şahin':'push:39','Önceki ay: Ağustos':'toast:Ağustos 2026','Sonraki ay: Ekim':'toast:Ekim 2026'},
+'13':{'Geri':'back','Mert Kaya':'push:39','Burak Şahin':'push:39','Ay: Eylül 2026':'toast:Ay listesi açılır'},
 '14':{'Geri':'back','Mola ekle':'push:24','Başlangıç: 10:00':'toast:Saat seçici açılır','Bitiş: 18:00':'toast:Saat seçici açılır','Öğle molası':'push:24','Akşam arası':'push:24','*dname':'push:22'},
 '15':{'Geri':'back','Özel değer':'toast:Özel değer gir'},
 '16':{'Geri':'back','Paket ekle':'newpk','Tek ders · 60 dk':'push:41','Tek ders · 90 dk':'push:41','8 derslik paket':'push:42','Aylık üyelik':'push:42'},
@@ -2045,7 +2047,7 @@ const W={
 '36':{'Geri':'root','Tamam':'root','Başka saat öner':'rep:30'},
 '37':{'Geri':'back','Tamam':'back','Takvimde gör':'tab:0'},
 '38':{'Geri':'back','Tamam':'back','Yeni saat öner':'push:30'},
-'39':{'Geri':'back','₺1.500 tahsil et':'rep:40','*row':'checkrow'},
+'39':{'Geri':'back','Tutarı değiştir':'ptut','*row':'checkrow'},
 '40':{'Geri':'root','Tamam':'root','Makbuzu gör':'toast:Makbuz açılıyor'},
 '41':{'Geri':'back','Kaydet':'back|toast:Paket kaydedildi','Bu dersi sil':'pkdel','Çoklu paket':'rep:42','Ders kuralları':'rpt'},
 '42':{'Geri':'back','Kaydet':'pksave42','Tekil ders':'rep:41','Bu paketi sil':'pkdel','Ders kuralları':'rpt'},
@@ -2084,7 +2086,7 @@ P.addEventListener('click',e=>{
   if(!a&&el.querySelector('.dname')&&w['*dname'])a=w['*dname'];
   if(!a&&el.classList.contains('val')&&w['*val'])a=w['*val'];
   if(a==='reveal'){const b=el.parentElement.querySelector('b');b.textContent=b.textContent==='₺•••'?'₺0':'₺•••';return}
-  if(a==='pick'||a==='checkrow'){const c=el.querySelector('.ck');if(c){const on=!c.classList.contains('on');c.classList.toggle('on',on);el.style.background=on?(a==='pick'?'var(--accent-tint-soft)':''):(a==='pick'?'':'');el.setAttribute('aria-pressed',on);if(a==='pick'){const n=s.querySelectorAll('.ck.on').length;const l=s.querySelector('.grp .lbl');if(l)l.textContent=n+' kişi seçili'}}return}
+  if(a==='pick'||a==='checkrow'){const c=el.querySelector('.ck');if(c){const on=!c.classList.contains('on');c.classList.toggle('on',on);el.style.background=on?(a==='pick'?'var(--accent-tint-soft)':''):(a==='pick'?'':'');el.setAttribute('aria-pressed',on);if(id==='39')paySum(s,true);if(a==='pick'){const n=s.querySelectorAll('.ck.on').length;const l=s.querySelector('.grp .lbl');if(l)l.textContent=n+' kişi seçili'}}return}
   if(a==='pickloc'){pickSheet(s,'Konum',['Stüdyo','Online','Adres'],el.querySelector('.lcv'));return}
   if(a==='rpt'){const x=el.nextElementSibling&&el.nextElementSibling.classList.contains('rpx')?el.nextElementSibling:s.querySelector('.rpx'),op=x.hidden;if(el.classList.contains('kxb')){const sm=el.querySelector('.s');if(!sm.dataset.off)sm.dataset.off=sm.textContent;sm.textContent=op?'Bu pakete özel · genel ayarı ezer':sm.dataset.off}x.hidden=!op;el.setAttribute('aria-expanded',op);if(op)requestAnimationFrame(()=>{const sh=s.querySelector('.sh'),f=sh.querySelector('.sfoot'),r=x.getBoundingClientRect(),lim=(f?f.getBoundingClientRect().top:sh.getBoundingClientRect().bottom)-16;if(r.bottom>lim)sh.scrollBy({top:r.bottom-lim,behavior:'smooth'})});return}
   if(a==='pickreason'){pickSheet(s,'Sebep',s.dataset.allday?['İzin günü','Tatil','Hastalık','Kişisel','Diğer']:['Öğle arası','Kahve arası','Toplantı','Kişisel','Diğer'],el.querySelector('.lcv'));return}
@@ -2108,6 +2110,8 @@ P.addEventListener('click',e=>{
   if(a==='pw'){const i=s.querySelector('#lg-pw');i.type=i.type==='password'?'text':'password';return}
   if(a==='delacc'){if(el.classList.contains('off'))return;run('login|toast:Silme isteği alındı');return}
   if(a&&a.startsWith('push:menuCall')){toast('Ara · WhatsApp\'tan yaz · Numarayı kopyala');return}
+  if(a==='ptut'){el.hidden=true;const w=s.querySelector('.ptin');w.hidden=false;w.querySelector('input').focus();return}
+  if(id==='39'&&el.classList.contains('ptb')){run('rep:40');return}
   if(a==='ngt'){el.closest('.ngrp').classList.toggle('open');return}
   if(a==='seen'){const o=el.getAttribute('aria-expanded')!=='true';el.setAttribute('aria-expanded',o);el.nextElementSibling.hidden=!o;return}
   if(a){run(a);return}
@@ -2126,6 +2130,12 @@ P.addEventListener('click',e=>{
 /* çok düğmeli panel: sadece ana düğme altta kalır, diğerleri formun sonuna iner */
 document.querySelectorAll('.phone .sh>.sfoot:not(.pk)').forEach(f=>{const keep=f.querySelector(':scope>.btn.p');if(!keep)return;const rest=[...f.children].filter(c=>c!==keep);if(!rest.length)return;const x=document.createElement('div');x.className='sfx';rest.forEach(c=>x.appendChild(c));f.parentElement.insertBefore(x,f)});
 /* Konum gibi seçimler: alttan seçim listesi */
+/* Ödeme al: seçilen derslerin toplamı; Tutarı değiştir ile eksik tutar girilirse kalan borç yazılır */
+function paySum(s,reset){const tl=n=>'₺'+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');const n=s.querySelectorAll('.blk .ck.on').length,sum=n*750;const inp=s.querySelector('.ptin input');if(reset&&inp)inp.value='';
+  const v=parseInt((inp&&inp.value||'').replace(/[^\d]/g,''),10);const amt=Number.isFinite(v)?Math.min(v,sum):sum;
+  s.querySelector('.pn').textContent='Mert Kaya · '+n+' ders';s.querySelector('.pbig').textContent=tl(amt);const b=s.querySelector('.ptb');b.textContent=tl(amt)+' tahsil et';b.classList.toggle('off',amt<=0);
+  const k=s.querySelector('.pkal');k.hidden=!(amt<sum);k.textContent=tl(sum-amt)+' borç olarak kalır'}
+(()=>{const s=SC['39'];if(!s)return;const i=s.querySelector('.ptin input');if(i)i.addEventListener('input',()=>paySum(s,false))})();
 /* Bildirimler filtresi: data-f taşıyanları süzer; içi boşalan tarih grubu ve Görülenler başlığı gizlenir */
 function nfApply(s,f){s.querySelectorAll('[data-f]').forEach(x=>{x.hidden=f!=='all'&&x.dataset.f!==f});
   s.querySelectorAll('.scr>.grp').forEach(g=>{const l=g.nextElementSibling;const any=l&&[...l.children].some(c=>!c.hidden);g.hidden=!any;if(l)l.hidden=!any});

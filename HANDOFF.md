@@ -122,7 +122,7 @@ Diğer artifact'ler (claude.ai, yardımcı):
     eksik ödemede borç ve dersler olduğu gibi kalır. Ödenen ders takvimde "Ödendi" olur. Ödemeler ekranındaki "+" kaldırıldı.
   - **Ödemeler:** ay seçici sağ üstte ince çerçeveli "Eylül 2026 ⌄" düğmesi, dokununca ay listesi (kapsüllü ve oklu hâller beğenilmedi).
     Liste henüz aya göre süzülmüyor (demo verisi aylara ayrılmamış).
-  - Ödeme al ve Ödemeler değişiklikleri Wellness'a henüz işlenmedi.
+  - Ödeme al ve Ödemeler değişiklikleri Wellness'a işlendi (sürüm 78). Prototipte sonuç ekranı (40) sabit örnek gösterir.
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
