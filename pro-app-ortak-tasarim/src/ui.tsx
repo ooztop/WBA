@@ -57,9 +57,9 @@ export function Av({ ini, lg, s }: { ini: string; lg?: boolean; s?: number }) {
   );
 }
 
-export type TagK = 'a' | 'i' | 's' | 'd' | 'n';
+export type TagK = 'a' | 'i' | 's' | 'd' | 'n' | 'w'; // w: uyarı (turuncu)
 export function tagC(C: ReturnType<typeof useC>, k: TagK): [string, string] {
-  return k === 'a' ? [C.tint, C.accentInk] : k === 'i' ? [C.infoTint, C.info] : k === 's' ? [C.successTint, C.success] : k === 'd' ? [C.dangerTint, C.danger] : [C.divider, C.muted];
+  return k === 'a' ? [C.tint, C.accentInk] : k === 'i' ? [C.infoTint, C.info] : k === 's' ? [C.successTint, C.success] : k === 'd' ? [C.dangerTint, C.danger] : k === 'w' ? [C.warnTint, C.warn] : [C.divider, C.muted];
 }
 export function Tag({ k, t }: { k: TagK; t: string }) {
   const C = useC();

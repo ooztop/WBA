@@ -9,7 +9,7 @@ import { markNotifsRead, resetDemo, setAccent, setDark, setEmptyMode, updatePers
 import { buildFeed, inFilter, notifTime, unreadCount, type FeedItem, type NotifFilter } from './data/notifs';
 import type { Notif, NotifKind } from './data/models';
 import { ff } from './theme';
-import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, SwipeAct, T, Tag, Tap, type SV } from './ui';
+import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, SwipeAct, T, Tag, Tap, type SV, type TagK } from './ui';
 
 const T2 = ({ t, sub }: { t: string; sub?: string }) => {
   const C = useC();
@@ -102,9 +102,9 @@ const Ntime = ({ t }: { t: string }) => {
 };
 
 // Bildirim türlerinin görünümü: ikon, renk, tek ve grup başlığı
-const NK: Record<NotifKind, { ic: string; k: 'a' | 'i' | 's' | 'd' | 'n'; t: string; g: (n: number) => string }> = {
+const NK: Record<NotifKind, { ic: string; k: TagK; t: string; g: (n: number) => string }> = {
   payDue: { ic: 'card', k: 'd', t: 'Ödeme bekleniyor', g: n => `${n} ödeme bekleniyor` },
-  pkgLow: { ic: 'box', k: 'a', t: 'Paket bitmek üzere', g: n => `${n} paket bitmek üzere` },
+  pkgLow: { ic: 'box', k: 'w', t: 'Paket bitmek üzere', g: n => `${n} paket bitmek üzere` },
   paid: { ic: 'cash', k: 's', t: 'Ödeme alındı', g: n => `${n} ödeme alındı` },
   cancel: { ic: 'calX', k: 'd', t: 'Ders iptal edildi', g: n => `${n} ders iptal edildi` },
   rsOk: { ic: 'calCheck', k: 's', t: 'Yeni saat onaylandı', g: n => `${n} yeni saat onaylandı` },
