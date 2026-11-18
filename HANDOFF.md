@@ -47,7 +47,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**17 Kas · tasarım turu Wellness'a işlendi** (sürüm 74; mavi çipler ve paket vurguları sürüm 75). Repodaki kopyalar da aynı:
+**17 Kas · tasarım turu Wellness'a işlendi** (sürüm 74; mavi çipler ve paket vurguları sürüm 75; 18 Kasım bildirimler, çakışan talebin kaldırılması, tam alfabe harf dizini, Hesabım mavi değerler, Takvim ayarlarım sürüm 77). Repodaki kopyalar da aynı:
 - İptal ve erteleme ekranları, iptal sonucu, alt çubuk ve kişiler listesi güncellendi.
 - Ders detayı örneği gelecekteki bir derse çevrildi (10 Eylül Perşembe). Tuvale ayrıca "29b Geçmiş ders" çizimi eklendi: yalnızca "Ödeme al".
 - Prototipte "Takvimden seç" yalnızca uyarı gösterir; tarih/saat seçici yalnızca uygulamada var.
@@ -161,4 +161,4 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
   - Okunmuş bilgi bildirimleri kapalı "Görülenler"e iner; işlem bekleyenler (ödeme bekleniyor, paket bitmek üzere) ve talepler hiç gizlenmez.
   - Önceliğe göre ayrıştırma yok; liste tarihe göre (Bugün, Dün, Bu hafta, Daha önce).
   - Kurallar `src/data/notifs.ts` (testli); sekme rozeti = bekleyen talep + okunmamış bildirim.
-  - Wellness'a henüz işlenmedi.
+  - Wellness'a işlendi (sürüm 77): prototipte filtreler, grup aç/kapa, Görülenler ve kaydırmalı talep satırları çalışır.

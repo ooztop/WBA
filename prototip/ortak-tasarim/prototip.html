@@ -96,9 +96,28 @@ html,body{margin:0;-webkit-font-smoothing:antialiased}
 .tg-s{background:var(--success-tint);color:var(--success)}
 .tg-d{background:var(--danger-tint);color:var(--danger)}
 .tg-n{background:var(--divider);color:var(--ink-muted)}
+.scrn [hidden]{display:none!important}
+.tg-w{background:#FEEBD7;color:#B54708}
+.ds.dark .tg-w{background:#3A2410;color:#FDB022}
+.ngrp{background:var(--surface-card);border-radius:12px;overflow:hidden;flex:none}
+.ngrp>.row{background:none}
+.ngrp .nchv{transform:rotate(90deg);color:var(--ink-muted);transition:transform .2s;flex:none}
+.ngrp.open .nchv{transform:rotate(-90deg)}
+.ngrp.open>.row .s{display:none}
+.ngl{display:none}.ngrp.open .ngl{display:block}
+.nsub{display:flex;align-items:center;gap:12px;width:calc(100% - 12px);margin-left:12px;padding:10px 14px 10px 0;min-height:60px;border:0;border-top:1px solid var(--divider);background:none;text-align:left}
+.nsub .avw{width:44px;display:flex;justify-content:center;flex:none}.nsub .av{width:38px;height:38px;font-size:14px}
+.nsub small{font-size:12px;font-weight:700;color:var(--ink-muted);flex:none}
+.seenh{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:none;padding:18px 16px 6px;min-height:44px}
+.seenh .nchv{transform:rotate(90deg);color:var(--ink-muted)}.seenh[aria-expanded="true"] .nchv{transform:rotate(-90deg)}
+.rqleft{font-size:12px;font-weight:800;color:var(--accent-ink);flex:none}
+.pickl{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--ink-muted);flex:1;min-width:0}
+.pick{height:52px;width:100%;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-card);padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:700;color:var(--ink)}
+.pick .i{width:18px;height:18px;color:var(--ink-muted)}
+
 .idxw{position:sticky;top:0;height:0;z-index:2}
-.idx{position:absolute;right:2px;top:8px;display:flex;flex-direction:column;align-items:center}
-.idx button{border:0;background:none;padding:2px 8px;font-size:11px;line-height:1.3;font-weight:800;color:var(--info)}
+.idx{position:absolute;right:1px;top:0;height:480px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.idx button{border:0;background:none;padding:0 4px;font-size:10px;line-height:13px;font-weight:700;color:var(--accent)}
 .tb{height:84px;padding-bottom:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));flex:none;position:relative;z-index:3;border-radius:22px 22px 0 0;background:radial-gradient(80% 170% at 10% 115%,color-mix(in srgb,var(--accent-tint) 90%,transparent),transparent 70%),radial-gradient(90% 170% at 65% 125%,color-mix(in srgb,var(--accent-tint) 75%,transparent),transparent 70%),radial-gradient(70% 140% at 100% 10%,color-mix(in srgb,var(--accent-tint-soft) 80%,transparent),transparent 70%),color-mix(in srgb,var(--surface-card) 82%,transparent);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:0 -6px 24px rgba(20,30,80,.08),0 -1px 0 rgba(20,30,80,.05)}.ds:not(.dark) .tb{background:radial-gradient(80% 170% at 10% 115%,color-mix(in srgb,var(--accent) 19%,#FFFFFF),transparent 70%),radial-gradient(90% 170% at 65% 125%,color-mix(in srgb,var(--accent) 15%,#F4EDFF),transparent 70%),radial-gradient(70% 140% at 100% 10%,color-mix(in srgb,var(--accent) 9%,#FFFFFF),transparent 70%),color-mix(in srgb,color-mix(in srgb,var(--accent) 4%,#FFFFFF) 86%,transparent)}.shh:has(.ib.g,.ib.del){padding:8px 16px 6px}.ib.del{background:var(--danger-tint);color:var(--danger);border:1.5px solid color-mix(in srgb,var(--danger) 22%,transparent)}.nv{position:relative}.rpx{display:flex;flex-direction:column;gap:10px;padding:12px 14px 16px;border-top:1px solid var(--divider)}.rpx[hidden]{display:none}.rpx .seg{margin:0;grid-template-columns:repeat(3,minmax(0,1fr))}.rpd{display:flex;flex-direction:column;gap:10px;margin-top:4px}.rpb .chev{transition:transform .25s ease}.rpb[aria-expanded="true"] .chev{transform:rotate(90deg)}.nv .bdg{position:absolute;top:7px;left:calc(50% + 3px);min-width:18px;height:18px;padding:0 4px;box-sizing:border-box;border-radius:999px;background:var(--accent);color:var(--on-accent);font-size:10px;font-weight:800;line-height:1;display:flex;align-items:center;justify-content:center;border:2px solid var(--surface-card)}
 .nv{border:0;background:none;font-size:11px;font-weight:700;color:var(--ink-muted);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
 .nv .i{width:22px;height:22px}
@@ -425,7 +444,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   <div class="scr">
     <div class="idxw">
     <div class="idx" aria-label="Harf dizini">
-      <button>A</button><button>B</button><button>C</button><button>Ç</button><button>D</button><button>E</button><button>G</button><button>H</button><button>İ</button><button>K</button><button>M</button><button>N</button><button>O</button><button>Ö</button><button>S</button><button>T</button><button>Z</button>
+      <button>A</button><button>B</button><button>C</button><button>Ç</button><button>D</button><button>E</button><button>F</button><button>G</button><button>H</button><button>I</button><button>İ</button><button>J</button><button>K</button><button>L</button><button>M</button><button>N</button><button>O</button><button>Ö</button><button>P</button><button>R</button><button>S</button><button>Ş</button><button>T</button><button>U</button><button>Ü</button><button>V</button><button>Y</button><button>Z</button><button>#</button>
     </div>
     </div>
     <div class="grp ix"><span class="lbl">A</span></div>
@@ -451,7 +470,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   <nav class="tb" aria-label="Sekmeler">
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Takvim</button>
     <button class="nv on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21a7 7 0 0 1 14 0M17 11a3 3 0 1 0 0-6M22 21a5 5 0 0 0-4-4.9"></path></svg>Kişiler</button>
-    <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="2 yeni">2</span>Bildirimler</button>
+    <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="9 yeni">9</span>Bildirimler</button>
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Hesabım</button>
   </nav>
 </div>
@@ -656,34 +675,46 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
       <span class="lbl">Bildirimler</span>
       <button class="ib dk" aria-label="Bildirim ayarları"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></button>
     </div>
-    <h2 class="t2">2 talep bekliyor</h2>
-    <div class="sm" style="margin-top:4px">Bugün 3 yeni bildirim</div>
+    <h2 class="t2">3 talep bekliyor</h2>
+    <div class="sm" style="margin-top:4px">6 okunmamış bildirim</div>
   </div>
+  <div class="chips" role="group" aria-label="Bildirim filtresi"><button class="chip on" aria-pressed="true" data-nf="all">Tümü</button><button class="chip" data-nf="req">Talepler<span class="cn">3</span></button><button class="chip" data-nf="pay">Ödemeler<span class="cn">3</span></button><button class="chip" data-nf="cancel">İptaller<span class="cn">1</span></button></div>
 
   <div class="scr">
-    <div class="fc">
-      <div class="fch"><span class="lbl">Yeni talep</span><span style="font-size:13px;font-weight:800;color:var(--accent-ink)">22 sa kaldı</span></div>
-      <div class="who"><span class="av lg">BŞ</span><span class="rt"><span class="nm">Burak Şahin</span><span class="sm" style="font-size:14px">12 Eyl · 18:00 · Bireysel 60 dk</span></span></div>
+    <div class="fc" data-f="req">
+      <div class="fch"><span class="lbl">Yeni talep</span><span style="font-size:13px;font-weight:800;color:var(--accent-ink)">9 sa kaldı</span></div>
+      <div class="who"><span class="av lg">CY</span><span class="rt"><span class="nm">Cansu Yılmaz</span><span class="sm" style="font-size:14px">14 Eyl Pzt · 09:00 · Bireysel 60 dk</span></span></div>
       <div class="acts"><button class="btn x">Reddet</button><button class="btn p">Onayla</button></div>
+    </div>
+    <div class="list rqs" data-f="req" style="padding-top:8px">
+      <button class="row"><span class="av">DA</span><span class="rt"><span class="t">Deniz Arslan</span><span class="s">11 Eyl Cum · 10:00</span></span><span class="rqleft">20 sa kaldı</span></button>
+      <button class="row"><span class="av">BŞ</span><span class="rt"><span class="t">Burak Şahin</span><span class="s">12 Eyl Cmt · 18:00</span></span><span class="rqleft">22 sa kaldı</span></button>
     </div>
 
     <div class="grp"><span class="lbl">Bugün</span></div>
     <div class="list">
-      <button class="row"><span class="fic tg-d"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M10 13l4 4M14 13l-4 4"></path></svg></span><span class="rt"><span class="t">Talep çakışıyor</span><span class="s">Ayşe Koç · grup dersiyle aynı saat</span></span><span class="ntime"><small>1 sa</small><span class="tag tg-d">Çakışma</span></span></button>
-      <button class="row"><span class="fic tg-s"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"></path></svg></span><span class="rt"><span class="t">Yeni saat onaylandı</span><span class="s">Elif Yıldırım · 12 Eyl 18:00</span></span><span class="ntime"><small>3 sa</small><span class="tag tg-s">Onaylandı</span></span></button>
+      <div class="ngrp" data-f="pay"><button class="row"><span class="fic tg-s"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle><path d="M6 9v.01M18 15v.01"></path></svg></span><span class="rt"><span class="t">3 ödeme alındı</span><span class="s">Selin, Can, Zeynep</span></span><span class="ntime"><small>12:10</small></span><svg class="i nchv" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button><div class="ngl"><button class="nsub"><span class="avw"><span class="av">SD</span></span><span class="rt"><span class="t">Selin Demir</span><span class="s">₺750 · Kart</span></span><small>12:10</small></button><button class="nsub"><span class="avw"><span class="av">CÖ</span></span><span class="rt"><span class="t">Can Öztürk</span><span class="s">₺5.400 · 8 derslik paket</span></span><small>11:40</small></button><button class="nsub"><span class="avw"><span class="av">ZA</span></span><span class="rt"><span class="t">Zeynep Aydın</span><span class="s">₺750 · Havale</span></span><small>11:05</small></button></div></div>
+      <button class="row" data-f="other"><span class="fic tg-s"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"></path></svg></span><span class="rt"><span class="t">Yeni saat onaylandı</span><span class="s">Elif Yıldırım · 12 Eyl 18:00</span></span><span class="ntime"><small>09:24</small></span></button>
     </div>
     <div class="grp"><span class="lbl">Bu hafta</span></div>
     <div class="list">
-      <button class="row"><span class="fic tg-i"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"></rect><path d="M2 10h20M6 15h4"></path></svg></span><span class="rt"><span class="t">Ödeme bekleniyor</span><span class="s">Mert Kaya · ₺1.500</span></span><span class="ntime"><small>Pzt</small><span class="tag tg-d">Ödenmedi</span></span></button>
-      <button class="row"><span class="fic tg-d"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M10 13l4 4M14 13l-4 4"></path></svg></span><span class="rt"><span class="t">Ders iptal edildi</span><span class="s">Selin Demir · 8 Eyl 19:00</span></span><span class="ntime"><small>Pzt</small><span class="tag tg-d">İptal</span></span></button>
-      <button class="row"><span class="fic tg-a"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8"></path></svg></span><span class="rt"><span class="t">Paket bitmek üzere</span><span class="s">Can Öztürk · 2 ders kaldı</span></span><span class="ntime"><small>Paz</small><span class="tag tg-a">Yenile</span></span></button>
+      <button class="row" data-f="pay"><span class="fic tg-d"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"></rect><path d="M2 10h20M6 15h4"></path></svg></span><span class="rt"><span class="t">Ödeme bekleniyor</span><span class="s">Mert Kaya · ₺1.500 · 2 ders</span></span><span class="ntime"><small>Pzt</small></span></button>
+      <button class="row" data-f="cancel"><span class="fic tg-d"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M10 13l4 4M14 13l-4 4"></path></svg></span><span class="rt"><span class="t">Ders iptal edildi</span><span class="s">Cansu Yılmaz · 10 Eyl 14:00</span></span><span class="ntime"><small>Pzt</small></span></button>
+      <button class="row" data-f="other"><span class="fic tg-w"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8"></path></svg></span><span class="rt"><span class="t">Paket bitmek üzere</span><span class="s">Can Öztürk · 2 ders kaldı</span></span><span class="ntime"><small>Paz</small></span></button>
+    </div>
+    <button class="seenh" aria-expanded="false"><span class="lbl">Görülenler · 6</span><svg class="i nchv" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+    <div class="list seenl" hidden>
+      <button class="row" data-f="cancel"><span class="fic tg-d"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M10 13l4 4M14 13l-4 4"></path></svg></span><span class="rt"><span class="t">Ders iptal edildi</span><span class="s">Selin Demir · 8 Eyl 19:00</span></span><span class="ntime"><small>Dün</small></span></button>
+      <div class="ngrp" data-f="other"><button class="row"><span class="fic tg-i"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"></path></svg></span><span class="rt"><span class="t">2 ders eklendi</span><span class="s">Emre, Gizem</span></span><span class="ntime"><small>Dün</small></span><svg class="i nchv" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button><div class="ngl"><button class="nsub"><span class="avw"><span class="av">EK</span></span><span class="rt"><span class="t">Emre Kılıç</span><span class="s">21 Eyl 12:00 · Bireysel</span></span><small>Dün</small></button><button class="nsub"><span class="avw"><span class="av">GT</span></span><span class="rt"><span class="t">Gizem Tan</span><span class="s">20 Eyl 10:30 · Bireysel</span></span><small>1 Eyl</small></button></div></div>
+      <button class="row" data-f="other"><span class="fic tg-s"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"></path></svg></span><span class="rt"><span class="t">Yeni saat onaylandı</span><span class="s">Deniz Arslan · 5 Eyl 10:00</span></span><span class="ntime"><small>3 Eyl</small></span></button>
+      <div class="ngrp" data-f="pay"><button class="row"><span class="fic tg-s"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle><path d="M6 9v.01M18 15v.01"></path></svg></span><span class="rt"><span class="t">2 ödeme alındı</span><span class="s">Ayşe, Elif</span></span><span class="ntime"><small>2 Eyl</small></span><svg class="i nchv" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button><div class="ngl"><button class="nsub"><span class="avw"><span class="av">AK</span></span><span class="rt"><span class="t">Ayşe Koç</span><span class="s">₺7.200 · Aylık üyelik</span></span><small>2 Eyl</small></button><button class="nsub"><span class="avw"><span class="av">EY</span></span><span class="rt"><span class="t">Elif Yıldırım</span><span class="s">₺5.400 · 8 derslik paket</span></span><small>1 Eyl</small></button></div></div>
     </div>
   </div>
 
   <nav class="tb" aria-label="Sekmeler">
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Takvim</button>
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21a7 7 0 0 1 14 0M17 11a3 3 0 1 0 0-6M22 21a5 5 0 0 0-4-4.9"></path></svg>Kişiler</button>
-    <button class="nv on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="2 yeni">2</span>Bildirimler</button>
+    <button class="nv on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="9 yeni">9</span>Bildirimler</button>
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Hesabım</button>
   </nav>
 </div>
@@ -782,16 +813,16 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
 
     <div class="gcard" style="margin-top:12px">
       <button class="gr" style="width:100%;border:0;background:none;text-align:left"><span class="fic tg-n" style="color:var(--ink)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"></path></svg></span><span class="rt"><span class="t">Ödemeler</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      <button class="gr" style="width:100%;border:0;border-top:1px solid var(--divider);background:none;text-align:left"><span class="fic tg-n" style="color:var(--ink)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><span class="rt"><span class="t">Takvim ayarlarım</span></span><span class="sm" style="font-weight:700">10:00 – 18:00</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr" style="width:100%;border:0;border-top:1px solid var(--divider);background:none;text-align:left"><span class="fic tg-n" style="color:var(--ink)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><span class="rt"><span class="t">Takvim ayarlarım</span></span><span class="sm" style="font-weight:700;color:var(--accent)">10:00 – 18:00</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
       <button class="gr" style="width:100%;border:0;border-top:1px solid var(--divider);background:none;text-align:left"><span class="fic tg-n" style="color:var(--ink)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="fill:currentColor;stroke:none"><path d="m2.3 20.28 9.6-9.6-1.4-1.42-.72.71a.996.996 0 0 1-1.41 0l-.71-.71a.996.996 0 0 1 0-1.41l5.66-5.66a.996.996 0 0 1 1.41 0l.71.71c.39.39.39 1.02 0 1.41l-.71.69 1.42 1.43a.996.996 0 0 1 1.41 0c.39.39.39 1.03 0 1.42l1.41 1.41.71-.71c.39-.39 1.03-.39 1.42 0l.7.71c.39.39.39 1.03 0 1.42l-5.65 5.65c-.39.39-1.03.39-1.42 0l-.7-.7a.99.99 0 0 1 0-1.42l.7-.71-1.41-1.41-9.61 9.61a.996.996 0 0 1-1.41 0c-.39-.39-.39-1.03 0-1.42M20 19a2 2 0 0 1 2 2v1H12v-1a2 2 0 0 1 2-2z"></path></svg></span><span class="rt"><span class="t">Ders kuralları</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      <button class="gr" style="width:100%;border:0;border-top:1px solid var(--divider);background:none;text-align:left"><span class="fic tg-n" style="color:var(--ink)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="fill:currentColor;stroke:none"><path d="M5.5 7A1.5 1.5 0 0 1 4 5.5 1.5 1.5 0 0 1 5.5 4 1.5 1.5 0 0 1 7 5.5 1.5 1.5 0 0 1 5.5 7m15.91 4.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.11 0-2 .89-2 2v7c0 .55.22 1.05.59 1.41l8.99 9c.37.36.87.59 1.42.59s1.05-.23 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.56-.23-1.06-.59-1.42"></path></svg></span><span class="rt"><span class="t">Paket tercihleri</span></span><span class="sm" style="font-weight:700">4 paket</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr" style="width:100%;border:0;border-top:1px solid var(--divider);background:none;text-align:left"><span class="fic tg-n" style="color:var(--ink)"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="fill:currentColor;stroke:none"><path d="M5.5 7A1.5 1.5 0 0 1 4 5.5 1.5 1.5 0 0 1 5.5 4 1.5 1.5 0 0 1 7 5.5 1.5 1.5 0 0 1 5.5 7m15.91 4.58-9-9C12.05 2.22 11.55 2 11 2H4c-1.11 0-2 .89-2 2v7c0 .55.22 1.05.59 1.41l8.99 9c.37.36.87.59 1.42.59s1.05-.23 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.56-.23-1.06-.59-1.42"></path></svg></span><span class="rt"><span class="t">Paket tercihleri</span></span><span class="sm" style="font-weight:700;color:var(--accent)">4 paket</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
     </div>
   </div>
 
   <nav class="tb" aria-label="Sekmeler">
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Takvim</button>
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21a7 7 0 0 1 14 0M17 11a3 3 0 1 0 0-6M22 21a5 5 0 0 0-4-4.9"></path></svg>Kişiler</button>
-    <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="2 yeni">2</span>Bildirimler</button>
+    <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="9 yeni">9</span>Bildirimler</button>
     <button class="nv on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Hesabım</button>
   </nav>
 </div>
@@ -904,12 +935,12 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     <div class="gcard" style="padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px">
       <span class="sm">Her gün için varsayılan. Günlere özel ayar aşağıda.</span>
       <div class="cols">
-        <label class="fld">Başlangıç<input class="inp" value="10:00"></label>
-        <label class="fld">Bitiş<input class="inp" value="18:00"></label>
+        <div class="pickl">Başlangıç<button class="pick" aria-label="Başlangıç: 10:00">10:00<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button></div>
+        <div class="pickl">Bitiş<button class="pick" aria-label="Bitiş: 18:00">18:00<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button></div>
       </div>
     </div>
 
-    <div class="grp" style="padding-top:18px;display:flex;align-items:center;justify-content:space-between;padding-bottom:4px"><span class="lbl">Düzenli molalar</span><button class="ib g" aria-label="Mola ekle" style="width:36px;height:36px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button></div>
+    <div class="grp" style="padding-top:18px;display:flex;align-items:center;justify-content:space-between;padding-bottom:4px"><span class="lbl">Düzenli molalar</span><button class="ib p" aria-label="Mola ekle" style="width:36px;height:36px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button></div>
     <div class="gcard">
       <button class="gr grb"><span class="rt"><span class="t">Öğle molası</span><span class="s">12:30 – 13:30 · Pzt – Cmt</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
       <button class="gr grb"><span class="rt"><span class="t">Akşam arası</span><span class="s">17:00 – 17:30 · Sal, Per</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
@@ -917,12 +948,12 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
 
     <div class="grp" style="padding-top:18px"><span class="lbl">Günler</span><div class="sm" style="margin-top:2px">Özel ayar için güne dokun</div></div>
     <div class="gcard">
-      <button class="gr grb" style="min-height:52px"><span class="dname">Pzt</span><span class="rt"><span class="t" style="font-weight:500">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      <button class="gr grb" style="min-height:52px"><span class="dname">Sal</span><span class="rt"><span class="t" style="font-weight:500">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      <button class="gr grb" style="min-height:52px"><span class="dname">Çar</span><span class="rt"><span class="t" style="font-weight:500">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      <button class="gr grb" style="min-height:52px"><span class="dname">Per</span><span class="rt"><span class="t" style="font-weight:500">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      <button class="gr grb" style="min-height:52px"><span class="dname">Cum</span><span class="rt"><span class="t" style="font-weight:500">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
-      <button class="gr grb"><span class="dname">Cmt</span><span class="rt"><span class="t" style="font-weight:500">10:00 – 14:00</span><span class="s">10 geçe başlar · akşam arası yok</span></span><span class="tag tg-a">Özel</span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr grb" style="min-height:52px"><span class="dname">Pzt</span><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr grb" style="min-height:52px"><span class="dname">Sal</span><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr grb" style="min-height:52px"><span class="dname">Çar</span><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr grb" style="min-height:52px"><span class="dname">Per</span><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr grb" style="min-height:52px"><span class="dname">Cum</span><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+      <button class="gr grb"><span class="dname">Cmt</span><span class="rt"><span class="t" style="font-weight:700;color:var(--accent)">10:00 – 14:00</span><span class="s">10 geçe başlar · akşam arası yok</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
       <button class="gr grb" style="min-height:52px"><span class="dname" style="color:var(--ink-muted)">Paz</span><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">Kapalı</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
     </div>
 
@@ -1049,7 +1080,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
   <nav class="tb" style="margin-top:auto" aria-label="Sekmeler">
     <button class="nv on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Takvim</button>
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21a7 7 0 0 1 14 0M17 11a3 3 0 1 0 0-6M22 21a5 5 0 0 0-4-4.9"></path></svg>Kişiler</button>
-    <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="2 yeni">2</span>Bildirimler</button>
+    <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="9 yeni">9</span>Bildirimler</button>
     <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>Hesabım</button>
   </nav>
 </div>
@@ -1394,32 +1425,6 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     </div>
   </div>
   <div class="foot"><button class="btn x">Reddet</button><button class="btn p">Onayla</button></div>
-</div>
-</section>
-<section class="scrn k-page" data-id="34" data-kind="page" aria-label="Rezervasyon talebi">
-<div class="ph">
-  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
-  <div class="navh">
-    <button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
-    <div class="ttl"><b>Rezervasyon talebi</b></div>
-    <span></span>
-  </div>
-  <div class="scr">
-    <div class="fc" style="margin-top:4px">
-      <div class="fch"><div class="who"><span class="av">AK</span><span class="rt"><span class="t">Ayşe Koç</span><span class="s">Tam zamanlı üyelik</span></span></div><span style="font-size:13px;font-weight:800;color:var(--accent-ink);flex:none">22 sa kaldı</span></div>
-      <div class="t2">10 Eyl Çar · 11:30</div>
-      <span class="sm" style="margin-top:-6px">Bireysel · 60 dk · Kadıköy stüdyo</span>
-    </div>
-    <div class="warnb" style="margin:14px 16px 0"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16h.01"></path></svg><div><b>Bu saatte başka dersin var</b><span>Mert Kaya · Grup dersi · 11:30 – 13:00</span></div></div>
-    <div class="grp" style="padding-top:16px"><span class="lbl">Başka saat öner</span><div class="sm" style="margin-top:2px">En yakın müsait saatlerin</div></div>
-    <div class="pchips g3" style="padding:0 16px" role="group" aria-label="Önerilecek saat"><button class="chip">11 Eyl 14:00</button><button class="chip on" aria-pressed="true">11 Eyl 15:10</button><button class="chip">12 Eyl 10:00</button></div>
-    <div class="gcard" style="margin-top:14px">
-      <div class="gr"><span class="rt"><span class="t">Ücret</span><span class="s">Üyelik kapsamında</span></span><span class="tag tg-s">Üyelik</span></div>
-    </div>
-    <div class="grp" style="padding-top:16px"><span class="lbl">Kişinin notu</span></div>
-    <div class="quote" style="margin:0 16px;background:var(--surface-card)">Sınavım var, mümkünse konu tekrarına ağırlık verebilir miyiz?</div>
-  </div>
-  <div class="foot"><button class="btn x">Reddet</button><button class="btn p">Bu saati öner</button></div>
 </div>
 </section>
 <section class="scrn k-page" data-id="35" data-kind="page" aria-label="Rezervasyon onaylandı">
@@ -1802,7 +1807,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
 <nav class="tb gtb" id="gtb" aria-label="Sekmeler">
 <button class="nv on" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg><span class="lb">Takvim</span></button>
 <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21a7 7 0 0 1 14 0M17 11a3 3 0 1 0 0-6M22 21a5 5 0 0 0-4-4.9"></path></svg><span class="lb">Kişiler</span></button>
-<button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="2 yeni">2</span><span class="lb">Bildirimler</span></button>
+<button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg><span class="bdg" aria-label="9 yeni">9</span><span class="lb">Bildirimler</span></button>
 <button class="nv"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg><span class="lb">Hesabım</span></button>
 </nav>
 <div class="ptoast" id="toast"></div>
@@ -2010,14 +2015,14 @@ const W={
 '04':{'Geri':'back','Kişiyi kaydet':'nksave','Fotoğraf ekle':'toast:Fotoğraf seç','Rehberden seç':'toast:Rehber açılıyor'},
 '05':{'Geri':'back','Kaydet':'back|toast:Değişiklikler kaydedildi','Arşivle':'push:52','Kişiyi sil':'push:53','Fotoğrafı değiştir':'toast:Fotoğraf seç','Rehberden seç':'toast:Rehber açılıyor'},
 '06':{'Geri':'back','Doküman ekle':'toast:Dosya seç · Fotoğraf çek · Not yaz','*row':'toast:Dosya açılıyor'},
-'07':{'Bildirim ayarları':'push:09','Reddet':'push:54','Onayla':'push:35','Talep çakışıyor':'push:34','Yeni saat onaylandı':'push:37','Ödeme bekleniyor':'push:39','Ders iptal edildi':'push:38','Paket bitmek üzere':'push:03'},
+'07':{'Bildirim ayarları':'push:09','Reddet':'push:54','Onayla':'push:35','Deniz Arslan':'push:33','Burak Şahin':'push:33','3 ödeme alındı':'ngt','2 ödeme alındı':'ngt','2 ders eklendi':'ngt','Selin Demir':'push:13','Can Öztürk':'push:13','Zeynep Aydın':'push:13','Ayşe Koç':'push:13','Elif Yıldırım':'push:13','Emre Kılıç':'push:03','Gizem Tan':'push:03','Yeni saat onaylandı':'push:37','Ödeme bekleniyor':'push:39','Ders iptal edildi':'push:38','Paket bitmek üzere':'push:03','Görülenler · 6':'seen'},
 '08':{'Bildirim ayarları':'push:09'},
 '09':{'Geri':'back','*val':'toast:Seçenekler açılır'},
 '10':{'Diğer: Yardım ve destek, Çıkış yap':'push:50','Hesabı düzenle':'push:11','Bağlantıyı kopyala':'toast:Bağlantı kopyalandı','NFC ile paylaş':'toast:Telefonu yaklaştır','Profilini paylaş':'push:12','Ödemeler':'push:13','Takvim ayarlarım':'push:14','Ders kuralları':'push:15','Paket tercihleri':'push:16'},
 '11':{'Geri':'back','Kaydet':'back|toast:Değişiklikler kaydedildi','Hesabı sil':'push:18','Fotoğrafı değiştir':'toast:Fotoğraf seç'},
 '12':{'Geri':'back','NFC':'toast:Telefonu yaklaştır','Paylaş':'toast:Paylaşım menüsü','Bağlantıyı kopyala: pro.app/denizarslan':'toast:Bağlantı kopyalandı'},
 '13':{'Geri':'back','Ödeme kaydet':'push:39','Mert Kaya':'push:39','Burak Şahin':'push:39','Önceki ay: Ağustos':'toast:Ağustos 2026','Sonraki ay: Ekim':'toast:Ekim 2026'},
-'14':{'Geri':'back','Mola ekle':'push:24','Öğle molası':'push:24','Akşam arası':'push:24','*dname':'push:22'},
+'14':{'Geri':'back','Mola ekle':'push:24','Başlangıç: 10:00':'toast:Saat seçici açılır','Bitiş: 18:00':'toast:Saat seçici açılır','Öğle molası':'push:24','Akşam arası':'push:24','*dname':'push:22'},
 '15':{'Geri':'back','Özel değer':'toast:Özel değer gir'},
 '16':{'Geri':'back','Paket ekle':'newpk','Tek ders · 60 dk':'push:41','Tek ders · 90 dk':'push:41','8 derslik paket':'push:42','Aylık üyelik':'push:42'},
 '17':{'Geri':'back','*row':'toast:Açılıyor'},
@@ -2036,7 +2041,6 @@ const W={
 '31':{'Geri':'back','Dersi iptal et':'cask','Sebep':'creason','Paket':'cpk'},
 '32':{'Geri':'root','Tamam':'root','Yeni saat öner':'rep:30'},
 '33':{'Geri':'back','Reddet':'push:54','Onayla':'rep:35','Başka saat öner':'push:30'},
-'34':{'Geri':'back','Reddet':'push:54','Bu saati öner':'back|toast:Karşı teklif gönderildi'},
 '35':{'Geri':'root','Tamam':'root','Takvimde gör':'tab:0'},
 '36':{'Geri':'root','Tamam':'root','Başka saat öner':'rep:30'},
 '37':{'Geri':'back','Tamam':'back','Takvimde gör':'tab:0'},
@@ -2104,8 +2108,11 @@ P.addEventListener('click',e=>{
   if(a==='pw'){const i=s.querySelector('#lg-pw');i.type=i.type==='password'?'text':'password';return}
   if(a==='delacc'){if(el.classList.contains('off'))return;run('login|toast:Silme isteği alındı');return}
   if(a&&a.startsWith('push:menuCall')){toast('Ara · WhatsApp\'tan yaz · Numarayı kopyala');return}
+  if(a==='ngt'){el.closest('.ngrp').classList.toggle('open');return}
+  if(a==='seen'){const o=el.getAttribute('aria-expanded')!=='true';el.setAttribute('aria-expanded',o);el.nextElementSibling.hidden=!o;return}
   if(a){run(a);return}
   if(id==='30'&&el.classList.contains('dc')){toggleIn(el,false);const i=[...el.parentElement.children].indexOf(el),pc=s.querySelector('.pchips');pc.innerHTML=RS[i].map((x,k)=>'<button class="chip'+(k===0?' on" aria-pressed="true"':'"')+'>'+x+'</button>').join('');pc.animate([{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'none'}],{duration:220,easing:'ease-out'});rsNew(s);return}
+  if(id==='07'&&el.classList.contains('chip')&&el.dataset.nf){toggleIn(el,false);nfApply(s,el.dataset.nf);return}
   if(id==='30'&&el.classList.contains('chip')&&el.closest('.pchips')){toggleIn(el,false);rsNew(s);return}
   /* genel davranışlar */
   if(el.classList.contains('sw')){const on=!el.classList.contains('on');el.classList.toggle('on',on);el.setAttribute('aria-checked',on);return}
@@ -2119,6 +2126,10 @@ P.addEventListener('click',e=>{
 /* çok düğmeli panel: sadece ana düğme altta kalır, diğerleri formun sonuna iner */
 document.querySelectorAll('.phone .sh>.sfoot:not(.pk)').forEach(f=>{const keep=f.querySelector(':scope>.btn.p');if(!keep)return;const rest=[...f.children].filter(c=>c!==keep);if(!rest.length)return;const x=document.createElement('div');x.className='sfx';rest.forEach(c=>x.appendChild(c));f.parentElement.insertBefore(x,f)});
 /* Konum gibi seçimler: alttan seçim listesi */
+/* Bildirimler filtresi: data-f taşıyanları süzer; içi boşalan tarih grubu ve Görülenler başlığı gizlenir */
+function nfApply(s,f){s.querySelectorAll('[data-f]').forEach(x=>{x.hidden=f!=='all'&&x.dataset.f!==f});
+  s.querySelectorAll('.scr>.grp').forEach(g=>{const l=g.nextElementSibling;const any=l&&[...l.children].some(c=>!c.hidden);g.hidden=!any;if(l)l.hidden=!any});
+  const sh=s.querySelector('.seenh'),sl=s.querySelector('.seenl');if(sh&&sl){const any=[...sl.children].some(c=>!c.hidden);sh.hidden=!any}}
 function pickSheet(s,title,opts,target){const ph=s.querySelector('.ph');const cur=target?norm(target.textContent):'';const ck='<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>';
   const d=document.createElement('div');d.className='pko';d.innerHTML='<div class="ass" role="menu" aria-label="'+title+'"><div class="asg"><div class="ast">'+title+'</div>'+opts.map((o,i)=>'<button class="asb" role="menuitem" data-v="'+o+'"'+(i===0?' style="border-top:1px solid var(--divider)"':'')+(o===cur?' aria-checked="true"':'')+'>'+o+(o===cur?ck:'')+'</button>').join('')+'</div><div class="asg"><button class="asb" data-x style="font-weight:800">Vazgeç</button></div></div>';
   ph.appendChild(d);requestAnimationFrame(()=>requestAnimationFrame(()=>d.classList.add('on')));
@@ -2210,6 +2221,18 @@ setTimeout(()=>document.querySelectorAll('.chips').forEach(hfog),400);
     w.classList.add('anim');r.style.transform='';
     if(dx>80){const old=s.querySelector('.tag.tg-a');const host=old&&old.closest('.row');if(old)old.remove();s.querySelectorAll('.swr>.row').forEach(x=>x.style.background='');const am=r.querySelector('.amt');if(am)am.insertAdjacentHTML('beforeend','<span class="tag tg-a">Temel</span>');r.style.background='var(--accent-tint-soft)';const sec=r.closest('.list');toast('Temel paket güncellendi')}
     else if(dx<-80){const n=norm(r.querySelector('.t').textContent);w.style.height=w.offsetHeight+'px';requestAnimationFrame(()=>{w.classList.add('gone');w.style.height='0px';w.style.opacity=0;w.style.marginBottom='-6px'});setTimeout(()=>w.remove(),320);toast(n+' silindi')}})})();
+/* Bildirimler: talep satırları kaydırılır (sağa onayla, sola reddet) */
+(()=>{const s=SC['07'];if(!s)return;s.querySelectorAll('.rqs>.row').forEach(r=>{const w=document.createElement('div');w.className='swr';r.parentNode.insertBefore(w,r);const a=document.createElement('div');a.className='swa';a.innerHTML='<span class="l">✓ Onayla</span><span class="r">Reddet</span>';w.appendChild(a);w.appendChild(r)});
+  let g=null;
+  s.addEventListener('pointerdown',e=>{const r=e.target.closest('.swr>.row');if(!r)return;g={r,w:r.parentElement,x:e.clientX,y:e.clientY,dx:0,on:0}});
+  window.addEventListener('pointermove',e=>{if(!g)return;const dx=e.clientX-g.x,dy=e.clientY-g.y;if(!g.on){if(Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)*1.3){g.on=1;g.w.classList.remove('anim')}else if(Math.abs(dy)>10){g=null;return}else return}
+    g.dx=Math.max(-140,Math.min(140,dx));g.r.style.transform='translateX('+g.dx+'px)';const a=g.w.querySelector('.swa');a.style.background=g.dx>0?'var(--accent)':'var(--danger)';a.querySelector('.l').style.opacity=g.dx>0?1:0;a.querySelector('.r').style.opacity=g.dx<0?1:0});
+  window.addEventListener('pointerup',()=>{if(!g)return;const {r,w,dx,on}=g;g=null;if(!on)return;const stop=ev=>{ev.stopPropagation();ev.preventDefault()};r.addEventListener('click',stop,{capture:true,once:true});setTimeout(()=>r.removeEventListener('click',stop,true),60);
+    w.classList.add('anim');r.style.transform='';if(dx>80)run('push:35');else if(dx<-80)run('push:54')})})();
+/* Kişiler: harf dizini; kişisi olmayan harf sonraki (yoksa önceki) dolu harfe götürür */
+(()=>{const s=SC['01'];if(!s)return;const TR='A B C Ç D E F G H I İ J K L M N O Ö P R S Ş T U Ü V Y Z #'.split(' ');
+  s.querySelectorAll('.idx button').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const gs=[...s.querySelectorAll('.scr .grp')].filter(g=>TR.includes(norm(g.textContent)));if(!gs.length)return;const i=TR.indexOf(norm(b.textContent));
+    const t=gs.find(g=>TR.indexOf(norm(g.textContent))>=i)||gs[gs.length-1];const sc=s.querySelector('.scr');sc.scrollTo({top:t.offsetTop-sc.offsetTop,behavior:'smooth'})},true))})();
 /* Mola ekle: Tüm gün kapalı seçilince saat ve tekrar gizlenir */
 function nbMode(s,all){if(all)s.dataset.allday=1;else delete s.dataset.allday;const f=s.querySelector('.form');const hide=[f.querySelector(':scope>.cols')];const rb=s.querySelector('.rpb');if(rb){hide.push(rb);const rx=rb.nextElementSibling;if(rx&&rx.classList.contains('rpx')){if(all){rx.hidden=true;rb.setAttribute('aria-expanded','false')}}}
   hide.forEach(h=>{if(!h)return;if(all){h.animate([{opacity:1},{opacity:0}],{duration:160,easing:'ease'}).onfinish=()=>h.style.display='none'}else{h.style.display='';h.animate([{opacity:0,transform:'translateY(-6px)'},{opacity:1,transform:'none'}],{duration:260,easing:'ease-out'})}});
