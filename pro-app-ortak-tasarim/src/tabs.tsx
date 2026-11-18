@@ -109,7 +109,7 @@ function Notifs() {
         <Empty ic="bell" t="Bildirim yok" sub="Rezervasyon talepleri, ödemeler ve iptaller burada görünür." style={{ paddingBottom: tbh + 24 }} />
       </>
     );
-  const reqs = useStore(s => s.reqs), nReq = (reqs.b ? 1 : 0) + (reqs.a ? 1 : 0);
+  const reqs = useStore(s => s.reqs), nReq = reqs.b ? 1 : 0;
   const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { void rejectRequest('b'); go('requestRejected', undefined, { n: 'Burak Şahin' }); });
   return (
     <>
@@ -133,7 +133,6 @@ function Notifs() {
         ) : null}
         <Grp t="Bugün" />
         <List>
-          {reqs.a ? <Row left={<Fic k="d" ic="calX" />} t="Talep çakışıyor" s="Ayşe Koç · grup dersiyle aynı saat" right={<Ntime t="1 sa" k="d" tag="Çakışma" />} onPress={() => go('request', undefined, { c: 1 })} /> : null}
           <Row left={<Fic k="s" ic="calCheck" />} t="Yeni saat onaylandı" s="Elif Yıldırım · 12 Eyl 18:00" right={<Ntime t="3 sa" k="s" tag="Onaylandı" />} onPress={() => go('rsAccepted', undefined, { n: 'Elif Yıldırım' })} />
         </List>
         <Grp t="Bu hafta" />

@@ -30,7 +30,7 @@ let state: State = {
   people: [], packages: [], menu: false,
   breaks: [], offs: [], debts: [], paid: [], collected: 0,
   me: { ad: '', soyad: '', title: '' },
-  prefs: {}, reqs: { b: false, a: false },
+  prefs: {}, reqs: { b: false },
   lessons: {}, loaded: new Set(), epoch: 0,
 };
 const subs = new Set<() => void>();

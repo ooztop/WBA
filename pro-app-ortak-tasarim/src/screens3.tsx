@@ -6,7 +6,7 @@ import { iso } from './data/dates';
 import { stripDays, type SlotDay } from './data/reschedule';
 import { CANCEL_REASONS, cancelOptions, cancelResult, freeCancelHours, hoursUntil } from './data/cancelPolicy';
 import { get, go, hhmm, home, pickDate, pickTime, openAction, popAll as toRoot, tl, useStore, person, personByName, pick, pop, set, toast, toastLater, useC, useFrame } from './store';
-import { acceptRequest, cancelLesson, collectPayment, counterRequest, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
+import { acceptRequest, cancelLesson, collectPayment, lessonNoteKey, rejectRequest, rescheduleLesson } from './data/actions';
 import { ff } from './theme';
 import { Apple, Av, Band, BandBack, Blk, Btn, Ck, FloatFoot, Cols, FC, Fld, Foot, GCard, GR, IB, Icon, Inp, Lbl, List, Lnk, NavH, noOutline, ORow, Pair, PChips, Quote, Res, Row, Rt, Scr, Sm, Steps, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { GrpS } from './screens2';
@@ -244,39 +244,28 @@ function Cancelled({ p }: SP) {
 /* ================= rezervasyon talebi ================= */
 function Request({ p }: SP) {
   const C = useC();
-  const x = person(p.c ? '7' : '6'), f = first(x.name);
-  const ALT = ['11 Eyl 14:00', '11 Eyl 15:10', '12 Eyl 10:00'];
-  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { void rejectRequest(p.c ? 'a' : 'b'); go('requestRejected', 'rep', { n: x.name, c: p.c ? 1 : 0 }); });
+  const x = person('6'), f = first(x.name);
+  const reject = () => openAction('Talep reddedilsin mi?', 'Kişiye nazik bir ret bildirimi gider, ön ödeme iade edilir.', 'Talebi reddet', true, () => { void rejectRequest('b'); go('requestRejected', 'rep', { n: x.name }); });
   return (
     <>
       <NavH title="Rezervasyon talebi" />
       <Scr>
         <FC style={{ marginTop: 4 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <View style={{ flex: 1, minWidth: 0, flexDirection: 'row', gap: 12, alignItems: 'center' }}><Av ini={x.ini} /><Rt t={x.name} s={p.c ? 'Tam zamanlı üyelik' : 'Tek ders · 3 ders geçmişi'} /></View>
+            <View style={{ flex: 1, minWidth: 0, flexDirection: 'row', gap: 12, alignItems: 'center' }}><Av ini={x.ini} /><Rt t={x.name} s="Tek ders · 3 ders geçmişi" /></View>
             <T s={13} w={800} c={C.accentInk}>22 sa kaldı</T>
           </View>
-          <T s={24} w={800} lh={1.15}>{p.c ? '10 Eyl Çar · 11:30' : '12 Eyl Cum · 18:00'}</T>
+          <T s={24} w={800} lh={1.15}>12 Eyl Cum · 18:00</T>
           <Sm style={{ marginTop: -6 }}>Bireysel · 60 dk · Kadıköy stüdyo</Sm>
         </FC>
-        {p.c ? (
-          <>
-            <View style={{ marginTop: 14, marginHorizontal: 16, backgroundColor: C.dangerTint, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14, flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
-              <Icon n="alert" c={C.danger} />
-              <View style={{ flex: 1 }}><T s={14} w={800} c={C.danger}>Bu saatte başka dersin var</T><T s={13} c={C.ink}>Mert Kaya · Grup dersi · 11:30 – 13:00</T></View>
-            </View>
-            <GrpS t="Başka saat öner" s="En yakın müsait saatlerin" pt={16} />
-            <PChips items={ALT} cols={3} init={1} style={{ paddingHorizontal: 16 }} />
-          </>
-        ) : null}
-        <GCard style={{ marginTop: 14 }}><GR t="Ücret" s={p.c ? 'Üyelik kapsamında' : 'Ön ödeme alındı'} right={p.c ? <Tag k="s" t="Üyelik" /> : <T s={15} w={800}>₺750</T>} /></GCard>
+        <GCard style={{ marginTop: 14 }}><GR t="Ücret" s="Ön ödeme alındı" right={<T s={15} w={800}>₺750</T>} /></GCard>
         <GrpS t="Kişinin notu" pt={16} />
         <View style={{ marginHorizontal: 16, backgroundColor: C.card, borderRadius: 12, paddingVertical: 12, paddingHorizontal: 14 }}><T s={14} lh={1.5}>Sınavım var, mümkünse konu tekrarına ağırlık verebilir miyiz?</T></View>
-        {p.c ? null : <GCard style={{ marginTop: 14 }}><GR t="Başka saat öner" s={`${f}'a farklı bir saat gönder`} chev onPress={() => go('reschedule', undefined, { n: x.name, when: 'Cum 12 Eyl · 18:00' })} /></GCard>}
+        <GCard style={{ marginTop: 14 }}><GR t="Başka saat öner" s={`${f}'a farklı bir saat gönder`} chev onPress={() => go('reschedule', undefined, { n: x.name, when: 'Cum 12 Eyl · 18:00' })} /></GCard>
       </Scr>
       <Foot>
         <Btn flex k="x" t="Reddet" onPress={reject} />
-        {p.c ? <Btn flex t="Bu saati öner" onPress={() => { void counterRequest('a'); pop(); toastLater('Karşı teklif gönderildi'); }} /> : <Btn flex t="Onayla" onPress={() => { acceptReq(); go('requestAccepted', 'rep', { n: x.name }); }} />}
+        <Btn flex t="Onayla" onPress={() => { acceptReq(); go('requestAccepted', 'rep', { n: x.name }); }} />
       </Foot>
     </>
   );
@@ -293,7 +282,7 @@ function RequestRejected({ p }: SP) {
   const C = useC();
   const n = p.n || 'Burak Şahin';
   return (
-    <Res ic="close" red onBack={toRoot} top={`${n} · talep reddedildi`} big={p.c ? '10 Eyl · 11:30' : '12 Eyl · 18:00'} strike sub={`${first(n)}'a nazik bir ret bildirimi gitti.`} rows={[['Ders', 'Bireysel · 60 dk'], ['Ücret', p.c ? 'Üyelik · ücret yok' : '₺750 iade edildi'], ['Saat', p.c ? 'Grup dersinde kaldı' : 'Müsait kaldı', OK(C)]]}>
+    <Res ic="close" red onBack={toRoot} top={`${n} · talep reddedildi`} big="12 Eyl · 18:00" strike sub={`${first(n)}'a nazik bir ret bildirimi gitti.`} rows={[['Ders', 'Bireysel · 60 dk'], ['Ücret', '₺750 iade edildi'], ['Saat', 'Müsait kaldı', OK(C)]]}>
       <Pair><Btn flex k="g" t="Başka saat öner" onPress={() => go('reschedule', 'rep', { n })} /><Btn flex t="Tamam" onPress={toRoot} /></Pair>
     </Res>
   );

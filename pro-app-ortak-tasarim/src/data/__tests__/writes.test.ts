@@ -2,7 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { get, set } from '../../store';
 import {
-  acceptRequest, addLessons, addOffs, addPerson, boot, cancelLesson, collectPayment, counterRequest, modelsToPrefs, prefsToModels, lessonNoteKey,
+  acceptRequest, addLessons, addOffs, addPerson, boot, cancelLesson, collectPayment, modelsToPrefs, prefsToModels, lessonNoteKey,
   reloadAll, rejectRequest, removeBreak, removePackage, rescheduleLesson, restorePackage, saveBreak, savePackage, saveProfile, setBasePackage,
   setDark, setPref, toggleBreakDay, updatePerson,
 } from '../actions';
@@ -141,16 +141,15 @@ test('acceptRequest b: talep kapanır, 12 Eylül 18:00 dersi takvime girer', asy
   expect(get().reqs.b).toBe(false);
   expect(get().lessons['2026-09-12'].some(l => l.h === 18 && l.pid === '6')).toBe(true);
 });
-test('rejectRequest ve counterRequest talebi kapatır, servise yazar', async () => {
+test('rejectRequest talebi kapatır, servise yazar', async () => {
   await rejectRequest('b');
-  await counterRequest('a');
-  expect(get().reqs).toEqual({ b: false, a: false });
-  expect(await requestsService.get()).toEqual({ b: false, a: false });
+  expect(get().reqs).toEqual({ b: false });
+  expect(await requestsService.get()).toEqual({ b: false });
 });
 test('hata olursa talep durumu geri alınır', async () => {
   jest.spyOn(requestsService, 'reject').mockRejectedValueOnce(new Error('ağ'));
-  await rejectRequest('a');
-  expect(get().reqs.a).toBe(true);
+  await rejectRequest('b');
+  expect(get().reqs.b).toBe(true);
 });
 
 /* ---------- molalar, izinler ---------- */

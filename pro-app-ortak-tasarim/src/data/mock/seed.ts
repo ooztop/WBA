@@ -42,7 +42,7 @@ export const PAID0: PaidRow[] = [
 
 export const COLLECTED0 = 12400;
 export const ME0: Profile = { ad: 'Deniz', soyad: 'Arslan', title: 'Özel ders · Matematik' };
-export const REQS0: ReqState = { b: true, a: true };
+export const REQS0: ReqState = { b: true };
 
 // Çalışma saatleri varsayılanı: hafta içi 10:00–18:00, Cumartesi 10:00–14:00, Pazar kapalı (0 = Pazartesi)
 export const WEEK0: WeekHours = [0, 1, 2, 3, 4, 5, 6].map(i => ({ on: i !== 6, s: '10:00', e: i === 5 ? '14:00' : '18:00' }));

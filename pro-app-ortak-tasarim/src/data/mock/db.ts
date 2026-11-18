@@ -62,7 +62,7 @@ function migrateV1(old: Rec): MockData {
   }
   if (typeof old.collected === 'number') out.collected = old.collected;
   if (isRec(old.me)) out.me = { ad: str(old.me.ad, ''), soyad: str(old.me.soyad, ''), title: str(old.me.title, '') };
-  if (isRec(old.reqs)) out.reqs = { b: !!old.reqs.b, a: !!old.reqs.a };
+  if (isRec(old.reqs)) out.reqs = { b: !!old.reqs.b };
 
   // [saat, süre, kişi, tür, durum] + gün anahtarı → Lesson
   out.extra = arr(old.extra).filter(isRec).flatMap((e, n) => {

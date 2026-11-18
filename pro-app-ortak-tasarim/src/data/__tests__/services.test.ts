@@ -108,10 +108,9 @@ test('accept iki kez çağrılınca tek ders ekler', async () => {
   expect(r['2026-09-12'].filter(l => l.h === 18 && l.pid === '6')).toHaveLength(1);
   expect((await requestsService.get()).b).toBe(false);
 });
-test('reject ve counter talebi kapatır', async () => {
+test('reject talebi kapatır', async () => {
   await requestsService.reject('b');
-  await requestsService.counter('a');
-  expect(await requestsService.get()).toEqual({ b: false, a: false });
+  expect(await requestsService.get()).toEqual({ b: false });
 });
 test('takvim, kural, bildirim ve profil kaydı', async () => {
   const w = await scheduleService.getWeek();

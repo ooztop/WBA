@@ -17,5 +17,5 @@ export type LessonRules = { window: Choice; freeCancel: Choice; startMin: Choice
 // Anahtarlar bugünkü nt.* son ekleri: can, pay, req, qs, qe, quiet, v (v: hatırlatma/e-posta/SMS seçimleri nesnesi)
 export type NotifPrefs = Record<string, boolean | string | Record<string, string>>;
 export type Profile = { ad: string; soyad: string; title: string };
-export type ReqState = { b: boolean; a: boolean };                      // demo talepleri; gerçek model backend'de talepler gelince
+export type ReqState = { b: boolean };                      // demo talepleri; gerçek model backend'de talepler gelince
 export type Topic = 'people' | 'lessons' | 'packages' | 'schedule' | 'rules' | 'notifPrefs' | 'payments' | 'requests' | 'profile';

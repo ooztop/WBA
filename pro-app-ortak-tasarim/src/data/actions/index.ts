@@ -5,7 +5,7 @@ export { addPerson, updatePerson } from './people';
 export { savePackage, removePackage, restorePackage, setBasePackage } from './packages';
 export { saveBreak, removeBreak, toggleBreakDay, addOffs } from './schedule';
 export { collectPayment } from './payments';
-export { acceptRequest, rejectRequest, counterRequest } from './requests';
+export { acceptRequest, rejectRequest } from './requests';
 export { saveProfile } from './profile';
 export { setPref, usePref, setDark, setAccent, prefsToModels, modelsToPrefs, lessonNoteKey } from './settings';
 export { boot, reloadAll, setEmptyMode, resetDemo } from './boot';
