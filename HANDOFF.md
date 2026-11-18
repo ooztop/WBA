@@ -120,7 +120,9 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - **Ödeme al:** açıldığı ders seçili gelir, kişinin diğer borç dersleri seçimsiz altında; fiyat Paket tercihlerindeki
     tek ders fiyatından (`src/data/price.ts`, testli). "Alınan tutar" kutusu yerine "Tutarı değiştir"; eksikse "₺X borç olarak kalır",
     eksik ödemede borç ve dersler olduğu gibi kalır. Ödenen ders takvimde "Ödendi" olur. Ödemeler ekranındaki "+" kaldırıldı.
-    (Wellness'a henüz işlenmedi.)
+  - **Ödemeler:** ay seçici sağ üstte ince çerçeveli "Eylül 2026 ⌄" düğmesi, dokununca ay listesi (kapsüllü ve oklu hâller beğenilmedi).
+    Liste henüz aya göre süzülmüyor (demo verisi aylara ayrılmamış).
+  - Ödeme al ve Ödemeler değişiklikleri Wellness'a henüz işlenmedi.
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
