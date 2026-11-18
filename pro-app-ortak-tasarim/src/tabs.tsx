@@ -268,7 +268,7 @@ function Account() {
   const nPk = useStore(s => s.packages.length), me = useStore(s => s.me), prefs = useStore(s => s.prefs);
   const { tbh } = useFrame();
   const gr = (ic: string, t: string, to: string, v?: string) => (
-    <GR left={<Fic k="n" ic={ic} c={C.ink} />} t={t} right={v ? <T s={13} w={700} c={C.muted}>{v}</T> : null} chev onPress={() => go(to)} />
+    <GR left={<Fic k="n" ic={ic} c={C.ink} />} t={t} right={v ? <T s={13} w={700} c={C.accent}>{v}</T> : null} chev onPress={() => go(to)} />
   );
   return (
     <>
