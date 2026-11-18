@@ -1,7 +1,8 @@
 // "Ortak Tasarım" yapı taşları: prototipteki CSS sınıflarının (.band, .row, .chip, .btn, .inp, .sw…) React Native karşılıkları
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Platform, Pressable, ScrollView, Text, TextInput, View, type StyleProp, type TextProps, type TextStyle, type ViewStyle, type TextInputProps } from 'react-native';
-import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { Easing, interpolateColor, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Svg, { Defs, LinearGradient, Path, Rect, Stop, SvgXml } from 'react-native-svg';
 import { IC, QR_D } from './icons';
 import { EASE, ff } from './theme';
@@ -426,6 +427,46 @@ export function NavH({ title, sub, right, onBack, left }: { title?: string; sub?
         {sub ? <Sm n={1}>{sub}</Sm> : null}
       </View>
       <View style={{ width: 44, alignItems: 'flex-end' }}>{right}</View>
+    </View>
+  );
+}
+
+// Kaydırılan satır: sağa kaydır → onRight (vurgu rengi), sola kaydır → onLeft (kırmızı).
+// Dokunma, kaydırmadan hemen sonra gelirse yok sayılır.
+export function SwipeAct({ children, onRight, onLeft, onPress, rightLabel, leftLabel, bg }: { children: React.ReactNode; onRight: () => void; onLeft: () => void; onPress: () => void; rightLabel: string; leftLabel: string; bg?: string }) {
+  const C = useC();
+  const x = useSharedValue(0);
+  const moved = useRef(0);
+  const mark = () => { moved.current = Date.now(); };
+  const pan = Gesture.Pan()
+    .activeOffsetX([-10, 10])
+    .failOffsetY([-10, 10])
+    .onStart(() => { runOnJS(mark)(); })
+    .onUpdate(e => { x.value = Math.max(-140, Math.min(140, e.translationX)); })
+    .onEnd(() => {
+      const v = x.value;
+      x.value = withTiming(0, { duration: 320, easing: Easing.bezier(...EASE) });
+      runOnJS(mark)();
+      if (v > 90) runOnJS(onRight)();
+      else if (v < -90) runOnJS(onLeft)();
+    });
+  const st = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
+  const back = useAnimatedStyle(() => ({ backgroundColor: x.value > 0 ? C.accent : C.danger, opacity: Math.abs(x.value) > 1 ? 1 : 0 }));
+  const l = useAnimatedStyle(() => ({ opacity: x.value > 0 ? 1 : 0 }));
+  const r = useAnimatedStyle(() => ({ opacity: x.value < 0 ? 1 : 0 }));
+  return (
+    <View style={{ borderRadius: 12, overflow: 'hidden' }}>
+      <Animated.View style={[{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20 }, back]}>
+        <Animated.View style={l}><T s={14} w={800} c={C.onAccent}>{rightLabel}</T></Animated.View>
+        <Animated.View style={r}><T s={14} w={800} c="#fff">{leftLabel}</T></Animated.View>
+      </Animated.View>
+      <GestureDetector gesture={pan}>
+        <Animated.View style={st}>
+          <Tap onPress={() => { if (Date.now() - moved.current > 350) onPress(); }} style={{ backgroundColor: bg ?? C.card, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 64 }}>
+            {children}
+          </Tap>
+        </Animated.View>
+      </GestureDetector>
     </View>
   );
 }

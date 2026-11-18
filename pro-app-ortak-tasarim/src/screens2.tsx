@@ -1,15 +1,13 @@
 // Sayfalar 2: takvim ayarları, gün sayfası, ders kuralları, paket tercihleri, yardım, hesabı sil
 import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
-import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { DL, DN, type Pkg } from './data';
 import type { ID } from './data/models';
 import { daysText, go, openSheet, toast, toastLater, useC, useFrame, useStore } from './store';
 import { removePackage, setBasePackage, toggleBreakDay, usePref } from './data/actions';
 import { openUrl } from './device';
-import { EASE, ff } from './theme';
-import { Box, Btn, Cols, Empty, FC, Fic, Fld, GCard, GR, IB, Icon, Inote, Lbl, List, NavH, noOutline, PChips, Rt, Scr, Sm, Sw, T, Tag, Tap } from './ui';
+import { ff } from './theme';
+import { Box, Btn, Cols, Empty, FC, Fic, Fld, GCard, GR, IB, Icon, Inote, Lbl, List, NavH, noOutline, PChips, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
 import { Amt } from './screens1';
 
 type SP = { p: any };
@@ -140,41 +138,12 @@ export const Pkb = ({ t, k }: { t: string; k?: 'soft' | 'base' }) => {
 };
 function SwipeRow({ pk, onStar, onDel, onOpen }: { pk: Pkg; onStar: () => void; onDel: () => void; onOpen: () => void }) {
   const C = useC();
-  const x = useSharedValue(0);
-  const moved = React.useRef(0);
-  const mark = () => { moved.current = Date.now(); };
-  const pan = Gesture.Pan()
-    .activeOffsetX([-10, 10])
-    .failOffsetY([-10, 10])
-    .onStart(() => { runOnJS(mark)(); })
-    .onUpdate(e => { x.value = Math.max(-140, Math.min(140, e.translationX)); })
-    .onEnd(() => {
-      const v = x.value;
-      x.value = withTiming(0, { duration: 320, easing: Easing.bezier(...EASE) });
-      runOnJS(mark)();
-      if (v > 90) runOnJS(onStar)();
-      else if (v < -90) runOnJS(onDel)();
-    });
-  const st = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
-  const bg = useAnimatedStyle(() => ({ backgroundColor: x.value > 0 ? C.accent : C.danger, opacity: Math.abs(x.value) > 1 ? 1 : 0 }));
-  const l = useAnimatedStyle(() => ({ opacity: x.value > 0 ? 1 : 0 }));
-  const r = useAnimatedStyle(() => ({ opacity: x.value < 0 ? 1 : 0 }));
   return (
-    <View style={{ borderRadius: 12, overflow: 'hidden' }}>
-      <Animated.View style={[{ position: 'absolute', left: 0, top: 0, right: 0, bottom: 0, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20 }, bg]}>
-        <Animated.View style={l}><T s={14} w={800} c={C.onAccent}>★ Temel yap</T></Animated.View>
-        <Animated.View style={r}><T s={14} w={800} c="#fff">Sil</T></Animated.View>
-      </Animated.View>
-      <GestureDetector gesture={pan}>
-        <Animated.View style={st}>
-          <Tap onPress={() => { if (Date.now() - moved.current > 350) onOpen(); }} style={{ backgroundColor: pk.base ? C.tintSoft : C.card, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 64 }}>
-            <Pkb t={pk.c1} k={pk.base ? 'base' : 'soft'} />
-            <Rt t={pk.name} s={pk.sub} />
-            <Amt b={pk.price} bC={pk.base ? C.accent : undefined} k={pk.base ? 'a' : undefined} tag={pk.base ? 'Temel' : undefined} />
-          </Tap>
-        </Animated.View>
-      </GestureDetector>
-    </View>
+    <SwipeAct onRight={onStar} onLeft={onDel} onPress={onOpen} rightLabel="★ Temel yap" leftLabel="Sil" bg={pk.base ? C.tintSoft : C.card}>
+      <Pkb t={pk.c1} k={pk.base ? 'base' : 'soft'} />
+      <Rt t={pk.name} s={pk.sub} />
+      <Amt b={pk.price} bC={pk.base ? C.accent : undefined} k={pk.base ? 'a' : undefined} tag={pk.base ? 'Temel' : undefined} />
+    </SwipeAct>
   );
 }
 

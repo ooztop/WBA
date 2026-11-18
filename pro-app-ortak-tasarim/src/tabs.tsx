@@ -9,7 +9,7 @@ import { markAllNotifsRead, markNotifsRead, resetDemo, setAccent, setDark, setEm
 import { buildFeed, inFilter, notifTime, unreadCount, type FeedItem, type NotifFilter } from './data/notifs';
 import type { Notif, NotifKind } from './data/models';
 import { ff } from './theme';
-import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, T, Tag, Tap, type SV } from './ui';
+import { Av, Band, Btn, Chip, Empty, FC, Fic, GCard, GR, Grp, IB, Icon, Inote, Lbl, List, noOutline, QR, Row, Rt, Scr, Sm, SwipeAct, T, Tag, Tap, type SV } from './ui';
 
 const T2 = ({ t, sub }: { t: string; sub?: string }) => {
   const C = useC();
@@ -121,29 +121,19 @@ function openNotif(n: Notif) {
   else go('rsAccepted', undefined, { n: name });
 }
 
-// Okunmamış bildirimde ikonun köşesinde vurgu noktası
-function NIcon({ kind, unread }: { kind: NotifKind; unread: boolean }) {
-  const C = useC();
-  return (
-    <View>
-      <Fic k={NK[kind].k} ic={NK[kind].ic} />
-      {unread ? <View accessibilityLabel="Okunmadı" style={{ position: 'absolute', top: -3, right: -3, width: 12, height: 12, borderRadius: 6, backgroundColor: C.accent, borderWidth: 2, borderColor: C.card }} /> : null}
-    </View>
-  );
-}
 function NRow({ n, indent }: { n: Notif; indent?: boolean }) {
-  return <Row left={<NIcon kind={n.kind} unread={!n.read} />} t={NK[n.kind].t} s={`${person(n.pid).name} · ${n.sub}`} right={<Ntime t={notifTime(n.at)} k={NK[n.kind].k} tag={NK[n.kind].tag} />} onPress={() => openNotif(n)} style={indent ? { marginLeft: 20 } : undefined} />;
+  return <Row left={<Fic k={NK[n.kind].k} ic={NK[n.kind].ic} />} t={NK[n.kind].t} s={`${person(n.pid).name} · ${n.sub}`} right={<Ntime t={notifTime(n.at)} k={NK[n.kind].k} tag={NK[n.kind].tag} />} onPress={() => openNotif(n)} style={indent ? { marginLeft: 20 } : undefined} />;
 }
 // Tek bildirim ya da benzerlerin grubu: grup dokununca açılır, içindekiler tek tek görünür
 function NItem({ it }: { it: FeedItem }) {
   const C = useC();
   const [open, setOpen] = useState(false);
   if (it.list.length === 1) return <NRow n={it.list[0]} />;
-  const top = it.list[0], unread = it.list.some(n => !n.read);
+  const top = it.list[0];
   const names = it.list.map(n => first(person(n.pid).name)).join(', ');
   return (
     <>
-      <Row left={<NIcon kind={it.kind} unread={unread} />} t={NK[it.kind].g(it.list.length)} s={names}
+      <Row left={<Fic k={NK[it.kind].k} ic={NK[it.kind].ic} />} t={NK[it.kind].g(it.list.length)} s={names}
         right={<View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}><Ntime t={notifTime(top.at)} k={NK[it.kind].k} tag={NK[it.kind].tag} /><View style={{ transform: [{ rotate: open ? '-90deg' : '90deg' }] }}><Icon n="chevR" s={18} c={C.muted} /></View></View>}
         onPress={() => setOpen(o => !o)} />
       {open ? it.list.map(n => <NRow key={n.id} n={n} indent />) : null}
@@ -202,12 +192,18 @@ function Notifs() {
               </View>
             </FC>
             {rq.length > 1 ? (
+              <>
               <List style={{ paddingTop: 8 }}>
                 {rq.slice(1).map(r => (
-                  <Row key={r.id} left={<Av ini={person(r.pid).ini} />} t={person(r.pid).name} s={`${reqWhen(r)} · ${r.left} sa kaldı`} onPress={() => go('request', undefined, { id: r.id })}
-                    right={<View style={{ flexDirection: 'row', gap: 8 }}><IB ic="close" k="g" s={40} is={18} label={`${person(r.pid).name} talebini reddet`} onPress={() => rejectReq(r)} /><IB ic="check" k="p" s={40} is={18} label={`${person(r.pid).name} talebini onayla`} onPress={() => acceptReq(r)} /></View>} />
+                  <SwipeAct key={r.id} onRight={() => acceptReq(r)} onLeft={() => rejectReq(r)} onPress={() => go('request', undefined, { id: r.id })} rightLabel="✓ Onayla" leftLabel="Reddet">
+                    <Av ini={person(r.pid).ini} />
+                    <Rt t={person(r.pid).name} s={reqWhen(r)} />
+                    <T s={12} w={800} c={C.accentInk}>{r.left} sa kaldı</T>
+                  </SwipeAct>
                 ))}
               </List>
+              <Inote t="Sağa kaydır: onayla · Sola kaydır: reddet" style={{ marginTop: 8 }} />
+              </>
             ) : null}
           </>
         ) : null}
