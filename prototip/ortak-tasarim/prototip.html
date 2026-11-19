@@ -112,7 +112,7 @@ html,body{margin:0;-webkit-font-smoothing:antialiased}
 .seenh .nchv{transform:rotate(90deg);color:var(--ink-muted)}.seenh[aria-expanded="true"] .nchv{transform:rotate(-90deg)}
 .rqleft{font-size:12px;font-weight:800;color:var(--accent-ink);flex:none}
 .pickl{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--ink-muted);flex:1;min-width:0}
-.pick{height:52px;width:100%;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-card);padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:700;color:var(--ink)}
+.pick{height:52px;width:100%;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-card);padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:700;color:var(--accent)}
 .pick .i{width:18px;height:18px;color:var(--ink-muted)}
 
 .idxw{position:sticky;top:0;height:0;z-index:2}
@@ -1073,7 +1073,7 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     </div>
 
     <div class="grp" style="padding-top:18px"><span class="lbl">İzin günleri</span></div>
-    <div class="list izl"><div class="row"><span class="rt"><span class="t">15 Eylül Salı</span><span class="s">Tüm gün · Tatil</span></span></div></div>
+    <div class="list izl"><button class="row" aria-label="İzin günü: 15 Eylül, Tatil"><span class="db" style="background:var(--accent-tint)"><b style="color:var(--accent-ink)">15</b><small style="color:var(--accent-ink)">EYL</small></span><span class="rt"><span class="t">Tatil</span><span class="s">Salı · Tüm gün</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
     <div class="grp" style="padding-top:18px"><span class="lbl">Günler</span><div class="sm" style="margin-top:2px">Özel ayar için güne dokun</div></div>
     <div class="gcard">
       <button class="gr grb" style="min-height:52px"><span class="dname">Pzt</span><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
@@ -1086,6 +1086,24 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
     </div>
 
   </div>
+</div>
+</section>
+<section class="scrn k-page" data-id="66" data-kind="page" aria-label="İzin günü">
+<div class="ph">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div class="navh">
+    <button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <div class="ttl"><b>İzin günü</b></div>
+    <span></span>
+  </div>
+  <div class="scr">
+    <div class="gcard" style="margin-top:8px">
+      <div class="gr"><span class="rt"><span class="t">Tarih</span></span><b style="font-size:15px">15 Eylül Salı</b></div>
+      <div class="gr"><span class="rt"><span class="t">Saat</span></span><b style="font-size:15px">Tüm gün</b></div>
+      <div class="gr"><span class="rt"><span class="t">Sebep</span></span><b style="font-size:15px">Tatil</b></div>
+    </div>
+  </div>
+  <div class="foot"><button class="btn x" style="grid-column:1/-1"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>Sil</button></div>
 </div>
 </section>
 <section class="scrn k-page" data-id="15" data-kind="page" aria-label="Ders kuralları">
@@ -2215,7 +2233,8 @@ const W={
 '11':{'Geri':'back','Kaydet':'back|toast:Değişiklikler kaydedildi','Hesabı sil':'push:18','Fotoğrafı değiştir':'toast:Fotoğraf seç'},
 '12':{'Geri':'back','NFC':'toast:Telefonu yaklaştır','Paylaş':'toast:Paylaşım menüsü','Bağlantıyı kopyala: pro.app/denizarslan':'toast:Bağlantı kopyalandı'},
 '13':{'Geri':'back','Mert Kaya':'push:39','Burak Şahin':'push:39','Zeynep Aydın':'rcpt:ZA','Berk Aksoy':'rcpt:BA','Can Öztürk':'rcpt:CO','Selin Demir':'rcpt:SD','Ay: Eylül 2026':'toast:Ay listesi açılır'},
-'14':{'Geri':'back','Mola ekle':'push:24','Başlangıç: 10:00':'toast:Saat seçici açılır','Bitiş: 18:00':'toast:Saat seçici açılır','Öğle molası':'push:24','Akşam arası':'push:24','*dname':'push:22'},
+'14':{'Geri':'back','İzin günü: 15 Eylül, Tatil':'push:66','Mola ekle':'push:24','Başlangıç: 10:00':'toast:Saat seçici açılır','Bitiş: 18:00':'toast:Saat seçici açılır','Öğle molası':'push:24','Akşam arası':'push:24','*dname':'push:22'},
+'66':{'Geri':'back','Sil':'offdel'},
 '15':{'Geri':'back','Özel değer':'toast:Özel değer gir'},
 '16':{'Geri':'back','Paket ekle':'newpk','Tek ders · 60 dk':'push:41','Tek ders · 90 dk':'push:41','8 derslik paket':'push:42','Aylık üyelik':'push:42'},
 '17':{'Geri':'back','Destek ekibine yaz':'push:55','Kullanım koşulları':'push:57','Her kişiye farklı fiyat nasıl veririm?':'faq','Fiyatı güncellersem kişilere bildirim gider mi?':'faq','İptal kurallarını nasıl değiştiririm?':'faq','Ödemeyi elle kaydetmek nasıl çalışır?':'faq'},
@@ -2307,6 +2326,7 @@ P.addEventListener('click',e=>{
   if(a==='ptut'){el.hidden=true;const w=s.querySelector('.ptin');w.hidden=false;w.querySelector('input').focus();return}
   if(id==='39'&&el.classList.contains('ptb')){run('rep:40');return}
   if(a&&a.startsWith('rcpt:')){rcFill(a.slice(5));push('62');return}
+  if(a==='offdel'){confirmDlg(s,'İzin günü silinsin mi?','Takvimde bu gün yeniden açık görünür.','Sil',()=>{offDel();back();setTimeout(()=>toast('İzin günü silindi'),300)});return}
   if(a==='docdel'){confirmDlg(s,'Dosya silinsin mi?','Bu işlem geri alınamaz.','Dosyayı sil',()=>{back();setTimeout(()=>toast('Dosya silindi'),300)});return}
   if(a==='notedel'){confirmDlg(s,'Not silinsin mi?','Bu işlem geri alınamaz.','Notu sil',()=>{back();setTimeout(()=>toast('Not silindi'),300)});return}
   if(a==='notesave'){if(el.classList.contains('off'))return;back();setTimeout(()=>{noteReset(s);toast('Not kaydedildi')},300);return}
@@ -2464,13 +2484,8 @@ setTimeout(()=>document.querySelectorAll('.chips').forEach(hfog),400);
     g.dx=Math.max(-140,Math.min(140,dx));g.r.style.transform='translateX('+g.dx+'px)';const a=g.w.querySelector('.swa');a.style.background=g.dx>0?'var(--accent)':'var(--danger)';a.querySelector('.l').style.opacity=g.dx>0?1:0;a.querySelector('.r').style.opacity=g.dx<0?1:0});
   window.addEventListener('pointerup',()=>{if(!g)return;const {r,w,dx,on}=g;g=null;if(!on)return;const stop=ev=>{ev.stopPropagation();ev.preventDefault()};r.addEventListener('click',stop,{capture:true,once:true});setTimeout(()=>r.removeEventListener('click',stop,true),60);
     w.classList.add('anim');r.style.transform='';if(dx>80)run('push:35');else if(dx<-80)run('push:54')})})();
-/* Takvim ayarlarım › İzin günleri: sola kaydırınca silinir (prototipte yalnız gizlenir) */
-(()=>{const s=SC['14'];if(!s)return;s.querySelectorAll('.izl>.row').forEach(r=>{const w=document.createElement('div');w.className='swr';r.parentNode.insertBefore(w,r);const a=document.createElement('div');a.className='swa';a.innerHTML='<span class="l"></span><span class="r">Sil</span>';w.appendChild(a);w.appendChild(r)});
-  let g=null;
-  s.addEventListener('pointerdown',e=>{const r=e.target.closest('.izl .swr>.row');if(!r)return;g={r,w:r.parentElement,x:e.clientX,y:e.clientY,dx:0,on:0}});
-  window.addEventListener('pointermove',e=>{if(!g)return;const dx=e.clientX-g.x,dy=e.clientY-g.y;if(!g.on){if(Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)*1.3){g.on=1;g.w.classList.remove('anim')}else if(Math.abs(dy)>10){g=null;return}else return}
-    g.dx=Math.max(-140,Math.min(0,dx));g.r.style.transform='translateX('+g.dx+'px)';const a=g.w.querySelector('.swa');a.style.background='var(--danger)';a.querySelector('.r').style.opacity=g.dx<0?1:0});
-  window.addEventListener('pointerup',()=>{if(!g)return;const {r,w,dx,on}=g;g=null;if(!on)return;w.classList.add('anim');r.style.transform='';if(dx<-80){const l=w.parentElement;w.remove();if(!l.children.length){l.previousElementSibling.hidden=true;l.hidden=true}toast('İzin günü silindi')}})})();
+/* Takvim ayarlarım › İzin günleri: detayda silinince satır ve bölüm gizlenir */
+function offDel(){const s=SC['14'];const l=s.querySelector('.izl');if(!l)return;l.innerHTML='';l.hidden=true;l.previousElementSibling.hidden=true}
 /* Kişiler: harf dizini; kişisi olmayan harf sonraki (yoksa önceki) dolu harfe götürür */
 (()=>{const s=SC['01'];if(!s)return;const TR='A B C Ç D E F G H I İ J K L M N O Ö P R S Ş T U Ü V Y Z #'.split(' ');
   s.querySelectorAll('.idx button').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const gs=[...s.querySelectorAll('.scr .grp')].filter(g=>TR.includes(norm(g.textContent)));if(!gs.length)return;const i=TR.indexOf(norm(b.textContent));

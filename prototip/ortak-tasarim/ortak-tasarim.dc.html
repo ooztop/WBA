@@ -116,7 +116,7 @@ html,body{margin:0;-webkit-font-smoothing:antialiased}
 .seenh .nchv{transform:rotate(90deg);color:var(--ink-muted)}.seenh[aria-expanded="true"] .nchv{transform:rotate(-90deg)}
 .rqleft{font-size:12px;font-weight:800;color:var(--accent-ink);flex:none}
 .pickl{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--ink-muted);flex:1;min-width:0}
-.pick{height:52px;width:100%;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-card);padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:700;color:var(--ink)}
+.pick{height:52px;width:100%;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-card);padding:0 14px;display:flex;align-items:center;justify-content:space-between;font-size:16px;font-weight:700;color:var(--accent)}
 .pick .i{width:18px;height:18px;color:var(--ink-muted)}
 
 .idxw{position:sticky;top:0;height:0;z-index:2}
@@ -982,7 +982,7 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4;font-weig
     </div>
 
     <div class="grp" style="padding-top:18px"><span class="lbl">İzin günleri</span></div>
-    <div class="list izl"><div class="row"><span class="rt"><span class="t">15 Eylül Salı</span><span class="s">Tüm gün · Tatil</span></span></div></div>
+    <div class="list izl"><button class="row" aria-label="İzin günü: 15 Eylül, Tatil"><span class="db" style="background:var(--accent-tint)"><b style="color:var(--accent-ink)">15</b><small style="color:var(--accent-ink)">EYL</small></span><span class="rt"><span class="t">Tatil</span><span class="s">Salı · Tüm gün</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
     <div class="grp" style="padding-top:18px"><span class="lbl">Günler</span><div class="sm" style="margin-top:2px">Özel ayar için güne dokun</div></div>
     <div class="gcard">
       <button class="gr grb" style="min-height:52px"><span class="dname">Pzt</span><span class="rt"><span class="t" style="font-weight:500;color:var(--ink-muted)">10:00 – 18:00</span></span><svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
@@ -995,6 +995,27 @@ textarea.inp{height:76px;padding:12px 14px;resize:none;line-height:1.4;font-weig
     </div>
 
   </div>
+</div>
+</figure>
+
+<!-- ============ 14a. İZİN GÜNÜ ============ -->
+<figure class="fig">
+<figcaption class="cap"><span>14a</span>İzin günü<small>izne dokununca</small></figcaption>
+<div class="ph">
+  <div class="sb"><span>9:41</span><svg viewBox="0 0 26 12" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="11" rx="3" fill="none" stroke="currentColor" opacity=".5"></rect><rect x="2.5" y="2.5" width="16" height="7" rx="1.5" fill="currentColor"></rect><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="currentColor" opacity=".5"></rect></svg></div>
+  <div class="navh">
+    <button class="ib g" aria-label="Geri"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+    <div class="ttl"><b>İzin günü</b></div>
+    <span></span>
+  </div>
+  <div class="scr">
+    <div class="gcard" style="margin-top:8px">
+      <div class="gr"><span class="rt"><span class="t">Tarih</span></span><b style="font-size:15px">15 Eylül Salı</b></div>
+      <div class="gr"><span class="rt"><span class="t">Saat</span></span><b style="font-size:15px">Tüm gün</b></div>
+      <div class="gr"><span class="rt"><span class="t">Sebep</span></span><b style="font-size:15px">Tatil</b></div>
+    </div>
+  </div>
+  <div class="foot"><button class="btn x" style="grid-column:1/-1"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg>Sil</button></div>
 </div>
 </figure>
 

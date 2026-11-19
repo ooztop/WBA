@@ -52,7 +52,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 86 (19 Kasım, not kutularında normal yazı).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 87 (19 Kasım, izin günü detayı, saat kutuları mavi).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
 Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları), 80 (06a–06d Dokümanlar, 40a Makbuz, 43a–43c Şifremi unuttum).
 
@@ -154,9 +154,12 @@ Diğer artifact'ler (claude.ai, yardımcı):
     Hakkından düş; `cancelPolicy.ts` `mem`, testli). Prototipte üyelik dersi yok, iptal yalnız uygulamada görülür. Wellness sürüm 84.
   - **Dokunulabilir değerler mavi:** seçim açan satırların sağındaki değer vurgu renginde (`Val`, iptal ekranı Sebep / seçenek,
     Yeni ders › Konum, Mola › Sebep; prototipte `.val`, `.grb>.sm`). Ok (›) gri kalır.
-  - **Takvim ayarlarım › İzin günleri:** molaların altında yaklaşan izinler (`src/data/offs.ts`, testli). Sola kaydırınca silinir,
-    bildirimdeki "Geri al" aynı kimlikle geri koyar (`removeOff` / `restoreOff`). İzin yoksa bölüm görünmez; ekleme takvimden.
-    Demo: 15 Eyl Salı tüm gün Tatil (`OFFS0`). `SwipeAct` artık yalnız sola kaydırmaya da izin veriyor. Wellness sürüm 85.
+  - **Takvim ayarlarım › İzin günleri:** molaların altında yaklaşan izinler (`src/data/offs.ts`, testli). Satır: tarih rozeti
+    ("15 / EYL", vurgu açık zemin), "Tatil", "Salı · Tüm gün". Dokununca İzin günü detayı (Tarih, Saat, Sebep; altta onaylı Sil;
+    bildirimdeki "Geri al" aynı kimlikle geri koyar, `removeOff` / `restoreOff`). Kaydırarak silme kaldırıldı. İzin yoksa bölüm
+    görünmez; ekleme takvimden. Demo: 15 Eyl Salı tüm gün Tatil (`OFFS0`). Prototipte 66, Ortak Tasarım sayfasında 14a.
+  - Takvim ayarlarım için A (haftalık çubuk grafik) ve B (koyu özet bant) taslakları gösterildi; kullanıcı yalnız A'nın izin günleri
+    satırını istedi, ekranın geri kalanı aynı kaldı. Saat kutularındaki değerler (`PickBox`, prototipte `.pick`) vurgu mavisi.
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -168,7 +171,7 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - tekil ders fiyatları (`/offerings`)
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki (şifre sıfırlama dahil), destek mesajları, dokümanlar (dosya yükleme).
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
-- Testler: `npm test` ile 150 test geçiyor; `npx tsc --noEmit` temiz.
+- Testler: `npm test` ile 151 test geçiyor; `npx tsc --noEmit` temiz.
 - Demo verisi cihazda saklanır (AsyncStorage). Seed değişince önizlemeyi önceden açmış olan eski veriyi görür:
   Hesabım › ⋯ › Verileri sıfırla ile yeni demo verisi gelir. Seed değişikliğinden sonra kullanıcıya bunu hatırlat.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
