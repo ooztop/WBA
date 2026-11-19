@@ -146,6 +146,9 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - **Şifremi unuttum:** e-posta → kod → yeni şifre (en az 8 karakter, iki kutu aynı; `src/data/password.ts`, testli);
     sonunda giriş ekranına dönülür, "Şifren yenilendi". Kaydol adımlarıyla aynı görünüm (3 adım).
   - 18 Kasım'daki her şey Wellness'a işlendi (sürüm 77–80). Kullanıcı 17a–17c çizimlerine Wellness'ta baktı, düzgün.
+- **19 Kas:**
+  - Demo ödemeleri tutarlı hâle getirildi (ayrıntı "Verilen kararlar"da): paket / üyelik fiyatları, Elif'in Temmuz'daki paketi,
+    tahsilat toplamı ₺12.150; yeni ödemeler 9 Eyl tarihiyle. Wellness sürüm 83.
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -158,6 +161,8 @@ Diğer artifact'ler (claude.ai, yardımcı):
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki (şifre sıfırlama dahil), destek mesajları, dokümanlar (dosya yükleme).
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
 - Testler: `npm test` ile 143 test geçiyor; `npx tsc --noEmit` temiz.
+- Demo verisi cihazda saklanır (AsyncStorage). Seed değişince önizlemeyi önceden açmış olan eski veriyi görür:
+  Hesabım › ⋯ › Verileri sıfırla ile yeni demo verisi gelir. Seed değişikliğinden sonra kullanıcıya bunu hatırlat.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
   API'ye geçince gerçek saate bağlanmalı.
 
