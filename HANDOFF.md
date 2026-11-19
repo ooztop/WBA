@@ -52,7 +52,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 84 (19 Kasım, bağlantılar vurgu mavisi, kısa demo notu).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 85 (19 Kasım, dokunulabilir değerler mavi, İzin günleri).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
 Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları), 80 (06a–06d Dokümanlar, 40a Makbuz, 43a–43c Şifremi unuttum).
 
@@ -152,6 +152,11 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - Kullanıcı cevapları: bağlantılar (`Lnk`, prototipte `.lnk`) vurgu mavisi; demo ders notu kısa ve yalnız başlamış ödenmiş derste
     (gelecek derste "Not ekle" boş); aylık üyelik dersinin iptalinde "Üyelik: Hakkına geri ekle / Hakkından düş" (geç iptalde varsayılan
     Hakkından düş; `cancelPolicy.ts` `mem`, testli). Prototipte üyelik dersi yok, iptal yalnız uygulamada görülür. Wellness sürüm 84.
+  - **Dokunulabilir değerler mavi:** seçim açan satırların sağındaki değer vurgu renginde (`Val`, iptal ekranı Sebep / seçenek,
+    Yeni ders › Konum, Mola › Sebep; prototipte `.val`, `.grb>.sm`). Ok (›) gri kalır.
+  - **Takvim ayarlarım › İzin günleri:** molaların altında yaklaşan izinler (`src/data/offs.ts`, testli). Sola kaydırınca silinir,
+    bildirimdeki "Geri al" aynı kimlikle geri koyar (`removeOff` / `restoreOff`). İzin yoksa bölüm görünmez; ekleme takvimden.
+    Demo: 15 Eyl Salı tüm gün Tatil (`OFFS0`). `SwipeAct` artık yalnız sola kaydırmaya da izin veriyor. Wellness sürüm 85.
 
 ## Mevcut durum
 - Uygulama tamamen sahte (mock) veriyle çalışıyor; hiçbir konu henüz API'ye bağlı değil.
@@ -163,7 +168,7 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - tekil ders fiyatları (`/offerings`)
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki (şifre sıfırlama dahil), destek mesajları, dokümanlar (dosya yükleme).
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
-- Testler: `npm test` ile 146 test geçiyor; `npx tsc --noEmit` temiz.
+- Testler: `npm test` ile 150 test geçiyor; `npx tsc --noEmit` temiz.
 - Demo verisi cihazda saklanır (AsyncStorage). Seed değişince önizlemeyi önceden açmış olan eski veriyi görür:
   Hesabım › ⋯ › Verileri sıfırla ile yeni demo verisi gelir. Seed değişikliğinden sonra kullanıcıya bunu hatırlat.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
@@ -174,9 +179,6 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
   Dokümanlar'da Dosya seç / Fotoğraf çek (örnek dosya ekliyor). Gerçek telefonda galeri, rehber, NFC izinleriyle yapılmalı.
 - Kişiler listesinde isim altındaki "Tam zamanlı üyelik" / "8 derslik paket · 2 kaldı" yazıları ve "Üyeler" filtresi kalsın mı?
 - Kişiler listesi Final'deki gibi renkli avatarlı (mavi / mor / yeşil / turuncu) ve düz satırlı olsun mu? (Şimdilik yalnız harf dizini alındı.)
-- Sağında gri değer yazısı olan dokunulabilir satırlar (iptal ekranındaki Sebep / Üyelik, Bildirim ayarlarında "1 sa önce", Yeni ders › Konum, Mola › Sebep) Hesabım'daki gibi mavi olsun mu? Kullanıcı soruyu anlamadı, örnekle açıklandı (19 Kasım).
-- Takvim ayarlarım: yaklaşan izin günlerinin listesi (izinler şu an görülemiyor / silinemiyor). Kullanıcı "evet" dedi (19 Kasım);
-  kısa tasarım sunuldu, onay bekleniyor. Aynı saatli günlerin tek satırda toplanması istenmedi.
 - Kullanım koşullarının gerçek metni (şu an örnek; `src/data/help.ts` `TERMS`, prototipte 57, Ortak Tasarım sayfasında 17c).
 - Sık sorulanların cevapları uygulamanın bugünkü davranışına göre yazıldı; kullanıcı gözden geçirecek.
 - Ortak Tasarım sayfasındaki 06a–06d (Dokümanlar), 40a (Makbuz), 43a–43c (Şifremi unuttum) çizimlerine kullanıcı henüz bakmadı.
@@ -194,6 +196,8 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 4. **Tanıtım sitesi:** henüz başlanmadı.
 
 ## Verilen kararlar
+- **Dokunulabilir değer mavi (19 Kasım):** satırın sağındaki değer dokununca değişiyorsa vurgu renginde; salt bilgi (ör. "Uygulama sürümü 2.4.1",
+  dosya boyutu) gri kalır.
 - **Az yazı (19 Kasım):** ders notu gibi alanlarda demo yazıları kısa olsun; kullanıcı bol yazı istemiyor.
 - **Demo ödemeleri (19 Kasım, tutarlı):** Eylül'de tahsil edilenler Can (8 derslik paket · 2. taksit, ₺2.700), Selin (2 ders, ₺1.500),
   Berk (1 ders, ₺750), Zeynep (aylık üyelik, ₺7.200); toplam ₺12.150 (`COLLECTED0`, testli). Elif'in etiketi Paket;
