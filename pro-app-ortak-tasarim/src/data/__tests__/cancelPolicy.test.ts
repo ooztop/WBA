@@ -1,4 +1,4 @@
-import { cancelOptions, freeCancelHours, hoursUntil } from '../cancelPolicy';
+import { cancelOptions, cancelResult, freeCancelHours, hoursUntil } from '../cancelPolicy';
 
 const base = { pk: false, paid: true, hoursLeft: 30, freeH: 4 };
 
@@ -48,4 +48,20 @@ describe('freeCancelHours', () => {
 describe('hoursUntil', () => {
   it('yarın aynı saatteki ders 24 saat sonra', () => expect(hoursUntil('2026-09-10', 12.6)).toBeCloseTo(24));
   it('bugün 14:00 dersi 1,4 saat sonra', () => expect(hoursUntil('2026-09-09', 14)).toBeCloseTo(1.4));
+});
+
+describe('üyelik dersi', () => {
+  test('normal iptalde ders hakkı geri verilir', () => {
+    const o = cancelOptions({ ...base, mem: true, reason: 'Ben iptal ediyorum' });
+    expect(o).toEqual({ title: 'Üyelik', opts: ['Hakkına geri ekle', 'Hakkından düş'], def: 'Hakkına geri ekle', late: false });
+  });
+  test('kişi geç iptal ederse varsayılan hakkından düşmek', () => {
+    const o = cancelOptions({ ...base, mem: true, reason: 'Kişi gelemiyor', hoursLeft: 1 });
+    expect(o.def).toBe('Hakkından düş');
+    expect(o.late).toBe(true);
+  });
+  test('sonuç yazıları', () => {
+    expect(cancelResult['Hakkına geri ekle']).toBe('Hakkına geri eklendi');
+    expect(cancelResult['Hakkından düş']).toBe('Hakkından düştü');
+  });
 });

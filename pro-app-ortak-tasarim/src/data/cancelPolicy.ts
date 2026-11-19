@@ -8,15 +8,18 @@ export const CANCEL_REASONS = ['Ben iptal ediyorum', 'Kişi gelemiyor', 'Hava / 
 export type CancelReason = (typeof CANCEL_REASONS)[number];
 
 export const PK_OPTS = ['Pakete geri ekle', 'Paketten düş'];
+export const MEM_OPTS = ['Hakkına geri ekle', 'Hakkından düş'];
 export const PAID_OPTS = ['İade et', 'İade etme', 'Ücretsiz ders ver'];
 export const UNPAID_OPTS = ['Ücret alınmasın', 'Ücret alınsın'];
 
-export type CancelInput = { pk: boolean; paid: boolean; reason: string; hoursLeft: number; freeH: number };
+// mem: aylık üyelik dersi (paket gibi ders hakkıyla çalışır)
+export type CancelInput = { pk: boolean; mem?: boolean; paid: boolean; reason: string; hoursLeft: number; freeH: number };
 export type CancelOptions = { title: string; opts: string[]; def: string; late: boolean };
 
-export function cancelOptions({ pk, paid, reason, hoursLeft, freeH }: CancelInput): CancelOptions {
+export function cancelOptions({ pk, mem, paid, reason, hoursLeft, freeH }: CancelInput): CancelOptions {
   // Geç iptal: sadece kişi gelemiyorsa ve ücretsiz iptal süresi geçmişse
   const late = reason === 'Kişi gelemiyor' && hoursLeft < freeH;
+  if (mem) return { title: 'Üyelik', opts: MEM_OPTS, def: late ? 'Hakkından düş' : 'Hakkına geri ekle', late };
   if (pk) return { title: 'Paket', opts: PK_OPTS, def: late ? 'Paketten düş' : 'Pakete geri ekle', late };
   if (paid) return { title: 'Ödeme', opts: PAID_OPTS, def: late ? 'İade etme' : 'İade et', late };
   return { title: 'Ücret', opts: UNPAID_OPTS, def: late ? 'Ücret alınsın' : 'Ücret alınmasın', late };
@@ -26,6 +29,8 @@ export function cancelOptions({ pk, paid, reason, hoursLeft, freeH }: CancelInpu
 export const cancelResult: Record<string, string> = {
   'Pakete geri ekle': 'Pakete geri eklendi',
   'Paketten düş': 'Paketten düştü',
+  'Hakkına geri ekle': 'Hakkına geri eklendi',
+  'Hakkından düş': 'Hakkından düştü',
   'İade et': 'İade edildi',
   'İade etme': 'İade edilmedi',
   'Ücretsiz ders ver': 'Ücretsiz ders verildi',

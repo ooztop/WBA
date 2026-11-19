@@ -58,13 +58,14 @@ function LessonScr({ p }: SP) {
   const h0 = l ? l.h : 9, dur = l ? l.dur : 60, ty = l ? l.type : 'Bireysel';
   const pe = l ? person(l.pid) : personByName(p.n || 'Elif Yıldırım') || person('0');
   const paid = l ? l.st === 'ok' : true;
-  const [note] = useState(paid ? 'Türev konusunu bitirdik, önümüzdeki hafta integral testi yapılacak.' : '');
+  // Demo notu yalnız başlamış (geçmiş / devam eden) ödenmiş derste ve kısa; gelecek derste not boş gelir
+  const [note] = useState(paid && lessonStarted(d, h0) ? 'Türev bitti, integrale geçildi.' : '');
   const info = { n: pe.name, when: `${DN[wd(d)]} ${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, big: `${d.getDate()} ${MS[d.getMonth()]} · ${hm(h0)}`, lid: l?.id, ty: `${ty} · ${dur} dk`, l };
   // Paket adı, tekrar ve konum: yeni derste seçilenler; demo derslerinde türe göre
   const pkName = l?.pk ?? (ty.startsWith('Deneme') ? 'Deneme dersi' : pe.tag[1] === 'Paket' || pe.name === 'Elif Yıldırım' ? '8 derslik paket' : pe.tag[1] === 'Üye' ? 'Aylık üyelik' : `Tek ders · ${dur} dk`);
   const rep = l?.rep ?? (ty.startsWith('Deneme') ? 0 : 2);
   // İptal ekranı ödeme, paket ve seri satırlarını bu dersin gerçek bilgisinden kurar
-  const cinfo = { ...info, st: l ? l.st : 'ok', pk: /paket/i.test(pkName), rep };
+  const cinfo = { ...info, st: l ? l.st : 'ok', pk: /paket/i.test(pkName), mem: /üyelik/i.test(pkName), rep };
   const loc = l?.loc ?? (ty.startsWith('Online') ? 'Online' : 'Stüdyo');
   const st = l ? l.st : 'ok';
   // Başlamış (geçmiş ya da devam eden) derste iptal/erteleme yok; ödenmemişse Ödeme al
@@ -203,15 +204,15 @@ function Cancel({ p }: SP) {
   const C = useC();
   const n = p.n || 'Elif Yıldırım', f = first(n);
   // Demo girişlerinde (p.st yok) eski davranış: ödenmiş, paketli, tekrarlı ders
-  const paid = (p.st ?? 'ok') === 'ok', hasPk = p.pk ?? true, rep = p.rep ?? 2;
+  const paid = (p.st ?? 'ok') === 'ok', hasPk = p.pk ?? true, mem = !!p.mem, rep = p.rep ?? 2;
   const l: Lesson | undefined = p.l;
   const freeH = freeCancelHours(useStore(s => s.prefs['rule.1']));
   const hoursLeft = l ? hoursUntil(l.date, l.h) : 99;
   const [why, setWhy] = useState<string>(CANCEL_REASONS[0]);
-  const pol = cancelOptions({ pk: hasPk, paid, reason: why, hoursLeft, freeH });
+  const pol = cancelOptions({ pk: hasPk, mem, paid, reason: why, hoursLeft, freeH });
   const [choice, setChoice] = useState(pol.def);
   // Sebep değişince seçim, o sebebin varsayılanına döner
-  const pickWhy = (r: string) => { setWhy(r); setChoice(cancelOptions({ pk: hasPk, paid, reason: r, hoursLeft, freeH }).def); };
+  const pickWhy = (r: string) => { setWhy(r); setChoice(cancelOptions({ pk: hasPk, mem, paid, reason: r, hoursLeft, freeH }).def); };
   const ask = () =>
     openAction('Ders iptal edilsin mi?', `${f}'e bildirim gider. Bu işlem geri alınamaz.`, 'Dersi iptal et', true, () => {
       if (p.lid) void cancelLesson(p.lid);

@@ -125,7 +125,7 @@ export function Btn({ t, k = 'p', ic, left, small, onPress, style, flex, glow, o
 }
 export const Lnk = ({ t, onPress, s = 15 }: { t: string; onPress?: () => void; s?: number }) => {
   const C = useC();
-  return <Tap onPress={onPress} hit={8}><T s={s} w={800} c={C.info}>{t}</T></Tap>;
+  return <Tap onPress={onPress} hit={8}><T s={s} w={800} c={C.accent}>{t}</T></Tap>;
 };
 
 /* ---------- kontroller ---------- */
