@@ -1099,10 +1099,6 @@ body.ds{min-height:100vh;padding:0;display:flex;flex-direction:column;align-item
       <button class="ib del" aria-label="Sil"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"></path></svg></button>
     </div>
     <div class="form" style="gap:18px">
-      <div class="tiles t2" role="group" aria-label="İzin türü">
-        <button class="tile" aria-pressed="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2 2M9 2h6"></path></svg>Gün içinde ara<small>Saat aralığı</small></button>
-        <button class="tile on" aria-pressed="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 1 9 9H3a9 9 0 0 1 9-9zM12 12v8a2 2 0 0 0 4 0"></path></svg>Tüm gün kapalı<small>İzin günü</small></button>
-      </div>
       <div class="pickl">Tarih<button class="pick" aria-label="Tarih: 15 Eylül Salı">15 Eylül Salı<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></button></div>
       <div class="cols ofh" hidden>
         <div class="pickl">Başlangıç<button class="pick">12:30<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></button></div>
@@ -2301,7 +2297,6 @@ P.addEventListener('click',e=>{
   if(el.dataset.dt){dtPick(s,el.dataset.dt,el.querySelector('.dtv'));return}
   if(id==='25'&&el.classList.contains('row')){const l=norm(((el.closest('.blk')||{}).querySelector?el.closest('.blk').querySelector('.lbl'):null||{}).textContent);if(l==='Kişiler'){push('26');return}if(l==='Ücret'){push('27');return}}
   if((id==='41'||id==='42')&&el.classList.contains('tile')&&/Paket türü/.test(el.parentElement.getAttribute('aria-label')||'')){const to=/^Çoklu/.test(norm(el.textContent))?'42':'41';if(to!==id){SC[to].querySelectorAll('.tiles[aria-label="Paket türü"] .tile').forEach(x=>{const on=(to==='42')===/^Çoklu/.test(norm(x.textContent));x.classList.toggle('on',on);x.setAttribute('aria-pressed',on)});rep(to)}return}
-  if(id==='66'&&el.classList.contains('tile')){toggleIn(el,false);const ara=/Gün içinde/.test(el.textContent);s.querySelector('.ofh').hidden=!ara;s.querySelector('.shh .t3').textContent=ara?'Mola':'İzin günü';s.dataset.allday=ara?'':'1';return}
   if(el.classList.contains('tile')&&/Mola türü/.test(el.parentElement.getAttribute('aria-label')||'')){toggleIn(el,false);nbMode(s,/Tüm gün/.test(el.textContent));return}
   if(id==='27'&&el.classList.contains('row')){pkApply(el);back();setTimeout(()=>toast('Paket seçildi'),300);return}
   if(id==='16'&&el.classList.contains('row')&&a&&a.startsWith('push:4')){pkMode(false)}

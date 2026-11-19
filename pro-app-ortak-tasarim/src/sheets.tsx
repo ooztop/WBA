@@ -277,11 +277,11 @@ function NewBreak({ p }: SP) {
 }
 
 // İzin günü düzenleme (takvimdeki izne ya da Takvim ayarlarım › İzin günleri satırına dokununca):
-// tür, tarih, saat, sebep; sağ üstte silme (bildirimdeki Geri al aynı izni geri koyar), altta Kaydet
+// tarih, saat (gün içi arada), sebep; tür değişmez (yalnız yeni eklerken seçilir); sağ üstte silme (bildirimdeki Geri al aynı izni geri koyar), altta Kaydet
 function OffEdit({ p }: SP) {
   const C = useC();
   const cur = useStore(s => s.offs).find(o => o.id === p?.id);
-  const [all, setAll] = useState(cur?.all ? 1 : 0);
+  const all = cur?.all ? 1 : 0;
   const [date, setDate] = useState(cur?.date ?? iso(TODAY));
   const [start, setStart] = useState(cur && !cur.all ? cur.start : 12.5);
   const [end, setEnd] = useState(cur && !cur.all ? cur.end : 13);
@@ -295,7 +295,6 @@ function OffEdit({ p }: SP) {
   const del = () => { const keep = cur; void removeOff(keep.id); closeSheet(); toastLater('İzin günü silindi', 350, 'Geri al', () => { void restoreOff(keep); }); };
   return (
     <Sheet title={all ? 'İzin günü' : 'Mola'} gap={18} right={<IB ic="trash" k="del" label="Sil" onPress={del} />} foot={<Btn glow t="Kaydet" onPress={save} />}>
-      <Tiles cols={2} value={all} onChange={i => { setAll(i); if (!opts.includes(why)) setWhy(i ? 'İzin günü' : 'Öğle arası'); }} items={[['timer', 'Gün içinde ara', 'Saat aralığı'], ['umbrella', 'Tüm gün kapalı', 'İzin günü']]} />
       <PickBox label="Tarih" ic="calendar" v={offTitle(date)} onPress={() => pickDate(fromIso(date), d => setDate(iso(d)))} />
       {all ? null : (
         <Cols>

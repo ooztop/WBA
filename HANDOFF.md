@@ -52,7 +52,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 88 (19 Kasım, izin ve mola takvimden düzenlenir).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 89 (19 Kasım, izin düzenlemede tür seçimi kaldırıldı).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
 Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları), 80 (06a–06d Dokümanlar, 40a Makbuz, 43a–43c Şifremi unuttum).
 
@@ -155,8 +155,8 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - **Dokunulabilir değerler mavi:** seçim açan satırların sağındaki değer vurgu renginde (`Val`, iptal ekranı Sebep / seçenek,
     Yeni ders › Konum, Mola › Sebep; prototipte `.val`, `.grb>.sm`). Ok (›) gri kalır.
   - **Takvim ayarlarım › İzin günleri:** molaların altında yaklaşan izinler (`src/data/offs.ts`, testli). Satır: tarih rozeti
-    ("15 / EYL", vurgu açık zemin), "Tatil", "Salı · Tüm gün". Dokununca moladaki gibi düzenleme paneli (`offEdit`): tür
-    (Gün içinde ara / Tüm gün kapalı), tarih, saat, sebep; sağ üstte sil (bildirimdeki "Geri al" aynı kimlikle geri koyar,
+    ("15 / EYL", vurgu açık zemin), "Tatil", "Salı · Tüm gün". Dokununca moladaki gibi düzenleme paneli (`offEdit`): tarih,
+    saat (yalnız gün içi arada), sebep; tür seçimi yok (kullanıcı: "düzenlerken diğer türü niye göreyim"; tür yalnız eklerken seçilir); sağ üstte sil (bildirimdeki "Geri al" aynı kimlikle geri koyar,
     `removeOff` / `restoreOff`), altta Kaydet (`saveOff`). Kaydırarak silme yok. İzin yoksa bölüm görünmez; ekleme takvimden.
     **Takvimde** (gün görünümü) mola bloğuna dokununca Düzenli mola paneli, izin bloğuna dokununca aynı izin paneli açılır.
     Demo: 15 Eyl Salı tüm gün Tatil (`OFFS0`). Prototipte panel 66 (yalnız listeden; prototipin takvimi dokunmayı yok sayar),
