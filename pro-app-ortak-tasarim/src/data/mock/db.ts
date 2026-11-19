@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { Brk, Choice, Debt, ID, Lesson, LessonRules, Notif, NotifPrefs, Off, PaidRow, Person, Pkg, Profile, Doc, Req, SupportMsg, WeekHours } from '../models';
 import { iso, legacyKeyToIso } from '../dates';
 import { baseLessons } from './lessonGen';
-import { BREAKS0, COLLECTED0, DOCS0, DEBTS0, ME0, NOTIF0, NOTIFS0, PAID0, PACKAGES0, PEOPLE0, REQS0, RULES0, WEEK0 } from './seed';
+import { BREAKS0, OFFS0, COLLECTED0, DOCS0, DEBTS0, ME0, NOTIF0, NOTIFS0, PAID0, PACKAGES0, PEOPLE0, REQS0, RULES0, WEEK0 } from './seed';
 
 type LessonMeta = { pk?: string; rep?: number; loc?: string; st?: Lesson['st'] };
 
@@ -22,7 +22,7 @@ const SAVE_MS = 400;
 const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v)) as T;
 
 const seed = (): MockData => clone({
-  people: PEOPLE0, packages: PACKAGES0, extra: [], cancelled: [], breaks: BREAKS0, offs: [],
+  people: PEOPLE0, packages: PACKAGES0, extra: [], cancelled: [], breaks: BREAKS0, offs: OFFS0,
   debts: DEBTS0, paid: PAID0, collected: COLLECTED0, me: ME0, week: WEEK0, rules: RULES0,
   notif: NOTIF0, reqs: REQS0, notifs: NOTIFS0, support: [], docs: DOCS0, lessonMeta: {}, uiPrefs: {},
 });

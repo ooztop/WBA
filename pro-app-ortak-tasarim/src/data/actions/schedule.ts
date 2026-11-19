@@ -26,6 +26,13 @@ export async function toggleBreakDay(id: ID, day: number, on: boolean): Promise<
   return optimistic(s => ({ breaks: s.breaks.map(b => (b.id === id ? next : b)) }), () => scheduleService.saveBreak(next));
 }
 
+export function removeOff(id: ID): Promise<boolean> {
+  return optimistic(s => ({ offs: s.offs.filter(o => o.id !== id) }), () => scheduleService.removeOff(id), 'Silinemedi. Tekrar dene.');
+}
+export function restoreOff(o: Off): Promise<boolean> {
+  return optimistic(s => ({ offs: s.offs.some(x => x.id === o.id) ? s.offs : [...s.offs, o] }), () => scheduleService.restoreOff(o));
+}
+
 export function addOffs(o: Omit<Off, 'id'>[]): Promise<Off[] | null> {
   return afterCall(() => scheduleService.addOffs(o), (made, s) => ({ offs: [...s.offs, ...made] }));
 }

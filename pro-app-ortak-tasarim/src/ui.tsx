@@ -360,7 +360,7 @@ export function Val({ v, onPress }: { v: string; onPress?: () => void }) {
   const C = useC();
   return (
     <Tap onPress={onPress} hit={6} style={{ flexDirection: 'row', alignItems: 'center', gap: 2, minHeight: 44 }}>
-      <T s={14} w={700} c={C.muted}>{v}</T>
+      <T s={14} w={700} c={C.accent}>{v}</T>
       <Icon n="chevR" c={C.muted} />
     </Tap>
   );
@@ -447,21 +447,24 @@ export function PickBox({ label, v, ic, onPress }: { label: string; v: string; i
 
 // Kaydırılan satır: sağa kaydır → onRight (vurgu rengi), sola kaydır → onLeft (kırmızı).
 // Dokunma, kaydırmadan hemen sonra gelirse yok sayılır.
-export function SwipeAct({ children, onRight, onLeft, onPress, rightLabel, leftLabel, bg }: { children: React.ReactNode; onRight: () => void; onLeft: () => void; onPress: () => void; rightLabel: string; leftLabel: string; bg?: string }) {
+// onRight verilmezse satır yalnız sola kayar (ör. izin günü: Sil)
+export function SwipeAct({ children, onRight, onLeft, onPress, rightLabel = '', leftLabel, bg }: { children: React.ReactNode; onRight?: () => void; onLeft: () => void; onPress?: () => void; rightLabel?: string; leftLabel: string; bg?: string }) {
   const C = useC();
   const x = useSharedValue(0);
   const moved = useRef(0);
   const mark = () => { moved.current = Date.now(); };
+  const maxR = onRight ? 140 : 0;
+  const right = () => onRight?.();
   const pan = Gesture.Pan()
     .activeOffsetX([-10, 10])
     .failOffsetY([-10, 10])
     .onStart(() => { runOnJS(mark)(); })
-    .onUpdate(e => { x.value = Math.max(-140, Math.min(140, e.translationX)); })
+    .onUpdate(e => { x.value = Math.max(-140, Math.min(maxR, e.translationX)); })
     .onEnd(() => {
       const v = x.value;
       x.value = withTiming(0, { duration: 320, easing: Easing.bezier(...EASE) });
       runOnJS(mark)();
-      if (v > 90) runOnJS(onRight)();
+      if (v > 90) runOnJS(right)();
       else if (v < -90) runOnJS(onLeft)();
     });
   const st = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
@@ -476,7 +479,7 @@ export function SwipeAct({ children, onRight, onLeft, onPress, rightLabel, leftL
       </Animated.View>
       <GestureDetector gesture={pan}>
         <Animated.View style={st}>
-          <Tap onPress={() => { if (Date.now() - moved.current > 350) onPress(); }} style={{ backgroundColor: bg ?? C.card, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 64 }}>
+          <Tap onPress={onPress ? () => { if (Date.now() - moved.current > 350) onPress(); } : undefined} style={{ backgroundColor: bg ?? C.card, borderRadius: 12, paddingVertical: 10, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 64 }}>
             {children}
           </Tap>
         </Animated.View>

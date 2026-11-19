@@ -267,7 +267,7 @@ function NewBreak({ p }: SP) {
       </View>
       {all ? null : <Cols><Fld flex label="Başlangıç" value={start} onChangeText={setStart} /><Fld flex label="Bitiş" value={end} onChangeText={setEnd} /></Cols>}
       <InCard>
-        <GR t="Sebep" s="Takvimde bu isimle görünür" chev onPress={() => pick('Sebep', opts, why, setWhy)} right={<T s={13} w={700} c={C.muted}>{why}</T>} />
+        <GR t="Sebep" s="Takvimde bu isimle görünür" chev onPress={() => pick('Sebep', opts, why, setWhy)} right={<T s={13} w={700} c={C.accent}>{why}</T>} />
         <GR t="Sebebi kişiler görsün" s="Kapalıysa sadece dolu görünür" right={<Sw label="Sebebi kişiler görsün" />} />
         {all ? null : <Repeat init={0} sum0="Tekrarlanmaz" start={`${d0.getDate()} ${MN[d0.getMonth()]}`} />}
       </InCard>
@@ -512,7 +512,7 @@ function NewLesson({ p }: SP) {
             <Sm>Kişinin paketi varsa o, yoksa temel paket gelir. Süre paketten gelir.</Sm>
           </Blk>
           <InCard>
-            <GR t="Konum" chev onPress={() => pick('Konum', ['Stüdyo', 'Online', 'Adres'], loc, setLoc)} right={<T s={13} w={700} c={C.muted}>{loc}</T>} />
+            <GR t="Konum" chev onPress={() => pick('Konum', ['Stüdyo', 'Online', 'Adres'], loc, setLoc)} right={<T s={13} w={700} c={C.accent}>{loc}</T>} />
             <Repeat init={2} sum0="Her hafta · bitiş yok" start="10 Eylül" onChange={(v, end) => setRep({ v, end })} />
             <GR t="Kişiye bildir" s="Ders saati ve ücret onayına gider" right={<Sw init label="Kişiye bildir" />} />
           </InCard>

@@ -1,5 +1,5 @@
 // Demo verisi: bugünkü PEOPLE0, PACKAGES0 ve store'daki başlangıç değerleri; hafta saatleri ve ders kuralları varsayılanları.
-import type { Brk, Debt, Doc, LessonRules, Notif, NotifPrefs, PaidRow, Person, Pkg, Profile, Req, TagKind, WeekHours } from '../models';
+import type { Brk, Debt, Doc, Off, LessonRules, Notif, NotifPrefs, PaidRow, Person, Pkg, Profile, Req, TagKind, WeekHours } from '../models';
 
 const RAW: [string, string, string, [TagKind, string], string][] = [
   ['EY', 'Elif Yıldırım', 'Sonraki: 17 Eyl · 09:00', ['a', 'Paket'], 'hafta'], ['MK', 'Mert Kaya', 'Sonraki: 18 Eyl · 11:30', ['d', '₺1.500 borç'], 'borc hafta'],
@@ -24,6 +24,9 @@ export const PACKAGES0: Pkg[] = [
   { id: '3', kind: 'multi', c1: '8×', c2: '', name: '8 derslik paket', sub: 'ders başı ₺675 · 2 ay', price: '₺5.400' },
   { id: '4', kind: 'multi', c1: '12×', c2: '', name: 'Aylık üyelik', sub: 'ders başı ₺600 · 1 ay', price: '₺7.200' },
 ];
+
+// Takvimden eklenmiş yaklaşan izin günü (Takvim ayarlarım › İzin günleri)
+export const OFFS0: Off[] = [{ id: 'o1', date: '2026-09-15', name: 'Tatil', start: 10, end: 18, all: true }];
 
 export const BREAKS0: Brk[] = [
   { id: '1', name: 'Öğle molası', start: '12:30', end: '13:30', days: [0, 1, 2, 3, 4, 5] },

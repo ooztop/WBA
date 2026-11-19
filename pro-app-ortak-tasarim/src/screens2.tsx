@@ -1,10 +1,12 @@
 // Sayfalar 2: takvim ayarları, gün sayfası, ders kuralları, paket tercihleri, yardım (destek formu, SSS, koşullar), hesabı sil
 import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
-import { DL, DN, hm, type Pkg } from './data';
-import type { ID } from './data/models';
+import { DL, DN, TODAY, hm, type Pkg } from './data';
+import type { ID, Off } from './data/models';
 import { daysText, go, hhmm, openSheet, pickTime, pop, toast, toastLater, useC, useFrame, useStore } from './store';
-import { removePackage, sendSupport, setBasePackage, toggleBreakDay, usePref } from './data/actions';
+import { removeOff, removePackage, restoreOff, sendSupport, setBasePackage, toggleBreakDay, usePref } from './data/actions';
+import { offLine, offTitle, upcomingOffs } from './data/offs';
+import { iso } from './data/dates';
 import { canSend, FAQ, faqById, SUPPORT_TOPICS, TERMS } from './data/help';
 import { openUrl } from './device';
 import { ff } from './theme';
@@ -28,7 +30,10 @@ function CalendarPrefs() {
   const C = useC();
   const emp = useStore(s => s.emp);
   const breaks = useStore(s => s.breaks);
+  const offs = upcomingOffs(useStore(s => s.offs), iso(TODAY));
   const prefs = useStore(s => s.prefs);
+  // Sola kaydırınca silinir; bildirimdeki Geri al aynı izni geri koyar
+  const delOff = (o: Off) => { void removeOff(o.id).then(ok => ok && toast('İzin günü silindi', 'Geri al', () => { void restoreOff(o); })); };
   const DEF = `${prefs['wh.s'] ?? '10:00'} – ${prefs['wh.e'] ?? '18:00'}`;
   // Çalışma saatleri saat seçiciyle (elle yazılmaz); başlangıç bitişten önce olmalı
   const [ws, setWs] = usePref('wh.s', '10:00');
@@ -54,6 +59,18 @@ function CalendarPrefs() {
             {breaks.map(b => <GR key={b.id} t={b.name} s={`${b.start} – ${b.end} · ${daysText(b.days)}`} chev onPress={() => openSheet('breakNew', { id: b.id })} />)}
           </GCard>
         )}
+        {offs.length ? (
+          <>
+            <GrpS t="İzin günleri" />
+            <List>
+              {offs.map(o => (
+                <SwipeAct key={o.id} onLeft={() => delOff(o)} leftLabel="Sil">
+                  <Rt t={offTitle(o.date)} s={offLine(o)} />
+                </SwipeAct>
+              ))}
+            </List>
+          </>
+        ) : null}
         <GrpS t="Günler" s="Özel ayar için güne dokun" />
         <GCard>
           {DN.map((g, i) => {

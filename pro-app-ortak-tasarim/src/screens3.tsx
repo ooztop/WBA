@@ -218,7 +218,7 @@ function Cancel({ p }: SP) {
       if (p.lid) void cancelLesson(p.lid);
       go('cancelled', 'rep', { n, big: p.big, why, title: pol.title, res: cancelResult[choice], rep });
     });
-  const v = (t: string) => <T s={14} w={700} c={C.muted} numberOfLines={1} style={{ flexShrink: 1 }}>{t}</T>;
+  const v = (t: string) => <T s={14} w={700} c={C.accent} numberOfLines={1} style={{ flexShrink: 1 }}>{t}</T>;
   const sub = pol.late ? 'Ücretsiz iptal süresi geçti' : pol.title === 'Ödeme' ? 'Ödendi' : pol.title === 'Ücret' ? 'Henüz ödenmedi' : undefined;
   return (
     <Page title="Dersi iptal et" foot={<Btn k="xf" t="Dersi iptal et" onPress={ask} />}>
