@@ -2,7 +2,7 @@
 import type { Brk, Debt, Doc, LessonRules, Notif, NotifPrefs, PaidRow, Person, Pkg, Profile, Req, TagKind, WeekHours } from '../models';
 
 const RAW: [string, string, string, [TagKind, string], string][] = [
-  ['EY', 'Elif Yıldırım', 'Sonraki: 17 Eyl · 09:00', ['i', 'Aylık'], 'hafta'], ['MK', 'Mert Kaya', 'Sonraki: 18 Eyl · 11:30', ['d', '₺1.500 borç'], 'borc hafta'],
+  ['EY', 'Elif Yıldırım', 'Sonraki: 17 Eyl · 09:00', ['a', 'Paket'], 'hafta'], ['MK', 'Mert Kaya', 'Sonraki: 18 Eyl · 11:30', ['d', '₺1.500 borç'], 'borc hafta'],
   ['DA', 'Deniz Arslan', 'Sonraki: 19 Eyl · 14:00', ['n', 'Tek ders'], 'hafta'], ['ZA', 'Zeynep Aydın', 'Tam zamanlı üyelik', ['s', 'Üye'], 'uye hafta'],
   ['CÖ', 'Can Öztürk', '8 derslik paket · 2 kaldı', ['a', 'Paket'], 'hafta'], ['SD', 'Selin Demir', 'Sonraki: 16 Eyl · 19:00', ['i', 'Aylık'], 'hafta'],
   ['BŞ', 'Burak Şahin', 'Sonraki: 20 Eyl · 10:30', ['n', 'Tek ders'], 'hafta'], ['AK', 'Ayşe Koç', 'Tam zamanlı üyelik', ['s', 'Üye'], 'uye hafta'],
@@ -35,12 +35,16 @@ export const DEBTS0: Debt[] = [
   { pid: '6', lessons: [{ when: '8 Eylül · 10:30', what: 'Bireysel · 60 dk' }], note: 'vadesi yarın', tag: 'Yarın' },
 ];
 
+// Eylül'de tahsil edilenler (yeniden eskiye). Fiyatlar PACKAGES0 ile aynı: tek ders ₺750, 8 derslik paket ₺5.400 (2 taksit), aylık üyelik ₺7.200.
+// Elif'in 8 derslik paketi Temmuz'da alındı (24 Eyl'e kadar geçerli, 5 ders kaldı); Eylül listesinde yok.
 export const PAID0: PaidRow[] = [
-  { id: 'p1', ini: 'ZA', name: 'Zeynep Aydın', sub: '10 Eyl · Havale · aylık üyelik', amt: 5400 }, { id: 'p2', ini: 'EY', name: 'Elif Yıldırım', sub: '8 Eyl · Nakit · 4 ders', amt: 3000 },
-  { id: 'p3', ini: 'CÖ', name: 'Can Öztürk', sub: '5 Eyl · Havale · 8 derslik paket', amt: 2500 }, { id: 'p4', ini: 'SD', name: 'Selin Demir', sub: '3 Eyl · Kart · 2 ders', amt: 1500 },
+  { id: 'p1', ini: 'CÖ', name: 'Can Öztürk', sub: '5 Eyl · Havale · 8 derslik paket · 2. taksit', amt: 2700 },
+  { id: 'p2', ini: 'SD', name: 'Selin Demir', sub: '3 Eyl · Kart · 2 ders', amt: 1500 },
+  { id: 'p3', ini: 'BA', name: 'Berk Aksoy', sub: '2 Eyl · Nakit · 1 ders', amt: 750 },
+  { id: 'p4', ini: 'ZA', name: 'Zeynep Aydın', sub: '1 Eyl · Havale · aylık üyelik', amt: 7200 },
 ];
 
-export const COLLECTED0 = 12400;
+export const COLLECTED0 = 12150; // PAID0 toplamı
 export const ME0: Profile = { ad: 'Deniz', soyad: 'Arslan', title: 'Özel ders · Matematik' };
 // Bekleyen rezervasyon talepleri (kişi kimlikleri PEOPLE0 sırası: 2 Deniz, 6 Burak, 9 Cansu)
 export const REQS0: Req[] = [

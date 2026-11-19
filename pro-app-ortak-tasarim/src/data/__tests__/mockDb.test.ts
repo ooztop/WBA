@@ -60,7 +60,7 @@ test('update cihaza yazar ve load geri okur', async () => {
   await Promise.resolve();
   mockDb.reset();
   jest.clearAllTimers();
-  expect(mockDb.data().collected).toBe(12400);
+  expect(mockDb.data().collected).toBe(12150);
   await mockDb.load();
   expect(mockDb.data().collected).toBe(777);
 });

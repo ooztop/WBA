@@ -1,6 +1,6 @@
 # Devir notu (yeni oturumda önce bunu oku)
 
-Son güncelleme: 18 Kasım 2026
+Son güncelleme: 19 Kasım 2026
 
 ## Kullanıcı ve proje
 - Kullanıcı Türkçe konuşuyor; açıklamaları sade Türkçe ile yap.
@@ -52,7 +52,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 82 (18 Kasım, makbuz ders detayından ve Ödemeler'den açılır).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 83 (19 Kasım, demo ödemeleri tutarlı hâle getirildi).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
 Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları), 80 (06a–06d Dokümanlar, 40a Makbuz, 43a–43c Şifremi unuttum).
 
@@ -157,7 +157,7 @@ Diğer artifact'ler (claude.ai, yardımcı):
   - tekil ders fiyatları (`/offerings`)
 - Backend'de olmayanlar: dersler API'si, ödemeler, rezervasyon talepleri, profil, isimli molalar, çoklu paket ve üyelik, giriş ve yetki (şifre sıfırlama dahil), destek mesajları, dokümanlar (dosya yükleme).
 - Backend notu (`docs/EMRE-BACKEND-NOTU.md`) Emre'ye gönderildi (17 Kasım). Cevabı henüz yok; yeni oturumda kullanıcıya sor.
-- Testler: `npm test` ile 141 test geçiyor; `npx tsc --noEmit` temiz.
+- Testler: `npm test` ile 143 test geçiyor; `npx tsc --noEmit` temiz.
 - Uygulamanın "şimdi"si demo için sabit: 9 Eylül 2026, 12:36 (`TODAY`, `NOW_H`; `src/data/mock/lessonGen.ts`).
   API'ye geçince gerçek saate bağlanmalı.
 
@@ -175,8 +175,6 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 - Kullanım koşullarının gerçek metni (şu an örnek; `src/data/help.ts` `TERMS`, prototipte 57, Ortak Tasarım sayfasında 17c).
 - Sık sorulanların cevapları uygulamanın bugünkü davranışına göre yazıldı; kullanıcı gözden geçirecek.
 - Ortak Tasarım sayfasındaki 06a–06d (Dokümanlar), 40a (Makbuz), 43a–43c (Şifremi unuttum) çizimlerine kullanıcı henüz bakmadı.
-- Demo verisi tutarsızlığı: Elif'in paket ödemesi kayıtlı değil (makbuz örnek tarih / yöntemle açılıyor);
-  Can Öztürk'ün "8 derslik paket" ödemesi ₺2.500, paketin fiyatı ₺5.400. API'ye geçince gerçek kayıtlar gelecek.
 
 ## Sıradaki adımlar
 1. **API'ye bağlama (Plan 2).** Plan dosyasının sonundaki "kapsam dışı" bölümünde yazıyor.
@@ -191,6 +189,10 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 4. **Tanıtım sitesi:** henüz başlanmadı.
 
 ## Verilen kararlar
+- **Demo ödemeleri (19 Kasım, tutarlı):** Eylül'de tahsil edilenler Can (8 derslik paket · 2. taksit, ₺2.700), Selin (2 ders, ₺1.500),
+  Berk (1 ders, ₺750), Zeynep (aylık üyelik, ₺7.200); toplam ₺12.150 (`COLLECTED0`, testli). Elif'in etiketi Paket;
+  8 derslik paketi 24 Temmuz'da alındı (24 Eyl'e kadar, 5 ders kaldı), Eylül listesinde yok, makbuzu o tarihle açılır.
+  Yeni ödemeler demo bugününün tarihiyle (9 Eyl) yazılır (önceden 10 Eyl'di).
 - **Makbuz (18 Kasım):** altta yalnız "Paylaş" (telefonun paylaşım menüsü WhatsApp'ı da içerir; ayrı WhatsApp düğmesi istenmedi).
   Ödenmiş derste makbuz "Ödendi" satırından açılır; paketli derste paketin satın alındığı ödeme gösterilir, tek derste dersin kendisi.
 - **"Tuval" deme:** kullanıcıya Wellness'taki ekran çizimlerinden "Ortak Tasarım sayfası" diye söz et.

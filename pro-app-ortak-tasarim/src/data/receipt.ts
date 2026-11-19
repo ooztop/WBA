@@ -41,9 +41,10 @@ function shortToIso(s: string): string {
 }
 const longDay = (iso: string) => { const [, m, d] = iso.split('-').map(Number); return `${d} ${MN[m - 1]}`; };
 
-// Ödemeler'deki satır: "8 Eyl · Nakit · 4 ders"
+// Ödemeler'deki satır: "3 Eyl · Kart · 2 ders" (ne kısmı birden çok parça olabilir: "8 derslik paket · 2. taksit")
 export function paidRowReceipt(row: PaidRow, me: Me): Receipt {
-  const [d, method, what] = row.sub.split(' · ');
+  const [d, method, ...rest] = row.sub.split(' · ');
+  const what = rest.join(' · ');
   const date = shortToIso(d);
   return { ...me, to: row.name, date, method: method || 'Nakit', lines: [{ when: longDay(date), what: what || 'Ödeme', amt: row.amt }], paid: row.amt };
 }
@@ -54,7 +55,8 @@ export function lessonReceipt(l: Lesson, name: string, pkName: string, pkgs: Pkg
     const row = paid.find(r => r.name === name && r.sub.includes(pkName));
     if (row) return paidRowReceipt(row, me);
     const amt = parseTl(pkgs.find(p => p.name === pkName)?.price ?? '') || 0;
-    return { ...me, to: name, date: '2026-09-02', method: 'Havale / EFT', lines: [{ when: '2 Eylül', what: pkName, amt }], paid: amt };
+    // Demo: kayıtlı ödemesi olmayan paket (Elif) 24 Temmuz'da alındı, 2 ay geçerli
+    return { ...me, to: name, date: '2026-07-24', method: 'Havale / EFT', lines: [{ when: '24 Temmuz', what: pkName, amt }], paid: amt };
   }
   const amt = lessonPrice(l.dur, pkgs);
   const h = `${p2(Math.floor(l.h))}:${p2(Math.round((l.h % 1) * 60))}`;

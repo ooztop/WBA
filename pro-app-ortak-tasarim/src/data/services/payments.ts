@@ -2,6 +2,10 @@
 import type { Debt, ID, PaidRow, Person } from '../models';
 import { newId } from '../mock/db';
 import { copy, db } from './util';
+import { TODAY } from '../mock/lessonGen';
+
+const MS = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+const todayShort = () => `${TODAY.getDate()} ${MS[TODAY.getMonth()]}`;
 
 export type CollectIn = { pid: ID; lessonIdx: number[]; lessonIds?: ID[]; method: string; amount: number; name: string; ini: string; part?: boolean };
 
@@ -14,7 +18,7 @@ export const paymentsService = {
   // Her iki durumda tahsilat artar, ödenenlerin başına satır eklenir.
   async collect(i: CollectIn): Promise<void> {
     db('payments').update(d => {
-      const row = (n: string): PaidRow => ({ id: newId('p'), ini: i.ini, name: i.name, sub: `10 Eyl · ${i.method} · ${n}`, amt: i.amount });
+      const row = (n: string): PaidRow => ({ id: newId('p'), ini: i.ini, name: i.name, sub: `${todayShort()} · ${i.method} · ${n}`, amt: i.amount });
       if (i.part) return { ...d, collected: d.collected + i.amount, paid: [row('kısmi ödeme'), ...d.paid] };
       const debt = d.debts.find(x => x.pid === i.pid);
       const left = debt ? debt.lessons.filter((_, k) => !i.lessonIdx.includes(k)) : [];

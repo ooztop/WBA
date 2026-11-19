@@ -67,7 +67,7 @@ test('boot sonrası bugünün dersleri önbellekte', async () => {
   expect(get().people).toHaveLength(22);
   expect(get().packages).toHaveLength(4);
   expect(get().debts).toHaveLength(2);
-  expect(get().collected).toBe(12400);
+  expect(get().collected).toBe(12150);
 });
 
 test('boş kipte önbellek boşalır, kapatınca demo verisi döner', async () => {

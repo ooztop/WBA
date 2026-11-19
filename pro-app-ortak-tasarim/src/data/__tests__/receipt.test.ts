@@ -59,3 +59,15 @@ test('tek dersin makbuzu o ders ve ders fiyatı', () => {
   expect(r).toMatchObject({ to: 'Mert Kaya', date: '2026-09-09', method: 'Nakit', paid: 750 });
   expect(r.lines).toEqual([{ when: '9 Eylül · 09:00', what: 'Bireysel · 60 dk', amt: 750 }]);
 });
+test('taksitli paket satırında "ne" kısmı bütün kalır', () => {
+  const row: PaidRow = { id: 'p1', ini: 'CÖ', name: 'Can Öztürk', sub: '5 Eyl · Havale · 8 derslik paket · 2. taksit', amt: 2700 };
+  expect(paidRowReceipt(row, ME).lines[0].what).toBe('8 derslik paket · 2. taksit');
+});
+test('demo verisinde tahsilat toplamı satırların toplamına, fiyatlar paketlere eşit', () => {
+  const { PAID0, COLLECTED0, PACKAGES0 } = jest.requireActual('../mock/seed');
+  expect(PAID0.reduce((a: number, r: PaidRow) => a + r.amt, 0)).toBe(COLLECTED0);
+  const price = (n: string) => parseTlLocal(PACKAGES0.find((p: Pkg) => p.name === n).price);
+  expect(PAID0.find((r: PaidRow) => r.name === 'Zeynep Aydın').amt).toBe(price('Aylık üyelik'));
+  expect(PAID0.find((r: PaidRow) => r.name === 'Can Öztürk').amt * 2).toBe(price('8 derslik paket'));
+});
+const parseTlLocal = (s: string) => Number(s.replace(/[^\d]/g, ''));
