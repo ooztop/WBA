@@ -52,7 +52,7 @@ Tasarım soruları ve değişiklikler önce buradan okunur. Repodaki `prototip/`
 - Ortak Tasarım, v4'ten farklı olarak Manrope yazı tipini ve 3 vurgu rengini (Pro mavisi / Turuncu / Mor) kullanıyor.
   Koddaki karşılığı `pro-app-ortak-tasarim/src/theme.ts`.
 
-**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 85 (19 Kasım, dokunulabilir değerler mavi, İzin günleri).
+**Eşitleme durumu:** Uygulamadaki bütün tasarım değişiklikleri Wellness'a işlendi; son sürüm 86 (19 Kasım, not kutularında normal yazı).
 18 Kasım'da iki mobil sayfanın repodaki kopyalarla birebir aynı olduğu doğrulandı.
 Sürüm geçmişi: 74 (17 Kasım tasarım turu), 75 (mavi çipler, paket vurguları), 77 (bildirimler, harf dizini, Hesabım, Takvim ayarlarım), 78 (Ödeme al, Ödemeler), 79 (Yardım ve destek: 17a destek formu, 17b SSS, 17c Kullanım koşulları), 80 (06a–06d Dokümanlar, 40a Makbuz, 43a–43c Şifremi unuttum).
 
@@ -196,6 +196,8 @@ Kullanıcıya sorulmuş, cevabı beklenen tasarım soruları:
 4. **Tanıtım sitesi:** henüz başlanmadı.
 
 ## Verilen kararlar
+- **Not yazıları normal (19 Kasım):** çok satırlı kutularda (ders notu, doküman notu, destek mesajı) yazı normal kalınlıkta (500);
+  kullanıcı kalın yazıyı "çok göze batıyor" diye istemedi. Tek satırlık kutular dolunca kalın kalır.
 - **Dokunulabilir değer mavi (19 Kasım):** satırın sağındaki değer dokununca değişiyorsa vurgu renginde; salt bilgi (ör. "Uygulama sürümü 2.4.1",
   dosya boyutu) gri kalır.
 - **Az yazı (19 Kasım):** ders notu gibi alanlarda demo yazıları kısa olsun; kullanıcı bol yazı istemiyor.

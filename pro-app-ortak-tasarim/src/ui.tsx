@@ -257,6 +257,7 @@ export function Ck({ on }: { on: boolean }) {
   );
 }
 
+// Çok satırlı kutuda (not, mesaj) yazı normal kalınlıkta; tek satırlıda dolunca kalın
 export function Inp({ v, ph, area, style, pk, ...rest }: TextInputProps & { v?: string; ph?: string; area?: boolean; pk?: string }) {
   const C = useC();
   const [val, setVal] = useState<string>(saved(pk) ?? v ?? '');
@@ -271,7 +272,7 @@ export function Inp({ v, ph, area, style, pk, ...rest }: TextInputProps & { v?: 
       value={txt}
       onChangeText={t => { setVal(t); if (pk) setPref(pk, t); rest.onChangeText?.(t); }}
       style={[
-        { height: area ? 76 : 52, borderRadius: 12, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 14, fontFamily: ff(txt ? 700 : 500), fontSize: 16, color: C.ink },
+        { height: area ? 76 : 52, borderRadius: 12, borderWidth: 1.5, borderColor: C.border, backgroundColor: C.card, paddingHorizontal: 14, fontFamily: ff(txt && !area ? 700 : 500), fontSize: 16, color: C.ink },
         area && { paddingTop: 12, paddingBottom: 12, lineHeight: 22, textAlignVertical: 'top' },
         noOutline,
         style,
