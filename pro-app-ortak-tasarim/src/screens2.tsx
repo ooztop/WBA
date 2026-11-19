@@ -2,15 +2,15 @@
 import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { DL, DN, TODAY, hm, type Pkg } from './data';
-import type { ID, Off } from './data/models';
-import { daysText, go, hhmm, openSheet, pickTime, pop, toast, toastLater, useC, useFrame, useStore } from './store';
+import type { ID } from './data/models';
+import { daysText, go, hhmm, openAction, openSheet, pickTime, pop, toast, toastLater, useC, useFrame, useStore } from './store';
 import { removeOff, removePackage, restoreOff, sendSupport, setBasePackage, toggleBreakDay, usePref } from './data/actions';
-import { offLine, offTitle, upcomingOffs } from './data/offs';
+import { offBadge, offHours, offSub, offTitle, upcomingOffs } from './data/offs';
 import { iso } from './data/dates';
 import { canSend, FAQ, faqById, SUPPORT_TOPICS, TERMS } from './data/help';
 import { openUrl } from './device';
 import { ff } from './theme';
-import { Box, Btn, Chip, Cols, Empty, FC, Fic, FloatFoot, Fld, GCard, GR, IB, Icon, Inote, Inp, Lbl, List, Lnk, NavH, noOutline, PChips, PickBox, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
+import { Box, Btn, Chip, Cols, Empty, FC, Fic, FloatFoot, Fld, Foot, GCard, GR, Row, IB, Icon, Inote, Inp, Lbl, List, Lnk, NavH, noOutline, PChips, PickBox, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
 import { Amt } from './screens1';
 
 type SP = { p: any };
@@ -32,8 +32,6 @@ function CalendarPrefs() {
   const breaks = useStore(s => s.breaks);
   const offs = upcomingOffs(useStore(s => s.offs), iso(TODAY));
   const prefs = useStore(s => s.prefs);
-  // Sola kaydırınca silinir; bildirimdeki Geri al aynı izni geri koyar
-  const delOff = (o: Off) => { void removeOff(o.id).then(ok => ok && toast('İzin günü silindi', 'Geri al', () => { void restoreOff(o); })); };
   const DEF = `${prefs['wh.s'] ?? '10:00'} – ${prefs['wh.e'] ?? '18:00'}`;
   // Çalışma saatleri saat seçiciyle (elle yazılmaz); başlangıç bitişten önce olmalı
   const [ws, setWs] = usePref('wh.s', '10:00');
@@ -63,11 +61,7 @@ function CalendarPrefs() {
           <>
             <GrpS t="İzin günleri" />
             <List>
-              {offs.map(o => (
-                <SwipeAct key={o.id} onLeft={() => delOff(o)} leftLabel="Sil">
-                  <Rt t={offTitle(o.date)} s={offLine(o)} />
-                </SwipeAct>
-              ))}
+              {offs.map(o => <Row key={o.id} left={<OffBadge date={o.date} />} t={o.name} s={offSub(o)} chev onPress={() => go('offDetail', undefined, { id: o.id })} />)}
             </List>
           </>
         ) : null}
@@ -307,6 +301,45 @@ function Terms() {
   );
 }
 
+// İzin günü tarih rozeti: gün ve ay, vurgu renginde
+function OffBadge({ date }: { date: string }) {
+  const C = useC();
+  const b = offBadge(date);
+  return (
+    <View style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: C.tint, alignItems: 'center', justifyContent: 'center' }}>
+      <T s={17} w={800} c={C.accentInk} style={{ lineHeight: 18 }}>{b.d}</T>
+      <T s={10} w={800} ls={0.05} c={C.accentInk} style={{ lineHeight: 11, marginTop: 2 }}>{b.m}</T>
+    </View>
+  );
+}
+
+// İzin günü detayı: tarih, saat, sebep; onaylı Sil, bildirimdeki Geri al aynı izni geri koyar
+function OffDetail({ p }: SP) {
+  const C = useC();
+  const o = useStore(s => s.offs.find(x => x.id === p.id));
+  if (!o) return <NavH title="İzin günü" />;
+  const del = () => openAction('İzin günü silinsin mi?', 'Takvimde bu gün yeniden açık görünür.', 'Sil', true, () => {
+    const keep = o;
+    void removeOff(keep.id);
+    pop();
+    toastLater('İzin günü silindi', 350, 'Geri al', () => { void restoreOff(keep); });
+  });
+  const val = (t: string) => <T s={15} w={700}>{t}</T>;
+  return (
+    <>
+      <NavH title="İzin günü" />
+      <Scr>
+        <GCard style={{ marginTop: 8 }}>
+          <GR t="Tarih" right={val(offTitle(o.date))} />
+          <GR t="Saat" right={val(offHours(o))} />
+          <GR t="Sebep" right={val(o.name)} />
+        </GCard>
+      </Scr>
+      <Foot><Btn flex k="x" ic="trash" t="Sil" onPress={del} /></Foot>
+    </>
+  );
+}
+
 function DeleteAccount() {
   const C = useC();
   const { bottom } = useFrame();
@@ -351,4 +384,4 @@ function DeleteAccount() {
   );
 }
 
-export const S2: Record<string, React.ComponentType<SP>> = { calendarPrefs: CalendarPrefs, dayRule: DayRule, rules: Rules, pricing: Pricing, help: Help, support: Support, faq: FaqPage, terms: Terms, deleteAccount: DeleteAccount };
+export const S2: Record<string, React.ComponentType<SP>> = { calendarPrefs: CalendarPrefs, dayRule: DayRule, rules: Rules, pricing: Pricing, help: Help, offDetail: OffDetail, support: Support, faq: FaqPage, terms: Terms, deleteAccount: DeleteAccount };

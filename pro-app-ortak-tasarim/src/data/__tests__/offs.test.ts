@@ -1,6 +1,6 @@
 // İzin günleri: yaklaşanlar, satır yazıları, silme ve geri alma.
 import { mockDb } from '../mock/db';
-import { offLine, offTitle, upcomingOffs } from '../offs';
+import { offBadge, offHours, offLine, offSub, offTitle, upcomingOffs } from '../offs';
 import type { Off } from '../models';
 import { scheduleService } from '../services';
 
@@ -27,4 +27,10 @@ test('removeOff siler, restoreOff aynı kimlikle geri koyar', async () => {
   expect((await scheduleService.listOffs()).some(x => x.id === o.id)).toBe(false);
   await scheduleService.restoreOff(o);
   expect((await scheduleService.listOffs()).find(x => x.id === o.id)).toEqual(o);
+});
+test('liste satırı: tarih rozeti ve gün · saat', () => {
+  expect(offBadge('2026-09-15')).toEqual({ d: '15', m: 'EYL' });
+  expect(offSub(O('a', '2026-09-15'))).toBe('Salı · Tüm gün');
+  expect(offSub(O('a', '2026-09-16', { all: false, start: 12.5, end: 13.5 }))).toBe('Çarşamba · 12:30 – 13:30');
+  expect(offHours(O('a', '2026-09-15'))).toBe('Tüm gün');
 });

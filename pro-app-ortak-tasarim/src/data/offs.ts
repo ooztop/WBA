@@ -13,4 +13,10 @@ export function upcomingOffs(all: Off[], todayIso: string): Off[] {
 }
 
 export const offTitle = (s: string) => { const d = fromIso(s); return `${d.getDate()} ${MN[d.getMonth()]} ${DL[d.getDay()]}`; };
-export const offLine = (o: Off) => `${o.all ? 'Tüm gün' : `${hm(o.start)} – ${hm(o.end)}`} · ${o.name}`;
+export const offLine = (o: Off) => `${offHours(o)} · ${o.name}`;
+
+// Liste satırı: solda tarih rozeti ("15 / EYL"), altta "Salı · Tüm gün"
+const MS = ['OCA', 'ŞUB', 'MAR', 'NİS', 'MAY', 'HAZ', 'TEM', 'AĞU', 'EYL', 'EKİ', 'KAS', 'ARA'];
+export const offBadge = (s: string) => { const d = fromIso(s); return { d: String(d.getDate()), m: MS[d.getMonth()] }; };
+export const offHours = (o: Off) => (o.all ? 'Tüm gün' : `${hm(o.start)} – ${hm(o.end)}`);
+export const offSub = (o: Off) => `${DL[fromIso(o.date).getDay()]} · ${offHours(o)}`;
