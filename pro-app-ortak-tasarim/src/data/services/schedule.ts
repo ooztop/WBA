@@ -22,6 +22,7 @@ export const scheduleService = {
     db('schedule').update(d => ({ ...d, offs: [...d.offs, ...made] }));
     return copy(made);
   },
+  async updateOff(o: Off): Promise<void> { db('schedule').update(d => ({ ...d, offs: d.offs.map(x => (x.id === o.id ? copy(o) : x)) })); },
   async removeOff(id: ID): Promise<void> { db('schedule').update(d => ({ ...d, offs: d.offs.filter(o => o.id !== id) })); },
   // Silmeyi geri alma: aynı kimlikle geri koyar
   async restoreOff(o: Off): Promise<void> { db('schedule').update(d => ({ ...d, offs: d.offs.some(x => x.id === o.id) ? d.offs : [...d.offs, copy(o)] })); },

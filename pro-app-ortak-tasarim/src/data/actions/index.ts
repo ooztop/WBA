@@ -3,7 +3,7 @@ export { optimistic, afterCall } from './optimistic';
 export { ensureLessons, addLessons, cancelLesson, rescheduleLesson } from './lessons';
 export { addPerson, updatePerson } from './people';
 export { savePackage, removePackage, restorePackage, setBasePackage } from './packages';
-export { saveBreak, removeBreak, toggleBreakDay, addOffs, removeOff, restoreOff } from './schedule';
+export { saveBreak, removeBreak, toggleBreakDay, addOffs, saveOff, removeOff, restoreOff } from './schedule';
 export { collectPayment } from './payments';
 export { acceptRequest, rejectRequest } from './requests';
 export { markAllNotifsRead, markNotifsRead } from './notifs';

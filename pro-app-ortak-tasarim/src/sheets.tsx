@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { DN, MN, MS, TODAY, addD, first, hm, initials, mon, wd, type Lesson } from './data';
-import { iso } from './data/dates';
+import { fromIso, iso } from './data/dates';
+import { offTitle } from './data/offs';
 import { closeSheet, hhmm, num, pickDate, pickTime, snapLesson, tl, openAction, openSheet, person, personByName, pick, pop, push, repSheet, toast, toastLater, useC, useFrame, useStore } from './store';
-import { addLessons, addOffs, addPerson, removeBreak, removePackage, saveBreak, savePackage, saveProfile, setPref, updatePerson } from './data/actions';
+import { addLessons, addOffs, addPerson, removeBreak, removeOff, restoreOff, saveOff, removePackage, saveBreak, savePackage, saveProfile, setPref, updatePerson } from './data/actions';
 import { EASE, ff } from './theme';
 import { Av, Blk, Btn, Ck, Cols, DC, Fld, FloatFoot, Form, PickBox, GR, Grp, IB, Icon, Inp, Lbl, List, Lnk, noOutline, OC, ORow, Pair, PChips, Row, Rt, Scr, Seg, SheetH, Sm, Sw, T, Tag, Tap, Tel, Tiles } from './ui';
 import { Amt } from './screens1';
@@ -275,6 +276,40 @@ function NewBreak({ p }: SP) {
   );
 }
 
+// İzin günü düzenleme (takvimdeki izne ya da Takvim ayarlarım › İzin günleri satırına dokununca):
+// tür, tarih, saat, sebep; sağ üstte silme (bildirimdeki Geri al aynı izni geri koyar), altta Kaydet
+function OffEdit({ p }: SP) {
+  const C = useC();
+  const cur = useStore(s => s.offs).find(o => o.id === p?.id);
+  const [all, setAll] = useState(cur?.all ? 1 : 0);
+  const [date, setDate] = useState(cur?.date ?? iso(TODAY));
+  const [start, setStart] = useState(cur && !cur.all ? cur.start : 12.5);
+  const [end, setEnd] = useState(cur && !cur.all ? cur.end : 13);
+  const [why, setWhy] = useState(cur?.name ?? 'İzin günü');
+  if (!cur) return null;
+  const opts = all ? ['İzin günü', 'Tatil', 'Hastalık', 'Kişisel', 'Diğer'] : ['Öğle arası', 'Kahve arası', 'Toplantı', 'Kişisel', 'Diğer'];
+  const save = () => {
+    void saveOff({ id: cur.id, date, name: why, start: all ? cur.start : start, end: all ? cur.end : end, ...(all ? { all: true } : {}) });
+    closeSheet(); toastLater('Değişiklikler kaydedildi');
+  };
+  const del = () => { const keep = cur; void removeOff(keep.id); closeSheet(); toastLater('İzin günü silindi', 350, 'Geri al', () => { void restoreOff(keep); }); };
+  return (
+    <Sheet title={all ? 'İzin günü' : 'Mola'} gap={18} right={<IB ic="trash" k="del" label="Sil" onPress={del} />} foot={<Btn glow t="Kaydet" onPress={save} />}>
+      <Tiles cols={2} value={all} onChange={i => { setAll(i); if (!opts.includes(why)) setWhy(i ? 'İzin günü' : 'Öğle arası'); }} items={[['timer', 'Gün içinde ara', 'Saat aralığı'], ['umbrella', 'Tüm gün kapalı', 'İzin günü']]} />
+      <PickBox label="Tarih" ic="calendar" v={offTitle(date)} onPress={() => pickDate(fromIso(date), d => setDate(iso(d)))} />
+      {all ? null : (
+        <Cols>
+          <PickBox label="Başlangıç" ic="clock" v={hm(start)} onPress={() => pickTime(start, h => { if (h >= end) { toast('Başlangıç, bitişten önce olmalı'); return; } setStart(h); })} />
+          <PickBox label="Bitiş" ic="clock" v={hm(end)} onPress={() => pickTime(end, h => { if (h <= start) { toast('Bitiş, başlangıçtan sonra olmalı'); return; } setEnd(h); })} />
+        </Cols>
+      )}
+      <InCard>
+        <GR t="Sebep" s="Takvimde bu isimle görünür" chev onPress={() => pick('Sebep', opts, why, setWhy)} right={<T s={13} w={700} c={C.accent}>{why}</T>} />
+      </InCard>
+    </Sheet>
+  );
+}
+
 /* ================= paketler: Tekil ↔ Çoklu ================= */
 const PAY: [string, string][] = [['cash', 'Nakit'], ['bank', 'Havale'], ['card2', 'Kart']];
 const SES = ['4', '8', '12'], VAL = ['1 ay', '2 ay', '3 ay'];
@@ -534,6 +569,6 @@ function NewLesson({ p }: SP) {
 }
 
 export const SHEET_MAP: Record<string, React.ComponentType<SP>> = {
-  newLesson: NewLesson, newBreak: NewBreak, addContact: AddContact, editContact: EditContact, accountEdit: AccountEdit, breakNew: BreakNew,
+  newLesson: NewLesson, newBreak: NewBreak, addContact: AddContact, editContact: EditContact, accountEdit: AccountEdit, breakNew: BreakNew, offEdit: OffEdit,
   packageSingle: ({ p }: SP) => <PackageSheet multi={false} p={p} />, packageMulti: ({ p }: SP) => <PackageSheet multi p={p} />,
 };

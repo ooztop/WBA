@@ -34,3 +34,8 @@ test('liste satırı: tarih rozeti ve gün · saat', () => {
   expect(offSub(O('a', '2026-09-16', { all: false, start: 12.5, end: 13.5 }))).toBe('Çarşamba · 12:30 – 13:30');
   expect(offHours(O('a', '2026-09-15'))).toBe('Tüm gün');
 });
+test('updateOff izni günceller', async () => {
+  const [o] = await scheduleService.listOffs();
+  await scheduleService.updateOff({ ...o, name: 'Hastalık', all: false, start: 12, end: 14 });
+  expect((await scheduleService.listOffs()).find(x => x.id === o.id)).toMatchObject({ name: 'Hastalık', all: false, start: 12, end: 14 });
+});

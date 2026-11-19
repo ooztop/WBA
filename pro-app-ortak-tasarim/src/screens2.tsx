@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { DL, DN, TODAY, hm, type Pkg } from './data';
 import type { ID } from './data/models';
-import { daysText, go, hhmm, openAction, openSheet, pickTime, pop, toast, toastLater, useC, useFrame, useStore } from './store';
-import { removeOff, removePackage, restoreOff, sendSupport, setBasePackage, toggleBreakDay, usePref } from './data/actions';
-import { offBadge, offHours, offSub, offTitle, upcomingOffs } from './data/offs';
+import { daysText, go, hhmm, openSheet, pickTime, pop, toast, toastLater, useC, useFrame, useStore } from './store';
+import { removePackage, sendSupport, setBasePackage, toggleBreakDay, usePref } from './data/actions';
+import { offBadge, offSub, upcomingOffs } from './data/offs';
 import { iso } from './data/dates';
 import { canSend, FAQ, faqById, SUPPORT_TOPICS, TERMS } from './data/help';
 import { openUrl } from './device';
 import { ff } from './theme';
-import { Box, Btn, Chip, Cols, Empty, FC, Fic, FloatFoot, Fld, Foot, GCard, GR, Row, IB, Icon, Inote, Inp, Lbl, List, Lnk, NavH, noOutline, PChips, PickBox, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
+import { Box, Btn, Chip, Cols, Empty, FC, Fic, FloatFoot, Fld, GCard, GR, Row, IB, Icon, Inote, Inp, Lbl, List, Lnk, NavH, noOutline, PChips, PickBox, Rt, Scr, Sm, Sw, SwipeAct, T, Tag, Tap } from './ui';
 import { Amt } from './screens1';
 
 type SP = { p: any };
@@ -61,7 +61,7 @@ function CalendarPrefs() {
           <>
             <GrpS t="İzin günleri" />
             <List>
-              {offs.map(o => <Row key={o.id} left={<OffBadge date={o.date} />} t={o.name} s={offSub(o)} chev onPress={() => go('offDetail', undefined, { id: o.id })} />)}
+              {offs.map(o => <Row key={o.id} left={<OffBadge date={o.date} />} t={o.name} s={offSub(o)} chev onPress={() => openSheet('offEdit', { id: o.id })} />)}
             </List>
           </>
         ) : null}
@@ -313,33 +313,6 @@ function OffBadge({ date }: { date: string }) {
   );
 }
 
-// İzin günü detayı: tarih, saat, sebep; onaylı Sil, bildirimdeki Geri al aynı izni geri koyar
-function OffDetail({ p }: SP) {
-  const C = useC();
-  const o = useStore(s => s.offs.find(x => x.id === p.id));
-  if (!o) return <NavH title="İzin günü" />;
-  const del = () => openAction('İzin günü silinsin mi?', 'Takvimde bu gün yeniden açık görünür.', 'Sil', true, () => {
-    const keep = o;
-    void removeOff(keep.id);
-    pop();
-    toastLater('İzin günü silindi', 350, 'Geri al', () => { void restoreOff(keep); });
-  });
-  const val = (t: string) => <T s={15} w={700}>{t}</T>;
-  return (
-    <>
-      <NavH title="İzin günü" />
-      <Scr>
-        <GCard style={{ marginTop: 8 }}>
-          <GR t="Tarih" right={val(offTitle(o.date))} />
-          <GR t="Saat" right={val(offHours(o))} />
-          <GR t="Sebep" right={val(o.name)} />
-        </GCard>
-      </Scr>
-      <Foot><Btn flex k="x" ic="trash" t="Sil" onPress={del} /></Foot>
-    </>
-  );
-}
-
 function DeleteAccount() {
   const C = useC();
   const { bottom } = useFrame();
@@ -384,4 +357,4 @@ function DeleteAccount() {
   );
 }
 
-export const S2: Record<string, React.ComponentType<SP>> = { calendarPrefs: CalendarPrefs, dayRule: DayRule, rules: Rules, pricing: Pricing, help: Help, offDetail: OffDetail, support: Support, faq: FaqPage, terms: Terms, deleteAccount: DeleteAccount };
+export const S2: Record<string, React.ComponentType<SP>> = { calendarPrefs: CalendarPrefs, dayRule: DayRule, rules: Rules, pricing: Pricing, help: Help, support: Support, faq: FaqPage, terms: Terms, deleteAccount: DeleteAccount };

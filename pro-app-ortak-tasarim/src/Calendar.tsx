@@ -134,11 +134,13 @@ function Hatch({ col, op, W }: { col: string; op: number; W: number }) {
 }
 
 // Mola / kapalı saat: koyu taralı kutu, sadece gün görünümünde
-function BreakBlock({ from, to, label, time, g, C }: { from: number; to: number; label: string; time: string; g: Geo; C: Colors }) {
+// Mola / izin bloğu: gün görünümünde dokununca düzenleme paneli açılır
+function BreakBlock({ from, to, label, time, g, C, onPress }: { from: number; to: number; label: string; time: string; g: Geo; C: Colors; onPress?: () => void }) {
   const { P, TS, W } = g;
   const st = useAnimatedStyle(() => { const e = cl(P.value); return { transform: [{ translateY: yOf(from, e, TS.value) + 1 }], height: Math.max(20, (to - from) * lp(48, HW, e) - 3), opacity: cl(1 - e * 2) }; });
   return (
-    <Animated.View pointerEvents="none" style={[{ position: 'absolute', left: 62, right: 14, top: 0, borderRadius: 12, backgroundColor: C.page, borderWidth: 1, borderColor: C.border, overflow: 'hidden' }, st]}>
+    <Animated.View pointerEvents={onPress ? 'auto' : 'none'} style={[{ position: 'absolute', left: 62, right: 14, top: 0, borderRadius: 12, backgroundColor: C.page, borderWidth: 1, borderColor: C.border, overflow: 'hidden' }, st]}>
+      {onPress ? <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={`${label} · ${time}, düzenle`} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 1 }} /> : null}
       <Hatch col={C.ink} op={C.dark ? 0.34 : 0.22} W={W} />
       <View style={{ position: 'absolute', left: 8, top: 0, bottom: 0, justifyContent: 'center' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: C.page, borderRadius: 8, paddingVertical: 3, paddingHorizontal: 6 }}>
@@ -398,8 +400,8 @@ export function Calendar() {
     set({ menu: { d: +d, h, title: `${d.getDate()} ${MN[d.getMonth()]} ${DL[wd(d)]} · ${hm(h)}`, onDay: mode === 1 ? () => pickWeekDay(d) : undefined } });
   };
   const dayBreaks = [
-    ...breaks.filter(b => b.days.includes(fi)).map(b => ({ from: hhmm(b.start, 12.5), to: hhmm(b.end, 13.5), name: b.name, time: `${b.start} – ${b.end}` })),
-    ...offs.filter(o => o.date === iso(F)).map(o => ({ from: o.all ? 9 : o.start, to: o.all ? 18 : o.end, name: o.name, time: o.all ? 'Tüm gün kapalı' : `${hm(o.start)} – ${hm(o.end)}` })),
+    ...breaks.filter(b => b.days.includes(fi)).map(b => ({ from: hhmm(b.start, 12.5), to: hhmm(b.end, 13.5), name: b.name, time: `${b.start} – ${b.end}`, open: () => openSheet('breakNew', { id: b.id }) })),
+    ...offs.filter(o => o.date === iso(F)).map(o => ({ from: o.all ? 9 : o.start, to: o.all ? 18 : o.end, name: o.name, time: o.all ? 'Tüm gün kapalı' : `${hm(o.start)} – ${hm(o.end)}`, open: () => openSheet('offEdit', { id: o.id }) })),
   ].filter(b => b.to > b.from);
   const nameOf = (id: ID) => (people.find(p => p.id === id) || people[0])?.name ?? '';
 
@@ -435,7 +437,7 @@ export function Calendar() {
                   {offRanges.map((r, i) => <OffHours key={i} from={r[0]} to={r[1]} g={g} C={C} />)}
                   {Array.from({ length: 16 }, (_, k) => <Hour key={k} h={7 + k} g={g} C={C} a0={a0} a1={a1} />)}
                   {week.map((_, i) => <VLine key={i} i={i} g={g} col={i === fi ? C.muted : C.divider} VLH={VLH} />)}
-                  {dayBreaks.map((b, i) => <BreakBlock key={i} from={b.from} to={b.to} label={b.name} time={b.time} g={g} C={C} />)}
+                  {dayBreaks.map((b, i) => <BreakBlock key={i} from={b.from} to={b.to} label={b.name} time={b.time} g={g} C={C} onPress={mode === 0 ? guard(b.open) : undefined} />)}
                   {week.map((d, di) => L(d).map(l => (
                     <Block key={l.id} l={l} di={di} det={same(d, F)} done={d < TODAY || (same(d, TODAY) && l.h + l.dur / 60 < NOW_H)} g={g} C={C} name={nameOf(l.pid)}
                       onPress={guard(() => { if (mode === 0) push('lesson', { l, f: +d }); else if (mode === 1) pickWeekDay(d); })} />
